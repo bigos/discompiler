@@ -35,11 +35,6 @@
     (= (+ 1 2 3) 7)
     (= (+ -1 -3) -4)))
 
-(deftest test-* ()
-  (check
-    (= (* 2 2) 4)
-    (= (* 3 5) 15)))
-
 (deftest test-/ ()
   (check 
     (= (/ 6 1) 2)
@@ -51,5 +46,15 @@
     (test-*)
     (test-/)))
 
-;;;(test-arithmetic)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(deftest test-mod ()
+  (check
+    (equal "00000000" (int-to-bin 0))
+    ))
+
+(defun test-mod-vals ()
+  (combine-results
+    (test-mod)
+    ))
 
