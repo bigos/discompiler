@@ -1,3 +1,5 @@
 (defpackage #:discompiler
-  (:use :cl :asdf)
+  (:use :cl :asdf )
   (:export :run))
+
+(in-package :discompiler)

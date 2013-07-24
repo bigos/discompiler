@@ -4,6 +4,7 @@
   :version "0.0.1"
   :author "Jacek Podkanski"
   :licence "GPLv3"
+  :depends-on (:lisp-unit)
   :components ((:file "packages") 	  
 	       (:file "discompiler"))
   :description "machine code experiment"
