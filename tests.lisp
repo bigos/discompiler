@@ -43,18 +43,24 @@
 (defun test-arithmetic ()
   (combine-results
     (test-+)
-    (test-*)
     (test-/)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(deftest test-mod ()
+(deftest test-hex-bin ()
   (check
     (equal "00000000" (int-to-bin 0))
+    (equal "11111111" (int-to-bin 255))
+    (equal "10101010" (int-to-bin 170))))
+
+(deftest test-mod-rm ()
+  (check
+    (equal '(1 3 5) (mod-vals "6b"))
     ))
 
 (defun test-mod-vals ()
   (combine-results
-    (test-mod)
+    (test-hex-bin)
+    (test-mod-rm)
     ))
 

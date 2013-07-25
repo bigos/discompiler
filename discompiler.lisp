@@ -7,3 +7,22 @@
 
 (defun int-to-bin (int) 
   (format nil "~8,'0B" int))
+
+(defun int-to-hex (int)
+  (format nil "~x" int))
+
+(defun hex-to-int (hex)
+  (parse-integer hex :radix 16))
+
+(defun hex-to-bin (hex)
+  (int-to-bin (hex-to-int hex)))
+
+(defun bin-to-int (bin)
+  (parse-integer bin :radix 2))
+
+(defun mod-vals (hex)
+  (let* ((bin (hex-to-bin hex))
+         (-mod (subseq bin 0 2))
+         (reg (subseq bin 2 5))
+         (rm (subseq bin 5 8)))
+    (list (bin-to-int -mod) (bin-to-int rm) (bin-to-int reg))))
