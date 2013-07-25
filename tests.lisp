@@ -55,12 +55,29 @@
 
 (deftest test-mod-rm ()
   (check
-    (equal '(1 3 5) (mod-vals "6b"))
-    ))
+    (equal '(1 3 5) (modrmreg-vals "6b"))
+    (equal '(0 0 0) (modrmreg-vals (int-to-hex 0)))
+    (equal '(0 0 7) (modrmreg-vals "38"))
+    (equal '(0 7 0) (modrmreg-vals "07"))
+    (equal '(2 4 6) (modrmreg-vals (int-to-hex 180)))
+    (equal '(3 7 7) (modrmreg-vals (int-to-hex 255)))
+    (equal '(3 2 1) (modrmreg-vals "ca"))))
+
+(deftest test-sib ()
+  (check
+    (equal '(1 3 5) (sib-vals "5d"))    
+    (equal '(0 0 0) (sib-vals (int-to-hex 0)))
+    (equal '(0 0 7) (sib-vals "07"))
+    (equal '(0 7 0) (sib-vals "38"))
+    (equal '(2 4 6) (sib-vals "a6"))
+    (equal '(3 7 7) (sib-vals (int-to-hex 255)))
+    (equal '(3 2 1) (sib-vals "d1"))))
 
 (defun test-mod-vals ()
   (combine-results
     (test-hex-bin)
     (test-mod-rm)
+    (test-sib)
     ))
+
 

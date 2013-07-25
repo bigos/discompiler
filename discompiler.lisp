@@ -20,9 +20,16 @@
 (defun bin-to-int (bin)
   (parse-integer bin :radix 2))
 
-(defun mod-vals (hex)
+(defun modrmreg-vals (hex)
   (let* ((bin (hex-to-bin hex))
          (-mod (subseq bin 0 2))
          (reg (subseq bin 2 5))
          (rm (subseq bin 5 8)))
     (list (bin-to-int -mod) (bin-to-int rm) (bin-to-int reg))))
+
+(defun sib-vals (hex)
+  (let* ((bin (hex-to-bin hex))
+         (ss (subseq bin 0 2)) 
+         (index(subseq bin 2 5)) 
+         (base(subseq bin 5 8)))
+    (list (bin-to-int ss) (bin-to-int index) (bin-to-int base))))
