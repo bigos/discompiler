@@ -61,7 +61,10 @@
     (equal '(0 7 0) (modrmreg-vals "07"))
     (equal '(2 4 6) (modrmreg-vals (int-to-hex 180)))
     (equal '(3 7 7) (modrmreg-vals (int-to-hex 255)))
-    (equal '(3 2 1) (modrmreg-vals "ca"))))
+    (equal '(3 2 1) (modrmreg-vals "ca"))
+    (= 1 (mod-part "6b"))
+    (= 3 (rm-part "6b"))
+    (= 5 (reg-part "6b"))))
 
 (deftest test-sib ()
   (check
@@ -71,7 +74,10 @@
     (equal '(0 7 0) (sib-vals "38"))
     (equal '(2 4 6) (sib-vals "a6"))
     (equal '(3 7 7) (sib-vals (int-to-hex 255)))
-    (equal '(3 2 1) (sib-vals "d1"))))
+    (equal '(3 2 1) (sib-vals "d1"))
+    (= 1 (ss-part "5d"))
+    (= 3 (index-part "5d"))
+    (= 5) (base-part "5d")))
 
 (defun test-mod-vals ()
   (combine-results

@@ -30,5 +30,20 @@
   (let ((parts (byte-parts hex)))
     (list (first parts) (third parts) (second parts))))
 
+(defun mod-part (hex)
+  (bin-to-int (subseq (hex-to-bin hex) 0 2)))
+(defun rm-part (hex)
+  (bin-to-int (subseq (hex-to-bin hex) 5 8)))
+(defun reg-part (hex)
+(bin-to-int (subseq (hex-to-bin hex) 2 5)))
+
 (defun sib-vals (hex)
   (byte-parts hex))
+
+(defun ss-part (hex)
+  (bin-to-int (subseq (hex-to-bin hex) 0 2)))
+(defun index-part (hex)
+  (bin-to-int (subseq (hex-to-bin hex) 2 5)))
+(defun base-part (hex)
+  (bin-to-int (subseq (hex-to-bin hex) 5 8)))
+
