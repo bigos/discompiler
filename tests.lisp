@@ -25,7 +25,7 @@
 
 (defun report-result (result form)
   "Report the results of a single test case. Called by 'check'."
-  (format t "~&~:[FAIL~;pass~] ... ~a: ~a~%" result *test-name* form)
+  (format t "~&~:[FAIL~;pass~] ... ~a: ~s~%" result *test-name* form)
   result)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -68,16 +68,12 @@
 
 (deftest test-sib ()
   (check
-    (equal '(1 3 5) (sib-vals "5d"))    
-    (equal '(0 0 0) (sib-vals (int-to-hex 0)))
-    (equal '(0 0 7) (sib-vals "07"))
-    (equal '(0 7 0) (sib-vals "38"))
-    (equal '(2 4 6) (sib-vals "a6"))
-    (equal '(3 7 7) (sib-vals (int-to-hex 255)))
-    (equal '(3 2 1) (sib-vals "d1"))
     (= 1 (ss-part "5d"))
     (= 3 (index-part "5d"))
-    (= 5) (base-part "5d")))
+    (= 5 (base-part "5d"))
+    (= 2 (ss-part "a6"))
+    (= 4 (index-part "a6"))
+    (= 6 (base-part "a6"))))
 
 (defun test-mod-vals ()
   (combine-results
