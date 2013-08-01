@@ -7,6 +7,7 @@
   :depends-on (:lisp-unit)
   :components ((:file "packages") 	  
 	       (:file "discompiler")
+               (:file "lisp-unit")
                (:file "tests"))
   :description "machine code experiment"
   :long-description "experimenting with Intel machine code"
