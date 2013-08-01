@@ -1,5 +1,4 @@
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(in-package :discompiler)
 
 (setf *print-failures* t)
 
