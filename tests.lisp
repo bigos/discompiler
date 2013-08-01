@@ -92,9 +92,3 @@
   (assert-equal 1 (+ 0 0))
   (assert-equal 6 (+ 1 2 3)))
 
-
-
-
-   
-
-
