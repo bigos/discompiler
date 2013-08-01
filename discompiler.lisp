@@ -3,7 +3,8 @@
 (defun run ()
   (format t "running skeleton program")
   (test-arithmetic)
-  (test-mod-vals))
+  (test-mod-vals)
+  (run-tests :all))
 
 (defun int-to-bin (int) 
   (format nil "~8,'0B" int))
