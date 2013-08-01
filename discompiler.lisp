@@ -36,10 +36,7 @@
 (defun rm-part (hex)
   (bin-to-int (subseq (hex-to-bin hex) 5 8)))
 (defun reg-part (hex)
-(bin-to-int (subseq (hex-to-bin hex) 2 5)))
-
-(defun sib-vals (hex)
-  (byte-parts hex))
+  (bin-to-int (subseq (hex-to-bin hex) 2 5)))
 
 (defun ss-part (hex)
   (bin-to-int (subseq (hex-to-bin hex) 0 2)))
