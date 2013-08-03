@@ -21,27 +21,44 @@
 (defun bin-to-int (bin)
   (parse-integer bin :radix 2))
 
+(defun byte-part (bin start end)
+  (bin-to-int (subseq bin start end)))
+
 (defun byte-parts (hex)
   (let ((bin (hex-to-bin hex))a)
-    (list (bin-to-int (subseq bin 0 2))
-          (bin-to-int (subseq bin 2 5))
-          (bin-to-int (subseq bin 5 8)))))
+    (list (byte-part bin 0 2)
+          (byte-part bin 2 5)
+          (byte-part bin 5 8))))
 
 (defun modrmreg-vals (hex)
   (let ((parts (byte-parts hex)))
     (list (first parts) (third parts) (second parts))))
 
 (defun mod-part (hex)
-  (bin-to-int (subseq (hex-to-bin hex) 0 2)))
+  (byte-part (hex-to-bin hex) 0 2))
 (defun rm-part (hex)
-  (bin-to-int (subseq (hex-to-bin hex) 5 8)))
+  (byte-part (hex-to-bin hex) 5 8))
 (defun reg-part (hex)
-  (bin-to-int (subseq (hex-to-bin hex) 2 5)))
+  (byte-part (hex-to-bin hex) 2 5))
 
 (defun ss-part (hex)
-  (bin-to-int (subseq (hex-to-bin hex) 0 2)))
+  (byte-part (hex-to-bin hex) 0 2))
 (defun index-part (hex)
-  (bin-to-int (subseq (hex-to-bin hex) 2 5)))
+  (byte-part  (hex-to-bin hex) 2 5))
 (defun base-part (hex)
-  (bin-to-int (subseq (hex-to-bin hex) 5 8)))
+  (byte-part  (hex-to-bin hex) 5 8))
 
+(defun get-reg (reg)
+  "general-purpose registers, ia-32 vol1 p60"
+  (let ((registers '(('eax ('ax ('ah 'al)))
+                     ('ebx ('bx ('bh 'bl)))
+                     ('ecx ('cx ('ch 'cl)))
+                     ('edx ('dx ('dh 'dl)))
+                     ('ebp ('bp))
+                     ('esi ('si))
+                     ('edi ('di))
+                     ('esp ('sp)))))))
+
+(defun get-segment (reg)
+  "segment registers ia32 vol1 p61"
+  (let ((segments '('cs 'ds 'ss 'es 'fs 'gs)))))
