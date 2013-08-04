@@ -57,8 +57,13 @@
                      ('ebp ('bp))
                      ('esi ('si))
                      ('edi ('di))
-                     ('esp ('sp)))))))
+                     ('esp ('sp)))))
+    nil
+    ))
 
 (defun get-segment (reg)
   "segment registers ia32 vol1 p61"
-  (let ((segments '('cs 'ds 'ss 'es 'fs 'gs)))))
+  (let ((segments '('cs 'ds 'ss 'es 'fs 'gs)))
+    nil
+    ))
+
