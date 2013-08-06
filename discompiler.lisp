@@ -67,3 +67,13 @@
     nil
     ))
 
+(defun intel-bit-position (p)
+  (case p 
+    (7 0)
+    (6 1)
+    (5 2)
+    (4 3)
+    (3 4)
+    (2 5)
+    (1 6)
+    (0 7)))
