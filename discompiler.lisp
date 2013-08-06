@@ -76,4 +76,5 @@
     (3 4)
     (2 5)
     (1 6)
-    (0 7)))
+    (0 7)
+    (otherwise (error "~S is not a valid argument to intel-bit-position." p)))) 
