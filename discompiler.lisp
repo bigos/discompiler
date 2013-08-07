@@ -67,14 +67,9 @@
     nil
     ))
 
-(defun intel-bit-position (p)
-  (case p 
-    (7 0)
-    (6 1)
-    (5 2)
-    (4 3)
-    (3 4)
-    (2 5)
-    (1 6)
-    (0 7)
-    (otherwise (error "~S is not a valid argument to intel-bit-position." p)))) 
+(defun intel-bit-position (index &optional (width 8)) 
+  (if (typep index 'integer) 
+      (cond ((>= index width) (error "index ~a should not be >= ~a" index width))
+            ((< index 0) (error "index should not be less than 0"))
+            (t (- (1- width) index)))
+      (error "expected integer but ~a given" index))) 
