@@ -1,0 +1,342 @@
+AESDEC—Perform One Round of an AES Decryption Flow
+
+Opcode/     Op/ 64/32-bit CPUID Description
+Instruction En  Mode 
+                          Feature 
+                          Flag 
+
+66 0F 38 DE /r 
+AESDEC xmm1, xmm2/m128 
+RM V/V AES 
+Perform one round of an AES decryption flow,
+using the Equivalent Inverse Cipher, operating
+ on a 128-bit data (state) from xmm1 with a
+ 128-bit round key from xmm2/m128.
+
+VEX.NDS.128.66.0F38.WIG DE /r 
+VAESDEC xmm1, xmm2, xmm3/m128 
+RVM V/V Both AES and AVX flags 
+Perform one round of an AES decryption flow,
+using the Equivalent Inverse Cipher, operating                              
+on a 128-bit data (state) from xmm2 with a
+ 128-bit round key from xmm3/m128; store
+ the result in xmm1.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand2 Operand3 Operand4
+RM ModRM:reg (r, w) ModRM:r/m (r) NA NA
+RVM ModRM:reg (w) VEX.vvvv (r) ModRM:r/m (r) NA
+
+Description
+This instruction performs a single round of the AES decryption flow using the Equivalent Inverse Cipher, with the
+round key from the second source operand, operating on a 128-bit data (state) from the first source operand, and
+store the result in the destination operand.
+Use the AESDEC instruction for all but the last decryption round. For the last decryption round, use the AESDEC-
+CLAST instruction.
+128-bit Legacy SSE version: The first source operand and the destination operand are the same and must be an
+XMM register. The second source operand can be an XMM register or a 128-bit memory location. Bits (VLMAX-
+1:128) of the corresponding YMM destination register remain unchanged.
+VEX.128 encoded version: The first source operand and the destination operand are XMM registers. The second
+source operand can be an XMM register or a 128-bit memory location. Bits (VLMAX-1:128) of the destination YMM
+register are zeroed.
+
+Operation
+AESDEC
+STATE ← SRC1;
+RoundKey ← SRC2;
+STATE ← InvShiftRows( STATE );
+STATE ← InvSubBytes( STATE );
+STATE ← InvMixColumns( STATE );
+DEST[127:0] ← STATE XOR RoundKey;
+DEST[VLMAX-1:128] (Unmodified)
+VAESDEC
+STATE ← SRC1;
+RoundKey ← SRC2;
+STATE ← InvShiftRows( STATE );
+STATE ← InvSubBytes( STATE );
+STATE ← InvMixColumns( STATE );
+DEST[127:0] ← STATE XOR RoundKey;
+DEST[VLMAX-1:128] ← 0
+---------------------------------------------------------------------
+
+AESDECLAST—Perform Last Round of an AES Decryption Flow
+
+Opcode/     Op/ 64/32-bit CPUID Description
+Instruction En  Mode 
+                          Feature 
+                          Flag 
+
+66 0F 38 DF /r 
+AESDECLAST xmm1, xmm2/m128 
+RM V/V AES 
+Perform the last round of an AES decryption
+flow, using the Equivalent Inverse Cipher,
+ operating on a 128-bit data (state) from
+ xmm1 with a 128-bit round key from
+ xmm2/m128.
+
+VEX.NDS.128.66.0F38.WIG DF /r 
+VAESDECLAST xmm1, xmm2, xmm3/m128 
+RVM V/V Both AES and AVX flags
+Perform the last round of an AES decryption
+flow, using the Equivalent Inverse Cipher,                                   
+operating on a 128-bit data (state) from
+ xmm2 with a 128-bit round key from
+ xmm3/m128; store the result in xmm1.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand2 Operand3 Operand4
+RM ModRM:reg (r, w) ModRM:r/m (r) NA NA
+RVM ModRM:reg (w) VEX.vvvv (r) ModRM:r/m (r) NA
+
+Description
+This instruction performs the last round of the AES decryption flow using the Equivalent Inverse Cipher, with the
+round key from the second source operand, operating on a 128-bit data (state) from the first source operand, and
+store the result in the destination operand.
+128-bit Legacy SSE version: The first source operand and the destination operand are the same and must be an
+XMM register. The second source operand can be an XMM register or a 128-bit memory location. Bits (VLMAX-
+1:128) of the corresponding YMM destination register remain unchanged.
+VEX.128 encoded version: The first source operand and the destination operand are XMM registers. The second
+source operand can be an XMM register or a 128-bit memory location. Bits (VLMAX-1:128) of the destination YMM
+register are zeroed.
+
+Operation
+AESDECLAST
+STATE ← SRC1;
+RoundKey ← SRC2;
+STATE ← InvShiftRows( STATE );
+STATE ← InvSubBytes( STATE );
+DEST[127:0] ← STATE XOR RoundKey;
+DEST[VLMAX-1:128] (Unmodified)
+VAESDECLAST
+STATE ← SRC1;
+RoundKey ← SRC2;
+STATE ← InvShiftRows( STATE );
+STATE ← InvSubBytes( STATE );
+DEST[127:0] ← STATE XOR RoundKey;
+DEST[VLMAX-1:128] ← 0
+---------------------------------------------------------------------
+
+AESENC—Perform One Round of an AES Encryption Flow
+Opcode/     Op/ 64/32-bit CPUID Description
+Instruction En  Mode 
+                          Feature 
+                          Flag 
+
+66 0F 38 DC /r 
+AESENC xmm1, xmm2/m128 
+RM V/V AES 
+Perform one round of an AES encryption flow,
+operating on a 128-bit data (state) from
+ xmm1 with a 128-bit round key from
+ xmm2/m128.
+
+VEX.NDS.128.66.0F38.WIG DC /r 
+VAESENC xmm1, xmm2, xmm3/m128 
+RVM V/V Both AES and AVX flags
+Perform one round of an AES encryption flow,
+operating on a 128-bit data (state) from                               
+xmm2 with a 128-bit round key from the
+ xmm3/m128; store the result in xmm1.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand2 Operand3 Operand4
+RM ModRM:reg (r, w) ModRM:r/m (r) NA NA
+RVM ModRM:reg (w) VEX.vvvv (r) ModRM:r/m (r) NA
+
+Description
+This instruction performs a single round of an AES encryption flow using a round key from the second source
+operand, operating on 128-bit data (state) from the first source operand, and store the result in the destination
+operand.
+Use the AESENC instruction for all but the last encryption rounds. For the last encryption round, use the AESENC-
+CLAST instruction.
+128-bit Legacy SSE version: The first source operand and the destination operand are the same and must be an
+XMM register. The second source operand can be an XMM register or a 128-bit memory location. Bits (VLMAX-
+1:128) of the corresponding YMM destination register remain unchanged.
+VEX.128 encoded version: The first source operand and the destination operand are XMM registers. The second
+source operand can be an XMM register or a 128-bit memory location. Bits (VLMAX-1:128) of the destination YMM
+register are zeroed.
+
+Operation
+AESENC
+STATE ← SRC1;
+RoundKey ← SRC2;
+STATE ← ShiftRows( STATE );
+STATE ← SubBytes( STATE );
+STATE ← MixColumns( STATE );
+DEST[127:0] ← STATE XOR RoundKey;
+DEST[VLMAX-1:128] (Unmodified)
+VAESENC
+STATE  SRC1;
+RoundKey  SRC2;
+STATE  ShiftRows( STATE );
+STATE  SubBytes( STATE );
+STATE  MixColumns( STATE );
+DEST[127:0]  STATE XOR RoundKey;
+DEST[VLMAX-1:128]  0
+---------------------------------------------------------------------
+
+AESENCLAST—Perform Last Round of an AES Encryption Flow
+
+Opcode/     Op/ 64/32-bit CPUID Description
+Instruction En  Mode 
+                          Feature 
+                          Flag 
+
+66 0F 38 DD /r 
+AESENCLAST xmm1, xmm2/m128
+RM V/V AES 
+Perform the last round of an AES encryption
+ flow, operating on a 128-bit data (state) from
+ xmm1 with a 128-bit round key from
+ xmm2/m128.
+
+VEX.NDS.128.66.0F38.WIG DD /r 
+VAESENCLAST xmm1, xmm2, xmm3/m128
+RVM V/V Both AES and AVX flags
+Perform the last round of an AES encryption
+ flow, operating on a 128-bit data (state) from
+ xmm2 with a 128 bit round key from
+ xmm3/m128; store the result in xmm1.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand2 Operand3 Operand4
+RM ModRM:reg (r, w) ModRM:r/m (r) NA NA
+RVM ModRM:reg (w) VEX.vvvv (r) ModRM:r/m (r) NA
+
+Description
+This instruction performs the last round of an AES encryption flow using a round key from the second source
+operand, operating on 128-bit data (state) from the first source operand, and store the result in the destination
+operand.
+128-bit Legacy SSE version: The first source operand and the destination operand are the same and must be an
+XMM register. The second source operand can be an XMM register or a 128-bit memory location. Bits (VLMAX-
+1:128) of the corresponding YMM destination register remain unchanged.
+VEX.128 encoded version: The first source operand and the destination operand are XMM registers. The second
+source operand can be an XMM register or a 128-bit memory location. Bits (VLMAX-1:128) of the destination YMM
+register are zeroed.
+
+Operation
+AESENCLAST
+STATE ← SRC1;
+RoundKey ← SRC2;
+STATE ← ShiftRows( STATE );
+STATE ← SubBytes( STATE );
+DEST[127:0] ← STATE XOR RoundKey;
+DEST[VLMAX-1:128] (Unmodified)
+VAESENCLAST
+STATE  SRC1;
+RoundKey  SRC2;
+STATE  ShiftRows( STATE );
+STATE  SubBytes( STATE );
+DEST[127:0]  STATE XOR RoundKey;
+DEST[VLMAX-1:128]  0
+---------------------------------------------------------------------
+
+AESIMC—Perform the AES InvMixColumn Transformation
+
+Opcode/     Op/ 64/32-bit CPUID Description
+Instruction En  Mode 
+                          Feature 
+                          Flag 
+
+66 0F 38 DB /r 
+AESIMC xmm1, xmm2/m128
+RM V/V AES 
+Perform the InvMixColumn transformation on
+ a 128-bit round key from xmm2/m128 and
+ store the result in xmm1.
+
+VEX.128.66.0F38.WIG DB /r 
+VAESIMC xmm1, xmm2/m128
+RM V/V Both AES and AVX flags
+Perform the InvMixColumn transformation on
+ a 128-bit round key from xmm2/m128 and
+ store the result in xmm1.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand2 Operand3 Operand4
+RM ModRM:reg (w) ModRM:r/m (r) NA NA
+
+Description
+Perform the InvMixColumns transformation on the source operand and store the result in the destination operand.
+The destination operand is an XMM register. The source operand can be an XMM register or a 128-bit memory loca-
+tion.
+Note: the AESIMC instruction should be applied to the expanded AES round keys (except for the first and last round
+key) in order to prepare them for decryption using the “Equivalent Inverse Cipher” (defined in FIPS 197).
+128-bit Legacy SSE version: Bits (VLMAX-1:128) of the corresponding YMM destination register remain
+unchanged.
+VEX.128 encoded version: Bits (VLMAX-1:128) of the destination YMM register are zeroed.
+Note: In VEX-encoded versions, VEX.vvvv is reserved and must be 1111b, otherwise instructions will #UD.
+
+Operation
+AESIMC
+DEST[127:0] ← InvMixColumns( SRC );
+DEST[VLMAX-1:128] (Unmodified)
+VAESIMC
+DEST[127:0]  InvMixColumns( SRC );
+DEST[VLMAX-1:128]  0;
+---------------------------------------------------------------------
+
+AESKEYGENASSIST—AES Round Key Generation Assist
+Opcode/     Op/ 64/32-bit CPUID Description
+Instruction En  Mode 
+                          Feature 
+                          Flag 
+
+66 0F 3A DF /r ib 
+AESKEYGENASSIST xmm1, xmm2/m128, imm8
+RMI V/V AES 
+Assist in AES round key generation using an 8
+ bits Round Constant (RCON) specified in the
+ immediate byte, operating on 128 bits of data
+ specified in xmm2/m128 and stores the
+ result in xmm1.
+
+VEX.128.66.0F3A.WIG DF /r ib 
+VAESKEYGENASSIST xmm1, xmm2/m128, imm8
+RMI V/V Both AES and AVX flags
+Assist in AES round key generation using 8
+ bits Round Constant (RCON) specified in the 
+ immediate byte, operating on 128 bits of data
+ specified in xmm2/m128 and stores the
+ result in xmm1.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand2 Operand3 Operand4
+RMI ModRM:reg (w) ModRM:r/m (r) imm8 NA
+
+Description
+Assist in expanding the AES cipher key, by computing steps towards generating a round key for encryption, using
+128-bit data specified in the source operand and an 8-bit round constant specified as an immediate, store the
+result in the destination operand.
+The destination operand is an XMM register. The source operand can be an XMM register or a 128-bit memory loca-
+tion.
+128-bit Legacy SSE version:Bits (VLMAX-1:128) of the corresponding YMM destination register remain unchanged.
+VEX.128 encoded version: Bits (VLMAX-1:128) of the destination YMM register are zeroed.
+Note: In VEX-encoded versions, VEX.vvvv is reserved and must be 1111b, otherwise instructions will #UD.
+
+Operation
+AESKEYGENASSIST
+X3[31:0] ← SRC [127: 96];
+X2[31:0] ← SRC [95: 64];
+X1[31:0] ← SRC [63: 32];
+X0[31:0] ← SRC [31: 0];
+RCON[31:0] ← ZeroExtend(Imm8[7:0]);
+DEST[31:0] ← SubWord(X1);
+DEST[63:32 ] ← RotWord( SubWord(X1) ) XOR RCON;
+DEST[95:64] ← SubWord(X3);
+DEST[127:96] ← RotWord( SubWord(X3) ) XOR RCON;
+DEST[VLMAX-1:128] (Unmodified)
+VAESKEYGENASSIST
+X3[31:0]  SRC [127: 96];
+X2[31:0]  SRC [95: 64];
+X1[31:0]  SRC [63: 32];
+X0[31:0]  SRC [31: 0];
+RCON[31:0]  ZeroExtend(Imm8[7:0]);
+DEST[31:0]  SubWord(X1);
+DEST[63:32 ]  RotWord( SubWord(X1) ) XOR RCON;
+DEST[95:64]  SubWord(X3);
+DEST[127:96]  RotWord( SubWord(X3) ) XOR RCON;
+DEST[VLMAX-1:128]  0;
+
+
