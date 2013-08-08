@@ -885,8 +885,6 @@ THEN
 ZF ← 1;
 DEST ← SRC;
 ELSE
-3-148 Vol. 2A
-CMPXCHG—Compare and ExchangeINSTRUCTION SET REFERENCE, A-M
 FI;
 ZF ← 0;
 accumulator ← DEST;
@@ -894,6 +892,505 @@ accumulator ← DEST;
 Flags Affected
 The ZF flag is set if the values in the destination operand and register AL, AX, or EAX are equal; otherwise it is
 cleared. The CF, PF, AF, SF, and OF flags are set according to the results of the comparison operation.
+---------------------------------------------------------------------
+
+CMPXCHG8B/CMPXCHG16B—Compare and Exchange Bytes
+
+Opcode/     Op/ 64-Bit Compat/ Description
+Instruction En  Mode   Leg Mode
+
+0F C7 /1 m64 
+CMPXCHG8B m64
+M Valid Valid 
+Compare EDX:EAX with m64. If equal, set ZF
+ and load ECX:EBX into m64. Else, clear ZF and
+ load m64 into EDX:EAX.
+
+REX.W + 0F C7 /1 m128
+CMPXCHG16B m128
+M Valid N.E. 
+Compare RDX:RAX with m128. If equal, set ZF
+ and load RCX:RBX into m128. Else, clear ZF
+ and load m128 into RDX:RAX.
+
+NOTES:
+*See IA-32 Architecture Compatibility section below.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+M ModRM:r/m (r, w) NA NA NA
+
+Description
+Compares the 64-bit value in EDX:EAX (or 128-bit value in RDX:RAX if operand size is 128 bits) with the operand
+(destination operand). If the values are equal, the 64-bit value in ECX:EBX (or 128-bit value in RCX:RBX) is stored
+in the destination operand. Otherwise, the value in the destination operand is loaded into EDX:EAX (or RDX:RAX).
+The destination operand is an 8-byte memory location (or 16-byte memory location if operand size is 128 bits). For
+the EDX:EAX and ECX:EBX register pairs, EDX and ECX contain the high-order 32 bits and EAX and EBX contain the
+low-order 32 bits of a 64-bit value. For the RDX:RAX and RCX:RBX register pairs, RDX and RCX contain the high-
+order 64 bits and RAX and RBX contain the low-order 64bits of a 128-bit value.
+This instruction can be used with a LOCK prefix to allow the instruction to be executed atomically. To simplify the
+interface to the processor’s bus, the destination operand receives a write cycle without regard to the result of the
+comparison. The destination operand is written back if the comparison fails; otherwise, the source operand is
+written into the destination. (The processor never produces a locked read without also producing a locked write.)
+In 64-bit mode, default operation size is 64 bits. Use of the REX.W prefix promotes operation to 128 bits. Note that
+CMPXCHG16B requires that the destination (memory) operand be 16-byte aligned. See the summary chart at the
+beginning of this section for encoding data and limits. For information on the CPUID flag that indicates
+CMPXCHG16B, see page 3-167.
+
+IA-32 Architecture Compatibility
+This instruction encoding is not supported on Intel processors earlier than the Pentium processors.
+
+Operation
+IF (64-Bit Mode and OperandSize = 64)
+THEN
+IF (RDX:RAX = DEST)
+ZF ← 1;
+DEST ← RCX:RBX;
+ELSE
+ZF ← 0;
+RDX:RAX ← DEST;
+FI
+ELSE
+IF (EDX:EAX = DEST)
+ZF ← 1;
+DEST ← ECX:EBX;
+ELSE
+ZF ← 0;
+EDX:EAX ← DEST;
+FI;
+FI;
+
+Flags Affected
+The ZF flag is set if the destination operand and EDX:EAX are equal; otherwise it is cleared. The CF, PF, AF, SF, and
+OF flags are unaffected.
+---------------------------------------------------------------------
+
+COMISD—Compare Scalar Ordered Double-Precision Floating-Point Values and Set EFLAGS
+
+Opcode/     Op/ 64/32-bit CPUID Description
+Instruction En  Mode 
+                          Feature 
+                          Flag 
+
+66 0F 2F /r 
+COMISD xmm1, xmm2/m64
+RM V/V SSE2 
+Compare low double-precision floating-point
+ values in xmm1 and xmm2/mem64 and set
+ the EFLAGS flags accordingly.
+
+VEX.LIG.66.0F.WIG 2F /r
+VCOMISD xmm1, xmm2/m64
+RM V/V AVX 
+Compare low double precision floating-point
+ values in xmm1 and xmm2/mem64 and set
+ the EFLAGS flags accordingly.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RM ModRM:reg (r) ModRM:r/m (r) NA NA
+
+Description
+Compares the double-precision floating-point values in the low quadwords of operand 1 (first operand) and
+operand 2 (second operand), and sets the ZF, PF, and CF flags in the EFLAGS register according to the result (unor-
+dered, greater than, less than, or equal). The OF, SF and AF flags in the EFLAGS register are set to 0. The unor-
+dered result is returned if either source operand is a NaN (QNaN or SNaN).The sign of zero is ignored for
+comparisons, so that –0.0 is equal to +0.0.
+Operand 1 is an XMM register; operand 2 can be an XMM register or a 64 bit memory location.
+The COMISD instruction differs from the UCOMISD instruction in that it signals a SIMD floating-point invalid oper-
+ation exception (#I) when a source operand is either a QNaN or SNaN. The UCOMISD instruction signals an invalid
+numeric exception only if a source operand is an SNaN.
+The EFLAGS register is not updated if an unmasked SIMD floating-point exception is generated.
+In 64-bit mode, use of the REX.R prefix permits this instruction to access additional registers (XMM8-XMM15).
+Note: In VEX-encoded versions, VEX.vvvv is reserved and must be 1111b, otherwise instructions will #UD.
+
+Operation
+RESULT ← OrderedCompare(DEST[63:0] <> SRC[63:0]) {
+(* Set EFLAGS *) CASE (RESULT) OF
+UNORDERED:
+ZF,PF,CF ← 111;
+GREATER_THAN:
+ZF,PF,CF ← 000;
+LESS_THAN:
+ZF,PF,CF ← 001;
+EQUAL:
+ZF,PF,CF ← 100;
+ESAC;
+OF, AF, SF ← 0; }
+---------------------------------------------------------------------
+
+COMISS—Compare Scalar Ordered Single-Precision Floating-Point Values and Set EFLAGS
+
+Opcode/     Op/ 64/32-bit CPUID Description
+Instruction En  Mode 
+                          Feature 
+                          Flag 
+
+0F 2F /r 
+COMISS xmm1, xmm2/m32
+RM V/V SSE 
+Compare low single-precision floating-point
+ values in xmm1 and xmm2/mem32 and set
+ the EFLAGS flags accordingly.
+
+VEX.LIG.0F.WIG 2F /r
+VCOMISS xmm1, xmm2/m32
+RM V/V AVX 
+Compare low single precision floating-point
+ values in xmm1 and xmm2/mem32 and set
+ the EFLAGS flags accordingly.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RM ModRM:reg (r) ModRM:r/m (r) NA NA
+
+Description
+Compares the single-precision floating-point values in the low doublewords of operand 1 (first operand) and
+operand 2 (second operand), and sets the ZF, PF, and CF flags in the EFLAGS register according to the result (unor-
+dered, greater than, less than, or equal). The OF, SF, and AF flags in the EFLAGS register are set to 0. The unor-
+dered result is returned if either source operand is a NaN (QNaN or SNaN). The sign of zero is ignored for
+comparisons, so that –0.0 is equal to +0.0.
+Operand 1 is an XMM register; Operand 2 can be an XMM register or a 32 bit memory location.
+The COMISS instruction differs from the UCOMISS instruction in that it signals a SIMD floating-point invalid opera-
+tion exception (#I) when a source operand is either a QNaN or SNaN. The UCOMISS instruction signals an invalid
+numeric exception only if a source operand is an SNaN.
+The EFLAGS register is not updated if an unmasked SIMD floating-point exception is generated.
+In 64-bit mode, use of the REX.R prefix permits this instruction to access additional registers (XMM8-XMM15).
+Note: In VEX-encoded versions, VEX.vvvv is reserved and must be 1111b, otherwise instructions will #UD.
+
+Operation
+RESULT ← OrderedCompare(SRC1[31:0] <> SRC2[31:0]) {
+(* Set EFLAGS *) CASE (RESULT) OF
+UNORDERED:
+ZF,PF,CF ← 111;
+GREATER_THAN:
+ZF,PF,CF ← 000;
+LESS_THAN:
+ZF,PF,CF ← 001;
+EQUAL:
+ZF,PF,CF ← 100;
+ESAC;
+OF,AF,SF ← 0; }
+---------------------------------------------------------------------
+CPUID—CPU Identification
+
+Opcode Instruction Op/ 64-Bit Compat/ Description
+                   En  Mode   Leg Mode
+
+0F A2 
+CPUID 
+NP Valid Valid
+Returns processor identification and feature
+information to the EAX, EBX, ECX, and EDX
+registers, as determined by input entered in
+EAX (in some cases, ECX as well).
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+NP NA NA NA NA
+
+Description
+The ID flag (bit 21) in the EFLAGS register indicates support for the CPUID instruction. If a software procedure can
+set and clear this flag, the processor executing the procedure supports the CPUID instruction. This instruction oper-
+ates the same in non-64-bit modes and 64-bit mode.
+skipped lots of text and tables
+
+IA-32 Architecture Compatibility
+CPUID is not supported in early models of the Intel486 processor or in any IA-32 processor earlier than the
+Intel486 processor.
+
+Operation
+IA32_BIOS_SIGN_ID MSR ← Update with installed microcode revision number;
+CASE (EAX) OF
+EAX = 0:
+EAX ← Highest basic function input value understood by CPUID;
+EBX ← Vendor identification string;
+EDX ← Vendor identification string;
+ECX ← Vendor identification string;
+BREAK;
+EAX = 1H:
+EAX[3:0] ← Stepping ID;
+EAX[7:4] ← Model;
+EAX[11:8] ← Family;
+EAX[13:12] ← Processor type;
+EAX[15:14] ← Reserved;
+EAX[19:16] ← Extended Model;
+EAX[27:20] ← Extended Family;
+EAX[31:28] ← Reserved;
+EBX[7:0] ← Brand Index; (* Reserved if the value is zero. *)
+EBX[15:8] ← CLFLUSH Line Size;
+EBX[16:23] ← Reserved; (* Number of threads enabled = 2 if MT enable fuse set. *)
+EBX[24:31] ← Initial APIC ID;
+ECX ← Feature flags; (* See Figure 3-6. *)
+EDX ← Feature flags; (* See Figure 3-7. *)
+BREAK;
+EAX = 2H:
+EAX ← Cache and TLB information;
+EBX ← Cache and TLB information;
+ECX ← Cache and TLB information;
+EDX ← Cache and TLB information;
+BREAK;
+EAX = 3H:
+EAX ← Reserved;
+EBX ← Reserved;
+ECX ← ProcessorSerialNumber[31:0];
+(* Pentium III processors only, otherwise reserved. *)
+EDX ← ProcessorSerialNumber[63:32];
+(* Pentium III processors only, otherwise reserved. *
+BREAK
+EAX = 4H:
+EAX ← Deterministic Cache Parameters Leaf; (* See Table 3-17. *)
+EBX ← Deterministic Cache Parameters Leaf;
+ECX ← Deterministic Cache Parameters Leaf;
+EDX ← Deterministic Cache Parameters Leaf;
+BREAK;
+EAX = 5H:
+EAX ← MONITOR/MWAIT Leaf; (* See Table 3-17. *)
+EBX ← MONITOR/MWAIT Leaf;
+ECX ← MONITOR/MWAIT Leaf;
+EDX ← MONITOR/MWAIT Leaf;
+BREAK;
+EAX = 6H:
+EAX ← Thermal and Power Management Leaf; (* See Table 3-17. *)
+EBX ← Thermal and Power Management Leaf;
+ECX ← Thermal and Power Management Leaf;
+EDX ← Thermal and Power Management Leaf;
+BREAK;
+= 7H:
+EAX ← Structured Extended Feature Flags Enumeration Leaf; (* See Table 3-17. *)
+EBX ← Structured Extended Feature Flags Enumeration Leaf;
+ECX ← Structured Extended Feature Flags Enumeration Leaf;
+EDX ← Structured Extended Feature Flags Enumeration Leaf;
+BREAK;
+EAX = 8H:
+EAX ← Reserved = 0;
+EBX ← Reserved = 0;
+ECX ← Reserved = 0;
+EDX ← Reserved = 0;
+BREAK;
+EAX = 9H:
+EAX ← Direct Cache Access Information Leaf; (* See Table 3-17. *)
+EBX ← Direct Cache Access Information Leaf;
+ECX ← Direct Cache Access Information Leaf;
+EDX ← Direct Cache Access Information Leaf;
+BREAK;
+EAX = AH:
+EAX ← Architectural Performance Monitoring Leaf; (* See Table 3-17. *)
+EBX ← Architectural Performance Monitoring Leaf;
+ECX ← Architectural Performance Monitoring Leaf;
+EDX ← Architectural Performance Monitoring Leaf;
+BREAK
+EAX = BH:
+EAX ← Extended Topology Enumeration Leaf; (* See Table 3-17. *)
+EBX ← Extended Topology Enumeration Leaf;
+ECX ← Extended Topology Enumeration Leaf;
+EDX ← Extended Topology Enumeration Leaf;
+BREAK;
+EAX = CH:
+EAX ← Reserved = 0;
+EBX ← Reserved = 0;
+ECX ← Reserved = 0;
+EDX ← Reserved = 0;
+BREAK;
+EAX = DH:
+EAX ← Processor Extended State Enumeration Leaf; (* See Table 3-17. *)
+EBX ← Processor Extended State Enumeration Leaf;
+ECX ← Processor Extended State Enumeration Leaf;
+EDX ← Processor Extended State Enumeration Leaf;
+BREAK;
+EAX = EH:
+EAX ← Reserved = 0;
+EBX ← Reserved = 0;
+ECX ← Reserved = 0;
+EDX ← Reserved = 0;
+BREAK;
+EAX = FH:
+EAX ← Quality of Service Enumeration Leaf; (* See Table 3-17. *)
+EBX ← Quality of Service Enumeration Leaf;
+ECX ← Quality of Service Enumeration Leaf;
+EDX ← Quality of Service Enumeration Leaf;
+BREAK;
+EAX
+BREAK;
+EAX = 80000000H:
+EAX ← Highest extended function input value understood by CPUID;
+EBX ← Reserved;
+ECX ← Reserved;
+EDX ← Reserved;
+BREAK;
+EAX = 80000001H:
+EAX ← Reserved;
+EBX ← Reserved;
+ECX ← Extended Feature Bits (* See Table 3-17.*);
+EDX ← Extended Feature Bits (* See Table 3-17. *);
+BREAK;
+EAX = 80000002H:
+EAX ← Processor Brand String;
+EBX ← Processor Brand String, continued;
+ECX ← Processor Brand String, continued;
+EDX ← Processor Brand String, continued;
+BREAK;
+EAX = 80000003H:
+EAX ← Processor Brand String, continued;
+EBX ← Processor Brand String, continued;
+ECX ← Processor Brand String, continued;
+EDX ← Processor Brand String, continued;
+BREAK;
+EAX = 80000004H:
+EAX ← Processor Brand String, continued;
+EBX ← Processor Brand String, continued;
+ECX ← Processor Brand String, continued;
+EDX ← Processor Brand String, continued;
+BREAK;
+EAX = 80000005H:
+EAX ← Reserved = 0;
+EBX ← Reserved = 0;
+ECX ← Reserved = 0;
+EDX ← Reserved = 0;
+BREAK;
+EAX = 80000006H:
+EAX ← Reserved = 0;
+EBX ← Reserved = 0;
+ECX ← Cache information;
+EDX ← Reserved = 0;
+BREAK;
+EAX = 80000007H:
+EAX ← Reserved = 0;
+EBX ← Reserved = 0;
+ECX ← Reserved = 0;
+EDX ← Reserved = Misc Feature Flags;
+BREAK;
+EAX = 80000008H:
+EAX ← Reserved = Physical Address Size Information;
+EBX ← Reserved = Virtual Address Size Information;
+ECX ← Reserved = 0;
+EDX ← Reserved = 0;
+BREAK;
+EAX >= 40000000H and EAX <= 4FFFFFFFH:
+DEFAULT: (* EAX = Value outside of recognized range for CPUID. *)
+(* If the highest basic information leaf data depend on ECX input value, ECX is honored.*)
+EAX ← Reserved; (* Information returned for highest basic information leaf. *)
+EBX ← Reserved; (* Information returned for highest basic information leaf. *)
+ECX ← Reserved; (* Information returned for highest basic information leaf. *)
+EDX ← Reserved; (* Information returned for highest basic information leaf. *)
+BREAK;
+ESAC;
+
+Flags Affected
+None.
+---------------------------------------------------------------------
+
+CRC32 — Accumulate CRC32 Value
+
+Opcode/     Op/ 64-Bit Compat/ Description
+Instruction En  Mode   Leg Mode
+
+F2 0F 38 F0 /r 
+CRC32 r32, r/m8
+RM Valid Valid 
+Accumulate CRC32 on r/m8.
+
+F2 REX 0F 38 F0 /r
+CRC32 r32, r/m8
+RM Valid N.E. 
+Accumulate CRC32 on r/m8.
+
+F2 0F 38 F1 /r
+CRC32 r32, r/m16
+RM Valid Valid 
+Accumulate CRC32 on r/m16.
+
+F2 0F 38 F1 /r
+CRC32 r32, r/m32
+RM Valid Valid 
+Accumulate CRC32 on r/m32.
+
+F2 REX.W 0F 38 F0 /r
+CRC32 r64, r/m8
+RM Valid N.E. 
+Accumulate CRC32 on r/m8.
+
+F2 REX.W 0F 38 F1 /r
+CRC32 r64, r/m64
+RM Valid N.E. 
+Accumulate CRC32 on r/m64.
+
+NOTES:
+*In 64-bit mode, r/m8 can not be encoded to access the following byte registers if a REX prefix is used: AH, BH, CH, DH.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RM ModRM:reg (r, w) ModRM:r/m (r) NA NA
+
+Description
+Starting with an initial value in the first operand (destination operand), accumulates a CRC32 (polynomial
+0x11EDC6F41) value for the second operand (source operand) and stores the result in the destination operand.
+The source operand can be a register or a memory location. The destination operand must be an r32 or r64 register.
+If the destination is an r64 register, then the 32-bit result is stored in the least significant double word and
+00000000H is stored in the most significant double word of the r64 register.
+The initial value supplied in the destination operand is a double word integer stored in the r32 register or the least
+significant double word of the r64 register. To incrementally accumulate a CRC32 value, software retains the result
+of the previous CRC32 operation in the destination operand, then executes the CRC32 instruction again with new
+input data in the source operand. Data contained in the source operand is processed in reflected bit order. This
+means that the most significant bit of the source operand is treated as the least significant bit of the quotient, and
+so on, for all the bits of the source operand. Likewise, the result of the CRC operation is stored in the destination
+operand in reflected bit order. This means that the most significant bit of the resulting CRC (bit 31) is stored in the
+least significant bit of the destination operand (bit 0), and so on, for all the bits of the CRC.
+
+Operation
+Notes:
+BIT_REFLECT64: DST[63-0] = SRC[0-63]
+BIT_REFLECT32: DST[31-0] = SRC[0-31]
+BIT_REFLECT16: DST[15-0] = SRC[0-15]
+BIT_REFLECT8: DST[7-0] = SRC[0-7]
+MOD2: Remainder from Polynomial division modulus 2
+3-184 Vol. 2A
+CRC32 — Accumulate CRC32 ValueINSTRUCTION SET REFERENCE, A-M
+CRC32 instruction for 64-bit source operand and 64-bit destination operand:
+TEMP1[63-0]  BIT_REFLECT64 (SRC[63-0])
+TEMP2[31-0]  BIT_REFLECT32 (DEST[31-0])
+TEMP3[95-0]  TEMP1[63-0] « 32
+TEMP4[95-0]  TEMP2[31-0] « 64
+TEMP5[95-0]  TEMP3[95-0] XOR TEMP4[95-0]
+TEMP6[31-0]  TEMP5[95-0] MOD2 11EDC6F41H
+DEST[31-0]  BIT_REFLECT (TEMP6[31-0])
+DEST[63-32]  00000000H
+CRC32 instruction for 32-bit source operand and 32-bit destination operand:
+TEMP1[31-0]  BIT_REFLECT32 (SRC[31-0])
+TEMP2[31-0]  BIT_REFLECT32 (DEST[31-0])
+TEMP3[63-0]  TEMP1[31-0] « 32
+TEMP4[63-0]  TEMP2[31-0] « 32
+TEMP5[63-0]  TEMP3[63-0] XOR TEMP4[63-0]
+TEMP6[31-0]  TEMP5[63-0] MOD2 11EDC6F41H
+DEST[31-0]  BIT_REFLECT (TEMP6[31-0])
+CRC32 instruction for 16-bit source operand and 32-bit destination operand:
+TEMP1[15-0]  BIT_REFLECT16 (SRC[15-0])
+TEMP2[31-0]  BIT_REFLECT32 (DEST[31-0])
+TEMP3[47-0]  TEMP1[15-0] « 32
+TEMP4[47-0]  TEMP2[31-0] « 16
+TEMP5[47-0]  TEMP3[47-0] XOR TEMP4[47-0]
+TEMP6[31-0]  TEMP5[47-0] MOD2 11EDC6F41H
+DEST[31-0]  BIT_REFLECT (TEMP6[31-0])
+CRC32 instruction for 8-bit source operand and 64-bit destination operand:
+TEMP1[7-0]  BIT_REFLECT8(SRC[7-0])
+TEMP2[31-0]  BIT_REFLECT32 (DEST[31-0])
+TEMP3[39-0]  TEMP1[7-0] « 32
+TEMP4[39-0]  TEMP2[31-0] « 8
+TEMP5[39-0]  TEMP3[39-0] XOR TEMP4[39-0]
+TEMP6[31-0]  TEMP5[39-0] MOD2 11EDC6F41H
+DEST[31-0]  BIT_REFLECT (TEMP6[31-0])
+DEST[63-32]  00000000H
+CRC32 instruction for 8-bit source operand and 32-bit destination operand:
+TEMP1[7-0]  BIT_REFLECT8(SRC[7-0])
+TEMP2[31-0]  BIT_REFLECT32 (DEST[31-0])
+TEMP3[39-0]  TEMP1[7-0] « 32
+TEMP4[39-0]  TEMP2[31-0] « 8
+TEMP5[39-0]  TEMP3[39-0] XOR TEMP4[39-0]
+TEMP6[31-0]  TEMP5[39-0] MOD2 11EDC6F41H
+DEST[31-0]  BIT_REFLECT (TEMP6[31-0])
+
+Flags Affected
+None
 ---------------------------------------------------------------------
 
 
