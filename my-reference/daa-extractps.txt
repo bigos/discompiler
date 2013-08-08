@@ -166,3 +166,745 @@ DEST ← DEST – 1;
 Flags Affected
 The CF flag is not affected. The OF, SF, ZF, AF, and PF flags are set according to the result.
 ---------------------------------------------------------------------
+
+DIV—Unsigned Divide
+
+Opcode Instruction Op/ 64-Bit Compat/ Description
+                   En  Mode   Leg Mode
+
+F6 /6 
+DIV r/m8 
+M Valid Valid 
+Unsigned divide AX by r/m8, with result
+ stored in AL ← Quotient, AH ← Remainder.
+
+REX + F6 /6 
+DIV r/m8 
+M Valid N.E. 
+Unsigned divide AX by r/m8, with result
+ stored in AL ← Quotient, AH ← Remainder.
+
+F7 /6 
+DIV r/m16 
+M Valid Valid 
+Unsigned divide DX:AX by r/m16, with result
+ stored in AX ← Quotient, DX ← Remainder.
+
+F7 /6 
+DIV r/m32 
+M Valid Valid 
+Unsigned divide EDX:EAX by r/m32, with
+ result stored in EAX ← Quotient, EDX ←
+ Remainder.
+
+REX.W + F7 /6 
+DIV r/m64 
+M Valid N.E. 
+Unsigned divide RDX:RAX by r/m64, with
+ result stored in RAX ← Quotient, RDX ←
+ Remainder.
+
+NOTES:
+* In 64-bit mode, r/m8 can not be encoded to access the following byte registers if a REX prefix is used: AH, BH, CH, DH.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+M ModRM:r/m (w) NA NA NA
+
+Description
+Divides unsigned the value in the AX, DX:AX, EDX:EAX, or RDX:RAX registers (dividend) by the source operand
+(divisor) and stores the result in the AX (AH:AL), DX:AX, EDX:EAX, or RDX:RAX registers. The source operand can
+be a general-purpose register or a memory location. The action of this instruction depends on the operand size
+(dividend/divisor). Division using 64-bit operand is available only in 64-bit mode.
+Non-integral results are truncated (chopped) towards 0. The remainder is always less than the divisor in magni-
+tude. Overflow is indicated with the #DE (divide error) exception rather than with the CF flag.
+In 64-bit mode, the instruction’s default operation size is 32 bits. Use of the REX.R prefix permits access to addi-
+tional registers (R8-R15). Use of the REX.W prefix promotes operation to 64 bits. In 64-bit mode when REX.W is
+applied, the instruction divides the unsigned value in RDX:RAX by the source operand and stores the quotient in
+RAX, the remainder in RDX.
+See the summary chart at the beginning of this section for encoding data and limits. See Table 3-25.
+
+Operation
+IF SRC = 0
+THEN #DE; FI; (* Divide Error *)
+IF OperandSize = 8 (* Word/Byte Operation *)
+THEN
+temp ← AX / SRC;
+IF temp > FFH
+THEN #DE; (* Divide error *)
+ELSE
+AL ← temp;
+AH ← AX MOD SRC;
+FI;
+ELSE IF OperandSize = 16 (* Doubleword/word operation *)
+THEN
+temp ← DX:AX / SRC;
+IF temp > FFFFH
+THEN #DE; (* Divide error *)
+ELSE
+AX ← temp;
+DX ← DX:AX MOD SRC;
+FI;
+FI;
+ELSE IF Operandsize = 32 (* Quadword/doubleword operation *)
+THEN
+temp ← EDX:EAX / SRC;
+IF temp > FFFFFFFFH
+THEN #DE; (* Divide error *)
+ELSE
+EAX ← temp;
+EDX ← EDX:EAX MOD SRC;
+FI;
+FI;
+ELSE IF 64-Bit Mode and Operandsize = 64 (* Doublequadword/quadword operation *)
+THEN
+temp ← RDX:RAX / SRC;
+IF temp > FFFFFFFFFFFFFFFFH
+THEN #DE; (* Divide error *)
+ELSE
+RAX ← temp;
+RDX ← RDX:RAX MOD SRC;
+FI;
+FI;
+FI;
+
+Flags Affected
+The CF, OF, SF, ZF, AF, and PF flags are undefined.
+---------------------------------------------------------------------
+
+DIVPD—Divide Packed Double-Precision Floating-Point Values
+
+Opcode/     Op/ 64/32-bit CPUID Description
+Instruction En  Mode 
+                          Feature 
+                          Flag 
+
+66 0F 5E /r 
+DIVPD xmm1, xmm2/m128
+RM V/V SSE2 
+Divide packed double-precision floating-point
+ values in xmm1 by packed double-precision
+ floating-point values xmm2/m128.
+
+VEX.NDS.128.66.0F.WIG 5E /r
+VDIVPD xmm1, xmm2, xmm3/m128
+RVM V/V AVX 
+Divide packed double-precision floating-point
+ values in xmm2 by packed double-precision
+ floating-point values in xmm3/mem.
+
+VEX.NDS.256.66.0F.WIG 5E /r
+VDIVPD ymm1, ymm2, ymm3/m256
+RVM V/V AVX 
+Divide packed double-precision floating-point
+ values in ymm2 by packed double-precision
+ floating-point values in ymm3/mem.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RM ModRM:reg (r, w) ModRM:r/m (r) NA NA
+RVM ModRM:reg (w) VEX.vvvv (r) ModRM:r/m (r) NA
+
+Description
+Performs an SIMD divide of the two or four packed double-precision floating-point values in the first source operand
+by the two or four packed double-precision floating-point values in the second source operand. See Chapter 11 in
+the Intel® 64 and IA-32 Architectures Software Developer’s Manual, Volume 1, for an overview of a SIMD double-
+precision floating-point operation.
+In 64-bit mode, use of the REX.R prefix permits this instruction to access additional registers (XMM8-XMM15).
+128-bit Legacy SSE version: The second source can be an XMM register or an 128-bit memory location. The desti-
+nation is not distinct from the first source XMM register and the upper bits (VLMAX-1:128) of the corresponding
+YMM register destination are unmodified.
+VEX.128 encoded version: the first source operand is an XMM register or 128-bit memory location. The destination
+operand is an XMM register. The upper bits (VLMAX-1:128) of the corresponding YMM register destination are
+zeroed.
+VEX.256 encoded version: The first source operand is a YMM register. The second source operand can be a YMM
+register or a 256-bit memory location. The destination operand is a YMM register.
+
+Operation
+DIVPD (128-bit Legacy SSE version)
+DEST[63:0]  SRC1[63:0] / SRC2[63:0]
+DEST[127:64]  SRC1[127:64] / SRC2[127:64]
+DEST[VLMAX-1:128] (Unmodified)
+VDIVPD (VEX.128 encoded version)
+DEST[63:0]  SRC1[63:0] / SRC2[63:0]
+DEST[127:64]  SRC1[127:64] / SRC2[127:64]
+DEST[VLMAX-1:128]  0
+VDIVPD (VEX.256 encoded version)
+DEST[63:0]  SRC1[63:0] / SRC2[63:0]
+DEST[127:64]  SRC1[127:64] / SRC2[127:64]
+DEST[191:128]  SRC1[191:128] / SRC2[191:128]
+DEST[255:192]  SRC1[255:192] / SRC2[255:192]
+---------------------------------------------------------------------
+
+DIVPS—Divide Packed Single-Precision Floating-Point Values
+
+Opcode/     Op/ 64/32-bit CPUID Description
+Instruction En  Mode 
+                          Feature 
+                          Flag 
+
+0F 5E /r 
+DIVPS xmm1, xmm2/m128
+RM V/V SSE 
+Divide packed single-precision floating-point
+ values in xmm1 by packed single-precision
+ floating-point values xmm2/m128.
+
+VEX.NDS.128.0F.WIG 5E /r
+VDIVPS xmm1, xmm2, xmm3/m128
+RVM V/V AVX 
+Divide packed single-precision floating-point
+ values in xmm2 by packed double-precision
+ floating-point values in xmm3/mem.
+
+VEX.NDS.256.0F.WIG 5E /r
+VDIVPS ymm1, ymm2, ymm3/m256
+RVM V/V AVX 
+Divide packed single-precision floating-point
+ values in ymm2 by packed double-precision
+ floating-point values in ymm3/mem.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RM ModRM:reg (r, w) ModRM:r/m (r) NA NA
+RVM ModRM:reg (w) VEX.vvvv (r) ModRM:r/m (r) NA
+
+Description
+Performs an SIMD divide of the four or eight packed single-precision floating-point values in the first source
+operand by the four or eight packed single-precision floating-point values in the second source operand. See
+Chapter 10 in the Intel® 64 and IA-32 Architectures Software Developer’s Manual, Volume 1, for an overview of a
+SIMD single-precision floating-point operation.
+In 64-bit mode, use of the REX.R prefix permits this instruction to access additional registers (XMM8-XMM15).
+128-bit Legacy SSE version: The second source can be an XMM register or an 128-bit memory location. The desti-
+nation is not distinct from the first source XMM register and the upper bits (VLMAX-1:128) of the corresponding
+YMM register destination are unmodified.
+VEX.128 encoded version: the first source operand is an XMM register or 128-bit memory location. The destination
+operand is an XMM register. The upper bits (VLMAX-1:128) of the corresponding YMM register destination are
+zeroed.
+VEX.256 encoded version: The first source operand is a YMM register. The second source operand can be a YMM
+register or a 256-bit memory location. The destination operand is a YMM register.
+
+Operation
+DIVPS (128-bit Legacy SSE version)
+DEST[31:0]  SRC1[31:0] / SRC2[31:0]
+DEST[63:32]  SRC1[63:32] / SRC2[63:32]
+DEST[95:64]  SRC1[95:64] / SRC2[95:64]
+DEST[127:96]  SRC1[127:96] / SRC2[127:96]
+DEST[VLMAX-1:128] (Unmodified)
+VDIVPS (VEX.128 encoded version)
+DEST[31:0]  SRC1[31:0] / SRC2[31:0]
+DEST[63:32]  SRC1[63:32] / SRC2[63:32]
+DEST[95:64]  SRC1[95:64] / SRC2[95:64]
+DEST[127:96]  SRC1[127:96] / SRC2[127:96]
+DEST[VLMAX-1:128]  0
+VDIVPS (VEX.256 encoded version)
+DEST[31:0]  SRC1[31:0] / SRC2[31:0]
+DEST[63:32]  SRC1[63:32] / SRC2[63:32]
+DEST[95:64]  SRC1[95:64] / SRC2[95:64]
+DEST[127:96]  SRC1[127:96] / SRC2[127:96]
+DEST[159:128]  SRC1[159:128] / SRC2[159:128]
+DEST[191:160] SRC1[191:160] / SRC2[191:160]
+DEST[223:192]  SRC1[223:192] / SRC2[223:192]
+DEST[255:224]  SRC1[255:224] / SRC2[255:224].
+---------------------------------------------------------------------
+
+DIVSD—Divide Scalar Double-Precision Floating-Point Values
+
+Opcode/    Op/ 64/32-bit CPUID Description
+Instruction En Mode 
+                         Feature 
+                         Flag 
+
+F2 0F 5E /r 
+DIVSD xmm1, xmm2/m64
+RM V/V SSE2 
+Divide low double-precision floating-point
+ value in xmm1 by low double-precision
+ floating-point value in xmm2/mem64.
+
+VEX.NDS.LIG.F2.0F.WIG 5E /r
+VDIVSD xmm1, xmm2, xmm3/m64
+RVM V/V AVX 
+Divide low double-precision floating point
+ values in xmm2 by low double precision
+ floating-point value in xmm3/mem64.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RM ModRM:reg (r, w) ModRM:r/m (r) NA NA
+RVM ModRM:reg (w) VEX.vvvv (r) ModRM:r/m (r) NA
+
+Description
+Divides the low double-precision floating-point value in the first source operand by the low double-precision
+floating-point value in the second source operand, and stores the double-precision floating-point result in the desti-
+nation operand. The second source operand can be an XMM register or a 64-bit memory location. The first source
+and destination hyperons are XMM registers. The high quadword of the destination operand is copied from the high
+quadword of the first source operand. See Chapter 11 in the Intel® 64 and IA-32 Architectures Software Devel-
+oper’s Manual, Volume 1, for an overview of a scalar double-precision floating-point operation.
+In 64-bit mode, use of the REX.R prefix permits this instruction to access additional registers (XMM8-XMM15).
+128-bit Legacy SSE version: The first source operand and the destination operand are the same. Bits (VLMAX-
+1:64) of the corresponding YMM destination register remain unchanged.
+VEX.128 encoded version: Bits (VLMAX-1:128) of the destination YMM register are zeroed.
+
+Operation
+DIVSD (128-bit Legacy SSE version)
+DEST[63:0]  DEST[63:0] / SRC[63:0]
+DEST[VLMAX-1:64] (Unmodified)
+VDIVSD (VEX.128 encoded version)
+DEST[63:0]  SRC1[63:0] / SRC2[63:0]
+DEST[127:64]  SRC1[127:64]
+DEST[VLMAX-1:128]  0
+---------------------------------------------------------------------
+
+DIVSS—Divide Scalar Single-Precision Floating-Point Values
+
+Opcode/     Op/ 64/32-bit CPUID Description
+Instruction En  Mode 
+                           Feature 
+                           Flag 
+
+F3 0F 5E /r 
+DIVSS xmm1, xmm2/m32
+RM V/V SSE 
+Divide low single-precision floating-point value
+ in xmm1 by low single-precision floating-point
+ value in xmm2/m32.
+
+VEX.NDS.LIG.F3.0F.WIG 5E /r
+VDIVSS xmm1, xmm2, xmm3/m32
+RVM V/V AVX 
+Divide low single-precision floating point value
+ in xmm2 by low single precision floating-point
+ value in xmm3/m32.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RM ModRM:reg (r, w) ModRM:r/m (r) NA NA
+RVM ModRM:reg (w) VEX.vvvv (r) ModRM:r/m (r) NA
+
+Description
+Divides the low single-precision floating-point value in the first source operand by the low single-precision floating-
+point value in the second source operand, and stores the single-precision floating-point result in the destination
+operand. The second source operand can be an XMM register or a 32-bit memory location. The first source and
+destination operands are XMM registers. The three high-order doublewords of the destination are copied from the
+same dwords of the first source operand. See Chapter 10 in the Intel® 64 and IA-32 Architectures Software Devel-
+oper’s Manual, Volume 1, for an overview of a scalar single-precision floating-point operation.
+In 64-bit mode, use of the REX.R prefix permits this instruction to access additional registers (XMM8-XMM15).
+128-bit Legacy SSE version: The first source operand and the destination operand are the same. Bits (VLMAX-
+1:32) of the corresponding YMM destination register remain unchanged.
+VEX.128 encoded version: Bits (VLMAX-1:128) of the destination YMM register are zeroed.
+
+Operation
+DIVSS (128-bit Legacy SSE version)
+DEST[31:0]  DEST[31:0] / SRC[31:0]
+DEST[VLMAX-1:32] (Unmodified)
+VDIVSS (VEX.128 encoded version)
+DEST[31:0]  SRC1[31:0] / SRC2[31:0]
+DEST[127:32]  SRC1[127:32]
+DEST[VLMAX-1:128]  0
+---------------------------------------------------------------------
+
+DPPD — Dot Product of Packed Double Precision Floating-Point Values
+
+Opcode/     Op/ 64/32-bit CPUID Description
+Instruction En  Mode 
+                          Feature 
+                          Flag 
+
+66 0F 3A 41 /r ib 
+DPPD xmm1, xmm2/m128, imm8
+RMI V/V SSE4_1 
+Selectively multiply packed DP floating-point
+ values from xmm1 with packed DP floating-
+ point values from xmm2, add and selectively
+ store the packed DP floating-point values to
+ xmm1.
+
+VEX.NDS.128.66.0F3A.WIG 41 /r ib
+VDPPD xmm1,xmm2, xmm3/m128, imm8
+RVMI V/V AVX 
+Selectively multiply packed DP floating-point
+ values from xmm2 with packed DP floating-
+ point values from xmm3, add and selectively
+ store the packed DP floating-point values to
+ xmm1.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RMI ModRM:reg (r, w) ModRM:r/m (r) imm8 NA
+RVMI ModRM:reg (w) VEX.vvvv (r) ModRM:r/m (r) imm8
+
+Description
+Conditionally multiplies the packed double-precision floating-point values in the destination operand (first operand)
+with the packed double-precision floating-point values in the source (second operand) depending on a mask
+extracted from bits [5:4] of the immediate operand (third operand). If a condition mask bit is zero, the corre-
+sponding multiplication is replaced by a value of 0.0 in the manner described by Section 12.8.4 of Intel® 64 and
+IA-32 Architectures Software Developer’s Manual, Volume 1.
+The two resulting double-precision values are summed into an intermediate result. The intermediate result is
+conditionally broadcasted to the destination using a broadcast mask specified by bits [1:0] of the immediate byte.
+If a broadcast mask bit is "1", the intermediate result is copied to the corresponding qword element in the destina-
+tion operand. If a broadcast mask bit is zero, the corresponding element in the destination is set to zero.
+DPPD follows the NaN forwarding rules stated in the Software Developer’s Manual, vol. 1, table 4.7. These rules do
+not cover horizontal prioritization of NaNs. Horizontal propagation of NaNs to the destination and the positioning of
+those NaNs in the destination is implementation dependent. NaNs on the input sources or computationally gener-
+ated NaNs will have at least one NaN propagated to the destination.
+128-bit Legacy SSE version: The second source can be an XMM register or an 128-bit memory location. The desti-
+nation is not distinct from the first source XMM register and the upper bits (VLMAX-1:128) of the corresponding
+YMM register destination are unmodified.
+VEX.128 encoded version: the first source operand is an XMM register or 128-bit memory location. The destination
+operand is an XMM register. The upper bits (VLMAX-1:128) of the corresponding YMM register destination are
+zeroed.
+If VDPPD is encoded with VEX.L= 1, an attempt to execute the instruction encoded with VEX.L= 1 will cause an
+#UD exception.
+
+Operation
+DP_primitive (SRC1, SRC2)
+IF (imm8[4] = 1)
+THEN Temp1[63:0]  DEST[63:0] * SRC[63:0]; // update SIMD exception flags
+ELSE Temp1[63:0]  +0.0; FI;
+IF (imm8[5] = 1)
+THEN Temp1[127:64]  DEST[127:64] * SRC[127:64]; // update SIMD exception flags
+ELSE Temp1[127:64]  +0.0; FI;
+/* if unmasked exception reported, execute exception handler*/
+Temp2[63:0]  Temp1[63:0] + Temp1[127:64]; // update SIMD exception flags
+/* if unmasked exception reported, execute exception handler*/
+IF (imm8[0] = 1)
+THEN DEST[63:0]  Temp2[63:0];
+ELSE DEST[63:0]  +0.0; FI;
+IF (imm8[1] = 1)
+THEN DEST[127:64]  Temp2[63:0];
+ELSE DEST[127:64]  +0.0; FI;
+DPPD (128-bit Legacy SSE version)
+DEST[127:0]DP_Primitive(SRC1[127:0], SRC2[127:0]);
+DEST[VLMAX-1:128] (Unmodified)
+VDPPD (VEX.128 encoded version)
+DEST[127:0]DP_Primitive(SRC1[127:0], SRC2[127:0]);
+DEST[VLMAX-1:128]  0
+
+Flags Affected
+None
+---------------------------------------------------------------------
+
+DPPS — Dot Product of Packed Single Precision Floating-Point Values
+
+Opcode/     Op/ 64/32-bit CPUID Description
+Instruction En  Mode 
+                          Feature 
+                          Flag 
+
+66 0F 3A 40 /r ib 
+DPPS xmm1, xmm2/m128, imm8
+RMI V/V SSE4_1 
+Selectively multiply packed SP floating-point
+ values from xmm1 with packed SP floating-
+ point values from xmm2, add and selectively
+ store the packed SP floating-point values or
+ zero values to xmm1.
+
+VEX.NDS.128.66.0F3A.WIG 40 /r ib
+VDPPS xmm1,xmm2, xmm3/m128, imm8
+RVMI V/V AVX 
+Multiply packed SP floating point values from
+ xmm1 with packed SP floating point values
+ from xmm2/mem selectively add and store to
+ xmm1.
+
+VEX.NDS.256.66.0F3A.WIG 40 /r ib
+VDPPS ymm1, ymm2, ymm3/m256, imm8
+RVMI V/V AVX 
+Multiply packed single-precision floating-point
+ values from ymm2 with packed SP floating
+ point values from ymm3/mem, selectively add
+ pairs of elements and store to ymm1.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RMI ModRM:reg (r, w) ModRM:r/m (r) imm8 NA
+RVMI ModRM:reg (w) VEX.vvvv (r) ModRM:r/m (r) imm8
+
+Description
+Conditionally multiplies the packed single precision floating-point values in the destination operand (first operand)
+with the packed single-precision floats in the source (second operand) depending on a mask extracted from the
+high 4 bits of the immediate byte (third operand). If a condition mask bit in Imm8[7:4] is zero, the corresponding
+multiplication is replaced by a value of 0.0 in the manner described by Section 12.8.4 of Intel® 64 and IA-32 Archi-
+tectures Software Developer’s Manual, Volume 1.
+The four resulting single-precision values are summed into an intermediate result. The intermediate result is condi-
+tionally broadcasted to the destination using a broadcast mask specified by bits [3:0] of the immediate byte.
+If a broadcast mask bit is "1", the intermediate result is copied to the corresponding dword element in the destina-
+tion operand. If a broadcast mask bit is zero, the corresponding element in the destination is set to zero.
+DPPS follows the NaN forwarding rules stated in the Software Developer’s Manual, vol. 1, table 4.7. These rules do
+not cover horizontal prioritization of NaNs. Horizontal propagation of NaNs to the destination and the positioning of
+those NaNs in the destination is implementation dependent. NaNs on the input sources or computationally gener-
+ated NaNs will have at least one NaN propagated to the destination.
+128-bit Legacy SSE version: The second source can be an XMM register or an 128-bit memory location. The desti-
+nation is not distinct from the first source XMM register and the upper bits (VLMAX-1:128) of the corresponding
+YMM register destination are unmodified.
+VEX.128 encoded version: the first source operand is an XMM register or 128-bit memory location. The destination
+operand is an XMM register. The upper bits (VLMAX-1:128) of the corresponding YMM register destination are
+zeroed.
+VEX.256 encoded version: The first source operand is a YMM register. The second source operand can be a YMM
+register or a 256-bit memory location. The destination operand is a YMM register.
+
+Operation
+DP_primitive (SRC1, SRC2)
+IF (imm8[4] = 1)
+THEN Temp1[31:0]  DEST[31:0] * SRC[31:0]; // update SIMD exception flags
+ELSE Temp1[31:0]  +0.0; FI;
+IF (imm8[5] = 1)
+THEN Temp1[63:32]  DEST[63:32] * SRC[63:32]; // update SIMD exception flags
+ELSE Temp1[63:32]  +0.0; FI;
+IF (imm8[6] = 1)
+THEN Temp1[95:64]  DEST[95:64] * SRC[95:64]; // update SIMD exception flags
+ELSE Temp1[95:64]  +0.0; FI;
+IF (imm8[7] = 1)
+THEN Temp1[127:96]  DEST[127:96] * SRC[127:96]; // update SIMD exception flags
+ELSE Temp1[127:96]  +0.0; FI;
+Temp2[31:0]  Temp1[31:0] + Temp1[63:32]; // update SIMD exception flags
+/* if unmasked exception reported, execute exception handler*/
+Temp3[31:0]  Temp1[95:64] + Temp1[127:96]; // update SIMD exception flags
+/* if unmasked exception reported, execute exception handler*/
+Temp4[31:0]  Temp2[31:0] + Temp3[31:0]; // update SIMD exception flags
+/* if unmasked exception reported, execute exception handler*/
+IF (imm8[0] = 1)
+THEN DEST[31:0]  Temp4[31:0];
+ELSE DEST[31:0]  +0.0; FI;
+IF (imm8[1] = 1)
+THEN DEST[63:32]  Temp4[31:0];
+ELSE DEST[63:32]  +0.0; FI;
+IF (imm8[2] = 1)
+THEN DEST[95:64]  Temp4[31:0];
+ELSE DEST[95:64]  +0.0; FI;
+IF (imm8[3] = 1)
+THEN DEST[127:96]  Temp4[31:0];
+ELSE DEST[127:96]  +0.0; FI;
+DPPS (128-bit Legacy SSE version)
+DEST[127:0]DP_Primitive(SRC1[127:0], SRC2[127:0]);
+DEST[VLMAX-1:128] (Unmodified)
+VDPPS (VEX.128 encoded version)
+DEST[127:0]DP_Primitive(SRC1[127:0], SRC2[127:0]);
+DEST[VLMAX-1:128]  0
+VDPPS (VEX.256 encoded version)
+DEST[127:0]DP_Primitive(SRC1[127:0], SRC2[127:0]);
+DEST[255:128]DP_Primitive(SRC1[255:128], SRC2[255:128]);
+
+Flags Affected
+None
+---------------------------------------------------------------------
+
+EMMS—Empty MMX Technology State
+
+Opcode Instruction Op/ 64-Bit Compat/ Description
+                   En  Mode   Leg Mode
+
+0F 77 
+EMMS 
+NP Valid Valid
+Set the x87 FPU tag word to empty.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+NP NA NA NA NA
+
+Description
+Sets the values of all the tags in the x87 FPU tag word to empty (all 1s). This operation marks the x87 FPU data
+registers (which are aliased to the MMX technology registers) as available for use by x87 FPU floating-point instruc-
+tions. (See Figure 8-7 in the Intel® 64 and IA-32 Architectures Software Developer’s Manual, Volume 1, for the
+format of the x87 FPU tag word.) All other MMX instructions (other than the EMMS instruction) set all the tags in
+x87 FPU tag word to valid (all 0s).
+The EMMS instruction must be used to clear the MMX technology state at the end of all MMX technology procedures
+or subroutines and before calling other procedures or subroutines that may execute x87 floating-point instructions.
+If a floating-point instruction loads one of the registers in the x87 FPU data register stack before the x87 FPU tag
+word has been reset by the EMMS instruction, an x87 floating-point register stack overflow can occur that will
+result in an x87 floating-point exception or incorrect result.
+EMMS operation is the same in non-64-bit modes and 64-bit mode.
+
+Operation
+x87FPUTagWord ← FFFFH;
+
+Flags Affected
+None.
+---------------------------------------------------------------------
+
+ENTER—Make Stack Frame for Procedure Parameters
+
+Opcode Instruction Op/ 64-Bit Compat/ Description
+                   En  Mode   Leg Mode
+
+C8 iw 00 
+ENTER imm16, 0 
+II Valid Valid 
+Create a stack frame for a procedure.
+
+C8 iw 01 
+ENTER imm16,1 
+II Valid Valid 
+Create a nested stack frame for a procedure.
+
+C8 iw ib ENTER imm16, imm8 
+II Valid Valid 
+Create a nested stack frame for a procedure.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+II iw imm8 NA NA
+
+Description
+Creates a stack frame for a procedure. The first operand (size operand) specifies the size of the stack frame (that
+is, the number of bytes of dynamic storage allocated on the stack for the procedure). The second operand (nesting
+level operand) gives the lexical nesting level (0 to 31) of the procedure. The nesting level determines the number
+of stack frame pointers that are copied into the “display area” of the new stack frame from the preceding frame.
+Both of these operands are immediate values.
+The stack-size attribute determines whether the BP (16 bits), EBP (32 bits), or RBP (64 bits) register specifies the
+current frame pointer and whether SP (16 bits), ESP (32 bits), or RSP (64 bits) specifies the stack pointer. In 64-
+bit mode, stack-size attribute is always 64-bits.
+The ENTER and companion LEAVE instructions are provided to support block structured languages. The ENTER
+instruction (when used) is typically the first instruction in a procedure and is used to set up a new stack frame for
+a procedure. The LEAVE instruction is then used at the end of the procedure (just before the RET instruction) to
+release the stack frame.
+If the nesting level is 0, the processor pushes the frame pointer from the BP/EBP/RBP register onto the stack,
+copies the current stack pointer from the SP/ESP/RSP register into the BP/EBP/RBP register, and loads the
+SP/ESP/RSP register with the current stack-pointer value minus the value in the size operand. For nesting levels of
+1 or greater, the processor pushes additional frame pointers on the stack before adjusting the stack pointer. These
+additional frame pointers provide the called procedure with access points to other nested frames on the stack. See
+“Procedure Calls for Block-Structured Languages” in Chapter 6 of the Intel® 64 and IA-32 Architectures Software
+Developer’s Manual, Volume 1, for more information about the actions of the ENTER instruction.
+The ENTER instruction causes a page fault whenever a write using the final value of the stack pointer (within the
+current stack segment) would do so.
+In 64-bit mode, default operation size is 64 bits; 32-bit operation size cannot be encoded.
+
+Operation
+NestingLevel ← NestingLevel MOD 32
+IF 64-Bit Mode (StackSize = 64)
+THEN
+Push(RBP);
+FrameTemp ← RSP;
+ELSE IF StackSize = 32
+THEN
+Push(EBP);
+FrameTemp ← ESP; FI;
+ELSE (* StackSize = 16 *)
+Push(BP);
+FrameTemp ← SP;
+FI;
+IF NestingLevel = 0
+THEN GOTO CONTINUE;
+FI;
+IF (NestingLevel > 1)
+THEN FOR i ← 1 to (NestingLevel - 1)
+DO
+IF 64-Bit Mode (StackSize = 64)
+THEN
+RBP ← RBP - 8;
+Push([RBP]); (* Quadword push *)
+ELSE IF OperandSize = 32
+THEN
+IF StackSize = 32
+EBP ← EBP - 4;
+Push([EBP]); (* Doubleword push *)
+ELSE (* StackSize = 16 *)
+BP ← BP - 4;
+Push([BP]); (* Doubleword push *)
+FI;
+FI;
+ELSE (* OperandSize = 16 *)
+IF StackSize = 32
+THEN
+EBP ← EBP - 2;
+Push([EBP]); (* Word push *)
+ELSE (* StackSize = 16 *)
+BP ← BP - 2;
+Push([BP]); (* Word push *)
+FI;
+FI;
+OD;
+FI;
+IF 64-Bit Mode (StackSize = 64)
+THEN
+Push(FrameTemp); (* Quadword push *)
+ELSE IF OperandSize = 32
+THEN
+Push(FrameTemp); FI; (* Doubleword push *)
+ELSE (* OperandSize = 16 *)
+Push(FrameTemp); (* Word push *)
+FI;
+CONTINUE:
+IF 64-Bit Mode (StackSize = 64)
+THEN
+RBP ← FrameTemp;
+RSP ← RSP − Size;
+ELSE IF StackSize = 32
+THEN
+EBP ← FrameTemp;
+ESP ← ESP − Size; FI;
+ELSE (* StackSize = 16 *)
+BP ← FrameTemp;
+SP ← SP − Size;
+FI;
+END;
+
+Flags Affected
+None.
+---------------------------------------------------------------------
+
+EXTRACTPS — Extract Packed Single Precision Floating-Point Value
+
+Opcode/     Op/ 64/32-bit CPUID Description
+Instruction En  Mode 
+                          Feature 
+                          Flag 
+
+66 0F 3A 17 /r ib
+EXTRACTPS reg/m32, xmm2, imm8
+MRI V/V SSE4_1 
+Extract a single-precision floating-point value
+ from xmm2 at the source offset specified by
+ imm8 and store the result to reg or m32. The
+ upper 32 bits of r64 is zeroed if reg is r64.
+
+VEX.128.66.0F3A.WIG 17 /r ib
+VEXTRACTPS r/m32, xmm1, imm8
+MRI V/V AVX 
+Extract one single-precision floating-point
+ value from xmm1 at the offset specified by
+ imm8 and store the result in reg or m32. Zero
+ extend the results in 64-bit register if
+ applicable.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+MRI ModRM:r/m (w) ModRM:reg (r) imm8 NA
+
+Description
+Extracts a single-precision floating-point value from the source operand (second operand) at the 32-bit offset spec-
+ified from imm8. Immediate bits higher than the most significant offset for the vector length are ignored.
+The extracted single-precision floating-point value is stored in the low 32-bits of the destination operand
+In 64-bit mode, destination register operand has default operand size of 64 bits. The upper 32-bits of the register
+are filled with zero. REX.W is ignored.
+128-bit Legacy SSE version: When a REX.W prefix is used in 64-bit mode with a general purpose register (GPR) as
+a destination operand, the packed single quantity is zero extended to 64 bits.
+VEX.128 encoded version: When VEX.128.66.0F3A.W1 17 form is used in 64-bit mode with a general purpose
+register (GPR) as a destination operand, the packed single quantity is zero extended to 64 bits. VEX.vvvv is
+reserved and must be 1111b otherwise instructions will #UD.
+The source register is an XMM register. Imm8[1:0] determine the starting DWORD offset from which to extract the
+32-bit floating-point value.
+If VEXTRACTPS is encoded with VEX.L= 1, an attempt to execute the instruction encoded with VEX.L= 1 will cause
+an #UD exception.
+
+Operation
+EXTRACTPS (128-bit Legacy SSE version)
+SRC_OFFSET  IMM8[1:0]
+IF ( 64-Bit Mode and DEST is register)
+DEST[31:0]  (SRC[127:0] » (SRC_OFFET*32)) AND 0FFFFFFFFh
+DEST[63:32]  0
+ELSE
+DEST[31:0]  (SRC[127:0] » (SRC_OFFET*32)) AND 0FFFFFFFFh
+FI
+VEXTRACTPS (VEX.128 encoded version)
+SRC_OFFSET  IMM8[1:0]
+IF ( 64-Bit Mode and DEST is register)
+DEST[31:0]  (SRC[127:0] » (SRC_OFFET*32)) AND 0FFFFFFFFh
+DEST[63:32]  0
+ELSE
+DEST[31:0]  (SRC[127:0] » (SRC_OFFET*32)) AND 0FFFFFFFFh
+FI
+---------------------------------------------------------------------
