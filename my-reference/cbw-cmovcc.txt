@@ -1,0 +1,782 @@
+CBW/CWDE/CDQE—Convert Byte to Word/Convert Word to Doubleword/Convert Doubleword to
+Quadword
+
+Opcode Instruction Op/ 64-bit Compat/ Description
+                   En  Mode   Leg Mode
+
+98 
+CBW 
+NP Valid Valid 
+AX ← sign-extend of AL.
+
+98 
+CWDE 
+NP Valid Valid 
+EAX ← sign-extend of AX.
+
+REX.W + 98 
+CDQE 
+NP Valid N.E. 
+RAX ← sign-extend of EAX.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+NP NA NA NA NA
+
+Description
+Double the size of the source operand by means of sign extension. The CBW (convert byte to word) instruction
+copies the sign (bit 7) in the source operand into every bit in the AH register. The CWDE (convert word to double-
+word) instruction copies the sign (bit 15) of the word in the AX register into the high 16 bits of the EAX register.
+CBW and CWDE reference the same opcode. The CBW instruction is intended for use when the operand-size
+attribute is 16; CWDE is intended for use when the operand-size attribute is 32. Some assemblers may force the
+operand size. Others may treat these two mnemonics as synonyms (CBW/CWDE) and use the setting of the
+operand-size attribute to determine the size of values to be converted.
+In 64-bit mode, the default operation size is the size of the destination register. Use of the REX.W prefix promotes
+this instruction (CDQE when promoted) to operate on 64-bit operands. In which case, CDQE copies the sign (bit 31)
+of the doubleword in the EAX register into the high 32 bits of RAX.
+
+Operation
+IF OperandSize = 16 (* Instruction = CBW *)
+THEN
+AX ← SignExtend(AL);
+ELSE IF (OperandSize = 32, Instruction = CWDE)
+EAX ← SignExtend(AX); FI;
+ELSE (* 64-Bit Mode, OperandSize = 64, Instruction = CDQE*)
+RAX ← SignExtend(EAX);
+FI;
+
+Flags Affected
+None.
+---------------------------------------------------------------------
+
+CLC—Clear Carry Flag
+
+Opcode Instruction Op/ 64-bit Compat/ Description
+                   En  Mode   Leg Mode
+
+F8 
+CLC 
+NP Valid Valid
+Clear CF flag.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+NP NA NA NA NA
+
+Description
+Clears the CF flag in the EFLAGS register. Operation is the same in all non-64-bit modes and 64-bit mode.
+
+Operation
+CF ← 0;
+
+Flags Affected
+The CF flag is set to 0. The OF, ZF, SF, AF, and PF flags are unaffected.
+---------------------------------------------------------------------
+
+CLD—Clear Direction Flag
+
+Opcode Instruction Op/ 64-bit Compat/ Description
+                   En  Mode   Leg Mode
+
+FC 
+CLD 
+NP Valid Valid
+Clear DF flag.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+NP NA NA NA NA
+
+Description
+Clears the DF flag in the EFLAGS register. When the DF flag is set to 0, string operations increment the index regis-
+ters (ESI and/or EDI). Operation is the same in all non-64-bit modes and 64-bit mode.
+
+Operation
+DF ← 0;
+
+Flags Affected
+The DF flag is set to 0. The CF, OF, ZF, SF, AF, and PF flags are unaffected.
+---------------------------------------------------------------------
+
+CLFLUSH—Flush Cache Line
+
+Opcode Instruction Op/ 64-bit Compat/ Description
+                   En  Mode   Leg Mode
+
+0F AE /7 
+CLFLUSH m8 
+M Valid Valid
+Flushes cache line containing m8.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+M ModRM:r/m (w) NA NA NA
+
+Description
+Invalidates the cache line that contains the linear address specified with the source operand from all levels of the
+processor cache hierarchy (data and instruction). The invalidation is broadcast throughout the cache coherence
+domain. If, at any level of the cache hierarchy, the line is inconsistent with memory (dirty) it is written to memory
+before invalidation. The source operand is a byte memory location.
+The availability of CLFLUSH is indicated by the presence of the CPUID feature flag CLFSH (bit 19 of the EDX register,
+see “CPUID—CPU Identification” in this chapter). The aligned cache line size affected is also indicated with the
+CPUID instruction (bits 8 through 15 of the EBX register when the initial value in the EAX register is 1).
+The memory attribute of the page containing the affected line has no effect on the behavior of this instruction. It
+should be noted that processors are free to speculatively fetch and cache data from system memory regions
+assigned a memory-type allowing for speculative reads (such as, the WB, WC, and WT memory types). PREFETCHh
+instructions can be used to provide the processor with hints for this speculative behavior. Because this speculative
+fetching can occur at any time and is not tied to instruction execution, the CLFLUSH instruction is not ordered with
+respect to PREFETCHh instructions or any of the speculative fetching mechanisms (that is, data can be specula-
+tively loaded into a cache line just before, during, or after the execution of a CLFLUSH instruction that references
+the cache line).
+CLFLUSH is only ordered by the MFENCE instruction. It is not guaranteed to be ordered by any other fencing or
+serializing instructions or by another CLFLUSH instruction. For example, software can use an MFENCE instruction
+to ensure that previous stores are included in the write-back.
+The CLFLUSH instruction can be used at all privilege levels and is subject to all permission checking and faults asso-
+ciated with a byte load (and in addition, a CLFLUSH instruction is allowed to flush a linear address in an execute-
+only segment). Like a load, the CLFLUSH instruction sets the A bit but not the D bit in the page tables.
+The CLFLUSH instruction was introduced with the SSE2 extensions; however, because it has its own CPUID feature
+flag, it can be implemented in IA-32 processors that do not include the SSE2 extensions. Also, detecting the pres-
+ence of the SSE2 extensions with the CPUID instruction does not guarantee that the CLFLUSH instruction is imple-
+mented in the processor.
+CLFLUSH operation is the same in non-64-bit modes and 64-bit mode.
+
+Operation
+Flush_Cache_Line(SRC);
+---------------------------------------------------------------------
+
+CLI — Clear Interrupt Flag
+
+Opcode Instruction Op/ 64-bit Compat/ Description
+                   En Mode Leg Mode
+
+FA 
+CLI 
+NP Valid Valid
+Clear interrupt flag; interrupts disabled when
+interrupt flag cleared.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+NP NA NA NA NA
+
+Description
+If protected-mode virtual interrupts are not enabled, CLI clears the IF flag in the EFLAGS register. No other flags
+are affected. Clearing the IF flag causes the processor to ignore maskable external interrupts. The IF flag and the
+CLI and STI instruction have no affect on the generation of exceptions and NMI interrupts.
+When protected-mode virtual interrupts are enabled, CPL is 3, and IOPL is less than 3; CLI clears the VIF flag in the
+EFLAGS register, leaving IF unaffected. Table 3-6 indicates the action of the CLI instruction depending on the
+processor operating mode and the CPL/IOPL of the running program or procedure.
+CLI operation is the same in non-64-bit modes and 64-bit mode.
+
+Table 3-6. Decision Table for CLI Results
+PE VM IOPL CPL PVI VIP VME 
+CLI Result
+0 X X X X X X IF = 0
+1 0 ≥ CPL X X X X IF = 0
+1 0 < CPL 3 1 X X VIF = 0
+1 0 < CPL <3 X X X GP Fault
+1 0 < CPL X 0 X X GP Fault
+1 1 3 X X X X IF = 0
+1 1 <3 X X X 1 VIF = 0
+1 1 <3 X X X 0 GP Fault
+
+NOTES:
+* X = This setting has no impact.
+
+Operation
+IF PE = 0
+THEN
+IF ← 0; (* Reset Interrupt Flag *)
+ELSE
+IF VM = 0;
+THEN
+IF IOPL ≥ CPL
+THEN
+IF ← 0; (* Reset Interrupt Flag *)
+ELSE
+IF ((IOPL < CPL) and (CPL = 3) and (PVI = 1))
+THEN
+VIF ← 0; (* Reset Virtual Interrupt Flag *)
+ELSE
+CLI — Clear Interrupt Flag
+Vol. 2A 3-113INSTRUCTION SET REFERENCE, A-M
+#GP(0);
+FI;
+FI;
+ELSE (* VM = 1 *)
+IF IOPL = 3
+THEN
+IF ← 0; (* Reset Interrupt Flag *)
+ELSE
+IF (IOPL < 3) AND (VME = 1)
+THEN
+VIF ← 0; (* Reset Virtual Interrupt Flag *)
+ELSE
+#GP(0);
+FI;
+FI;
+FI;
+FI;
+
+Flags Affected
+If protected-mode virtual interrupts are not enabled, IF is set to 0 if the CPL is equal to or less than the IOPL; other-
+wise, it is not affected. The other flags in the EFLAGS register are unaffected.
+When protected-mode virtual interrupts are enabled, CPL is 3, and IOPL is less than 3; CLI clears the VIF flag in the
+EFLAGS register, leaving IF unaffected.
+---------------------------------------------------------------------
+
+CLTS—Clear Task-Switched Flag in CR0
+
+Opcode Instruction Op/ 64-bit Compat/ Description
+                   En Mode Leg Mode
+
+0F 06 
+CLTS 
+NP Valid Valid
+Clears TS flag in CR0.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+NP NA NA NA NA
+
+Description
+Clears the task-switched (TS) flag in the CR0 register. This instruction is intended for use in operating-system
+procedures. It is a privileged instruction that can only be executed at a CPL of 0. It is allowed to be executed in real-
+address mode to allow initialization for protected mode.
+The processor sets the TS flag every time a task switch occurs. The flag is used to synchronize the saving of FPU
+context in multitasking applications. See the description of the TS flag in the section titled “Control Registers” in
+Chapter 2 of the Intel® 64 and IA-32 Architectures Software Developer’s Manual, Volume 3A, for more information
+about this flag.
+CLTS operation is the same in non-64-bit modes and 64-bit mode.
+See Chapter 25, “VMX Non-Root Operation,” of the Intel® 64 and IA-32 Architectures Software Developer’s
+Manual, Volume 3C, for more information about the behavior of this instruction in VMX non-root operation.
+
+Operation
+CR0.TS[bit 3] ← 0;
+
+Flags Affected
+The TS flag in CR0 register is cleared.
+---------------------------------------------------------------------
+
+CMC—Complement Carry Flag
+
+Opcode Instruction Op/ 64-bit Compat/ Description
+                   En Mode Leg Mode
+
+F5 
+CMC 
+NP Valid Valid
+Complement CF flag.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+NP NA NA NA NA
+
+Description
+Complements the CF flag in the EFLAGS register. CMC operation is the same in non-64-bit modes and 64-bit mode.
+
+Operation
+EFLAGS.CF[bit 0]← NOT EFLAGS.CF[bit 0];
+
+Flags Affected
+The CF flag contains the complement of its original value. The OF, ZF, SF, AF, and PF flags are unaffected.
+---------------------------------------------------------------------
+
+CMOVcc—Conditional Move
+
+Opcode Instruction Op/ 64-Bit Compat/ Description
+                   En Mode Leg Mode
+
+0F 47 /r 
+CMOVA r16, r/m16 
+RM Valid Valid 
+Move if above (CF=0 and ZF=0).
+
+0F 47 /r 
+CMOVA r32, r/m32 
+RM Valid Valid 
+Move if above (CF=0 and ZF=0).
+
+REX.W + 0F 47 /r 
+CMOVA r64, r/m64 
+RM Valid N.E. 
+Move if above (CF=0 and ZF=0).
+
+0F 43 /r 
+CMOVAE r16, r/m16 
+RM Valid Valid 
+Move if above or equal (CF=0).
+
+0F 43 /r 
+CMOVAE r32, r/m32 
+RM Valid Valid 
+Move if above or equal (CF=0).
+
+REX.W + 0F 43 /r 
+CMOVAE r64, r/m64 
+RM Valid N.E. 
+Move if above or equal (CF=0).
+
+0F 42 /r 
+CMOVB r16, r/m16 
+RM Valid Valid 
+Move if below (CF=1).
+
+0F 42 /r 
+CMOVB r32, r/m32
+RM Valid Valid 
+Move if below (CF=1).
+
+REX.W + 0F 42 /r 
+CMOVB r64, r/m64 
+RM Valid N.E. 
+Move if below (CF=1).
+
+0F 46 /r 
+CMOVBE r16, r/m16 
+RM Valid Valid 
+Move if below or equal (CF=1 or ZF=1).
+
+0F 46 /r 
+CMOVBE r32, r/m32 
+RM Valid Valid 
+Move if below or equal (CF=1 or ZF=1).
+
+REX.W + 0F 46 /r 
+CMOVBE r64, r/m64 
+RM Valid N.E. 
+Move if below or equal (CF=1 or ZF=1).
+
+0F 42 /r 
+CMOVC r16, r/m16 
+RM Valid Valid 
+Move if carry (CF=1).
+
+0F 42 /r 
+CMOVC r32, r/m32 
+RM Valid Valid 
+Move if carry (CF=1).
+
+REX.W + 0F 42 /r 
+CMOVC r64, r/m64 
+RM Valid N.E. 
+Move if carry (CF=1).
+
+0F 44 /r 
+CMOVE r16, r/m16 
+RM Valid Valid 
+Move if equal (ZF=1).
+
+0F 44 /r 
+CMOVE r32, r/m32 
+RM Valid Valid 
+Move if equal (ZF=1).
+
+REX.W + 0F 44 /r 
+CMOVE r64, r/m64 
+RM Valid N.E. 
+Move if equal (ZF=1).
+
+0F 4F /r 
+CMOVG r16, r/m16 
+RM Valid Valid 
+Move if greater (ZF=0 and SF=OF).
+
+0F 4F /r 
+CMOVG r32, r/m32 
+RM Valid Valid 
+Move if greater (ZF=0 and SF=OF).
+
+REX.W + 0F 4F /r 
+CMOVG r64, r/m64 
+RM V/N.E. NA 
+Move if greater (ZF=0 and SF=OF).
+
+0F 4D /r 
+CMOVGE r16, r/m16 
+RM Valid Valid 
+Move if greater or equal (SF=OF).
+
+0F 4D /r 
+CMOVGE r32, r/m32 
+RM Valid Valid 
+Move if greater or equal (SF=OF).
+
+REX.W + 0F 4D /r 
+CMOVGE r64, r/m64 
+RM Valid N.E. 
+Move if greater or equal (SF=OF).
+
+0F 4C /r 
+CMOVL r16, r/m16 
+RM Valid Valid 
+Move if less (SF≠ OF).
+
+0F 4C /r 
+CMOVL r32, r/m32 
+RM Valid Valid 
+Move if less (SF≠ OF).
+
+REX.W + 0F 4C /r 
+CMOVL r64, r/m64 
+RM Valid N.E. 
+Move if less (SF≠ OF).
+
+0F 4E /r 
+CMOVLE r16, r/m16 
+RM Valid Valid 
+Move if less or equal (ZF=1 or SF≠ OF).
+
+0F 4E /r 
+CMOVLE r32, r/m32 
+RM Valid Valid 
+Move if less or equal (ZF=1 or SF≠ OF).
+
+REX.W + 0F 4E /r 
+CMOVLE r64, r/m64 
+RM Valid N.E. 
+Move if less or equal (ZF=1 or SF≠ OF).
+
+0F 46 /r 
+CMOVNA r16, r/m16 
+RM Valid Valid 
+Move if not above (CF=1 or ZF=1).
+
+0F 46 /r 
+CMOVNA r32, r/m32 
+RM Valid Valid 
+Move if not above (CF=1 or ZF=1).
+
+REX.W + 0F 46 /r 
+CMOVNA r64, r/m64 
+RM Valid N.E. 
+Move if not above (CF=1 or ZF=1).
+
+0F 42 /r 
+CMOVNAE r16, r/m16 
+RM Valid Valid 
+Move if not above or equal (CF=1).
+
+0F 42 /r 
+CMOVNAE r32, r/m32 
+RM Valid Valid 
+Move if not above or equal (CF=1).
+
+REX.W + 0F 42 /r 
+CMOVNAE r64, r/m64 
+RM Valid N.E. 
+Move if not above or equal (CF=1).
+
+0F 43 /r 
+CMOVNB r16, r/m16 
+RM Valid Valid 
+Move if not below (CF=0).
+
+0F 43 /r 
+CMOVNB r32, r/m32 
+RM Valid Valid 
+Move if not below (CF=0).
+
+REX.W + 0F 43 /r 
+CMOVNB r64, r/m64 
+RM Valid N.E. 
+Move if not below (CF=0).
+
+0F 47 /r 
+CMOVNBE r16, r/m16 
+RM Valid Valid 
+Move if not below or equal (CF=0 and ZF=0).
+
+0F 47 /r 
+CMOVNBE r32, r/m32 
+RM Valid Valid 
+Move if not below or equal (CF=0 and ZF=0).
+
+REX.W + 0F 47 /r 
+CMOVNBE r64, r/m64 
+RM Valid N.E. 
+Move if not below or equal (CF=0 and ZF=0).
+
+0F 43 /r 
+CMOVNC r16, r/m16 
+RM Valid Valid 
+Move if not carry (CF=0).
+
+0F 43 /r 
+CMOVNC r32, r/m32 
+RM Valid Valid 
+Move if not carry (CF=0).
+
+REX.W + 0F 43 /r 
+CMOVNC r64, r/m64 
+RM Valid N.E. 
+Move if not carry (CF=0).
+
+0F 45 /r 
+CMOVNE r16, r/m16 
+RM Valid Valid 
+Move if not equal (ZF=0).
+
+0F 45 /r 
+CMOVNE r32, r/m32 
+RM Valid Valid 
+Move if not equal (ZF=0).
+
+REX.W + 0F 45 /r 
+CMOVNE r64, r/m64 
+RM Valid N.E. 
+Move if not equal (ZF=0).
+
+0F 4E /r 
+CMOVNG r16, r/m16 
+RM Valid Valid 
+Move if not greater (ZF=1 or SF≠ OF).
+
+0F 4E /r 
+CMOVNG r32, r/m32 
+RM Valid Valid 
+Move if not greater (ZF=1 or SF≠ OF).
+
+REX.W + 0F 4E /r 
+CMOVNG r64, r/m64 
+RM Valid N.E. 
+Move if not greater (ZF=1 or SF≠ OF).
+
+0F 4C /r 
+CMOVNGE r16, r/m16 
+RM Valid Valid 
+Move if not greater or equal (SF≠ OF).
+
+0F 4C /r 
+CMOVNGE r32, r/m32 
+RM Valid Valid 
+Move if not greater or equal (SF≠ OF).
+
+REX.W + 0F 4C /r 
+CMOVNGE r64, r/m64 
+RM Valid N.E. 
+Move if not greater or equal (SF≠ OF).
+
+0F 4D /r 
+CMOVNL r16, r/m16 
+RM Valid Valid 
+Move if not less (SF=OF).
+
+0F 4D /r 
+CMOVNL r32, r/m32 
+RM Valid Valid 
+Move if not less (SF=OF).
+
+REX.W + 0F 4D /r 
+CMOVNL r64, r/m64 
+RM Valid N.E. 
+Move if not less (SF=OF).
+
+0F 4F /r 
+CMOVNLE r16, r/m16 
+RM Valid Valid 
+Move if not less or equal (ZF=0 and SF=OF).
+
+0F 4F /r 
+CMOVNLE r32, r/m32 
+RM Valid Valid 
+Move if not less or equal (ZF=0 and SF=OF).
+
+REX.W + 0F 4F /r 
+CMOVNLE r64, r/m64 
+RM Valid N.E. 
+Move if not less or equal (ZF=0 and SF=OF).
+
+0F 41 /r 
+CMOVNO r16, r/m16 
+RM Valid Valid 
+Move if not overflow (OF=0).
+
+0F 41 /r 
+CMOVNO r32, r/m32 
+RM Valid Valid 
+Move if not overflow (OF=0).
+
+REX.W + 0F 41 /r 
+CMOVNO r64, r/m64 
+RM Valid N.E. 
+Move if not overflow (OF=0).
+
+0F 4B /r 
+CMOVNP r16, r/m16 
+RM Valid Valid 
+Move if not parity (PF=0).
+
+0F 4B /r 
+CMOVNP r32, r/m32 
+RM Valid Valid 
+Move if not parity (PF=0).
+
+REX.W + 0F 4B /r 
+CMOVNP r64, r/m64 
+RM Valid N.E. 
+Move if not parity (PF=0).
+
+0F 49 /r 
+CMOVNS r16, r/m16 
+RM Valid Valid 
+Move if not sign (SF=0).
+
+0F 49 /r 
+CMOVNS r32, r/m32 
+RM Valid Valid 
+Move if not sign (SF=0).
+
+REX.W + 0F 49 /r 
+CMOVNS r64, r/m64 
+RM Valid N.E. 
+Move if not sign (SF=0).
+
+0F 45 /r 
+CMOVNZ r16, r/m16 
+RM Valid Valid 
+Move if not zero (ZF=0).
+
+0F 45 /r 
+CMOVNZ r32, r/m32 
+RM Valid Valid 
+Move if not zero (ZF=0).
+
+REX.W + 0F 45 /r 
+CMOVNZ r64, r/m64 
+RM Valid N.E. 
+Move if not zero (ZF=0).
+
+0F 40 /r 
+CMOVO r16, r/m16 
+RM Valid Valid 
+Move if overflow (OF=1).
+
+0F 40 /r 
+CMOVO r32, r/m32 
+RM Valid Valid 
+Move if overflow (OF=1).
+
+REX.W + 0F 40 /r 
+CMOVO r64, r/m64 
+RM Valid N.E. 
+Move if overflow (OF=1).
+
+0F 4A /r 
+CMOVP r16, r/m16 
+RM Valid Valid 
+Move if parity (PF=1).
+
+0F 4A /r 
+CMOVP r32, r/m32 
+RM Valid Valid 
+Move if parity (PF=1).
+
+REX.W + 0F 4A /r 
+CMOVP r64, r/m64 
+RM Valid N.E. 
+Move if parity (PF=1).
+
+0F 4A /r 
+CMOVPE r16, r/m16 
+RM Valid Valid 
+Move if parity even (PF=1).
+
+0F 4A /r 
+CMOVPE r32, r/m32 
+RM Valid Valid 
+Move if parity even (PF=1).
+
+REX.W + 0F 4A /r 
+CMOVPE r64, r/m64 
+RM Valid N.E. 
+Move if parity even (PF=1).
+
+0F 4B /r 
+CMOVPO r16, r/m16 
+RM Valid Valid 
+Move if parity odd (PF=0).
+
+0F 4B /r 
+CMOVPO r32, r/m32 
+RM Valid Valid 
+Move if parity odd (PF=0).
+
+REX.W + 0F 4B /r 
+CMOVPO r64, r/m64 
+RM Valid N.E. 
+Move if parity odd (PF=0).
+
+0F 48 /r 
+CMOVS r16, r/m16 
+RM Valid Valid 
+Move if sign (SF=1).
+
+0F 48 /r 
+CMOVS r32, r/m32 
+RM Valid Valid 
+Move if sign (SF=1).
+
+REX.W + 0F 48 /r 
+CMOVS r64, r/m64 
+RM Valid N.E. 
+Move if sign (SF=1).
+
+0F 44 /r 
+CMOVZ r16, r/m16 
+RM Valid Valid 
+Move if zero (ZF=1).
+
+0F 44 /r 
+CMOVZ r32, r/m32 
+RM Valid Valid 
+Move if zero (ZF=1).
+
+REX.W + 0F 44 /r 
+CMOVZ r64, r/m64 
+RM Valid N.E. 
+Move if zero (ZF=1).
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RM ModRM:reg (r, w) ModRM:r/m (r) NA NA
+
+Description
+The CMOVcc instructions check the state of one or more of the status flags in the EFLAGS register (CF, OF, PF, SF,
+and ZF) and perform a move operation if the flags are in a specified state (or condition). A condition code (cc) is
+associated with each instruction to indicate the condition being tested for. If the condition is not satisfied, a move
+is not performed and execution continues with the instruction following the CMOVcc instruction.
+These instructions can move 16-bit, 32-bit or 64-bit values from memory to a general-purpose register or from one
+general-purpose register to another. Conditional moves of 8-bit register operands are not supported.
+The condition for each CMOVcc mnemonic is given in the description column of the above table. The terms “less”
+and “greater” are used for comparisons of signed integers and the terms “above” and “below” are used for
+unsigned integers.
+Because a particular state of the status flags can sometimes be interpreted in two ways, two mnemonics are
+defined for some opcodes. For example, the CMOVA (conditional move if above) instruction and the CMOVNBE
+(conditional move if not below or equal) instruction are alternate mnemonics for the opcode 0F 47H.
+The CMOVcc instructions were introduced in P6 family processors; however, these instructions may not be
+supported by all IA-32 processors. Software can determine if the CMOVcc instructions are supported by checking
+the processor’s feature information with the CPUID instruction (see “CPUID—CPU Identification” in this chapter).
+In 64-bit mode, the instruction’s default operation size is 32 bits. Use of the REX.R prefix permits access to addi-
+tional registers (R8-R15). Use of the REX.W prefix promotes operation to 64 bits. See the summary chart at the
+beginning of this section for encoding data and limits.
+
+Operation
+temp ← SRC
+IF condition TRUE
+THEN
+DEST ← temp;
+FI;
+ELSE
+IF (OperandSize = 32 and IA-32e mode active)
+THEN
+DEST[63:32] ← 0;
+FI;
+CMOVcc—Conditional Move
+Vol. 2A 3-119INSTRUCTION SET REFERENCE, A-M
+FI;
+
+Flags Affected
+None.
+---------------------------------------------------------------------
+
