@@ -1,0 +1,168 @@
+DAA—Decimal Adjust AL after Addition
+
+Opcode Instruction Op/ 64-Bit Compat/ Description
+                   En  Mode   Leg Mode
+
+27 
+DAA 
+NP Invalid Valid
+Decimal adjust AL after addition.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+NP NA NA NA NA
+
+Description
+Adjusts the sum of two packed BCD values to create a packed BCD result. The AL register is the implied source and
+destination operand. The DAA instruction is only useful when it follows an ADD instruction that adds (binary addi-
+tion) two 2-digit, packed BCD values and stores a byte result in the AL register. The DAA instruction then adjusts
+the contents of the AL register to contain the correct 2-digit, packed BCD result. If a decimal carry is detected, the
+CF and AF flags are set accordingly.
+This instruction executes as described above in compatibility mode and legacy mode. It is not valid in 64-bit mode.
+
+Operation
+IF 64-Bit Mode
+THEN
+#UD;
+ELSE
+old_AL ← AL;
+old_CF ← CF;
+CF ← 0;
+IF (((AL AND 0FH) > 9) or AF = 1)
+THEN
+AL ← AL + 6;
+CF ← old_CF or (Carry from AL ← AL + 6);
+AF ← 1;
+ELSE
+AF ← 0;
+FI;
+IF ((old_AL > 99H) or (old_CF = 1))
+THEN
+AL ← AL + 60H;
+CF ← 1;
+ELSE
+CF ← 0;
+FI;
+FI;
+
+Flags Affected
+The CF and AF flags are set if the adjustment of the value results in a decimal carry in either digit of the result (see
+the “Operation” section above). The SF, ZF, and PF flags are set according to the result. The OF flag is undefined.
+---------------------------------------------------------------------
+
+DAS—Decimal Adjust AL after Subtraction
+
+Opcode Instruction Op/ 64-Bit Compat/ Description
+                   En  Mode   Leg Mode
+
+2F 
+DAS 
+NP Invalid Valid
+Decimal adjust AL after subtraction.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+NP NA NA NA NA
+
+Description
+Adjusts the result of the subtraction of two packed BCD values to create a packed BCD result. The AL register is the
+implied source and destination operand. The DAS instruction is only useful when it follows a SUB instruction that
+subtracts (binary subtraction) one 2-digit, packed BCD value from another and stores a byte result in the AL
+register. The DAS instruction then adjusts the contents of the AL register to contain the correct 2-digit, packed BCD
+result. If a decimal borrow is detected, the CF and AF flags are set accordingly.
+This instruction executes as described above in compatibility mode and legacy mode. It is not valid in 64-bit mode.
+
+Operation
+IF 64-Bit Mode
+THEN
+#UD;
+ELSE
+old_AL ← AL;
+old_CF ← CF;
+CF ← 0;
+IF (((AL AND 0FH) > 9) or AF = 1)
+THEN
+AL ← AL - 6;
+CF ← old_CF or (Borrow from AL ← AL − 6);
+AF ← 1;
+ELSE
+AF ← 0;
+FI;
+IF ((old_AL > 99H) or (old_CF = 1))
+THEN
+AL ← AL − 60H;
+CF ← 1;
+FI;
+FI;
+
+Flags Affected
+The CF and AF flags are set if the adjustment of the value results in a decimal borrow in either digit of the result
+(see the “Operation” section above). The SF, ZF, and PF flags are set according to the result. The OF flag is unde-
+fined.
+---------------------------------------------------------------------
+
+DEC—Decrement by 1
+
+Opcode Instruction Op/ 64-Bit Compat/ Description
+                   En   Mode  Leg Mode
+
+FE /1 
+DEC r/m8 
+M Valid Valid 
+Decrement r/m8 by 1.
+
+REX + FE /1 
+DEC r/m8 
+M Valid N.E. 
+Decrement r/m8 by 1.
+
+FF /1 
+DEC r/m16 
+M Valid Valid 
+Decrement r/m16 by 1.
+
+FF /1 
+DEC r/m32 
+M Valid Valid 
+Decrement r/m32 by 1.
+
+REX.W + FF /1 
+DEC r/m64 
+M Valid N.E. 
+Decrement r/m64 by 1.
+
+48+rw 
+DEC r16 
+O N.E. Valid 
+Decrement r16 by 1.
+
+48+rd 
+DEC r32 
+O N.E. Valid 
+Decrement r32 by 1.
+
+NOTES:
+* In 64-bit mode, r/m8 can not be encoded to access the following byte registers if a REX prefix is used: AH, BH, CH, DH.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+M ModRM:r/m (r, w) NA NA NA
+O opcode + rd (r, w) NA NA NA
+
+Description
+Subtracts 1 from the destination operand, while preserving the state of the CF flag. The destination operand can be
+a register or a memory location. This instruction allows a loop counter to be updated without disturbing the CF flag.
+(To perform a decrement operation that updates the CF flag, use a SUB instruction with an immediate operand of
+1.)
+This instruction can be used with a LOCK prefix to allow the instruction to be executed atomically.
+In 64-bit mode, DEC r16 and DEC r32 are not encodable (because opcodes 48H through 4FH are REX prefixes).
+Otherwise, the instruction’s 64-bit mode default operation size is 32 bits. Use of the REX.R prefix permits access to
+additional registers (R8-R15). Use of the REX.W prefix promotes operation to 64 bits.
+See the summary chart at the beginning of this section for encoding data and limits.
+
+Operation
+DEST ← DEST – 1;
+
+Flags Affected
+The CF flag is not affected. The OF, SF, ZF, AF, and PF flags are set according to the result.
+---------------------------------------------------------------------
