@@ -1,0 +1,544 @@
+BOUND—Check Array Index Against Bounds
+
+Opcode/Instruction Op/ 64-bit Compat/ Description
+                   En  Mode   Leg Mode
+
+62 /r 
+BOUND r16, m16&16 
+RM Invalid Valid 
+Check if r16 (array index) is within bounds
+ specified by m16&16.
+
+62 /r 
+BOUND r32, m32&32 
+RM Invalid Valid 
+Check if r32 (array index) is within bounds
+ specified by m16&16.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RM ModRM:reg (r) ModRM:r/m (r) NA NA
+
+Description
+BOUND determines if the first operand (array index) is within the bounds of an array specified the second operand
+(bounds operand). The array index is a signed integer located in a register. The bounds operand is a memory loca-
+tion that contains a pair of signed doubleword-integers (when the operand-size attribute is 32) or a pair of signed
+word-integers (when the operand-size attribute is 16). The first doubleword (or word) is the lower bound of the
+array and the second doubleword (or word) is the upper bound of the array. The array index must be greater than
+or equal to the lower bound and less than or equal to the upper bound plus the operand size in bytes. If the index
+is not within bounds, a BOUND range exceeded exception (#BR) is signaled. When this exception is generated, the
+saved return instruction pointer points to the BOUND instruction.
+The bounds limit data structure (two words or doublewords containing the lower and upper limits of the array) is
+usually placed just before the array itself, making the limits addressable via a constant offset from the beginning of
+the array. Because the address of the array already will be present in a register, this practice avoids extra bus cycles
+to obtain the effective address of the array bounds.
+This instruction executes as described in compatibility mode and legacy mode. It is not valid in 64-bit mode.
+
+Operation
+IF 64bit Mode
+THEN
+#UD;
+ELSE
+IF (ArrayIndex < LowerBound OR ArrayIndex > UpperBound)
+(* Below lower bound or above upper bound *)
+THEN #BR; FI;
+FI;
+
+Flags Affected
+None.
+---------------------------------------------------------------------
+
+BSF—Bit Scan Forward
+
+Opcode Instruction Op/ 64-bit Compat/ Description
+                   En  Mode   Leg Mode
+
+0F BC /r 
+BSF r16, r/m16 
+RM Valid Valid 
+Bit scan forward on r/m16.
+
+0F BC /r 
+BSF r32, r/m32 
+RM Valid Valid 
+Bit scan forward on r/m32.
+
+REX.W + 0F BC /r 
+BSF r64, r/m64 
+RM Valid N.E. 
+Bit scan forward on r/m64.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RM ModRM:reg (w) ModRM:r/m (r) NA NA
+
+Description
+Searches the source operand (second operand) for the least significant set bit (1 bit). If a least significant 1 bit is
+found, its bit index is stored in the destination operand (first operand). The source operand can be a register or a
+memory location; the destination operand is a register. The bit index is an unsigned offset from bit 0 of the source
+operand. If the content of the source operand is 0, the content of the destination operand is undefined.
+In 64-bit mode, the instruction’s default operation size is 32 bits. Using a REX prefix in the form of REX.R permits
+access to additional registers (R8-R15). Using a REX prefix in the form of REX.W promotes operation to 64 bits. See
+the summary chart at the beginning of this section for encoding data and limits.
+
+Operation
+IF SRC = 0
+THEN
+ZF ← 1;
+DEST is undefined;
+ELSE
+ZF ← 0;
+temp ← 0;
+WHILE Bit(SRC, temp) = 0
+DO
+temp ← temp + 1;
+OD;
+DEST ← temp;
+FI;
+
+Flags Affected
+The ZF flag is set to 1 if all the source operand is 0; otherwise, the ZF flag is cleared. The CF, OF, SF, AF, and PF, flags are undefined.
+---------------------------------------------------------------------
+
+BSR—Bit Scan Reverse
+
+Opcode Instruction Op/ 64-bit Compat/ Description
+                   En  Mode   Leg Mode
+0F BD /r 
+BSR r16, r/m16 
+RM Valid Valid 
+Bit scan reverse on r/m16.
+
+0F BD /r 
+BSR r32, r/m32 
+RM Valid Valid 
+Bit scan reverse on r/m32.
+
+REX.W + 0F BD /r 
+BSR r64, r/m64 
+RM Valid N.E. 
+Bit scan reverse on r/m64.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RM ModRM:reg (w) ModRM:r/m (r) NA NA
+
+Description
+Searches the source operand (second operand) for the most significant set bit (1 bit). If a most significant 1 bit is
+found, its bit index is stored in the destination operand (first operand). The source operand can be a register or a
+memory location; the destination operand is a register. The bit index is an unsigned offset from bit 0 of the source
+operand. If the content source operand is 0, the content of the destination operand is undefined.
+In 64-bit mode, the instruction’s default operation size is 32 bits. Using a REX prefix in the form of REX.R permits
+access to additional registers (R8-R15). Using a REX prefix in the form of REX.W promotes operation to 64 bits. See
+the summary chart at the beginning of this section for encoding data and limits.
+
+Operation
+IF SRC = 0
+THEN
+ZF ← 1;
+DEST is undefined;
+ELSE
+ZF ← 0;
+temp ← OperandSize – 1;
+WHILE Bit(SRC, temp) = 0
+DO
+temp ← temp - 1;
+OD;
+DEST ← temp;
+FI;
+
+Flags Affected
+The ZF flag is set to 1 if all the source operand is 0; otherwise, the ZF flag is cleared. The CF, OF, SF, AF, and PF, flags
+are undefined.
+---------------------------------------------------------------------
+BSWAP—Byte Swap
+
+Opcode Instruction Op/ 64-bit Compat/ Description
+                   En  Mode   Leg Mode
+
+0F C8+rd 
+BSWAP r32 
+O Valid Valid 
+Reverses the byte order of a 32-bit register.
+
+REX.W + 0F C8+rd 
+BSWAP r64 
+O Valid N.E. 
+Reverses the byte order of a 64-bit register.
+
+NOTES:
+* See IA-32 Architecture Compatibility section below.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+O opcode + rd (r, w) NA NA NA
+
+Description
+Reverses the byte order of a 32-bit or 64-bit (destination) register. This instruction is provided for converting little-
+endian values to big-endian format and vice versa. To swap bytes in a word value (16-bit register), use the XCHG
+instruction. When the BSWAP instruction references a 16-bit register, the result is undefined.
+In 64-bit mode, the instruction’s default operation size is 32 bits. Using a REX prefix in the form of REX.R permits
+access to additional registers (R8-R15). Using a REX prefix in the form of REX.W promotes operation to 64 bits. See
+the summary chart at the beginning of this section for encoding data and limits.
+IA-32 Architecture Legacy Compatibility
+The BSWAP instruction is not supported on IA-32 processors earlier than the Intel486TM processor family. For
+compatibility with this instruction, software should include functionally equivalent code for execution on Intel
+processors earlier than the Intel486 processor family.
+
+Operation
+TEMP ← DEST
+IF 64-bit mode AND OperandSize = 64
+THEN
+DEST[7:0] ← TEMP[63:56];
+DEST[15:8] ← TEMP[55:48];
+DEST[23:16] ← TEMP[47:40];
+DEST[31:24] ← TEMP[39:32];
+DEST[39:32] ← TEMP[31:24];
+DEST[47:40] ← TEMP[23:16];
+DEST[55:48] ← TEMP[15:8];
+DEST[63:56] ← TEMP[7:0];
+ELSE
+DEST[7:0] ← TEMP[31:24];
+DEST[15:8] ← TEMP[23:16];
+DEST[23:16] ← TEMP[15:8];
+DEST[31:24] ← TEMP[7:0];
+FI;
+
+Flags Affected
+None.
+---------------------------------------------------------------------
+
+BT—Bit Test
+Opcode Instruction Op/ 64-bit Compat/ Description
+                   En  Mode   Leg Mode
+
+0F A3 /r 
+BT r/m16, r16 
+MR Valid Valid 
+Store selected bit in CF flag.
+
+0F A3 /r 
+BT r/m32, r32 
+MR Valid Valid 
+Store selected bit in CF flag.
+
+REX.W + 0F A3 /r 
+BT r/m64, r64 
+MR Valid N.E. 
+Store selected bit in CF flag.
+
+0F BA /4 ib 
+BT r/m16, imm8 
+MI Valid Valid 
+Store selected bit in CF flag.
+
+0F BA /4 ib 
+BT r/m32, imm8 
+MI Valid Valid 
+Store selected bit in CF flag.
+
+REX.W + 0F BA /4 ib 
+BT r/m64, imm8 
+MI Valid N.E. 
+Store selected bit in CF flag.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+MR ModRM:r/m (r) ModRM:reg (r) NA NA
+MI ModRM:r/m (r) imm8 NA NA
+
+Description
+Selects the bit in a bit string (specified with the first operand, called the bit base) at the bit-position designated by
+the bit offset (specified by the second operand) and stores the value of the bit in the CF flag. The bit base operand
+can be a register or a memory location; the bit offset operand can be a register or an immediate value:
+• If the bit base operand specifies a register, the instruction takes the modulo 16, 32, or 64 of the bit offset
+   operand (modulo size depends on the mode and register size; 64-bit operands are available only in 64-bit
+  mode).
+• If the bit base operand specifies a memory location, the operand represents the address of the byte in memory
+   that contains the bit base (bit 0 of the specified byte) of the bit string. The range of the bit position that can be
+  referenced by the offset operand depends on the operand size.
+See also: Bit(BitBase, BitOffset) on page 3-10.
+Some assemblers support immediate bit offsets larger than 31 by using the immediate bit offset field in combina-
+tion with the displacement field of the memory operand. In this case, the low-order 3 or 5 bits (3 for 16-bit oper-
+ands, 5 for 32-bit operands) of the immediate bit offset are stored in the immediate bit offset field, and the high-
+order bits are shifted and combined with the byte displacement in the addressing mode by the assembler. The
+processor will ignore the high order bits if they are not zero.
+When accessing a bit in memory, the processor may access 4 bytes starting from the memory address for a 32-bit
+operand size, using by the following relationship:
+Effective Address + (4 ∗ (BitOffset DIV 32))
+Or, it may access 2 bytes starting from the memory address for a 16-bit operand, using this relationship:
+Effective Address + (2 ∗ (BitOffset DIV 16))
+It may do so even when only a single byte needs to be accessed to reach the given bit. When using this bit
+addressing mechanism, software should avoid referencing areas of memory close to address space holes. In partic-
+ular, it should avoid references to memory-mapped I/O registers. Instead, software should use the MOV instruc-
+tions to load from or store to these addresses, and use the register form of these instructions to manipulate the
+data.
+In 64-bit mode, the instruction’s default operation size is 32 bits. Using a REX prefix in the form of REX.R permits
+access to additional registers (R8-R15). Using a REX prefix in the form of REX.W promotes operation to 64 bit oper-
+ands. See the summary chart at the beginning of this section for encoding data and limits.
+
+Operation
+CF ← Bit(BitBase, BitOffset);
+
+Flags Affected
+The CF flag contains the value of the selected bit. The ZF flag is unaffected. The OF, SF, AF, and PF flags are
+undefined.
+---------------------------------------------------------------------
+
+BTC—Bit Test and Complement
+
+Opcode Instruction Op/ 64-bit Compat/ Description
+                   En  Mode   Leg Mode
+
+0F BB /r 
+BTC r/m16, r16 
+MR Valid Valid 
+Store selected bit in CF flag and complement.
+
+0F BB /r 
+BTC r/m32, r32 
+MR Valid Valid 
+Store selected bit in CF flag and complement.
+
+REX.W + 0F BB /r 
+BTC r/m64, r64 
+MR Valid N.E. 
+Store selected bit in CF flag and complement.
+
+0F BA /7 ib 
+BTC r/m16, imm8 
+MI Valid Valid 
+Store selected bit in CF flag and complement.
+
+0F BA /7 ib 
+BTC r/m32, imm8 
+MI Valid Valid 
+Store selected bit in CF flag and complement.
+
+REX.W + 0F BA /7 ib 
+BTC r/m64, imm8 
+MI Valid N.E. 
+Store selected bit in CF flag and complement.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+MR ModRM:r/m (r, w) ModRM:reg (r) NA NA
+MI ModRM:r/m (r, w) imm8 NA NA
+
+Description
+Selects the bit in a bit string (specified with the first operand, called the bit base) at the bit-position designated by
+the bit offset operand (second operand), stores the value of the bit in the CF flag, and complements the selected
+bit in the bit string. The bit base operand can be a register or a memory location; the bit offset operand can be a
+register or an immediate value:
+• If the bit base operand specifies a register, the instruction takes the modulo 16, 32, or 64 of the bit offset
+   operand (modulo size depends on the mode and register size; 64-bit operands are available only in 64-bit
+  mode). This allows any bit position to be selected.
+• If the bit base operand specifies a memory location, the operand represents the address of the byte in memory
+   that contains the bit base (bit 0 of the specified byte) of the bit string. The range of the bit position that can be
+  referenced by the offset operand depends on the operand size.
+See also: Bit(BitBase, BitOffset) on page 3-10.
+Some assemblers support immediate bit offsets larger than 31 by using the immediate bit offset field in combina-
+tion with the displacement field of the memory operand. See “BT—Bit Test” in this chapter for more information on
+this addressing mechanism.
+This instruction can be used with a LOCK prefix to allow the instruction to be executed atomically.
+In 64-bit mode, the instruction’s default operation size is 32 bits. Using a REX prefix in the form of REX.R permits
+access to additional registers (R8-R15). Using a REX prefix in the form of REX.W promotes operation to 64 bits. See
+the summary chart at the beginning of this section for encoding data and limits.
+
+Operation
+CF ← Bit(BitBase, BitOffset);
+Bit(BitBase, BitOffset) ← NOT Bit(BitBase, BitOffset);
+
+Flags Affected
+The CF flag contains the value of the selected bit before it is complemented. The ZF flag is unaffected. The OF, SF,
+AF, and PF flags are undefined.
+---------------------------------------------------------------------
+
+BTR—Bit Test and Reset
+
+Opcode Instruction Op/ 64-bit Compat/ Description
+                   En  Mode   Leg Mode
+
+0F B3 /r 
+BTR r/m16, r16 
+MR Valid Valid 
+Store selected bit in CF flag and clear.
+
+0F B3 /r 
+BTR r/m32, r32 
+MR Valid Valid 
+Store selected bit in CF flag and clear.
+
+REX.W + 0F B3 /r 
+BTR r/m64, r64 
+MR Valid N.E. 
+Store selected bit in CF flag and clear.
+
+0F BA /6 ib 
+BTR r/m16, imm8 
+MI Valid Valid 
+Store selected bit in CF flag and clear.
+
+0F BA /6 ib 
+BTR r/m32, imm8 
+MI Valid Valid 
+Store selected bit in CF flag and clear.
+
+REX.W + 0F BA /6 ib 
+BTR r/m64, imm8 
+MI Valid N.E. 
+Store selected bit in CF flag and clear.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+MR ModRM:r/m (r, w) ModRM:reg (r) NA NA
+MI ModRM:r/m (r, w) imm8 NA NA
+
+Description
+Selects the bit in a bit string (specified with the first operand, called the bit base) at the bit-position designated by
+the bit offset operand (second operand), stores the value of the bit in the CF flag, and clears the selected bit in the
+bit string to 0. The bit base operand can be a register or a memory location; the bit offset operand can be a register
+or an immediate value:
+• If the bit base operand specifies a register, the instruction takes the modulo 16, 32, or 64 of the bit offset
+   operand (modulo size depends on the mode and register size; 64-bit operands are available only in 64-bit
+  mode). This allows any bit position to be selected.
+• If the bit base operand specifies a memory location, the operand represents the address of the byte in memory
+   that contains the bit base (bit 0 of the specified byte) of the bit string. The range of the bit position that can be
+  referenced by the offset operand depends on the operand size.
+See also: Bit(BitBase, BitOffset) on page 3-10.
+Some assemblers support immediate bit offsets larger than 31 by using the immediate bit offset field in combina-
+tion with the displacement field of the memory operand. See “BT—Bit Test” in this chapter for more information on
+this addressing mechanism.
+This instruction can be used with a LOCK prefix to allow the instruction to be executed atomically.
+In 64-bit mode, the instruction’s default operation size is 32 bits. Using a REX prefix in the form of REX.R permits
+access to additional registers (R8-R15). Using a REX prefix in the form of REX.W promotes operation to 64 bits. See
+the summary chart at the beginning of this section for encoding data and limits.
+
+Operation
+CF ← Bit(BitBase, BitOffset);
+Bit(BitBase, BitOffset) ← 0;
+
+Flags Affected
+The CF flag contains the value of the selected bit before it is cleared. The ZF flag is unaffected. The OF, SF, AF, and
+PF flags are undefined.
+---------------------------------------------------------------------
+
+BTS—Bit Test and Set
+
+Opcode Instruction Op/ 64-bit Compat/ Description
+                   En  Mode   Leg Mode
+
+0F AB /r 
+BTS r/m16, r16 
+MR Valid Valid 
+Store selected bit in CF flag and set.
+
+0F AB /r 
+BTS r/m32, r32 
+MR Valid Valid 
+Store selected bit in CF flag and set.
+
+REX.W + 0F AB /r 
+BTS r/m64, r64 
+MR Valid N.E. 
+Store selected bit in CF flag and set.
+
+0F BA /5 ib 
+BTS r/m16, imm8 
+MI Valid Valid 
+Store selected bit in CF flag and set.
+
+0F BA /5 ib 
+BTS r/m32, imm8 
+MI Valid Valid 
+Store selected bit in CF flag and set.
+
+REX.W + 0F BA /5 ib 
+BTS r/m64, imm8 
+MI Valid N.E. 
+Store selected bit in CF flag and set.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+MR ModRM:r/m (r, w) ModRM:reg (r) NA NA
+MI ModRM:r/m (r, w) imm8 NA NA
+
+Description
+Selects the bit in a bit string (specified with the first operand, called the bit base) at the bit-position designated by
+the bit offset operand (second operand), stores the value of the bit in the CF flag, and sets the selected bit in the
+bit string to 1. The bit base operand can be a register or a memory location; the bit offset operand can be a register
+or an immediate value:
+• If the bit base operand specifies a register, the instruction takes the modulo 16, 32, or 64 of the bit offset
+   operand (modulo size depends on the mode and register size; 64-bit operands are available only in 64-bit
+  mode). This allows any bit position to be selected.
+• If the bit base operand specifies a memory location, the operand represents the address of the byte in memory
+   that contains the bit base (bit 0 of the specified byte) of the bit string. The range of the bit position that can be
+  referenced by the offset operand depends on the operand size.
+See also: Bit(BitBase, BitOffset) on page 3-10.
+Some assemblers support immediate bit offsets larger than 31 by using the immediate bit offset field in combina-
+tion with the displacement field of the memory operand. See “BT—Bit Test” in this chapter for more information on
+this addressing mechanism.
+This instruction can be used with a LOCK prefix to allow the instruction to be executed atomically.
+In 64-bit mode, the instruction’s default operation size is 32 bits. Using a REX prefix in the form of REX.R permits
+access to additional registers (R8-R15). Using a REX prefix in the form of REX.W promotes operation to 64 bits. See
+the summary chart at the beginning of this section for encoding data and limits.
+
+Operation
+CF ← Bit(BitBase, BitOffset);
+Bit(BitBase, BitOffset) ← 1;
+
+Flags Affected
+The CF flag contains the value of the selected bit before it is set. The ZF flag is unaffected. The OF, SF, AF, and PF
+flags are undefined.
+---------------------------------------------------------------------
+
+BZHI — Zero High Bits Starting with Specified Bit Position
+
+Opcode/     Op/ 64/32      CPUID         Description
+Instruction En  -bit Mode  Feature Flag
+
+
+VEX.NDS1.LZ.0F38.W0 F5 /r 
+BZHI r32a, r/m32, r32b 
+RMV V/V BMI2
+Zero bits in r/m32 starting with the position in r32b, write result to r32a.
+
+VEX.NDS1.LZ.0F38.W1 F5 /r 
+BZHI r64a, r/m64, r64b 
+RMV V/N.E. BMI2
+Zero bits in r/m64 starting with the position in r64b, write result to r64a.
+
+NOTES:
+1. ModRM:r/m is used to encode the first source operand (second operand) and VEX.vvvv encodes the second source operand (third oper-
+and).
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RMV ModRM:reg (w) ModRM:r/m (r) VEX.vvvv (r) NA
+
+Description
+BZHI copies the bits of the first source operand (the second operand) into the destination operand (the first
+operand) and clears the higher bits in the destination according to the INDEX value specified by the second source
+operand (the third operand). The INDEX is specified by bits 7:0 of the second source operand. The INDEX value is
+saturated at the value of OperandSize -1. CF is set, if the number contained in the 8 low bits of the third operand
+is greater than OperandSize -1.
+This instruction is not supported in real mode and virtual-8086 mode. The operand size is always 32 bits if not in
+64-bit mode. In 64-bit mode operand size 64 requires VEX.W1. VEX.W1 is ignored in non-64-bit modes. An
+attempt to execute this instruction with VEX.L not equal to 0 will cause #UD.
+
+Operation
+N ← SRC2[7:0]
+DEST ← SRC1
+IF (N < OperandSize)
+DEST[OperandSize-1:N] ← 0
+FI
+IF (N > OperandSize - 1)
+CF ← 1
+ELSE
+CF ← 0
+FI
+
+Flags Affected
+ZF, CF and SF flags are updated based on the result. OF flag is cleared. AF and PF flags are undefined.
+---------------------------------------------------------------------
+

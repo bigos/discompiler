@@ -1,0 +1,503 @@
+AND—Logical AND
+
+Opcode Instruction Op/ 64-bit Compat/ Description
+                   En  Mode   Leg Mode
+
+24 ib 
+AND AL, imm8 
+I Valid Valid 
+AL AND imm8.
+
+25 iw 
+AND AX, imm16 
+I Valid Valid 
+AX AND imm16.
+
+25 id 
+AND EAX, imm32 
+I Valid Valid 
+EAX AND imm32.
+
+REX.W + 25 id 
+AND RAX, imm32 
+I Valid N.E. 
+RAX AND imm32 sign-extended to 64-bits.
+
+80 /4 ib 
+AND r/m8, imm8 
+MI Valid Valid 
+r/m8 AND imm8.
+
+REX + 80 /4 ib 
+AND r/m8, imm8 
+MI Valid N.E. 
+r/m8 AND imm8.
+
+81 /4 iw 
+AND r/m16, imm16 
+MI Valid Valid 
+r/m16 AND imm16.
+
+81 /4 id 
+AND r/m32, imm32 
+MI Valid Valid 
+r/m32 AND imm32.
+
+REX.W + 81 /4 id 
+AND r/m64, imm32 
+MI Valid N.E. 
+r/m64 AND imm32 sign extended to 64-bits.
+
+83 /4 ib 
+AND r/m16, imm8 
+MI Valid Valid 
+r/m16 AND imm8 (sign-extended).
+
+83 /4 ib 
+AND r/m32, imm8 
+MI Valid Valid 
+r/m32 AND imm8 (sign-extended).
+
+REX.W + 83 /4 ib 
+AND r/m64, imm8 
+MI Valid N.E. 
+r/m64 AND imm8 (sign-extended).
+
+20 /r 
+AND r/m8, r8 
+MR Valid Valid 
+r/m8 AND r8.
+
+REX + 20 /r 
+AND r/m8, r8 
+MR Valid N.E. 
+r/m64 AND r8 (sign-extended).
+
+21 /r 
+AND r/m16, r16 
+MR Valid Valid 
+r/m16 AND r16.
+
+21 /r 
+AND r/m32, r32 
+MR Valid Valid 
+r/m32 AND r32.
+
+REX.W + 21 /r 
+AND r/m64, r64 
+MR Valid N.E. 
+r/m64 AND r32.
+
+22 /r 
+AND r8, r/m8 
+RM Valid Valid 
+r8 AND r/m8.
+
+REX + 22 /r 
+AND r8, r/m8 
+RM Valid N.E. 
+r/m64 AND r8 (sign-extended).
+
+23 /r 
+AND r16, r/m16 
+RM Valid Valid 
+r16 AND r/m16.
+
+23 /r 
+AND r32, r/m32 
+RM Valid Valid 
+r32 AND r/m32.
+
+REX.W + 23 /r 
+AND r64, r/m64 
+RM Valid N.E. 
+r64 AND r/m64.
+
+NOTES:
+*In 64-bit mode, r/m8 can not be encoded to access the following byte registers if a REX prefix is used: AH, BH, CH, DH.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RM ModRM:reg (r, w) ModRM:r/m (r) NA NA
+MR ModRM:r/m (r, w) ModRM:reg (r) NA NA
+MI ModRM:r/m (r, w) imm8 NA NA
+I AL/AX/EAX/RAX imm8 NA NA
+
+Description
+Performs a bitwise AND operation on the destination (first) and source (second) operands and stores the result in
+the destination operand location. The source operand can be an immediate, a register, or a memory location; the
+destination operand can be a register or a memory location. (However, two memory operands cannot be used in
+one instruction.) Each bit of the result is set to 1 if both corresponding bits of the first and second operands are 1;
+otherwise, it is set to 0.
+This instruction can be used with a LOCK prefix to allow the it to be executed atomically.
+In 64-bit mode, the instruction’s default operation size is 32 bits. Using a REX prefix in the form of REX.R permits
+access to additional registers (R8-R15). Using a REX prefix in the form of REX.W promotes operation to 64 bits. See
+the summary chart at the beginning of this section for encoding data and limits.
+
+Operation
+DEST ← DEST AND SRC;
+
+Flags Affected
+The OF and CF flags are cleared; the SF, ZF, and PF flags are set according to the result. The state of the AF flag is
+undefined.
+---------------------------------------------------------------------
+
+ANDN — Logical AND NOT
+Opcode/     Op/ 64/32  CPUID Description
+Instruction En  -bit
+                Mode   
+                       Feature 
+                       Flag
+
+VEX.NDS.LZ.0F38.W0 F2 /r 
+ANDN r32a, r32b, r/m32 
+RVM V/V BMI1
+Bitwise AND of inverted r32b with r/m32, store result in r32a.
+
+VEX.NDS.LZ. 0F38.W1 F2 /r 
+ANDN r64a, r64b, r/m64 
+RVM V/NE BMI1 
+Bitwise AND of inverted r64b with r/m64, store result in r64a.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RVM ModRM:reg (w) VEX.vvvv (r) ModRM:r/m (r) NA
+
+Description
+Performs a bitwise logical AND of inverted second operand (the first source operand) with the third operand (the
+second source operand). The result is stored in the first operand (destination operand).
+This instruction is not supported in real mode and virtual-8086 mode. The operand size is always 32 bits if not in
+64-bit mode. In 64-bit mode operand size 64 requires VEX.W1. VEX.W1 is ignored in non-64-bit modes. An
+attempt to execute this instruction with VEX.L not equal to 0 will cause #UD.
+
+Operation
+DEST ← (NOT SRC1) bitwiseAND SRC2;
+SF ← DEST[OperandSize -1];
+ZF ← (DEST = 0);
+
+Flags Affected
+SF and ZF are updated based on result. OF and CF flags are cleared. AF and PF flags are undefined.
+---------------------------------------------------------------------
+
+ANDPD—Bitwise Logical AND of Packed Double-Precision Floating-Point Values
+
+Opcode/     Op/ 64/32-bit CPUID Description
+Instruction En  Mode 
+                          Feature 
+                          Flag 
+
+66 0F 54 /r 
+ANDPD xmm1, xmm2/m128
+RM V/V SSE2 
+Return the bitwise logical AND of packed
+ double-precision floating-point values in
+ xmm1 and xmm2/m128.
+
+VEX.NDS.128.66.0F.WIG 54 /r
+VANDPD xmm1, xmm2, xmm3/m128
+RVM V/V AVX 
+Return the bitwise logical AND of packed
+ double-precision floating-point values in
+ xmm2 and xmm3/mem.
+
+VEX.NDS.256.66.0F.WIG 54 /r
+VANDPD ymm1, ymm2, ymm3/m256
+RVM V/V AVX 
+Return the bitwise logical AND of packed
+ double-precision floating-point values in
+ ymm2 and ymm3/mem.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RM ModRM:reg (r, w) ModRM:r/m (r) NA NA
+RVM ModRM:reg (w) VEX.vvvv (r) ModRM:r/m (r) NA
+
+Description
+Performs a bitwise logical AND of the two packed double-precision floating-point values from the source operand
+(second operand) and the destination operand (first operand), and stores the result in the destination operand.
+In 64-bit mode, using a REX prefix in the form of REX.R permits this instruction to access additional registers
+(XMM8-XMM15).
+128-bit Legacy SSE version: The second source can be an XMM register or an 128-bit memory location. The desti-
+nation is not distinct from the first source XMM register and the upper bits (VLMAX-1:128) of the corresponding
+YMM register destination are unmodified.
+VEX.128 encoded version: the first source operand is an XMM register or 128-bit memory location. The destination
+operand is an XMM register. The upper bits (VLMAX-1:128) of the corresponding YMM register destination are
+zeroed.
+VEX.256 encoded version: The first source operand is a YMM register. The second source operand can be a YMM
+register or a 256-bit memory location. The destination operand is a YMM register.
+
+Operation
+ANDPD (128-bit Legacy SSE version)
+DEST[63:0]  DEST[63:0] BITWISE AND SRC[63:0]
+DEST[127:64]  DEST[127:64] BITWISE AND SRC[127:64]
+DEST[VLMAX-1:128] (Unmodified)
+VANDPD (VEX.128 encoded version)
+DEST[63:0]  SRC1[63:0] BITWISE AND SRC2[63:0]
+DEST[127:64]  SRC1[127:64] BITWISE AND SRC2[127:64]
+DEST[VLMAX-1:128]  0
+VANDPD (VEX.256 encoded version)
+DEST[63:0]  SRC1[63:0] BITWISE AND SRC2[63:0]
+DEST[127:64]  SRC1[127:64] BITWISE AND SRC2[127:64]
+DEST[191:128]  SRC1[191:128] BITWISE AND SRC2[191:128]
+DEST[255:192]  SRC1[255:192] BITWISE AND SRC2[255:192]
+---------------------------------------------------------------------
+
+ANDPS—Bitwise Logical AND of Packed Single-Precision Floating-Point Values
+
+Opcode/     Op/ 64/32-bit CPUID Description
+Instruction En  Mode 
+                          Feature 
+                          Flag 
+
+0F 54 /r 
+ANDPS xmm1, xmm2/m128
+RM V/V SSE 
+Bitwise logical AND of xmm2/m128 and
+ xmm1.
+
+VEX.NDS.128.0F.WIG 54 /r
+VANDPS xmm1,xmm2, xmm3/m128
+RVM V/V AVX 
+Return the bitwise logical AND of packed
+ single-precision floating-point values in xmm2
+ and xmm3/mem.
+
+VEX.NDS.256.0F.WIG 54 /r
+VANDPS ymm1, ymm2, ymm3/m256
+RVM V/V AVX 
+Return the bitwise logical AND of packed
+ single-precision floating-point values in ymm2
+ and ymm3/mem.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RM ModRM:reg (r, w) ModRM:r/m (r) NA NA
+RVM ModRM:reg (w) VEX.vvvv (r) ModRM:r/m (r) NA
+
+Description
+Performs a bitwise logical AND of the four or eight packed single-precision floating-point values from the first
+source operand and the second source operand, and stores the result in the destination operand.
+In 64-bit mode, using a REX prefix in the form of REX.R permits this instruction to access additional registers
+(XMM8-XMM15).
+128-bit Legacy SSE version: The second source can be an XMM register or an 128-bit memory location. The desti-
+nation is not distinct from the first source XMM register and the upper bits (VLMAX-1:128) of the corresponding
+YMM register destination are unmodified.
+VEX.128 encoded version: the first source operand is an XMM register or 128-bit memory location. The destination
+operand is an XMM register. The upper bits (VLMAX-1:128) of the corresponding YMM register destination are
+zeroed.
+VEX.256 encoded version: The first source operand is a YMM register. The second source operand can be a YMM
+register or a 256-bit memory location. The destination operand is a YMM register.
+
+Operation
+ANDPS (128-bit Legacy SSE version)
+DEST[31:0]  DEST[31:0] BITWISE AND SRC[31:0]
+DEST[63:32]  DEST[63:32] BITWISE AND SRC[63:32]
+DEST[95:64]  DEST[95:64] BITWISE AND SRC[95:64]
+DEST[127:96]  DEST[127:96] BITWISE AND SRC[127:96]
+DEST[VLMAX-1:128] (Unmodified)
+VANDPS (VEX.128 encoded version)
+DEST[31:0]  SRC1[31:0] BITWISE AND SRC2[31:0]
+DEST[63:32]  SRC1[63:32] BITWISE AND SRC2[63:32]
+DEST[95:64]  SRC1[95:64] BITWISE AND SRC2[95:64]
+DEST[127:96]  SRC1[127:96] BITWISE AND SRC2[127:96]
+DEST[VLMAX-1:128]  0
+VANDPS (VEX.256 encoded version)
+DEST[31:0]  SRC1[31:0] BITWISE AND SRC2[31:0]
+DEST[63:32]  SRC1[63:32] BITWISE AND SRC2[63:32]
+DEST[95:64]  SRC1[95:64] BITWISE AND SRC2[95:64]
+DEST[127:96]  SRC1[127:96] BITWISE AND SRC2[127:96]
+DEST[159:128]  SRC1[159:128] BITWISE AND SRC2[159:128]
+DEST[191:160] SRC1[191:160] BITWISE AND SRC2[191:160]
+DEST[223:192]  SRC1[223:192] BITWISE AND SRC2[223:192]
+DEST[255:224]  SRC1[255:224] BITWISE AND SRC2[255:224].
+Intel C/C++ Compiler Intrinsic Equivalent
+---------------------------------------------------------------------
+
+ANDNPD—Bitwise Logical AND NOT of Packed Double-Precision Floating-Point Values
+
+Opcode/     Op/ 64/32-bit CPUID Description
+Instruction En  Mode 
+                          Feature 
+                          Flag 
+
+66 0F 55 /r 
+ANDNPD xmm1, xmm2/m128
+RM V/V SSE2 
+Bitwise logical AND NOT of xmm2/m128 and
+ xmm1.
+
+VEX.NDS.128.66.0F.WIG 55 /r
+VANDNPD xmm1, xmm2, xmm3/m128
+RVM V/V AVX 
+Return the bitwise logical AND NOT of packed
+ double-precision floating-point values in
+ xmm2 and xmm3/mem.
+
+VEX.NDS.256.66.0F.WIG 55/r
+VANDNPD ymm1, ymm2, ymm3/m256
+RVM V/V AVX 
+Return the bitwise logical AND NOT of packed
+ double-precision floating-point values in
+ ymm2 and ymm3/mem.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RM ModRM:reg (r, w) ModRM:r/m (r) NA NA
+RVM ModRM:reg (w) VEX.vvvv (r) ModRM:r/m (r) NA
+
+Description
+Performs a bitwise logical AND NOT of the two or four packed double-precision floating-point values from the first
+source operand and the second source operand, and stores the result in the destination operand.
+In 64-bit mode, using a REX prefix in the form of REX.R permits this instruction to access additional registers
+(XMM8-XMM15).
+128-bit Legacy SSE version: The second source can be an XMM register or an 128-bit memory location. The desti-
+nation is not distinct from the first source XMM register and the upper bits (VLMAX-1:128) of the corresponding
+YMM register destination are unmodified.
+VEX.128 encoded version: the first source operand is an XMM register or 128-bit memory location. The destination
+operand is an XMM register. The upper bits (VLMAX-1:128) of the corresponding YMM register destination are
+zeroed.
+VEX.256 encoded version: The first source operand is a YMM register. The second source operand can be a YMM
+register or a 256-bit memory location. The destination operand is a YMM register.
+
+Operation
+ANDNPD (128-bit Legacy SSE version)
+DEST[63:0]  (NOT(DEST[63:0])) BITWISE AND SRC[63:0]
+DEST[127:64]  (NOT(DEST[127:64])) BITWISE AND SRC[127:64]
+DEST[VLMAX-1:128] (Unmodified)
+VANDNPD (VEX.128 encoded version)
+DEST[63:0]  (NOT(SRC1[63:0])) BITWISE AND SRC2[63:0]
+DEST[127:64]  (NOT(SRC1[127:64])) BITWISE AND SRC2[127:64]
+DEST[VLMAX-1:128]  0
+VANDNPD (VEX.256 encoded version)
+DEST[63:0]  (NOT(SRC1[63:0])) BITWISE AND SRC2[63:0]
+DEST[127:64]  (NOT(SRC1[127:64])) BITWISE AND SRC2[127:64]
+DEST[191:128]  (NOT(SRC1[191:128])) BITWISE AND SRC2[191:128]
+DEST[255:192]  (NOT(SRC1[255:192])) BITWISE AND SRC2[255:192]
+---------------------------------------------------------------------
+
+ANDNPS—Bitwise Logical AND NOT of Packed Single-Precision Floating-Point Values
+
+Opcode/     Op/ 64/32-bit CPUID Description
+Instruction En  Mode 
+                          Feature 
+                          Flag 
+
+0F 55 /r 
+ANDNPS xmm1, xmm2/m128
+RM V/V SSE 
+Bitwise logical AND NOT of xmm2/m128 and
+ xmm1.
+
+VEX.NDS.128.0F.WIG 55 /r
+VANDNPS xmm1, xmm2, xmm3/m128
+RVM V/V AVX 
+Return the bitwise logical AND NOT of packed
+ single-precision floating-point values in xmm2
+ and xmm3/mem.
+
+VEX.NDS.256.0F.WIG 55 /r
+VANDNPS ymm1, ymm2, ymm3/m256
+RVM V/V AVX 
+Return the bitwise logical AND NOT of packed
+ single-precision floating-point values in ymm2
+ and ymm3/mem.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RM ModRM:reg (r, w) ModRM:r/m (r) NA NA
+RVM ModRM:reg (w) VEX.vvvv (r) ModRM:r/m (r) NA
+
+Description
+Inverts the bits of the four packed single-precision floating-point values in the destination operand (first operand),
+performs a bitwise logical AND of the four packed single-precision floating-point values in the source operand
+(second operand) and the temporary inverted result, and stores the result in the destination operand.
+In 64-bit mode, using a REX prefix in the form of REX.R permits this instruction to access additional registers
+(XMM8-XMM15).
+128-bit Legacy SSE version: The second source can be an XMM register or an 128-bit memory location. The desti-
+nation is not distinct from the first source XMM register and the upper bits (VLMAX-1:128) of the corresponding
+YMM register destination are unmodified.
+VEX.128 encoded version: the first source operand is an XMM register or 128-bit memory location. The destination
+operand is an XMM register. The upper bits (VLMAX-1:128) of the corresponding YMM register destination are
+zeroed.
+VEX.256 encoded version: The first source operand is a YMM register. The second source operand can be a YMM
+register or a 256-bit memory location. The destination operand is a YMM register.
+
+Operation
+ANDNPS (128-bit Legacy SSE version)
+DEST[31:0]  (NOT(DEST[31:0])) BITWISE AND SRC[31:0]
+DEST[63:32]  (NOT(DEST[63:32])) BITWISE AND SRC[63:32]
+DEST[95:64]  (NOT(DEST[95:64])) BITWISE AND SRC[95:64]
+DEST[127:96]  (NOT(DEST[127:96])) BITWISE AND SRC[127:96]
+DEST[VLMAX-1:128] (Unmodified)
+VANDNPS (VEX.128 encoded version)
+DEST[31:0]  (NOT(SRC1[31:0])) BITWISE AND SRC2[31:0]
+DEST[63:32]  (NOT(SRC1[63:32])) BITWISE AND SRC2[63:32]
+DEST[95:64]  (NOT(SRC1[95:64])) BITWISE AND SRC2[95:64]
+DEST[127:96]  (NOT(SRC1[127:96])) BITWISE AND SRC2[127:96]
+DEST[VLMAX-1:128]  0
+VANDNPS (VEX.256 encoded version)
+DEST[31:0]  (NOT(SRC1[31:0])) BITWISE AND SRC2[31:0]
+DEST[63:32]  (NOT(SRC1[63:32])) BITWISE AND SRC2[63:32]
+DEST[95:64]  (NOT(SRC1[95:64])) BITWISE AND SRC2[95:64]
+DEST[127:96]  (NOT(SRC1[127:96])) BITWISE AND SRC2[127:96]
+DEST[159:128]  (NOT(SRC1[159:128])) BITWISE AND SRC2[159:128]
+DEST[191:160] (NOT(SRC1[191:160])) BITWISE AND SRC2[191:160]
+DEST[223:192]  (NOT(SRC1[223:192])) BITWISE AND SRC2[223:192]
+DEST[255:224]  (NOT(SRC1[255:224])) BITWISE AND SRC2[255:224].
+---------------------------------------------------------------------
+
+ARPL—Adjust RPL Field of Segment Selector
+
+Opcode Instruction Op/ 64-bit Compat/ Description
+                   En  Mode   Leg Mode
+
+63 /r 
+ARPL r/m16, r16 
+NP N. E. Valid
+
+Adjust RPL of r/m16 to not less than RPL of
+r16.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+NP ModRM:r/m (w) ModRM:reg (r) NA NA
+
+Description
+Compares the RPL fields of two segment selectors. The first operand (the destination operand) contains one
+segment selector and the second operand (source operand) contains the other. (The RPL field is located in bits 0
+and 1 of each operand.) If the RPL field of the destination operand is less than the RPL field of the source operand,
+the ZF flag is set and the RPL field of the destination operand is increased to match that of the source operand.
+Otherwise, the ZF flag is cleared and no change is made to the destination operand. (The destination operand can
+be a word register or a memory location; the source operand must be a word register.)
+The ARPL instruction is provided for use by operating-system procedures (however, it can also be used by applica-
+tions). It is generally used to adjust the RPL of a segment selector that has been passed to the operating system
+by an application program to match the privilege level of the application program. Here the segment selector
+passed to the operating system is placed in the destination operand and segment selector for the application
+program’s code segment is placed in the source operand. (The RPL field in the source operand represents the priv-
+ilege level of the application program.) Execution of the ARPL instruction then ensures that the RPL of the segment
+selector received by the operating system is no lower (does not have a higher privilege) than the privilege level of
+the application program (the segment selector for the application program’s code segment can be read from the
+stack following a procedure call).
+This instruction executes as described in compatibility mode and legacy mode. It is not encodable in 64-bit mode.
+See “Checking Caller Access Privileges” in Chapter 3, “Protected-Mode Memory Management,” of the Intel® 64 and
+IA-32 Architectures Software Developer’s Manual, Volume 3A, for more information about the use of this instruc-
+tion.
+
+Operation
+IF 64-BIT MODE
+THEN
+See MOVSXD;
+ELSE
+IF DEST[RPL) < SRC[RPL)
+THEN
+ZF ← 1;
+DEST[RPL) ← SRC[RPL);
+ELSE
+ZF ← 0;
+FI;
+FI;
+
+Flags Affected
+The ZF flag is set to 1 if the RPL field of the destination operand is less than that of the source operand; otherwise,
+it is set to 0.
+---------------------------------------------------------------------
