@@ -1,0 +1,899 @@
+CMP—Compare Two Operands
+
+Opcode Instruction Op/ 64-Bit Compat/ Description
+                   En  Mode   Leg Mode
+
+3C ib 
+CMP AL, imm8 
+I Valid Valid 
+Compare imm8 with AL.
+
+3D iw 
+CMP AX, imm16 
+I Valid Valid 
+Compare imm16 with AX.
+
+3D id 
+CMP EAX, imm32 
+I Valid Valid 
+Compare imm32 with EAX.
+
+REX.W + 3D id 
+CMP RAX, imm32 
+I Valid N.E. 
+Compare imm32 sign-extended to 64-bits
+ with RAX.
+
+80 /7 ib 
+CMP r/m8, imm8 
+MI Valid Valid 
+Compare imm8 with r/m8.
+
+REX + 80 /7 ib 
+CMP r/m8*, imm8 
+MI Valid N.E. 
+Compare imm8 with r/m8.
+
+81 /7 iw 
+CMP r/m16, imm16 
+MI Valid Valid 
+Compare imm16 with r/m16.
+
+81 /7 id 
+CMP r/m32, imm32 
+MI Valid Valid 
+Compare imm32 with r/m32.
+
+REX.W + 81 /7 id 
+CMP r/m64, imm32 
+MI Valid N.E. 
+Compare imm32 sign-extended to 64-bits
+ with r/m64.
+
+83 /7 ib 
+CMP r/m16, imm8 
+MI Valid Valid 
+Compare imm8 with r/m16.
+
+83 /7 ib 
+CMP r/m32, imm8 
+MI Valid Valid 
+Compare imm8 with r/m32.
+
+REX.W + 83 /7 ib 
+CMP r/m64, imm8 
+MI Valid N.E. 
+Compare imm8 with r/m64.
+
+38 /r 
+CMP r/m8, r8 
+MR Valid Valid 
+Compare r8 with r/m8.
+
+REX + 38 /r 
+CMP r/m8 , r8 
+MR Valid N.E. 
+Compare r8 with r/m8.
+
+39 /r 
+CMP r/m16, r16 
+MR Valid Valid 
+Compare r16 with r/m16.
+
+39 /r 
+CMP r/m32, r32 
+MR Valid Valid 
+Compare r32 with r/m32.
+
+REX.W + 39 /r 
+CMP r/m64,r64 
+MR Valid N.E. 
+Compare r64 with r/m64.
+
+3A /r 
+CMP r8, r/m8 
+RM Valid Valid 
+Compare r/m8 with r8.
+
+REX + 3A /r 
+CMP r8 , r/m8 
+RM Valid N.E. 
+Compare r/m8 with r8.
+
+3B /r 
+CMP r16, r/m16 
+RM Valid Valid 
+Compare r/m16 with r16.
+
+3B /r 
+CMP r32, r/m32 
+RM Valid Valid 
+Compare r/m32 with r32.
+
+REX.W + 3B /r 
+CMP r64, r/m64 
+RM Valid N.E. 
+Compare r/m64 with r64.
+
+NOTES:
+* In 64-bit mode, r/m8 can not be encoded to access the following byte registers if a REX prefix is used: AH, BH, CH, DH.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RM ModRM:reg (r, w) ModRM:r/m (r) NA NA
+MR ModRM:r/m (r, w) ModRM:reg (w) NA NA
+MI ModRM:r/m (r, w) imm8 NA NA
+I AL/AX/EAX/RAX imm8 NA NA
+
+Description
+Compares the first source operand with the second source operand and sets the status flags in the EFLAGS register
+according to the results. The comparison is performed by subtracting the second operand from the first operand
+and then setting the status flags in the same manner as the SUB instruction. When an immediate value is used as
+an operand, it is sign-extended to the length of the first operand.
+The condition codes used by the Jcc, CMOVcc, and SETcc instructions are based on the results of a CMP instruction.
+Appendix B, “EFLAGS Condition Codes,” in the Intel® 64 and IA-32 Architectures Software Developer’s Manual,
+Volume 1, shows the relationship of the status flags and the condition codes.
+In 64-bit mode, the instruction’s default operation size is 32 bits. Use of the REX.R prefix permits access to addi-
+tional registers (R8-R15). Use of the REX.W prefix promotes operation to 64 bits. See the summary chart at the
+beginning of this section for encoding data and limits.
+
+Operation
+temp ← SRC1 − SignExtend(SRC2);
+ModifyStatusFlags; (* Modify status flags in the same manner as the SUB instruction*)
+
+Flags Affected
+The CF, OF, SF, ZF, AF, and PF flags are set according to the result.
+---------------------------------------------------------------------
+
+CMPPD—Compare Packed Double-Precision Floating-Point Values
+
+Opcode/     Op/ 64/32-   CPUID Description
+Instruction En  bit Mode Feature 
+                         Flag 
+
+66 0F C2 /r ib 
+CMPPD xmm1, xmm2/m128, imm8
+RMI V/V SSE2 
+Compare packed double-precision floating-
+ point values in xmm2/m128 and xmm1 using
+ imm8 as comparison predicate.
+
+VEX.NDS.128.66.0F.WIG C2 /r ib
+VCMPPD xmm1, xmm2, xmm3/m128, imm8
+RVMI V/V AVX 
+Compare packed double-precision floating-
+ point values in xmm3/m128 and xmm2 using
+ bits 4:0 of imm8 as a comparison predicate.
+
+VEX.NDS.256.66.0F.WIG C2 /r ib
+VCMPPD ymm1, ymm2, ymm3/m256, imm8
+RVMI V/V AVX 
+Compare packed double-precision floating-
+ point values in ymm3/m256 and ymm2 using
+ bits 4:0 of imm8 as a comparison predicate.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RMI ModRM:reg (r, w) ModRM:r/m (r) imm8 NA
+RVMI ModRM:reg (w) VEX.vvvv (r) ModRM:r/m (r) imm8
+
+Description
+Performs a SIMD compare of the packed double-precision floating-point values in the source operand (second
+operand) and the destination operand (first operand) and returns the results of the comparison to the destination
+operand. The comparison predicate operand (third operand) specifies the type of comparison performed on each of
+the pairs of packed values. The result of each comparison is a quadword mask of all 1s (comparison true) or all 0s
+(comparison false). The sign of zero is ignored for comparisons, so that –0.0 is equal to +0.0.
+skipped lots of text and tables
+
+Operation
+CASE (COMPARISON PREDICATE) OF
+0: OP3  EQ_OQ; OP5  EQ_OQ;
+1: OP3  LT_OS; OP5  LT_OS;
+2: OP3  LE_OS; OP5  LE_OS;
+3: OP3  UNORD_Q; OP5  UNORD_Q;
+4: OP3  NEQ_UQ; OP5  NEQ_UQ;
+5: OP3  NLT_US; OP5  NLT_US;
+6: OP3  NLE_US; OP5  NLE_US;
+7: OP3  ORD_Q; OP5  ORD_Q;
+8: OP5  EQ_UQ;
+9: OP5  NGE_US;
+10: OP5  NGT_US;
+11: OP5  FALSE_OQ;
+12: OP5  NEQ_OQ;
+13: OP5  GE_OS;
+14: OP5  GT_OS;
+15: OP5  TRUE_UQ;
+16: OP5  EQ_OS;
+17: OP5  LT_OQ;
+18: OP5  LE_OQ;
+19: OP5  UNORD_S;
+20: OP5  NEQ_US;
+21: OP5  NLT_UQ;
+22: OP5  NLE_UQ;
+23: OP5  ORD_S;
+24: OP5  EQ_US;
+25: OP5  NGE_UQ;
+26: OP5  NGT_UQ;
+27: OP5  FALSE_OS;
+28: OP5  NEQ_OS;
+29: OP5  GE_OQ;
+30: OP5  GT_OQ;
+31: OP5  TRUE_US;
+DEFAULT: Reserved;
+CMPPD (128-bit Legacy SSE version)
+CMP0  SRC1[63:0] OP3 SRC2[63:0];
+CMP1  SRC1[127:64] OP3 SRC2[127:64];
+IF CMP0 = TRUE
+THEN DEST[63:0]  FFFFFFFFFFFFFFFFH;
+ELSE DEST[63:0]  0000000000000000H; FI;
+IF CMP1 = TRUE
+THEN DEST[127:64]  FFFFFFFFFFFFFFFFH;
+ELSE DEST[127:64]  0000000000000000H; FI;
+DEST[VLMAX-1:128] (Unmodified)
+VCMPPD (VEX.128 encoded version)
+CMP0  SRC1[63:0] OP5 SRC2[63:0];
+CMP1  SRC1[127:64] OP5 SRC2[127:64];
+IF CMP0 = TRUE
+THEN DEST[63:0]  FFFFFFFFFFFFFFFFH;
+ELSE DEST[63:0]  0000000000000000H; FI;
+IF CMP1 = TRUE
+THEN DEST[127:64]  FFFFFFFFFFFFFFFFH;
+ELSE DEST[127:64]  0000000000000000H; FI;
+DEST[VLMAX-1:128]  0
+VCMPPD (VEX.256 encoded version)
+CMP0  SRC1[63:0] OP5 SRC2[63:0];
+CMP1  SRC1[127:64] OP5 SRC2[127:64];
+CMP2  SRC1[191:128] OP5 SRC2[191:128];
+CMP3  SRC1[255:192] OP5 SRC2[255:192];
+IF CMP0 = TRUE
+THEN DEST[63:0]  FFFFFFFFFFFFFFFFH;
+ELSE DEST[63:0]  0000000000000000H; FI;
+IF CMP1 = TRUE
+THEN DEST[127:64]  FFFFFFFFFFFFFFFFH;
+ELSE DEST[127:64]  0000000000000000H; FI;
+IF CMP2 = TRUE
+THEN DEST[191:128]  FFFFFFFFFFFFFFFFH;
+ELSE DEST[191:128]  0000000000000000H; FI;
+IF CMP3 = TRUE
+THEN DEST[255:192]  FFFFFFFFFFFFFFFFH;
+ELSE DEST[255:192]  0000000000000000H; FI;
+---------------------------------------------------------------------
+
+CMPPS—Compare Packed Single-Precision Floating-Point Values
+Opcode/     Op/ 64/32-   CPUID Description
+Instruction En  bit Mode Feature 
+                         Flag 
+
+0F C2 /r ib 
+CMPPS xmm1, xmm2/m128, imm8
+RMI V/V SSE 
+Compare packed single-precision floating-
+ point values in xmm2/mem and xmm1 using
+ imm8 as comparison predicate.
+
+VEX.NDS.128.0F.WIG C2 /r ib
+VCMPPS xmm1, xmm2, xmm3/m128, imm8
+RVMI V/V AVX 
+Compare packed single-precision floating-
+ point values in xmm3/m128 and xmm2 using
+ bits 4:0 of imm8 as a comparison predicate.
+
+VEX.NDS.256.0F.WIG C2 /r ib
+VCMPPS ymm1, ymm2, ymm3/m256, imm8
+RVMI V/V AVX 
+Compare packed single-precision floating-
+ point values in ymm3/m256 and ymm2 using
+ bits 4:0 of imm8 as a comparison predicate.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RMI ModRM:reg (r, w) ModRM:r/m (r) imm8 NA
+RVMI ModRM:reg (w) VEX.vvvv (r) ModRM:r/m (r) imm8
+
+Description
+Performs a SIMD compare of the packed single-precision floating-point values in the source operand (second
+operand) and the destination operand (first operand) and returns the results of the comparison to the destination
+operand. The comparison predicate operand (third operand) specifies the type of comparison performed on each of
+the pairs of packed values. The result of each comparison is a doubleword mask of all 1s (comparison true) or all
+0s (comparison false). The sign of zero is ignored for comparisons, so that –0.0 is equal to +0.0.
+128-bit Legacy SSE version: The first source and destination operand (first operand) is an XMM register. The
+second source operand (second operand) can be an XMM register or 128-bit memory location. The comparison
+predicate operand is an 8-bit immediate, bits 2:0 of the immediate define the type of comparison to be performed
+(see Table 3-7). Bits 7:3 of the immediate is reserved. Bits (VLMAX-1:128) of the corresponding YMM destination
+register remain unchanged. Four comparisons are performed with results written to bits 127:0 of the destination
+operand.
+The unordered relationship is true when at least one of the two source operands being compared is a NaN; the
+ordered relationship is true when neither source operand is a NaN.
+A subsequent computational instruction that uses the mask result in the destination operand as an input operand
+will not generate a fault, because a mask of all 0s corresponds to a floating-point value of +0.0 and a mask of all 1s
+corresponds to a QNaN.
+Note that processors with “CPUID.1H:ECX.AVX =0” do not implement the “greater-than”, “greater-than-or-equal”,
+“not-greater than”, and “not-greater-than-or-equal relations” predicates. These comparisons can be made either
+by using the inverse relationship (that is, use the “not-less-than-or-equal” to make a “greater-than” comparison)
+or by using software emulation. When using software emulation, the program must swap the operands (copying
+registers when necessary to protect the data that will now be in the destination), and then perform the compare
+using a different predicate. The predicate to be used for these emulations is listed in Table 3-7 under the heading Emulation
+skipped table and some text
+
+Operation
+CASE (COMPARISON PREDICATE) OF
+0: OP3  EQ_OQ; OP5  EQ_OQ;
+1: OP3  LT_OS; OP5  LT_OS;
+2: OP3  LE_OS; OP5  LE_OS;
+3: OP3  UNORD_Q; OP5  UNORD_Q;
+4: OP3  NEQ_UQ; OP5  NEQ_UQ;
+5: OP3  NLT_US; OP5  NLT_US;
+6: OP3  NLE_US; OP5  NLE_US;
+7: OP3  ORD_Q; OP5  ORD_Q;
+8: OP5  EQ_UQ;
+9: OP5  NGE_US;
+10: OP5  NGT_US;
+11: OP5  FALSE_OQ;
+12: OP5  NEQ_OQ;
+13: OP5  GE_OS;
+14: OP5  GT_OS;
+15: OP5  TRUE_UQ;
+16: OP5  EQ_OS;
+17: OP5  LT_OQ;
+18: OP5  LE_OQ;
+19: OP5  UNORD_S;
+20: OP5  NEQ_US;
+21: OP5  NLT_UQ;
+22: OP5  NLE_UQ;
+23: OP5  ORD_S;
+24: OP5  EQ_US;
+25: OP5  NGE_UQ;
+26: OP5  NGT_UQ;
+27: OP5  FALSE_OS;
+28: OP5  NEQ_OS;
+29: OP5  GE_OQ;
+30: OP5  GT_OQ;
+31: OP5  TRUE_US;
+DEFAULT: Reserved
+EASC;
+CMPPS (128-bit Legacy SSE version)
+CMP0  SRC1[31:0] OP3 SRC2[31:0];
+CMP1  SRC1[63:32] OP3 SRC2[63:32];
+CMP2  SRC1[95:64] OP3 SRC2[95:64];
+CMP3  SRC1[127:96] OP3 SRC2[127:96];
+IF CMP0 = TRUE
+THEN DEST[31:0] FFFFFFFFH;
+ELSE DEST[31:0]  000000000H; FI;
+IF CMP1 = TRUE
+THEN DEST[63:32]  FFFFFFFFH;
+ELSE DEST[63:32]  000000000H; FI;
+IF CMP2 = TRUE
+THEN DEST[95:64]  FFFFFFFFH;
+ELSE DEST[95:64]  000000000H; FI;
+IF CMP3 = TRUE
+THEN DEST[127:96]  FFFFFFFFH;
+ELSE DEST[127:96] 000000000H; FI;
+DEST[VLMAX-1:128] (Unmodified)
+VCMPPS (VEX.128 encoded version)
+CMP0  SRC1[31:0] OP5 SRC2[31:0];
+CMP1  SRC1[63:32] OP5 SRC2[63:32];
+CMP2  SRC1[95:64] OP5 SRC2[95:64];
+CMP3  SRC1[127:96] OP5 SRC2[127:96];
+IF CMP0 = TRUE
+THEN DEST[31:0] FFFFFFFFH;
+ELSE DEST[31:0]  000000000H; FI;
+IF CMP1 = TRUE
+THEN DEST[63:32]  FFFFFFFFH;
+ELSE DEST[63:32]  000000000H; FI;
+IF CMP2 = TRUE
+THEN DEST[95:64]  FFFFFFFFH;
+ELSE DEST[95:64]  000000000H; FI;
+IF CMP3 = TRUE
+THEN DEST[127:96]  FFFFFFFFH;
+ELSE DEST[127:96] 000000000H; FI;
+DEST[VLMAX-1:128]  0
+VCMPPS (VEX.256 encoded version)
+CMP0  SRC1[31:0] OP5 SRC2[31:0];
+CMP1  SRC1[63:32] OP5 SRC2[63:32];
+CMP2  SRC1[95:64] OP5 SRC2[95:64];
+CMP3  SRC1[127:96] OP5 SRC2[127:96];
+CMP4  SRC1[159:128] OP5 SRC2[159:128];
+CMP5  SRC1[191:160] OP5 SRC2[191:160];
+CMP6  SRC1[223:192] OP5 SRC2[223:192];
+CMP7  SRC1[255:224] OP5 SRC2[255:224];
+IF CMP0 = TRUE
+THEN DEST[31:0] FFFFFFFFH;
+ELSE DEST[31:0]  000000000H; FI;
+IF CMP1 = TRUE
+THEN DEST[63:32]  FFFFFFFFH;
+ELSE DEST[63:32] 000000000H; FI;
+IF CMP2 = TRUE
+THEN DEST[95:64]  FFFFFFFFH;
+ELSE DEST[95:64]  000000000H; FI;
+IF CMP3 = TRUE
+THEN DEST[127:96]  FFFFFFFFH;
+ELSE DEST[127:96]  000000000H; FI;
+IF CMP4 = TRUE
+THEN DEST[159:128]  FFFFFFFFH;
+ELSE DEST[159:128]  000000000H; FI;
+IF CMP5 = TRUE
+THEN DEST[191:160]  FFFFFFFFH;
+ELSE DEST[191:160]  000000000H; FI;
+IF CMP6 = TRUE
+THEN DEST[223:192]  FFFFFFFFH;
+ELSE DEST[223:192] 000000000H; FI;
+IF CMP7 = TRUE
+THEN DEST[255:224]  FFFFFFFFH;
+ELSE DEST[255:224]  000000000H; FI;
+---------------------------------------------------------------------
+
+CMPS/CMPSB/CMPSW/CMPSD/CMPSQ—Compare String Operands
+Opcode Instruction Op/ 64-Bit Compat/ Description
+                   En  Mode   Leg Mode
+
+A6 
+CMPS m8, m8 
+NP Valid Valid 
+For legacy mode, compare byte at address
+ DS:(E)SI with byte at address ES:(E)DI; For 64-
+ bit mode compare byte at address (R|E)SI to
+ byte at address (R|E)DI. The status flags are
+ set accordingly.
+
+A7 
+CMPS m16, m16 
+NP Valid Valid 
+For legacy mode, compare word at address
+ DS:(E)SI with word at address ES:(E)DI; For 64-
+ bit mode compare word at address (R|E)SI with
+ word at address (R|E)DI. The status flags are
+ set accordingly.
+
+A7 
+CMPS m32, m32 
+NP Valid Valid 
+For legacy mode, compare dword at address
+ DS:(E)SI at dword at address ES:(E)DI; For 64-
+ bit mode compare dword at address (R|E)SI at
+ dword at address (R|E)DI. The status flags are
+ set accordingly.
+
+REX.W + A7 
+CMPS m64, m64 
+NP Valid N.E. 
+Compares quadword at address (R|E)SI with
+ quadword at address (R|E)DI and sets the
+ status flags accordingly.
+
+A6 
+CMPSB 
+NP Valid Valid 
+For legacy mode, compare byte at address
+ DS:(E)SI with byte at address ES:(E)DI; For 64-
+ bit mode compare byte at address (R|E)SI with
+ byte at address (R|E)DI. The status flags are
+ set accordingly.
+
+A7 
+CMPSW NP Valid Valid For legacy mode, compare word at address
+ DS:(E)SI with word at address ES:(E)DI; For 64-
+ bit mode compare word at address (R|E)SI with
+ word at address (R|E)DI. The status flags are
+ set accordingly.
+
+A7 
+CMPSD 
+NP Valid Valid 
+For legacy mode, compare dword at address
+ DS:(E)SI with dword at address ES:(E)DI; For
+ 64-bit mode compare dword at address (R|E)SI
+ with dword at address (R|E)DI. The status flags
+ are set accordingly.
+
+REX.W + A7 
+CMPSQ 
+NP Valid N.E. 
+Compares quadword at address (R|E)SI with
+ quadword at address (R|E)DI and sets the
+ status flags accordingly.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+NP NA NA NA NA
+
+Description
+Compares the byte, word, doubleword, or quadword specified with the first source operand with the byte, word,
+doubleword, or quadword specified with the second source operand and sets the status flags in the EFLAGS register
+according to the results.
+Both source operands are located in memory. The address of the first source operand is read from DS:SI, DS:ESI
+or RSI (depending on the address-size attribute of the instruction is 16, 32, or 64, respectively). The address of the
+second source operand is read from ES:DI, ES:EDI or RDI (again depending on the address-size attribute of the
+instruction is 16, 32, or 64). The DS segment may be overridden with a segment override prefix, but the ES
+segment cannot be overridden.
+At the assembly-code level, two forms of this instruction are allowed: the “explicit-operands” form and the “no-
+operands” form. The explicit-operands form (specified with the CMPS mnemonic) allows the two source operands
+to be specified explicitly. Here, the source operands should be symbols that indicate the size and location of the
+source values. This explicit-operand form is provided to allow documentation. However, note that the documenta-
+tion provided by this form can be misleading. That is, the source operand symbols must specify the correct type
+(size) of the operands (bytes, words, or doublewords, quadwords), but they do not have to specify the correct loca-
+tion. Locations of the source operands are always specified by the DS:(E)SI (or RSI) and ES:(E)DI (or RDI) regis-
+ters, which must be loaded correctly before the compare string instruction is executed.
+The no-operands form provides “short forms” of the byte, word, and doubleword versions of the CMPS instructions.
+Here also the DS:(E)SI (or RSI) and ES:(E)DI (or RDI) registers are assumed by the processor to specify the loca-
+tion of the source operands. The size of the source operands is selected with the mnemonic: CMPSB (byte compar-
+ison), CMPSW (word comparison), CMPSD (doubleword comparison), or CMPSQ (quadword comparison using
+REX.W).
+After the comparison, the (E/R)SI and (E/R)DI registers increment or decrement automatically according to the
+setting of the DF flag in the EFLAGS register. (If the DF flag is 0, the (E/R)SI and (E/R)DI register increment; if the
+DF flag is 1, the registers decrement.) The registers increment or decrement by 1 for byte operations, by 2 for word
+operations, 4 for doubleword operations. If operand size is 64, RSI and RDI registers increment by 8 for quadword
+operations.
+The CMPS, CMPSB, CMPSW, CMPSD, and CMPSQ instructions can be preceded by the REP prefix for block compar-
+isons. More often, however, these instructions will be used in a LOOP construct that takes some action based on the
+setting of the status flags before the next comparison is made. See “REP/REPE/REPZ /REPNE/REPNZ—Repeat
+String Operation Prefix” in Chapter 4 of the Intel® 64 and IA-32 Architectures Software Developer’s Manual,
+Volume 2B, for a description of the REP prefix.
+In 64-bit mode, the instruction’s default address size is 64 bits, 32 bit address size is supported using the prefix
+67H. Use of the REX.W prefix promotes doubleword operation to 64 bits (see CMPSQ). See the summary chart at
+the beginning of this section for encoding data and limits.
+
+Operation
+temp ← SRC1 - SRC2;
+SetStatusFlags(temp);
+IF (64-Bit Mode)
+THEN
+IF (Byte comparison)
+THEN IF DF = 0
+THEN
+(R|E)SI ← (R|E)SI + 1;
+(R|E)DI ← (R|E)DI + 1;
+ELSE
+(R|E)SI ← (R|E)SI – 1;
+(R|E)DI ← (R|E)DI – 1;
+FI;
+ELSE IF (Word comparison)
+THEN IF DF = 0
+THEN
+(R|E)SI ← (R|E)SI + 2;
+(R|E)DI ← (R|E)DI + 2;
+ELSE
+(R|E)SI ← (R|E)SI – 2;
+(R|E)DI ← (R|E)DI – 2;
+FI;
+ELSE IF (Doubleword comparison)
+THEN IF DF = 0
+THEN
+(R|E)SI ← (R|E)SI + 4;
+(R|E)DI ← (R|E)DI + 4;
+ELSE
+(R|E)SI ← (R|E)SI – 4;
+(R|E)DI ← (R|E)DI – 4;
+FI;
+ELSE (* Quadword comparison *)
+THEN IF DF = 0
+(R|E)SI ← (R|E)SI + 8;
+(R|E)DI ← (R|E)DI + 8;
+ELSE
+(R|E)SI ← (R|E)SI – 8;
+(R|E)DI ← (R|E)DI – 8;
+FI;
+FI;
+ELSE (* Non-64-bit Mode *)
+IF (byte comparison)
+THEN IF DF = 0
+THEN
+(E)SI ← (E)SI + 1;
+(E)DI ← (E)DI + 1;
+ELSE
+(E)SI ← (E)SI – 1;
+(E)DI ← (E)DI – 1;
+FI;
+ELSE IF (Word comparison)
+THEN IF DF = 0
+(E)SI ← (E)SI + 2;
+(E)DI ← (E)DI + 2;
+ELSE
+(E)SI ← (E)SI – 2;
+(E)DI ← (E)DI – 2;
+FI;
+ELSE (* Doubleword comparison *)
+THEN IF DF = 0
+(E)SI ← (E)SI + 4;
+(E)DI ← (E)DI + 4;
+ELSE
+(E)SI ← (E)SI – 4;
+(E)DI ← (E)DI – 4;
+FI;
+FI;
+FI;
+
+Flags Affected
+The CF, OF, SF, ZF, AF, and PF flags are set according to the temporary result of the comparison.
+---------------------------------------------------------------------
+
+CMPSD—Compare Scalar Double-Precision Floating-Point Values
+
+Opcode/     Op/ 64/32-bit CPUID Description
+Instruction En  Mode 
+                          Feature 
+                          Flag 
+
+F2 0F C2 /r ib 
+CMPSD xmm1, xmm2/m64, imm8
+RMI V/V SSE2 
+Compare low double-precision floating-point
+ value in xmm2/m64 and xmm1 using imm8 as
+ comparison predicate.
+
+VEX.NDS.LIG.F2.0F.WIG C2 /r ib
+VCMPSD xmm1, xmm2, xmm3/m64, imm8
+RVMI V/V AVX 
+Compare low double precision floating-point
+ value in xmm3/m64 and xmm2 using bits 4:0
+ of imm8 as comparison predicate.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RMI ModRM:reg (r, w) ModRM:r/m (r) imm8 NA
+RVMI ModRM:reg (w) VEX.vvvv (r) ModRM:r/m (r) imm8
+
+Description
+Compares the low double-precision floating-point values in the source operand (second operand) and the destina-
+tion operand (first operand) and returns the results of the comparison to the destination operand. The comparison
+predicate operand (third operand) specifies the type of comparison performed. The comparison result is a quad-
+word mask of all 1s (comparison true) or all 0s (comparison false). The sign of zero is ignored for comparisons, so
+that –0.0 is equal to +0.0.
+128-bit Legacy SSE version: The first source and destination operand (first operand) is an XMM register. The
+second source operand (second operand) can be an XMM register or 64-bit memory location. The comparison pred-
+icate operand is an 8-bit immediate, bits 2:0 of the immediate define the type of comparison to be performed (see
+Table 3-7). Bits 7:3 of the immediate is reserved. Bits (VLMAX-1:64) of the corresponding YMM destination register
+remain unchanged.
+The unordered relationship is true when at least one of the two source operands being compared is a NaN; the
+ordered relationship is true when neither source operand is a NaN.
+A subsequent computational instruction that uses the mask result in the destination operand as an input operand
+will not generate a fault, because a mask of all 0s corresponds to a floating-point value of +0.0 and a mask of all 1s
+corresponds to a QNaN.
+Note that processors with “CPUID.1H:ECX.AVX =0” do not implement the “greater-than”, “greater-than-or-equal”,
+“not-greater than”, and “not-greater-than-or-equal relations” predicates. These comparisons can be made either
+by using the inverse relationship (that is, use the “not-less-than-or-equal” to make a “greater-than” comparison)
+or by using software emulation. When using software emulation, the program must swap the operands (copying
+registers when necessary to protect the data that will now be in the destination operand), and then perform the
+compare using a different predicate. The predicate to be used for these emulations is listed in Table 3-7 under the
+heading Emulation.
+Compilers and assemblers may implement the following two-operand pseudo-ops in addition to the three-operand
+CMPSD instruction, for processors with “CPUID.1H:ECX.AVX =0”. See Table 3-13. Compiler should treat reserved
+Imm8 values as illegal syntax.
+skipped text and tables
+
+Operation
+CASE (COMPARISON PREDICATE) OF
+0: OP3  EQ_OQ; OP5  EQ_OQ;
+1: OP3  LT_OS; OP5  LT_OS;
+2: OP3  LE_OS; OP5  LE_OS;
+3: OP3  UNORD_Q; OP5  UNORD_Q;
+4: OP3  NEQ_UQ; OP5  NEQ_UQ;
+5: OP3  NLT_US; OP5  NLT_US;
+6: OP3  NLE_US; OP5  NLE_US;
+7: OP3  ORD_Q; OP5  ORD_Q;
+8: OP5  EQ_UQ;
+9: OP5  NGE_US;
+10: OP5  NGT_US;
+11: OP5  FALSE_OQ;
+12: OP5  NEQ_OQ;
+13: OP5  GE_OS;
+14: OP5  GT_OS;
+15: OP5  TRUE_UQ;
+16: OP5  EQ_OS;
+17: OP5  LT_OQ;
+18: OP5  LE_OQ;
+19: OP5  UNORD_S;
+20: OP5  NEQ_US;
+21: OP5  NLT_UQ;
+22: OP5  NLE_UQ;
+23: OP5  ORD_S;
+24: OP5  EQ_US;
+25: OP5  NGE_UQ;
+26: OP5  NGT_UQ;
+27: OP5  FALSE_OS;
+28: OP5  NEQ_OS;
+29: OP5  GE_OQ;
+30: OP5  GT_OQ;
+31: OP5  TRUE_US;
+DEFAULT: Reserved
+ESAC;
+CMPSD (128-bit Legacy SSE version)
+CMP0  DEST[63:0] OP3 SRC[63:0];
+IF CMP0 = TRUE
+THEN DEST[63:0]  FFFFFFFFFFFFFFFFH;
+ELSE DEST[63:0]  0000000000000000H; FI;
+DEST[VLMAX-1:64] (Unmodified)
+VCMPSD (VEX.128 encoded version)
+CMP0  SRC1[63:0] OP5 SRC2[63:0];
+IF CMP0 = TRUE
+THEN DEST[63:0]  FFFFFFFFFFFFFFFFH;
+ELSE DEST[63:0]  0000000000000000H; FI;
+DEST[127:64]  SRC1[127:64]
+DEST[VLMAX-1:128]  0
+---------------------------------------------------------------------
+
+CMPSS—Compare Scalar Single-Precision Floating-Point Values
+
+Opcode/     Op/ 64/32-bit CPUID Description
+Instruction En  Mode 
+                          Feature 
+                          Flag 
+
+F3 0F C2 /r ib 
+CMPSS xmm1, xmm2/m32, imm8
+RMI V/V SSE 
+Compare low single-precision floating-point
+ value in xmm2/m32 and xmm1 using imm8 as
+ comparison predicate.
+
+VEX.NDS.LIG.F3.0F.WIG C2 /r ib
+VCMPSS xmm1, xmm2, xmm3/m32, imm8
+RVMI V/V AVX 
+Compare low single precision floating-point
+ value in xmm3/m32 and xmm2 using bits 4:0
+ of imm8 as comparison predicate.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RMI ModRM:reg (r, w) ModRM:r/m (r) imm8 NA
+RVMI ModRM:reg (w) VEX.vvvv (r) ModRM:r/m (r) imm8
+
+Description
+Compares the low single-precision floating-point values in the source operand (second operand) and the destina-
+tion operand (first operand) and returns the results of the comparison to the destination operand. The comparison
+predicate operand (third operand) specifies the type of comparison performed. The comparison result is a double-
+word mask of all 1s (comparison true) or all 0s (comparison false). The sign of zero is ignored for comparisons, so
+that –0.0 is equal to +0.0.
+128-bit Legacy SSE version: The first source and destination operand (first operand) is an XMM register. The
+second source operand (second operand) can be an XMM register or 64-bit memory location. The comparison pred-
+icate operand is an 8-bit immediate, bits 2:0 of the immediate define the type of comparison to be performed (see
+Table 3-7). Bits 7:3 of the immediate is reserved. Bits (VLMAX-1:32) of the corresponding YMM destination register
+remain unchanged.
+The unordered relationship is true when at least one of the two source operands being compared is a NaN; the
+ordered relationship is true when neither source operand is a NaN
+A subsequent computational instruction that uses the mask result in the destination operand as an input operand
+will not generate a fault, since a mask of all 0s corresponds to a floating-point value of +0.0 and a mask of all 1s
+corresponds to a QNaN.
+Note that processors with “CPUID.1H:ECX.AVX =0” do not implement the “greater-than”, “greater-than-or-equal”,
+“not-greater than”, and “not-greater-than-or-equal relations” predicates. These comparisons can be made either
+by using the inverse relationship (that is, use the “not-less-than-or-equal” to make a “greater-than” comparison)
+or by using software emulation. When using software emulation, the program must swap the operands (copying
+registers when necessary to protect the data that will now be in the destination operand), and then perform the
+compare using a different predicate. The predicate to be used for these emulations is listed in Table 3-7 under the
+heading Emulation.
+Compilers and assemblers may implement the following two-operand pseudo-ops in addition to the three-operand
+CMPSS instruction, for processors with “CPUID.1H:ECX.AVX =0”. See Table 3-15. Compiler should treat reserved
+Imm8 values as illegal syntax.
+skipped text and tables
+
+Operation
+CASE (COMPARISON PREDICATE) OF
+0: OP3  EQ_OQ; OP5  EQ_OQ;
+1: OP3  LT_OS; OP5  LT_OS;
+2: OP3  LE_OS; OP5  LE_OS;
+3: OP3  UNORD_Q; OP5  UNORD_Q;
+4: OP3  NEQ_UQ; OP5  NEQ_UQ;
+5: OP3  NLT_US; OP5  NLT_US;
+6: OP3  NLE_US; OP5  NLE_US;
+7: OP3  ORD_Q; OP5  ORD_Q;
+8: OP5  EQ_UQ;
+9: OP5  NGE_US;
+10: OP5  NGT_US;
+11: OP5  FALSE_OQ;
+12: OP5  NEQ_OQ;
+13: OP5  GE_OS;
+14: OP5  GT_OS;
+15: OP5  TRUE_UQ;
+16: OP5  EQ_OS;
+17: OP5  LT_OQ;
+18: OP5  LE_OQ;
+19: OP5  UNORD_S;
+20: OP5  NEQ_US;
+21: OP5  NLT_UQ;
+22: OP5  NLE_UQ;
+23: OP5  ORD_S;
+24: OP5  EQ_US;
+25: OP5  NGE_UQ;
+26: OP5  NGT_UQ;
+27: OP5  FALSE_OS;
+28: OP5  NEQ_OS;
+29: OP5  GE_OQ;
+30: OP5  GT_OQ;
+31: OP5  TRUE_US;
+DEFAULT: Reserved
+ESAC;
+CMPSS (128-bit Legacy SSE version)
+CMP0  DEST[31:0] OP3 SRC[31:0];
+IF CMP0 = TRUE
+THEN DEST[31:0]  FFFFFFFFH;
+ELSE DEST[31:0]  00000000H; FI;
+DEST[VLMAX-1:32] (Unmodified)
+VCMPSS (VEX.128 encoded version)
+CMP0  SRC1[31:0] OP5 SRC2[31:0];
+IF CMP0 = TRUE
+THEN DEST[31:0]  FFFFFFFFH;
+ELSE DEST[31:0]  00000000H; FI;
+DEST[127:32]  SRC1[127:32]
+DEST[VLMAX-1:128]  0
+---------------------------------------------------------------------
+
+CMPXCHG—Compare and Exchange
+
+Opcode/     Op/ 64-Bit Compat/ Description
+Instruction En  Mode   Leg Mode
+
+0F B0/r 
+CMPXCHG r/m8, r8
+MR Valid Valid 
+Compare AL with r/m8. If equal, ZF is set and
+ r8 is loaded into r/m8. Else, clear ZF and load
+ r/m8 into AL.
+
+REX + 0F B0/r
+CMPXCHG r/m8, r8
+MR Valid N.E. 
+Compare AL with r/m8. If equal, ZF is set and
+ r8 is loaded into r/m8. Else, clear ZF and load
+ r/m8 into AL.
+
+0F B1/r
+CMPXCHG r/m16, r16
+MR Valid Valid 
+Compare AX with r/m16. If equal, ZF is set and
+ r16 is loaded into r/m16. Else, clear ZF and
+ load r/m16 into AX.
+
+0F B1/r
+CMPXCHG r/m32, r32
+MR Valid Valid 
+Compare EAX with r/m32. If equal, ZF is set
+ and r32 is loaded into r/m32. Else, clear ZF
+ and load r/m32 into EAX.
+
+REX.W + 0F B1/r
+CMPXCHG r/m64, r64
+MR Valid N.E. 
+Compare RAX with r/m64. If equal, ZF is set
+ and r64 is loaded into r/m64. Else, clear ZF
+ and load r/m64 into RAX.
+
+NOTES:
+* See the IA-32 Architecture Compatibility section below.
+** In 64-bit mode, r/m8 can not be encoded to access the following byte registers if a REX prefix is used: AH, BH, CH, DH.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+MR ModRM:r/m (r, w) ModRM:reg (r) NA NA
+
+Description
+Compares the value in the AL, AX, EAX, or RAX register with the first operand (destination operand). If the two
+values are equal, the second operand (source operand) is loaded into the destination operand. Otherwise, the
+destination operand is loaded into the AL, AX, EAX or RAX register. RAX register is available only in 64-bit mode.
+This instruction can be used with a LOCK prefix to allow the instruction to be executed atomically. To simplify the
+interface to the processor’s bus, the destination operand receives a write cycle without regard to the result of the
+comparison. The destination operand is written back if the comparison fails; otherwise, the source operand is
+written into the destination. (The processor never produces a locked read without also producing a locked write.)
+In 64-bit mode, the instruction’s default operation size is 32 bits. Use of the REX.R prefix permits access to addi-
+tional registers (R8-R15). Use of the REX.W prefix promotes operation to 64 bits. See the summary chart at the
+beginning of this section for encoding data and limits.
+IA-32 Architecture Compatibility
+This instruction is not supported on Intel processors earlier than the Intel486 processors.
+
+Operation
+(* Accumulator = AL, AX, EAX, or RAX depending on whether a byte, word, doubleword, or quadword comparison is being performed *)
+IF accumulator = DEST
+THEN
+ZF ← 1;
+DEST ← SRC;
+ELSE
+3-148 Vol. 2A
+CMPXCHG—Compare and ExchangeINSTRUCTION SET REFERENCE, A-M
+FI;
+ZF ← 0;
+accumulator ← DEST;
+
+Flags Affected
+The ZF flag is set if the values in the destination operand and register AL, AX, or EAX are equal; otherwise it is
+cleared. The CF, PF, AF, SF, and OF flags are set according to the results of the comparison operation.
+---------------------------------------------------------------------
+
+
