@@ -6,16 +6,26 @@
   ;; (test-mod-vals)
   ;; (run-tests :all)
   (format t "~&~s~%" (cl-ppcre:scan-to-strings "^1 .?" "1 2 3 a b c"))
+  
   (with-open-file (stream "./my-reference/vol2a.txt")
     (do ((line (read-line stream nil)
                (read-line stream nil)))
         ((null line))
-      (if  (or (cl-ppcre:scan-to-strings "3\-\\d{2,3} Vol. 2(A|B)" line) 
-                 (cl-ppcre:scan-to-strings "Vol. 2(A|B).*" line)) 
-             (print line) 
-             (format t "."))
-      ))
+      (process line)))
+
+  (with-open-file (stream "./my-reference/vol2b.txt")
+    (do ((line (read-line stream nil)
+               (read-line stream nil)))
+        ((null line))
+      (process line)))
   )
+
+(defun process (line)
+  (if  (or (cl-ppcre:scan-to-strings "(3|4)\-\\d{1,3} Vol. 2(A|B)" line) 
+           (cl-ppcre:scan-to-strings "Vol. 2(A|B) (3|4)\-\\d{1,3}.*" line)) 
+       (print line) 
+       (format t ".")))
+      
 
 (defun int-to-bin (int) 
   (format nil "~8,'0B" int))
