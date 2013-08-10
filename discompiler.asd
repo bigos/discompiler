@@ -4,7 +4,7 @@
   :version "0.0.1"
   :author "Jacek Podkanski"
   :licence "GPLv3"
-  :depends-on (:lisp-unit)
+  :depends-on (:lisp-unit :cl-ppcre :cl-fad)
   :components ((:file "packages") 	  
 	       (:file "discompiler")
                (:file "lisp-unit")
