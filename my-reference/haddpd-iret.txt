@@ -1,0 +1,1268 @@
+HADDPD—Packed Double-FP Horizontal Add
+
+Opcode/ Op/ 64/32-bit CPUID Description
+Instruction En Mode 
+               Feature 
+               Flag 
+
+66 0F 7C /r 
+HADDPD xmm1, xmm2/m128
+RM V/V SSE3 
+Horizontal add packed double-precision
+ floating-point values from xmm2/m128 to
+ xmm1.
+
+VEX.NDS.128.66.0F.WIG 7C /r
+VHADDPD xmm1,xmm2, xmm3/m128
+RVM V/V AVX Horizontal add packed double-precision
+ floating-point values from xmm2 and
+ xmm3/mem.
+
+VEX.NDS.256.66.0F.WIG 7C /r
+VHADDPD ymm1, ymm2, ymm3/m256
+RVM V/V AVX Horizontal add packed double-precision
+ floating-point values from ymm2 and
+ ymm3/mem.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RM ModRM:reg (r, w) ModRM:r/m (r) NA NA
+RVM ModRM:reg (w) VEX.vvvv (r) ModRM:r/m (r) NA
+
+Description
+Adds the double-precision floating-point values in the high and low quadwords of the destination operand and
+stores the result in the low quadword of the destination operand.
+Adds the double-precision floating-point values in the high and low quadwords of the source operand and stores the
+result in the high quadword of the destination operand.
+In 64-bit mode, use of the REX.R prefix permits this instruction to access additional registers (XMM8-XMM15).
+See Figure 3-15 for HADDPD; see Figure 3-16 for VHADDPD.
+
+Operation
+HADDPD (128-bit Legacy SSE version)
+DEST[63:0]  SRC1[127:64] + SRC1[63:0]
+DEST[127:64]  SRC2[127:64] + SRC2[63:0]
+DEST[VLMAX-1:128] (Unmodified)
+VHADDPD (VEX.128 encoded version)
+DEST[63:0]  SRC1[127:64] + SRC1[63:0]
+DEST[127:64]  SRC2[127:64] + SRC2[63:0]
+DEST[VLMAX-1:128]  0
+VHADDPD (VEX.256 encoded version)
+DEST[63:0]  SRC1[127:64] + SRC1[63:0]
+DEST[127:64]  SRC2[127:64] + SRC2[63:0]
+DEST[191:128]  SRC1[255:192] + SRC1[191:128]
+DEST[255:192]  SRC2[255:192] + SRC2[191:128]
+---------------------------------------------------------------------
+
+HADDPS—Packed Single-FP Horizontal Add
+
+Opcode/ Op/ 64/32-bit CPUID Description
+Instruction En Mode 
+               Feature 
+               Flag 
+
+F2 0F 7C /r 
+HADDPS xmm1, xmm2/m128
+RM V/V SSE3 
+Horizontal add packed single-precision
+ floating-point values from xmm2/m128 to
+ xmm1.
+
+VEX.NDS.128.F2.0F.WIG 7C /r
+VHADDPS xmm1, xmm2, xmm3/m128
+RVM V/V AVX 
+Horizontal add packed single-precision
+ floating-point values from xmm2 and
+ xmm3/mem.
+
+VEX.NDS.256.F2.0F.WIG 7C /r
+VHADDPS ymm1, ymm2, ymm3/m256
+RVM V/V AVX 
+Horizontal add packed single-precision
+ floating-point values from ymm2 and
+ ymm3/mem.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RM ModRM:reg (r, w) ModRM:r/m (r) NA NA
+RVM ModRM:reg (w) VEX.vvvv (r) ModRM:r/m (r) NA
+
+Description
+Adds the single-precision floating-point values in the first and second dwords of the destination operand and stores
+the result in the first dword of the destination operand.
+Adds single-precision floating-point values in the third and fourth dword of the destination operand and stores the
+result in the second dword of the destination operand.
+Adds single-precision floating-point values in the first and second dword of the source operand and stores the
+result in the third dword of the destination operand.
+Adds single-precision floating-point values in the third and fourth dword of the source operand and stores the
+result in the fourth dword of the destination operand.
+In 64-bit mode, use of the REX.R prefix permits this instruction to access additional registers (XMM8-XMM15).
+
+Operation
+HADDPS (128-bit Legacy SSE version)
+DEST[31:0]  SRC1[63:32] + SRC1[31:0]
+DEST[63:32]  SRC1[127:96] + SRC1[95:64]
+DEST[95:64]  SRC2[63:32] + SRC2[31:0]
+DEST[127:96]  SRC2[127:96] + SRC2[95:64]
+DEST[VLMAX-1:128] (Unmodified)
+VHADDPS (VEX.128 encoded version)
+DEST[31:0]  SRC1[63:32] + SRC1[31:0]
+DEST[63:32]  SRC1[127:96] + SRC1[95:64]
+DEST[95:64]  SRC2[63:32] + SRC2[31:0]
+DEST[127:96]  SRC2[127:96] + SRC2[95:64]
+DEST[VLMAX-1:128]  0
+VHADDPS (VEX.256 encoded version)
+DEST[31:0]  SRC1[63:32] + SRC1[31:0]
+DEST[63:32]  SRC1[127:96] + SRC1[95:64]
+DEST[95:64]  SRC2[63:32] + SRC2[31:0]
+DEST[127:96]  SRC2[127:96] + SRC2[95:64]
+DEST[159:128]  SRC1[191:160] + SRC1[159:128]
+DEST[191:160]  SRC1[255:224] + SRC1[223:192]
+DEST[223:192]  SRC2[191:160] + SRC2[159:128]
+DEST[255:224]  SRC2[255:224] + SRC2[223:192]
+---------------------------------------------------------------------
+
+HLT—Halt
+
+Opcode Instruction Op/ 64-Bit Compat/ Description
+                   En Mode Leg Mode
+
+F4 
+HLT 
+NP Valid Valid
+Halt
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+NP NA NA NA NA
+
+Description
+Stops instruction execution and places the processor in a HALT state. An enabled interrupt (including NMI and
+SMI), a debug exception, the BINIT# signal, the INIT# signal, or the RESET# signal will resume execution. If an
+interrupt (including NMI) is used to resume execution after a HLT instruction, the saved instruction pointer
+(CS:EIP) points to the instruction following the HLT instruction.
+When a HLT instruction is executed on an Intel 64 or IA-32 processor supporting Intel Hyper-Threading Technology,
+only the logical processor that executes the instruction is halted. The other logical processors in the physical
+processor remain active, unless they are each individually halted by executing a HLT instruction.
+The HLT instruction is a privileged instruction. When the processor is running in protected or virtual-8086 mode,
+the privilege level of a program or procedure must be 0 to execute the HLT instruction.
+This instruction’s operation is the same in non-64-bit modes and 64-bit mode.
+
+Operation
+Enter Halt state;
+
+Flags Affected
+None.
+---------------------------------------------------------------------
+
+HSUBPD—Packed Double-FP Horizontal Subtract
+
+Opcode/ Op/ 64/32-bit CPUID Description
+Instruction En Mode 
+               Feature 
+               Flag 
+
+66 0F 7D /r 
+HSUBPD xmm1, xmm2/m128
+RM V/V SSE3 
+Horizontal subtract packed double-precision
+ floating-point values from xmm2/m128 to
+ xmm1.
+
+VEX.NDS.128.66.0F.WIG 7D /r 
+VHSUBPD xmm1,xmm2, xmm3/m128 
+RVM V/V AVX 
+Horizontal subtract packed double-precision
+ floating-point values from xmm2 and
+ xmm3/mem.
+
+VEX.NDS.256.66.0F.WIG 7D /r 
+VHSUBPD ymm1, ymm2, ymm3/m256 
+RVM V/V AVX 
+Horizontal subtract packed double-precision
+ floating-point values from ymm2 and
+ ymm3/mem.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RM ModRM:reg (r, w) ModRM:r/m (r) NA NA
+RVM ModRM:reg (w) VEX.vvvv (r) ModRM:r/m (r) NA
+
+Description
+The HSUBPD instruction subtracts horizontally the packed DP FP numbers of both operands.
+Subtracts the double-precision floating-point value in the high quadword of the destination operand from the low
+quadword of the destination operand and stores the result in the low quadword of the destination operand.
+Subtracts the double-precision floating-point value in the high quadword of the source operand from the low quad-
+word of the source operand and stores the result in the high quadword of the destination operand.
+In 64-bit mode, use of the REX.R prefix permits this instruction to access additional registers (XMM8-XMM15).
+
+Operation
+HSUBPD (128-bit Legacy SSE version)
+DEST[63:0]  SRC1[63:0] - SRC1[127:64]
+DEST[127:64]  SRC2[63:0] - SRC2[127:64]
+DEST[VLMAX-1:128] (Unmodified)
+VHSUBPD (VEX.128 encoded version)
+DEST[63:0]  SRC1[63:0] - SRC1[127:64]
+DEST[127:64]  SRC2[63:0] - SRC2[127:64]
+DEST[VLMAX-1:128]  0
+VHSUBPD (VEX.256 encoded version)
+DEST[63:0]  SRC1[63:0] - SRC1[127:64]
+DEST[127:64]  SRC2[63:0] - SRC2[127:64]
+DEST[191:128]  SRC1[191:128] - SRC1[255:192]
+DEST[255:192]  SRC2[191:128] - SRC2[255:192]
+---------------------------------------------------------------------
+
+HSUBPS—Packed Single-FP Horizontal Subtract
+
+Opcode/ Op/ 64/32-bit CPUID Description
+Instruction En Mode 
+               Feature 
+               Flag 
+
+F2 0F 7D /r 
+HSUBPS xmm1, xmm2/m128
+RM V/V SSE3 
+Horizontal subtract packed single-precision
+ floating-point values from xmm2/m128 to
+ xmm1.
+
+VEX.NDS.128.F2.0F.WIG 7D /r
+VHSUBPS xmm1, xmm2, xmm3/m128
+RVM V/V AVX 
+Horizontal subtract packed single-precision
+ floating-point values from xmm2 and
+ xmm3/mem.
+
+VEX.NDS.256.F2.0F.WIG 7D /r
+VHSUBPS ymm1, ymm2, ymm3/m256
+RVM V/V AVX 
+Horizontal subtract packed single-precision
+ floating-point values from ymm2 and
+ ymm3/mem.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RM ModRM:reg (r, w) ModRM:r/m (r) NA NA
+RVM ModRM:reg (w) VEX.vvvv (r) ModRM:r/m (r) NA
+
+Description
+Subtracts the single-precision floating-point value in the second dword of the destination operand from the first
+dword of the destination operand and stores the result in the first dword of the destination operand.
+Subtracts the single-precision floating-point value in the fourth dword of the destination operand from the third
+dword of the destination operand and stores the result in the second dword of the destination operand.
+Subtracts the single-precision floating-point value in the second dword of the source operand from the first dword
+of the source operand and stores the result in the third dword of the destination operand.
+Subtracts the single-precision floating-point value in the fourth dword of the source operand from the third dword
+of the source operand and stores the result in the fourth dword of the destination operand.
+In 64-bit mode, use of the REX.R prefix permits this instruction to access additional registers (XMM8-XMM15).
+See Figure 3-21 for HSUBPS; see Figure 3-22 for VHSUBPS.
+
+Operation
+HSUBPS (128-bit Legacy SSE version)
+DEST[31:0]  SRC1[31:0] - SRC1[63:32]
+DEST[63:32]  SRC1[95:64] - SRC1[127:96]
+DEST[95:64]  SRC2[31:0] - SRC2[63:32]
+DEST[127:96]  SRC2[95:64] - SRC2[127:96]
+DEST[VLMAX-1:128] (Unmodified)
+VHSUBPS (VEX.128 encoded version)
+DEST[31:0]  SRC1[31:0] - SRC1[63:32]
+DEST[63:32]  SRC1[95:64] - SRC1[127:96]
+DEST[95:64]  SRC2[31:0] - SRC2[63:32]
+DEST[127:96]  SRC2[95:64] - SRC2[127:96]
+DEST[VLMAX-1:128]  0
+VHSUBPS (VEX.256 encoded version)
+DEST[31:0]  SRC1[31:0] - SRC1[63:32]
+DEST[63:32]  SRC1[95:64] - SRC1[127:96]
+DEST[95:64]  SRC2[31:0] - SRC2[63:32]
+DEST[127:96]  SRC2[95:64] - SRC2[127:96]
+DEST[159:128]  SRC1[159:128] - SRC1[191:160]
+DEST[191:160]  SRC1[223:192] - SRC1[255:224]
+DEST[223:192]  SRC2[159:128] - SRC2[191:160]
+DEST[255:224]  SRC2[223:192] - SRC2[255:224]
+---------------------------------------------------------------------
+
+IDIV—Signed Divide
+
+Opcode Instruction Op/ 64-Bit Compat/ Description
+                   En Mode Leg Mode
+
+F6 /7 
+IDIV r/m8 
+M Valid Valid 
+Signed divide AX by r/m8, with result stored in:
+ AL ← Quotient, AH ← Remainder.
+
+REX + F6 /7 
+IDIV r/m8* 
+M Valid N.
+E. Signed divide AX by r/m8, with result stored in
+ AL ← Quotient, AH ← Remainder.
+
+F7 /7 
+IDIV r/m16 
+M Valid Valid 
+Signed divide DX:AX by r/m16, with result
+ stored in AX ← Quotient, DX ← Remainder.
+
+F7 /7 
+IDIV r/m32 
+M Valid Valid 
+Signed divide EDX:EAX by r/m32, with result
+ stored in EAX ← Quotient, EDX ← Remainder.
+
+REX.W + F7 /7 
+IDIV r/m64 
+M Valid N.
+E. Signed divide RDX:RAX by r/m64, with result
+ stored in RAX ← Quotient, RDX ← Remainder.
+
+NOTES:
+* In 64-bit mode, r/m8 can not be encoded to access the following byte registers if a REX prefix is used: AH, BH, CH, DH.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+M ModRM:r/m (r) NA NA NA
+
+Description
+Divides the (signed) value in the AX, DX:AX, or EDX:EAX (dividend) by the source operand (divisor) and stores the
+result in the AX (AH:AL), DX:AX, or EDX:EAX registers. The source operand can be a general-purpose register or a
+memory location. The action of this instruction depends on the operand size (dividend/divisor).
+Non-integral results are truncated (chopped) towards 0. The remainder is always less than the divisor in magni-
+tude. Overflow is indicated with the #DE (divide error) exception rather than with the CF flag.
+In 64-bit mode, the instruction’s default operation size is 32 bits. Use of the REX.R prefix permits access to addi-
+tional registers (R8-R15). Use of the REX.W prefix promotes operation to 64 bits. In 64-bit mode when REX.W is
+applied, the instruction divides the signed value in RDX:RAX by the source operand. RAX contains a 64-bit
+quotient; RDX contains a 64-bit remainder.
+See the summary chart at the beginning of this section for encoding data and limits. See Table 3-60.
+Table 3-60. IDIV Results
+Operand Size
+Dividend
+Divisor
+Quotient
+Remainder
+Quotient Range
+Word/byte AX r/m8 AL AH −128 to +127
+Doubleword/word DX:AX r/m16 AX DX −32,768 to +32,767
+Quadword/doubleword EDX:EAX r/m32 EAX EDX −231 to 232 − 1
+Doublequadword/ quadword RDX:RAX r/m64 RAX RDX −263 to 264 − 1
+
+Operation
+IF SRC = 0
+THEN #DE; (* Divide error *)
+FI;
+IF OperandSize = 8 (* Word/byte operation *)
+THEN
+temp ← AX / SRC; (* Signed division *)
+IF (temp > 7FH) or (temp < 80H)
+(* If a positive result is greater than 7FH or a negative result is less than 80H *)
+THEN #DE; (* Divide error *)
+ELSE
+AL ← temp;
+AH ← AX SignedModulus SRC;
+FI;
+ELSE IF OperandSize = 16 (* Doubleword/word operation *)
+THEN
+temp ← DX:AX / SRC; (* Signed division *)
+IF (temp > 7FFFH) or (temp < 8000H)
+(* If a positive result is greater than 7FFFH
+or a negative result is less than 8000H *)
+THEN
+#DE; (* Divide error *)
+ELSE
+AX ← temp;
+DX ← DX:AX SignedModulus SRC;
+FI;
+FI;
+ELSE IF OperandSize = 32 (* Quadword/doubleword operation *)
+temp ← EDX:EAX / SRC; (* Signed division *)
+IF (temp > 7FFFFFFFH) or (temp < 80000000H)
+(* If a positive result is greater than 7FFFFFFFH
+or a negative result is less than 80000000H *)
+THEN
+#DE; (* Divide error *)
+ELSE
+EAX ← temp;
+EDX ← EDXE:AX SignedModulus SRC;
+FI;
+FI;
+ELSE IF OperandSize = 64 (* Doublequadword/quadword operation *)
+temp ← RDX:RAX / SRC; (* Signed division *)
+IF (temp > 7FFFFFFFFFFFFFFFH) or (temp < 8000000000000000H)
+(* If a positive result is greater than 7FFFFFFFFFFFFFFFH
+or a negative result is less than 8000000000000000H *)
+THEN
+#DE; (* Divide error *)
+ELSE
+RAX ← temp;
+RDX ← RDE:RAX SignedModulus SRC;
+FI;
+FI;
+FI;
+
+Flags Affected
+The CF, OF, SF, ZF, AF, and PF flags are undefined.
+---------------------------------------------------------------------
+
+IMUL—Signed Multiply
+
+Opcode Instruction Op/ 64-Bit Compat/ Description
+                   En Mode Leg Mode
+
+F6 /5 
+IMUL r/m8* 
+M Valid Valid 
+AX← AL ∗ r/m byte.
+
+F7 /5 
+IMUL r/m16 
+M Valid Valid 
+DX:AX ← AX ∗ r/m word.
+
+F7 /5 
+IMUL r/m32 
+M Valid Valid 
+EDX:EAX ← EAX ∗ r/m32.
+
+REX.W + F7 /5 
+IMUL r/m64 
+M Valid N.E. 
+RDX:RAX ← RAX ∗ r/m64.
+
+0F AF /r 
+IMUL r16, r/m16 
+RM Valid Valid 
+word register ← word register ∗ r/m16.
+
+0F AF /r 
+IMUL r32, r/m32 
+RM Valid Valid 
+doubleword register ← doubleword register ∗
+ r/m32.
+
+REX.W + 0F AF /r 
+IMUL r64, r/m64 
+RM Valid N.E. 
+Quadword register ← Quadword register ∗
+ r/m64.
+
+6B /r ib 
+IMUL r16, r/m16, imm8 
+RMI Valid Valid 
+word register ← r/m16 ∗ sign-extended
+ immediate byte.
+
+6B /r ib 
+IMUL r32, r/m32, imm8 
+RMI Valid Valid 
+doubleword register ← r/m32 ∗ sign-
+ extended immediate byte.
+
+REX.W + 6B /r ib 
+IMUL r64, r/m64, imm8 
+RMI Valid N.E. 
+Quadword register ← r/m64 ∗ sign-extended
+ immediate byte.
+
+69 /r iw 
+IMUL r16, r/m16, imm16 
+RMI Valid Valid 
+word register ← r/m16 ∗ immediate word.
+
+69 /r id 
+IMUL r32, r/m32, imm32 
+RMI Valid Valid 
+doubleword register ← r/m32 ∗ immediate
+ doubleword.
+
+REX.W + 69 /r id 
+IMUL r64, r/m64, imm32 
+RMI Valid N.E. 
+Quadword register ← r/m64 ∗ immediate
+ doubleword.
+
+NOTES:
+* In 64-bit mode, r/m8 can not be encoded to access the following byte registers if a REX prefix is used: AH, BH, CH, DH.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+M ModRM:r/m (r, w) NA NA NA
+RM ModRM:reg (r, w) ModRM:r/m (r) NA NA
+RMI ModRM:reg (r, w) ModRM:r/m (r) imm8/16/32 NA
+
+Description
+Performs a signed multiplication of two operands. This instruction has three forms, depending on the number of
+operands.
+• One-operand form — This form is identical to that used by the MUL instruction. Here, the source operand (in
+     a general-purpose register or memory location) is multiplied by the value in the AL, AX, EAX, or RAX register
+    (depending on the operand size) and the product is stored in the AX, DX:AX, EDX:EAX, or RDX:RAX registers,
+   respectively.
+• Two-operand form — With this form the destination operand (the first operand) is multiplied by the source
+     operand (second operand). The destination operand is a general-purpose register and the source operand is an
+    immediate value, a general-purpose register, or a memory location. The product is then stored in the
+   destination operand location.
+• Three-operand form — This form requires a destination operand (the first operand) and two source operands
+     (the second and the third operands). Here, the first source operand (which can be a general-purpose register
+    or a memory location) is multiplied by the second source operand (an immediate value). The product is then
+   stored in the destination operand (a general-purpose register).
+When an immediate value is used as an operand, it is sign-extended to the length of the destination operand
+format.
+The CF and OF flags are set when significant bit (including the sign bit) are carried into the upper half of the result.
+The CF and OF flags are cleared when the result (including the sign bit) fits exactly in the lower half of the result.
+The three forms of the IMUL instruction are similar in that the length of the product is calculated to twice the length
+of the operands. With the one-operand form, the product is stored exactly in the destination. With the two- and
+three- operand forms, however, the result is truncated to the length of the destination before it is stored in the
+destination register. Because of this truncation, the CF or OF flag should be tested to ensure that no significant bits
+are lost.
+The two- and three-operand forms may also be used with unsigned operands because the lower half of the product
+is the same regardless if the operands are signed or unsigned. The CF and OF flags, however, cannot be used to
+determine if the upper half of the result is non-zero.
+In 64-bit mode, the instruction’s default operation size is 32 bits. Use of the REX.R prefix permits access to addi-
+tional registers (R8-R15). Use of the REX.W prefix promotes operation to 64 bits. Use of REX.W modifies the three
+forms of the instruction as follows.
+• One-operand form —The source operand (in a 64-bit general-purpose register or memory location) is
+     multiplied by the value in the RAX register and the product is stored in the RDX:RAX registers.
+• Two-operand form — The source operand is promoted to 64 bits if it is a register or a memory location. If the
+     source operand is an immediate, it is sign extended to 64 bits. The destination operand is promoted to 64 bits.
+• Three-operand form — The first source operand (either a register or a memory location) and destination
+     operand are promoted to 64 bits.
+
+Operation
+IF (NumberOfOperands = 1)
+THEN IF (OperandSize = 8)
+THEN
+AX ← AL ∗ SRC (* Signed multiplication *)
+IF AL = AX
+THEN CF ← 0; OF ← 0;
+ELSE CF ← 1; OF ← 1; FI;
+ELSE IF OperandSize = 16
+THEN
+DX:AX ← AX ∗ SRC (* Signed multiplication *)
+IF sign_extend_to_32 (AX) = DX:AX
+THEN CF ← 0; OF ← 0;
+ELSE CF ← 1; OF ← 1; FI;
+ELSE IF OperandSize = 32
+THEN
+EDX:EAX ← EAX ∗ SRC (* Signed multiplication *)
+IF EAX = EDX:EAX
+THEN CF ← 0; OF ← 0;
+ELSE CF ← 1; OF ← 1; FI;
+ELSE (* OperandSize = 64 *)
+RDX:RAX ← RAX ∗ SRC (* Signed multiplication *)
+IF RAX = RDX:RAX
+THEN CF ← 0; OF ← 0;
+ELSE CF ← 1; OF ← 1; FI;
+FI;
+FI;
+ELSE IF (NumberOfOperands = 2)
+THEN
+temp ← DEST ∗ SRC (* Signed multiplication; temp is double DEST size *)
+FI;
+DEST ← DEST ∗ SRC (* Signed multiplication *)
+IF temp ≠ DEST
+THEN CF ← 1; OF ← 1;
+ELSE CF ← 0; OF ← 0; FI;
+ELSE (* NumberOfOperands = 3 *)
+DEST ← SRC1 ∗ SRC2 (* Signed multiplication *)
+temp ← SRC1 ∗ SRC2 (* Signed multiplication; temp is double SRC1 size *)
+IF temp ≠ DEST
+THEN CF ← 1; OF ← 1;
+ELSE CF ← 0; OF ← 0; FI;
+FI;
+
+Flags Affected
+For the one operand form of the instruction, the CF and OF flags are set when significant bits are carried into the
+upper half of the result and cleared when the result fits exactly in the lower half of the result. For the two- and
+three-operand forms of the instruction, the CF and OF flags are set when the result must be truncated to fit in the
+destination operand size and cleared when the result fits exactly in the destination operand size. The SF, ZF, AF, and
+PF flags are undefined.
+---------------------------------------------------------------------
+
+IN—Input from Port
+
+Opcode Instruction Op/ 64-Bit Compat/ Description
+                   En Mode Leg Mode
+
+E4 ib 
+IN AL, imm8 
+I Valid Valid 
+Input byte from imm8 I/O port address into
+ AL.
+
+E5 ib 
+IN AX, imm8 
+I Valid Valid 
+Input word from imm8 I/O port address into
+ AX.
+
+E5 ib 
+IN EAX, imm8 
+I Valid Valid 
+Input dword from imm8 I/O port address into
+ EAX.
+
+EC 
+IN AL,DX 
+NP Valid Valid 
+Input byte from I/O port in DX into AL.
+
+ED 
+IN AX,DX 
+NP Valid Valid 
+Input word from I/O port in DX into AX.
+
+ED 
+IN EAX,DX 
+NP Valid Valid 
+Input doubleword from I/O port in DX into
+ EAX.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+I imm8 NA NA NA
+NP NA NA NA NA
+
+Description
+Copies the value from the I/O port specified with the second operand (source operand) to the destination operand
+(first operand). The source operand can be a byte-immediate or the DX register; the destination operand can be
+register AL, AX, or EAX, depending on the size of the port being accessed (8, 16, or 32 bits, respectively). Using the
+DX register as a source operand allows I/O port addresses from 0 to 65,535 to be accessed; using a byte imme-
+diate allows I/O port addresses 0 to 255 to be accessed.
+When accessing an 8-bit I/O port, the opcode determines the port size; when accessing a 16- and 32-bit I/O port,
+the operand-size attribute determines the port size. At the machine code level, I/O instructions are shorter when
+accessing 8-bit I/O ports. Here, the upper eight bits of the port address will be 0.
+This instruction is only useful for accessing I/O ports located in the processor’s I/O address space. See Chapter 15,
+“Input/Output,” in the Intel® 64 and IA-32 Architectures Software Developer’s Manual, Volume 1, for more infor-
+mation on accessing I/O ports in the I/O address space.
+This instruction’s operation is the same in non-64-bit modes and 64-bit mode.
+
+Operation
+IF ((PE = 1) and ((CPL > IOPL) or (VM = 1)))
+THEN (* Protected mode with CPL > IOPL or virtual-8086 mode *)
+IF (Any I/O Permission Bit for I/O port being accessed = 1)
+THEN (* I/O operation is not allowed *)
+#GP(0);
+ELSE ( * I/O operation is allowed *)
+DEST ← SRC; (* Read from selected I/O port *)
+FI;
+ELSE (Real Mode or Protected Mode with CPL ≤ IOPL *)
+DEST ← SRC; (* Read from selected I/O port *)
+FI;
+
+Flags Affected
+None.
+---------------------------------------------------------------------
+
+INC—Increment by 1
+
+Opcode Instruction Op/ 64-Bit Compat/ Description
+                   En Mode Leg Mode
+
+FE /0 
+INC r/m8 
+M Valid Valid 
+Increment r/m byte by 1.
+
+REX + FE /0 
+INC r/m8
+M Valid N.E. 
+Increment r/m byte by 1.
+
+FF /0 
+INC r/m16 
+M Valid Valid 
+Increment r/m word by 1.
+
+FF /0 
+INC r/m32 
+M Valid Valid 
+Increment r/m doubleword by 1.
+
+REX.W + FF /0
+INC r/m64 
+M Valid N.E. 
+Increment r/m quadword by 1.
+
+40+ rw 
+INC r16 
+O N.E. Valid 
+Increment word register by 1.
+
+40+ rd 
+INC r32 
+O N.E. Valid 
+Increment doubleword register by 1.
+
+NOTES:
+* In 64-bit mode, r/m8 can not be encoded to access the following byte registers if a REX prefix is used: AH, BH, CH, DH.
+** 40H through 47H are REX prefixes in 64-bit mode.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+M ModRM:r/m (r, w) NA NA NA
+O opcode + rd (r, w) NA NA NA
+
+Description
+Adds 1 to the destination operand, while preserving the state of the CF flag. The destination operand can be a
+register or a memory location. This instruction allows a loop counter to be updated without disturbing the CF flag.
+(Use a ADD instruction with an immediate operand of 1 to perform an increment operation that does updates the
+CF flag.)
+This instruction can be used with a LOCK prefix to allow the instruction to be executed atomically.
+In 64-bit mode, INC r16 and INC r32 are not encodable (because opcodes 40H through 47H are REX prefixes).
+Otherwise, the instruction’s 64-bit mode default operation size is 32 bits. Use of the REX.R prefix permits access to
+additional registers (R8-R15). Use of the REX.W prefix promotes operation to 64 bits.
+
+Operation
+DEST ← DEST + 1;
+
+AFlags Affected
+The CF flag is not affected. The OF, SF, ZF, AF, and PF flags are set according to the result.
+---------------------------------------------------------------------
+
+INS/INSB/INSW/INSD—Input from Port to String
+
+Opcode Instruction Op/ 64-Bit Compat/ Description
+                   En Mode Leg Mode
+
+6C 
+INS m8, DX 
+NP Valid Valid 
+Input byte from I/O port specified in DX into
+ memory location specified in ES:(E)DI or RDI.*
+
+6D 
+INS m16, DX 
+NP Valid Valid 
+Input word from I/O port specified in DX into
+ memory location specified in ES:(E)DI or RDI.1
+
+6D 
+INS m32, DX 
+NP Valid Valid 
+Input doubleword from I/O port specified in DX
+ into memory location specified in ES:(E)DI or
+ RDI.1
+
+6C 
+INSB 
+NP Valid Valid 
+Input byte from I/O port specified in DX into
+ memory location specified with ES:(E)DI or
+ RDI.1
+
+6D 
+INSW 
+NP Valid Valid 
+Input word from I/O port specified in DX into
+ memory location specified in ES:(E)DI or RDI.1
+
+6D 
+INSD 
+NP Valid Valid 
+Input doubleword from I/O port specified in DX
+ into memory location specified in ES:(E)DI or
+ RDI.1
+
+NOTES:
+* In 64-bit mode, only 64-bit (RDI) and 32-bit (EDI) address sizes are supported. In non-64-bit mode, only 32-bit (EDI) and 16-bit (DI)
+address sizes are supported.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+NP NA NA NA NA
+
+Description
+Copies the data from the I/O port specified with the source operand (second operand) to the destination operand
+(first operand). The source operand is an I/O port address (from 0 to 65,535) that is read from the DX register. The
+destination operand is a memory location, the address of which is read from either the ES:DI, ES:EDI or the RDI
+registers (depending on the address-size attribute of the instruction, 16, 32 or 64, respectively). (The ES segment
+cannot be overridden with a segment override prefix.) The size of the I/O port being accessed (that is, the size of
+the source and destination operands) is determined by the opcode for an 8-bit I/O port or by the operand-size
+attribute of the instruction for a 16- or 32-bit I/O port.
+At the assembly-code level, two forms of this instruction are allowed: the “explicit-operands” form and the “no-
+operands” form. The explicit-operands form (specified with the INS mnemonic) allows the source and destination
+operands to be specified explicitly. Here, the source operand must be “DX,” and the destination operand should be
+a symbol that indicates the size of the I/O port and the destination address. This explicit-operands form is provided
+to allow documentation; however, note that the documentation provided by this form can be misleading. That is,
+the destination operand symbol must specify the correct type (size) of the operand (byte, word, or doubleword),
+but it does not have to specify the correct location. The location is always specified by the ES:(E)DI registers,
+which must be loaded correctly before the INS instruction is executed.
+The no-operands form provides “short forms” of the byte, word, and doubleword versions of the INS instructions.
+Here also DX is assumed by the processor to be the source operand and ES:(E)DI is assumed to be the destination
+operand. The size of the I/O port is specified with the choice of mnemonic: INSB (byte), INSW (word), or INSD
+(doubleword).
+After the byte, word, or doubleword is transfer from the I/O port to the memory location, the DI/EDI/RDI register
+is incremented or decremented automatically according to the setting of the DF flag in the EFLAGS register. (If the
+DF flag is 0, the (E)DI register is incremented; if the DF flag is 1, the (E)DI register is decremented.) The (E)DI
+register is incremented or decremented by 1 for byte operations, by 2 for word operations, or by 4 for doubleword
+operations.
+The INS, INSB, INSW, and INSD instructions can be preceded by the REP prefix for block input of ECX bytes, words,
+or doublewords. See “REP/REPE/REPZ /REPNE/REPNZ—Repeat String Operation Prefix” in Chapter 4 of the Intel®
+64 and IA-32 Architectures Software Developer’s Manual, Volume 2B, for a description of the REP prefix.
+These instructions are only useful for accessing I/O ports located in the processor’s I/O address space. See Chapter
+15, “Input/Output,” in the Intel® 64 and IA-32 Architectures Software Developer’s Manual, Volume 1, for more
+information on accessing I/O ports in the I/O address space.
+In 64-bit mode, default address size is 64 bits, 32 bit address size is supported using the prefix 67H. The address
+of the memory destination is specified by RDI or EDI. 16-bit address size is not supported in 64-bit mode. The
+operand size is not promoted.
+
+Operation
+IF ((PE = 1) and ((CPL > IOPL) or (VM = 1)))
+THEN (* Protected mode with CPL > IOPL or virtual-8086 mode *)
+IF (Any I/O Permission Bit for I/O port being accessed = 1)
+THEN (* I/O operation is not allowed *)
+#GP(0);
+ELSE (* I/O operation is allowed *)
+DEST ← SRC; (* Read from I/O port *)
+FI;
+ELSE (Real Mode or Protected Mode with CPL IOPL *)
+DEST ← SRC; (* Read from I/O port *)
+FI;
+Non-64-bit Mode:
+IF (Byte transfer)
+THEN IF DF = 0
+THEN (E)DI ← (E)DI + 1;
+ELSE (E)DI ← (E)DI – 1; FI;
+ELSE IF (Word transfer)
+THEN IF DF = 0
+THEN (E)DI ← (E)DI + 2;
+ELSE (E)DI ← (E)DI – 2; FI;
+ELSE (* Doubleword transfer *)
+THEN IF DF = 0
+THEN (E)DI ← (E)DI + 4;
+ELSE (E)DI ← (E)DI – 4; FI;
+FI;
+FI;
+FI64-bit Mode:
+IF (Byte transfer)
+THEN IF DF = 0
+THEN (E|R)DI ← (E|R)DI + 1;
+ELSE (E|R)DI ← (E|R)DI – 1; FI;
+ELSE IF (Word transfer)
+THEN IF DF = 0
+THEN (E)DI ← (E)DI + 2;
+ELSE (E)DI ← (E)DI – 2; FI;
+ELSE (* Doubleword transfer *)
+THEN IF DF = 0
+THEN (E|R)DI ← (E|R)DI + 4;
+ELSE (E|R)DI ← (E|R)DI – 4; FI;
+FI;
+FI;
+
+Flags Affected
+None.
+---------------------------------------------------------------------
+INSERTPS — Insert Packed Single Precision Floating-Point Value
+
+Opcode/ Op/ 64/32-bit CPUID Description
+Instruction En Mode 
+               Feature 
+               Flag 
+
+66 0F 3A 21 /r ib 
+INSERTPS xmm1, xmm2/m32, imm8
+RMI V/V SSE4_1 
+Insert a single precision floating-point value
+ selected by imm8 from xmm2/m32 into
+ xmm1 at the specified destination element
+ specified by imm8 and zero out destination
+ elements in xmm1 as indicated in imm8.
+
+VEX.NDS.128.66.0F3A.WIG 21 /r ib
+VINSERTPS xmm1, xmm2, xmm3/m32, imm8
+RVMI V/V AVX 
+Insert a single precision floating point value
+ selected by imm8 from xmm3/m32 and merge
+ into xmm2 at the specified destination
+ element specified by imm8 and zero out
+ destination elements in xmm1 as indicated in
+ imm8.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RMI ModRM:reg (w) ModRM:r/m (r) imm8 NA
+RVMI ModRM:reg (w) VEX.vvvv (r) ModRM:r/m (r) imm8
+
+Description
+(register source form)
+Select a single precision floating-point element from second source as indicated by Count_S bits of the immediate
+operand and insert it into the first source at the location indicated by the Count_D bits of the immediate operand.
+Store in the destination and zero out destination elements based on the ZMask bits of the immediate operand.
+(memory source form)
+Load a floating-point element from a 32-bit memory location and insert it into the first source at the location indi-
+cated by the Count_D bits of the immediate operand. Store in the destination and zero out destination elements
+based on the ZMask bits of the immediate operand.
+128-bit Legacy SSE version: The first source register is an XMM register. The second source operand is either an
+XMM register or a 32-bit memory location. The destination is not distinct from the first source XMM register and the
+upper bits (VLMAX-1:128) of the corresponding YMM register destination are unmodified.
+VEX.128 encoded version. The destination and first source register is an XMM register. The second source operand
+is either an XMM register or a 32-bit memory location. The upper bits (VLMAX-1:128) of the corresponding YMM
+register destination are zeroed.
+If VINSERTPS is encoded with VEX.L= 1, an attempt to execute the instruction encoded with VEX.L= 1 will cause
+an #UD exception.
+
+Operation
+INSERTPS (128-bit Legacy SSE version)
+IF (SRC = REG) THEN COUNT_S  imm8[7:6]
+ELSE COUNT_S  0
+COUNT_D  imm8[5:4]
+ZMASK  imm8[3:0]
+CASE (COUNT_S) OF
+0: TMP  SRC[31:0]
+1: TMP  SRC[63:32]
+2: TMP  SRC[95:64]
+3: TMP  SRC[127:96]
+ESAC;
+CASE (COUNT_D) OF
+0: TMP2[31:0]  TMP
+TMP2[127:32]  DEST[127:32]
+1: TMP2[63:32]  TMP
+TMP2[31:0]  DEST[31:0]
+TMP2[127:64]  DEST[127:64]
+2: TMP2[95:64]  TMP
+TMP2[63:0]  DEST[63:0]
+TMP2[127:96]  DEST[127:96]
+3: TMP2[127:96]  TMP
+TMP2[95:0]  DEST[95:0]
+ESAC;
+IF (ZMASK[0] = 1) THEN DEST[31:0]  00000000H
+ELSE DEST[31:0]  TMP2[31:0]
+IF (ZMASK[1] = 1) THEN DEST[63:32]  00000000H
+ELSE DEST[63:32]  TMP2[63:32]
+IF (ZMASK[2] = 1) THEN DEST[95:64]  00000000H
+ELSE DEST[95:64]  TMP2[95:64]
+IF (ZMASK[3] = 1) THEN DEST[127:96]  00000000H
+ELSE DEST[127:96]  TMP2[127:96]
+DEST[VLMAX-1:128] (Unmodified)
+VINSERTPS (VEX.128 encoded version)
+IF (SRC = REG) THEN COUNT_S  imm8[7:6]
+ELSE COUNT_S  0
+COUNT_D  imm8[5:4]
+ZMASK  imm8[3:0]
+CASE (COUNT_S) OF
+0: TMP  SRC2[31:0]
+1: TMP  SRC2[63:32]
+2: TMP  SRC2[95:64]
+3: TMP  SRC2[127:96]
+ESAC;
+CASE (COUNT_D) OF
+0: TMP2[31:0]  TMP
+TMP2[127:32]  SRC1[127:32]
+1: TMP2[63:32]  TMP
+TMP2[31:0]  SRC1[31:0]
+TMP2[127:64]  SRC1[127:64]
+2: TMP2[95:64]  TMP
+TMP2[63:0]  SRC1[63:0]
+TMP2[127:96]  SRC1[127:96]
+3: TMP2[127:96]  TMP
+TMP2[95:0]  SRC1[95:0]
+ESAC;
+IF (ZMASK[0] = 1) THEN DEST[31:0]  00000000H
+ELSE DEST[31:0]  TMP2[31:0]
+IF (ZMASK[1] = 1) THEN DEST[63:32]  00000000H
+ELSE DEST[63:32]  TMP2[63:32]
+IF (ZMASK[2] = 1) THEN DEST[95:64]  00000000H
+ELSE DEST[95:64]  TMP2[95:64]
+IF (ZMASK[3] = 1) THEN DEST[127:96]  00000000H
+ELSE DEST[127:96]  TMP2[127:96]
+DEST[VLMAX-1:128]  0
+---------------------------------------------------------------------
+
+INT n/INTO/INT 3—Call to Interrupt Procedure
+Opcode Instruction Op/ 64-Bit Compat/ Description
+                   En Mode Leg Mode
+
+CC 
+INT 3 
+NP Valid Valid 
+Interrupt 3—trap to debugger.
+
+CD ib 
+INT imm8 
+I Valid Valid 
+Interrupt vector number specified by
+ immediate byte.
+
+CE 
+INTO 
+NP Invalid Valid 
+Interrupt 4—if overflow flag is 1.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+NP NA NA NA NA
+I imm8 NA NA NA
+
+Description
+The INT n instruction generates a call to the interrupt or exception handler specified with the destination operand
+(see the section titled “Interrupts and Exceptions” in Chapter 6 of the Intel® 64 and IA-32 Architectures Software
+Developer’s Manual, Volume 1). The destination operand specifies an interrupt vector number from 0 to 255,
+encoded as an 8-bit unsigned intermediate value. Each interrupt vector number provides an index to a gate
+descriptor in the IDT. The first 32 interrupt vector numbers
+
+Operation
+see pdf reference
+
+Flags Affected
+The EFLAGS register is pushed onto the stack. The IF, TF, NT, AC, RF, and VM flags may be cleared, depending on
+the mode of operation of the processor when the INT instruction is executed (see the “Operation” section). If the
+interrupt uses a task gate, any flags may be set or cleared, controlled by the EFLAGS image in the new task’s TSS.
+---------------------------------------------------------------------
+
+INVD—Invalidate Internal Caches
+
+Opcode Instruction Op/ 64-Bit Compat/ Description
+                   En Mode Leg Mode
+
+0F 08 
+INVD 
+NP Valid Valid
+Flush internal caches; initiate flushing of
+external caches.
+
+NOTES:
+* See the IA-32 Architecture Compatibility section below.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+NP NA NA NA NA
+
+Description
+Invalidates (flushes) the processor’s internal caches and issues a special-function bus cycle that directs external
+caches to also flush themselves. Data held in internal caches is not written back to main memory.
+After executing this instruction, the processor does not wait for the external caches to complete their flushing oper-
+ation before proceeding with instruction execution. It is the responsibility of hardware to respond to the cache flush
+signal.
+The INVD instruction is a privileged instruction. When the processor is running in protected mode, the CPL of a
+program or procedure must be 0 to execute this instruction.
+The INVD instruction may be used when the cache is used as temporary memory and the cache contents need to
+be invalidated rather than written back to memory. When the cache is used as temporary memory, no external
+device should be actively writing data to main memory.
+Use this instruction with care. Data cached internally and not written back to main memory will be lost. Note that
+any data from an external device to main memory (for example, via a PCIWrite) can be temporarily stored in the
+caches; these data can be lost when an INVD instruction is executed. Unless there is a specific requirement or
+benefit to flushing caches without writing back modified cache lines (for example, temporary memory, testing, or
+fault recovery where cache coherency with main memory is not a concern), software should instead use the
+WBINVD instruction.
+This instruction’s operation is the same in non-64-bit modes and 64-bit mode.
+
+IA-32 Architecture Compatibility
+The INVD instruction is implementation dependent; it may be implemented differently on different families of Intel
+64 or IA-32 processors. This instruction is not supported on IA-32 processors earlier than the Intel486 processor.
+
+Operation
+Flush(InternalCaches);
+SignalFlush(ExternalCaches);
+Continue (* Continue execution *)
+
+Flags Affected
+None.
+---------------------------------------------------------------------
+
+INVLPG—Invalidate TLB Entry
+
+Opcode Instruction Op/ 64-Bit Compat/ Description
+                   En Mode Leg Mode
+
+0F 01 /7 
+INVLPG m 
+M Valid Valid
+Invalidate TLB Entry for page that contains m.
+
+NOTES:
+* See the IA-32 Architecture Compatibility section below.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+M ModRM:r/m (r) NA NA NA
+
+Description
+Invalidates (flushes) the translation lookaside buffer (TLB) entry specified with the source operand. The source
+operand is a memory address. The processor determines the page that contains that address and flushes the TLB
+entry for that page.
+The INVLPG instruction is a privileged instruction. When the processor is running in protected mode, the CPL must
+be 0 to execute this instruction.
+The INVLPG instruction normally flushes the TLB entry only for the specified page; however, in some cases, it may
+flush more entries, even the entire TLB. The instruction is guaranteed to invalidates only TLB entries associated
+with the current PCID. (If PCIDs are disabled — CR4.PCIDE = 0 — the current PCID is 000H.) The instruction also
+invalidates any global TLB entries for the specified page, regardless of PCID.
+For more details on operations that flush the TLB, see “MOV—Move to/from Control Registers” and Section
+4.10.4.1, “Operations that Invalidate TLBs and Paging-Structure Caches,” of the Intel® 64 and IA-32 Architectures
+Software Developer’s Manual, Volume 3A.
+This instruction’s operation is the same in all non-64-bit modes. It also operates the same in 64-bit mode, except
+if the memory address is in non-canonical form. In this case, INVLPG is the same as a NOP.
+
+IA-32 Architecture Compatibility
+The INVLPG instruction is implementation dependent, and its function may be implemented differently on different
+families of Intel 64 or IA-32 processors. This instruction is not supported on IA-32 processors earlier than the
+Intel486 processor.
+
+Operation
+Flush(RelevantTLBEntries);
+Continue; (* Continue execution *)
+
+Flags Affected
+None.
+---------------------------------------------------------------------
+
+INVPCID—Invalidate Process-Context Identifier
+
+Opcode/ Op/ 64/32- CPUID Description
+Instruction En bit Feature 
+               Mode Flag 
+
+66 0F 38 82 /r 
+INVPCID r32, m128
+RM NE/V INVPCID 
+Invalidates entries in the TLBs and paging-structure
+ caches based on invalidation type in r32 and descrip-
+ tor in m128.
+
+66 0F 38 82 /r
+INVPCID r64, m128
+RM V/NE INVPCID 
+Invalidates entries in the TLBs and paging-structure
+ caches based on invalidation type in r64 and descrip-
+ tor in m128.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RM ModRM:reg (R) ModRM:r/m (R) NA NA
+
+Description
+Invalidates mappings in the translation lookaside buffers (TLBs) and paging-structure caches based on process-
+context identifier (PCID). (See Section 4.10, “Caching Translation Information,” in Intel 64 and IA-32 Architecture
+Software Developer’s Manual, Volume 3A.) Invalidation is based on the INVPCID type specified in the register
+operand and the INVPCID descriptor specified in the memory operand.
+Outside 64-bit mode, the register operand is always 32 bits, regardless of the value of CS.D. In 64-bit mode the
+register operand has 64 bits.
+There are four INVPCID types currently defined:
+• Individual-address invalidation: If the INVPCID type is 0, the logical processor invalidates mappings—except
+     global translations—for the linear address and PCID specified in the INVPCID descriptor. In some cases, the
+      instruction may invalidate global translations or mappings for other linear addresses (or other PCIDs) as well.
+• Single-context invalidation: If the INVPCID type is 1, the logical processor invalidates all mappings—except
+     global translations—associated with the PCID specified in the INVPCID descriptor. In some cases, the
+      instruction may invalidate global translations or mappings for other PCIDs as well.
+• All-context invalidation, including global translations: If the INVPCID type is 2, the logical processor invalidates
+   all mappings—including global translations—associated with any PCID.
+• All-context invalidation: If the INVPCID type is 3, the logical processor invalidates all mappings—except global
+     translations—associated with any PCID. In some case, the instruction may invalidate global translations as
+      well.
+The INVPCID descriptor comprises 128 bits and consists of a PCID and a linear address as shown in Figure 3-23.
+For INVPCID type 0, the processor uses the full 64 bits of the linear address even outside 64-bit mode; the linear
+address is not used for other INVPCID types.
+127
+64 63
+Linear Address
+12 11
+Reserved (must be zero)
+0
+PCID
+Figure 3-23. INVPCID Descriptor
+If CR4.PCIDE = 0, a logical processor does not cache information for any PCID other than 000H. In this case,
+executions with INVPCID types 0 and 1 are allowed only if the PCID specified in the INVPCID descriptor is 000H;
+executions with INVPCID types 2 and 3 invalidate mappings only for PCID 000H. Note that CR4.PCIDE must be 0
+outside 64-bit mode (see Chapter 4.10.1, “Process-Context Identifiers (PCIDs)‚” of the Intel® 64 and IA-32 Archi-
+tectures Software Developer’s Manual, Volume 3A).
+
+Operation
+INVPCID_TYPE ← value of register operand;
+// must be in the range of 0–3
+INVPCID_DESC ← value of memory operand;
+CASE INVPCID_TYPE OF
+0:
+// individual-address invalidation
+PCID ← INVPCID_DESC[11:0];
+L_ADDR ← INVPCID_DESC[127:64];
+Invalidate mappings for L_ADDR associated with PCID except global translations;
+BREAK;
+1:
+// single PCID invalidation
+PCID ← INVPCID_DESC[11:0];
+Invalidate all mappings associated with PCID except global translations;
+BREAK;
+2:
+// all PCID invalidation including global translations
+Invalidate all mappings for all PCIDs, including global translations;
+BREAK;
+3:
+// all PCID invalidation retaining global translations
+Invalidate all mappings for all PCIDs except global translations;
+BREAK;
+ESAC;
+---------------------------------------------------------------------
+
+IRET/IRETD—Interrupt Return
+
+Opcode Instruction Op/ 64-Bit Compat/ Description
+                   En Mode Leg Mode
+
+CF 
+IRET 
+NP Valid Valid 
+Interrupt return (16-bit operand size).
+
+CF 
+IRETD 
+NP Valid Valid 
+Interrupt return (32-bit operand size).
+
+REX.W + CF 
+IRETQ 
+NP Valid N.E. 
+Interrupt return (64-bit operand size).
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+NP NA NA NA NA
+
+Description
+Returns program control from an exception or interrupt handler to a program or procedure that was interrupted by
+an exception, an external interrupt, or a software-generated interrupt. These instructions are also used to perform
+a return from a nested task. (A nested task is created when a CALL instruction is used to initiate a task switch or
+when an interrupt or exception causes a task switch to an interrupt or exception handler.) See the section titled
+“Task Linking” in Chapter 7 of the Intel® 64 and IA-32 Architectures Software Developer’s Manual, Volume 3A.
+IRET and IRETD are mnemonics for the same opcode. The IRETD mnemonic (interrupt return double) is intended
+for use when returning from an interrupt when using the 32-bit operand size; however, most assemblers use the
+IRET mnemonic interchangeably for both operand sizes.
+In Real-Address Mode, the IRET instruction preforms a far return to the interrupted program or procedure. During
+this operation, the processor pops the return instruction pointer, return code segment selector, and EFLAGS image
+from the stack to the EIP, CS, and EFLAGS registers, respectively, and then resumes execution of the interrupted
+program or procedure.
+In Protected Mode, the action of the IRET instruction depends on the settings of the NT (nested task) and VM flags
+in the EFLAGS register and the VM flag in the EFLAGS image stored on the current stack. Depending on the setting
+of these flags, the processor performs the following types of interrupt returns:
+Return from virtual-8086 mode.
+Return to virtual-8086 mode.
+Intra-privilege level return.
+Inter-privilege level return.
+Return from nested task (task switch).
+If the NT flag (EFLAGS register) is cleared, the IRET instruction performs a far return from the interrupt procedure,
+without a task switch. The code segment being returned to must be equally or less privileged than the interrupt
+handler routine (as indicated by the RPL field of the code segment selector popped from the stack).
+As with a real-address mode interrupt return, the IRET instruction pops the return instruction pointer, return code
+segment selector, and EFLAGS image from the stack to the EIP, CS, and EFLAGS registers, respectively, and then
+resumes execution of the interrupted program or procedure. If the return is to another privilege level, the IRET
+instruction also pops the stack pointer and SS from the stack, before resuming program execution. If the return is
+to virtual-8086 mode, the processor also pops the data segment registers from the stack.
+If the NT flag is set, the IRET instruction performs a task switch (return) from a nested task (a task called with a
+CALL instruction, an interrupt, or an exception) back to the calling or interrupted task. The updated state of the
+task executing the IRET instruction is saved in its TSS. If the task is re-entered later, the code that follows the IRET
+instruction is executed.
+If the NT flag is set and the processor is in IA-32e mode, the IRET instruction causes a general protection excep-
+tion.
+In 64-bit mode, the instruction’s default operation size is 32 bits. Use of the REX.W prefix promotes operation to 64
+bits (IRETQ). See the summary chart at the beginning of this section for encoding data and limits.
+IRET/IRETD—Interrupt Return
+Vol. 2A 3-419INSTRUCTION SET REFERENCE, A-M
+See “Changes to Instruction Behavior in VMX Non-Root Operation” in Chapter 25 of the Intel® 64 and IA-32 Archi-
+tectures Software Developer’s Manual, Volume 3C, for more information about the behavior of this instruction in
+VMX non-root operation.
+
+Operation
+see the pdf reference
+
+Flags Affected
+All the flags and fields in the EFLAGS register are potentially modified, depending on the mode of operation of the
+processor. If performing a return from a nested task to a previous task, the EFLAGS register will be modified
+according to the EFLAGS image stored in the previous task’s TSS.
+---------------------------------------------------------------------
+
