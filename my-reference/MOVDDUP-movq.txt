@@ -1,0 +1,1215 @@
+MOVDDUP—Move One Double-FP and Duplicate
+
+Opcode/ Op/ 64/32-bit CPUID Description
+Instruction En Mode 
+               Feature 
+               Flag 
+
+F2 0F 12 /r 
+MOVDDUP xmm1, xmm2/m64
+RM V/V SSE3 
+Move one double-precision floating-point
+ value from the lower 64-bit operand in
+ xmm2/m64 to xmm1 and duplicate.
+
+VEX.128.F2.0F.WIG 12 /r
+VMOVDDUP xmm1, xmm2/m64
+RM V/V AVX 
+Move double-precision floating-point values
+ from xmm2/mem and duplicate into xmm1.
+
+VEX.256.F2.0F.WIG 12 /r
+VMOVDDUP ymm1, ymm2/m256
+RM V/V AVX 
+Move even index double-precision floating-
+ point values from ymm2/mem and duplicate
+ each element into ymm1.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RM ModRM:reg (w) ModRM:r/m (r) NA NA
+
+Description
+The linear address corresponds to the address of the least-significant byte of the referenced memory data. When a
+memory address is indicated, the 8 bytes of data at memory location m64 are loaded. When the register-register
+form of this operation is used, the lower half of the 128-bit source register is duplicated and copied into the 128-bit
+destination register. See Figure 3-24.
+
+Operation
+IF (Source = m64)
+THEN
+(* Load instruction *)
+xmm1[63:0] = m64;
+xmm1[127:64] = m64;
+ELSE
+(* Move instruction *)
+xmm1[63:0] = xmm2[63:0];
+xmm1[127:64] = xmm2[63:0];
+FI;
+MOVDDUP (128-bit Legacy SSE version)
+DEST[63:0]  SRC[63:0]
+DEST[127:64]  SRC[63:0]
+DEST[VLMAX-1:128] (Unmodified)
+VMOVDDUP (VEX.128 encoded version)
+DEST[63:0]  SRC[63:0]
+DEST[127:64]  SRC[63:0]
+DEST[VLMAX-1:128]  0
+VMOVDDUP (VEX.256 encoded version)
+DEST[63:0]  SRC[63:0]
+DEST[127:64]  SRC[63:0]
+DEST[191:128]  SRC[191:128]
+DEST[255:192]  SRC[191:128]
+---------------------------------------------------------------------
+
+MOVDQA—Move Aligned Double Quadword
+
+Opcode/ Op/ 64/32-bit CPUID Description
+Instruction En Mode 
+               Feature 
+               Flag 
+
+66 0F 6F /r 
+MOVDQA xmm1, xmm2/m128
+RM V/V SSE2 
+Move aligned double quadword from
+ xmm2/m128 to xmm1.
+
+66 0F 7F /r
+MOVDQA xmm2/m128, xmm1
+MR V/V SSE2 
+Move aligned double quadword from xmm1 to
+ xmm2/m128.
+
+VEX.128.66.0F.WIG 6F /r
+VMOVDQA xmm1, xmm2/m128
+RM V/V AVX 
+Move aligned packed integer values from
+ xmm2/mem to xmm1.
+
+VEX.128.66.0F.WIG 7F /r
+VMOVDQA xmm2/m128, xmm1
+MR V/V AVX 
+Move aligned packed integer values from
+ xmm1 to xmm2/mem.
+
+VEX.256.66.0F.WIG 6F /r
+VMOVDQA ymm1, ymm2/m256
+RM V/V AVX 
+Move aligned packed integer values from
+ ymm2/mem to ymm1.
+
+VEX.256.66.0F.WIG 7F /r
+VMOVDQA ymm2/m256, ymm1
+MR V/V AVX 
+Move aligned packed integer values from
+ ymm1 to ymm2/mem.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RM ModRM:reg (w) ModRM:r/m (r) NA NA
+MR ModRM:r/m (w) ModRM:reg (r) NA NA
+
+Description
+128-bit versions:
+Moves 128 bits of packed integer values from the source operand (second operand) to the destination operand
+(first operand). This instruction can be used to load an XMM register from a 128-bit memory location, to store the
+contents of an XMM register into a 128-bit memory location, or to move data between two XMM registers.
+When the source or destination operand is a memory operand, the operand must be aligned on a 16-byte boundary
+or a general-protection exception (#GP) will be generated. To move integer data to and from unaligned memory
+locations, use the VMOVDQU instruction.
+In 64-bit mode, use of the REX.R prefix permits this instruction to access additional registers (XMM8-XMM15).
+128-bit Legacy SSE version: Bits (VLMAX-1:128) of the corresponding YMM destination register remain
+unchanged.
+VEX.128 encoded version: Bits (VLMAX-1:128) of the destination YMM register are zeroed.
+VEX.256 encoded version:
+Moves 256 bits of packed integer values from the source operand (second operand) to the destination operand
+(first operand). This instruction can be used to load a YMM register from a 256-bit memory location, to store the
+contents of a YMM register into a 256-bit memory location, or to move data between two YMM registers.
+When the source or destination operand is a memory operand, the operand must be aligned on a 32-byte boundary
+or a general-protection exception (#GP) will be generated. To move integer data to and from unaligned memory
+locations, use the VMOVDQU instruction.
+Note: In VEX-encoded versions, VEX.vvvv is reserved and must be 1111b otherwise instructions will #UD.
+
+Operation
+MOVDQA (128-bit load- and register- form Legacy SSE version)
+DEST[127:0]  SRC[127:0]
+DEST[VLMAX-1:128] (Unmodified)
+(* #GP if SRC or DEST unaligned memory operand *)
+(V)MOVDQA (128-bit store forms)
+DEST[127:0]  SRC[127:0]
+VMOVDQA (VEX.128 encoded version)
+DEST[127:0]  SRC[127:0]
+DEST[VLMAX-1:128]  0
+VMOVDQA (VEX.256 encoded version)
+DEST[255:0]  SRC[255:0]
+---------------------------------------------------------------------
+
+MOVDQU—Move Unaligned Double Quadword
+Opcode/ Op/ 64/32-bit CPUID Description
+Instruction En Mode 
+               Feature 
+               Flag 
+
+F3 0F 6F /r 
+MOVDQU xmm1, xmm2/m128
+RM V/V SSE2 
+Move unaligned double quadword from
+ xmm2/m128 to xmm1.
+
+F3 0F 7F /r
+MOVDQU xmm2/m128, xmm1
+MR V/V SSE2 
+Move unaligned double quadword from xmm1
+ to xmm2/m128.
+
+VEX.128.F3.0F.WIG 6F /r
+VMOVDQU xmm1, xmm2/m128
+RM V/V AVX 
+Move unaligned packed integer values from
+ xmm2/mem to xmm1.
+
+VEX.128.F3.0F.WIG 7F /r
+VMOVDQU xmm2/m128, xmm1
+MR V/V AVX 
+Move unaligned packed integer values from
+ xmm1 to xmm2/mem.
+
+VEX.256.F3.0F.WIG 6F /r
+VMOVDQU ymm1, ymm2/m256
+RM V/V AVX 
+Move unaligned packed integer values from
+ ymm2/mem to ymm1.
+
+VEX.256.F3.0F.WIG 7F /r
+VMOVDQU ymm2/m256, ymm1
+MR V/V AVX 
+Move unaligned packed integer values from
+ ymm1 to ymm2/mem.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RM ModRM:reg (w) ModRM:r/m (r) NA NA
+MR ModRM:r/m (w) ModRM:reg (r) NA NA
+
+Description
+128-bit versions:
+Moves 128 bits of packed integer values from the source operand (second operand) to the destination operand
+(first operand). This instruction can be used to load an XMM register from a 128-bit memory location, to store the
+contents of an XMM register into a 128-bit memory location, or to move data between two XMM registers. When
+the source or destination operand is a memory operand, the operand may be unaligned on a 16-byte boundary
+without causing a general-protection exception (#GP) to be generated.1
+To move a double quadword to or from memory locations that are known to be aligned on 16-byte boundaries, use
+the MOVDQA instruction.
+While executing in 16-bit addressing mode, a linear address for a 128-bit data access that overlaps the end of a 16-
+bit segment is not allowed and is defined as reserved behavior. A specific processor implementation may or may
+not generate a general-protection exception (#GP) in this situation, and the address that spans the end of the
+segment may or may not wrap around to the beginning of the segment.
+In 64-bit mode, use of the REX.R prefix permits this instruction to access additional registers (XMM8-XMM15).
+128-bit Legacy SSE version: Bits (VLMAX-1:128) of the corresponding YMM destination register remain
+unchanged.
+When the source or destination operand is a memory operand, the operand may be unaligned to any alignment
+without causing a general-protection exception (#GP) to be generated
+VEX.128 encoded version: Bits (VLMAX-1:128) of the destination YMM register are zeroed.
+VEX.256 encoded version: Moves 256 bits of packed integer values from the source operand (second operand) to
+the destination operand (first operand). This instruction can be used to load a YMM register from a 256-bit memory
+1. If alignment checking is enabled (CR0.AM = 1, RFLAGS.AC = 1, and CPL = 3), an alignment-check exception (#AC) may or may not be
+generated (depending on processor implementation) when the operand is not aligned on an 8-byte boundary.
+location, to store the contents of a YMM register into a 256-bit memory location, or to move data between two YMM
+registers.
+Note: In VEX-encoded versions, VEX.vvvv is reserved and must be 1111b otherwise instructions will #UD.
+
+Operation
+MOVDQU load and register copy (128-bit Legacy SSE version)
+DEST[127:0]  SRC[127:0]
+DEST[VLMAX-1:128] (Unmodified)
+(V)MOVDQU 128-bit store-form versions
+DEST[127:0]  SRC[127:0]
+VMOVDQU (VEX.128 encoded version)
+DEST[127:0]  SRC[127:0]
+DEST[VLMAX-1:128]  0
+VMOVDQU (VEX.256 encoded version)
+DEST[255:0]  SRC[255:0]
+---------------------------------------------------------------------
+
+MOVDQ2Q—Move Quadword from XMM to MMX Technology Register
+
+Opcode Instruction Op/ 64-Bit Compat/ Description
+                   En Mode Leg Mode
+
+F2 0F D6 /r 
+MOVDQ2Q mm, xmm 
+RM Valid Valid
+Move low quadword from xmm to mmx
+register.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RM ModRM:reg (w) ModRM:r/m (r) NA NA
+
+Description
+Moves the low quadword from the source operand (second operand) to the destination operand (first operand). The
+source operand is an XMM register and the destination operand is an MMX technology register.
+This instruction causes a transition from x87 FPU to MMX technology operation (that is, the x87 FPU top-of-stack
+pointer is set to 0 and the x87 FPU tag word is set to all 0s [valid]). If this instruction is executed while an x87 FPU
+floating-point exception is pending, the exception is handled before the MOVDQ2Q instruction is executed.
+In 64-bit mode, use of the REX.R prefix permits this instruction to access additional registers (XMM8-XMM15).
+
+Operation
+DEST ← SRC[63:0];
+---------------------------------------------------------------------
+
+MOVHLPS— Move Packed Single-Precision Floating-Point Values High to Low
+
+Opcode/ Op/ 64/32-bit CPUID Description
+Instruction En Mode 
+               Feature 
+               Flag 
+
+0F 12 /r 
+MOVHLPS xmm1, xmm2
+RM V/V SSE 
+Move two packed single-precision floating-
+ point values from high quadword of xmm2 to
+ low quadword of xmm1.
+
+VEX.NDS.128.0F.WIG 12 /r
+VMOVHLPS xmm1, xmm2, xmm3
+RVM V/V AVX 
+Merge two packed single-precision floating-
+ point values from high quadword of xmm3
+ and low quadword of xmm2.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RM ModRM:reg (w) ModRM:r/m (r) NA NA
+RVM ModRM:reg (w) VEX.vvvv (r) ModRM:r/m (r) NA
+
+Description
+This instruction cannot be used for memory to register moves.
+128-bit two-argument form:
+Moves two packed single-precision floating-point values from the high quadword of the second XMM argument
+(second operand) to the low quadword of the first XMM register (first argument). The high quadword of the desti-
+nation operand is left unchanged. Bits (VLMAX-1:64) of the corresponding YMM destination register are unmodi-
+fied.
+128-bit three-argument form
+Moves two packed single-precision floating-point values from the high quadword of the third XMM argument (third
+operand) to the low quadword of the destination (first operand). Copies the high quadword from the second XMM
+argument (second operand) to the high quadword of the destination (first operand). Bits (VLMAX-1:128) of the
+destination YMM register are zeroed.
+In 64-bit mode, use of the REX.R prefix permits this instruction to access additional registers (XMM8-XMM15).
+If VMOVHLPS is encoded with VEX.L= 1, an attempt to execute the instruction encoded with VEX.L= 1 will cause
+an #UD exception.
+
+Operation
+MOVHLPS (128-bit two-argument form)
+DEST[63:0]  SRC[127:64]
+DEST[VLMAX-1:64] (Unmodified)
+VMOVHLPS (128-bit three-argument form)
+DEST[63:0]  SRC2[127:64]
+DEST[127:64]  SRC1[127:64]
+DEST[VLMAX-1:128]  0
+---------------------------------------------------------------------
+
+MOVHPD—Move High Packed Double-Precision Floating-Point Value
+
+Opcode/ Op/ 64/32-bit CPUID Description
+Instruction En Mode 
+               Feature 
+               Flag 
+
+66 0F 16 /r 
+MOVHPD xmm, m64
+RM V/V SSE2 
+Move double-precision floating-point value
+ from m64 to high quadword of xmm.
+
+66 0F 17 /r
+MOVHPD m64, xmm
+MR V/V SSE2 
+Move double-precision floating-point value
+ from high quadword of xmm to m64.
+
+VEX.NDS.128.66.0F.WIG 16 /r
+VMOVHPD xmm2, xmm1, m64
+RVM V/V AVX 
+Merge double-precision floating-point value
+ from m64 and the low quadword of xmm1.
+
+
+VEX128.66.0F.WIG 17/r
+VMOVHPD m64, xmm1
+MR V/V AVX 
+Move double-precision floating-point values
+ from high quadword of xmm1 to m64.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 
+Operand 3
+Operand 4
+RM ModRM:reg (r, w) ModRM:r/m (r) NA NA
+MR ModRM:r/m (w) ModRM:reg (r) NA NA
+RVM ModRM:reg (w) VEX.vvvv (r) ModRM:r/m (r) NA
+
+Description
+This instruction cannot be used for register to register or memory to memory moves.
+128-bit Legacy SSE load:
+Moves a double-precision floating-point value from the source 64-bit memory operand and stores it in the high 64-
+bits of the destination XMM register. The lower 64bits of the XMM register are preserved. The upper 128-bits of the
+corresponding YMM destination register are preserved.
+In 64-bit mode, use of the REX.R prefix permits this instruction to access additional registers (XMM8-XMM15).
+VEX.128 encoded load:
+Loads a double-precision floating-point value from the source 64-bit memory operand (third operand) and stores
+it in the upper 64-bits of the destination XMM register (first operand). The low 64-bits from second XMM register
+(second operand) are stored in the lower 64-bits of the destination. The upper 128-bits of the destination YMM
+register are zeroed.
+128-bit store:
+Stores a double-precision floating-point value from the high 64-bits of the XMM register source (second operand)
+to the 64-bit memory location (first operand).
+Note: VMOVHPD (store) (VEX.128.66.0F 17 /r) is legal and has the same behavior as the existing 66 0F 17 store.
+For VMOVHPD (store) (VEX.128.66.0F 17 /r) instruction version, VEX.vvvv is reserved and must be 1111b other-
+wise instruction will #UD.
+If VMOVHPD is encoded with VEX.L= 1, an attempt to execute the instruction encoded with VEX.L= 1 will cause an
+#UD exception.
+
+Operation
+MOVHPD (128-bit Legacy SSE load)
+DEST[63:0] (Unmodified)
+DEST[127:64]  SRC[63:0]
+DEST[VLMAX-1:128] (Unmodified)
+VMOVHPD (VEX.128 encoded load)
+DEST[63:0]  SRC1[63:0]
+DEST[127:64]  SRC2[63:0]
+DEST[VLMAX-1:128]  0
+VMOVHPD (store)
+DEST[63:0]  SRC[127:64]
+---------------------------------------------------------------------
+
+MOVHPS—Move High Packed Single-Precision Floating-Point Values
+
+Opcode/ Op/ 64/32-bit CPUID Description
+Instruction En Mode 
+               Feature 
+               Flag 
+
+0F 16 /r 
+MOVHPS xmm, m64
+RM V/V SSE 
+Move two packed single-precision floating-
+ point values from m64 to high quadword of
+ xmm.
+
+0F 17 /r
+MOVHPS m64, xmm
+MR V/V SSE 
+Move two packed single-precision floating-
+ point values from high quadword of xmm to
+ m64.
+
+VEX.NDS.128.0F.WIG 16 /r
+VMOVHPS xmm2, xmm1, m64
+RVM V/V AVX 
+Merge two packed single-precision floating-
+ point values from m64 and the low quadword
+ of xmm1.
+
+VEX.128.0F.WIG 17/r
+VMOVHPS m64, xmm1
+MR V/V AVX 
+Move two packed single-precision floating-
+ point values from high quadword of xmm1to
+ m64.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RM ModRM:reg (r, w) ModRM:r/m (r) NA NA
+MR ModRM:r/m (w) ModRM:reg (r) NA NA
+RVM ModRM:reg (w) VEX.vvvv (r) ModRM:r/m (r) NA
+
+Description
+This instruction cannot be used for register to register or memory to memory moves.
+128-bit Legacy SSE load:
+Moves two packed single-precision floating-point values from the source 64-bit memory operand and stores them
+in the high 64-bits of the destination XMM register. The lower 64bits of the XMM register are preserved. The upper
+128-bits of the corresponding YMM destination register are preserved.
+In 64-bit mode, use of the REX.R prefix permits this instruction to access additional registers (XMM8-XMM15).
+VEX.128 encoded load:
+Loads two single-precision floating-point values from the source 64-bit memory operand (third operand) and
+stores it in the upper 64-bits of the destination XMM register (first operand). The low 64-bits from second XMM
+register (second operand) are stored in the lower 64-bits of the destination. The upper 128-bits of the destination
+YMM register are zeroed.
+128-bit store:
+Stores two packed single-precision floating-point values from the high 64-bits of the XMM register source (second
+operand) to the 64-bit memory location (first operand).
+Note: VMOVHPS (store) (VEX.NDS.128.0F 17 /r) is legal and has the same behavior as the existing 0F 17 store.
+For VMOVHPS (store) (VEX.NDS.128.0F 17 /r) instruction version, VEX.vvvv is reserved and must be 1111b other-
+wise instruction will #UD.
+If VMOVHPS is encoded with VEX.L= 1, an attempt to execute the instruction encoded with VEX.L= 1 will cause an
+#UD exception.
+
+Operation
+MOVHPS (128-bit Legacy SSE load)
+DEST[63:0] (Unmodified)
+DEST[127:64]  SRC[63:0]
+DEST[VLMAX-1:128] (Unmodified)
+VMOVHPS (VEX.128 encoded load)
+DEST[63:0]  SRC1[63:0]
+DEST[127:64]  SRC2[63:0]
+DEST[VLMAX-1:128]  0
+VMOVHPS (store)
+DEST[63:0]  SRC[127:64]
+---------------------------------------------------------------------
+
+MOVLHPS—Move Packed Single-Precision Floating-Point Values Low to High
+
+Opcode/ Op/ 64/32-bit CPUID Description
+Instruction En Mode 
+               Feature 
+               Flag 
+
+0F 16 /r 
+MOVLHPS xmm1, xmm2
+RM V/V SSE 
+Move two packed single-precision floating-
+ point values from low quadword of xmm2 to
+ high quadword of xmm1.
+
+VEX.NDS.128.0F.WIG 16 /r
+VMOVLHPS xmm1, xmm2, xmm3
+RVM V/V AVX 
+Merge two packed single-precision floating-
+ point values from low quadword of xmm3 and
+ low quadword of xmm2.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RM ModRM:reg (w) ModRM:r/m (r) NA NA
+RVM ModRM:reg (w) VEX.vvvv (r) ModRM:r/m (r) NA
+
+Description
+This instruction cannot be used for memory to register moves.
+128-bit two-argument form:
+Moves two packed single-precision floating-point values from the low quadword of the second XMM argument
+(second operand) to the high quadword of the first XMM register (first argument). The low quadword of the desti-
+nation operand is left unchanged. The upper 128 bits of the corresponding YMM destination register are unmodi-
+fied.
+128-bit three-argument form
+Moves two packed single-precision floating-point values from the low quadword of the third XMM argument (third
+operand) to the high quadword of the destination (first operand). Copies the low quadword from the second XMM
+argument (second operand) to the low quadword of the destination (first operand). The upper 128-bits of the
+destination YMM register are zeroed.
+If VMOVLHPS is encoded with VEX.L= 1, an attempt to execute the instruction encoded with VEX.L= 1 will cause
+an #UD exception.
+In 64-bit mode, use of the REX.R prefix permits this instruction to access additional registers (XMM8-XMM15).
+
+Operation
+MOVLHPS (128-bit two-argument form)
+DEST[63:0] (Unmodified)
+DEST[127:64]  SRC[63:0]
+DEST[VLMAX-1:128] (Unmodified)
+VMOVLHPS (128-bit three-argument form)
+DEST[63:0]  SRC1[63:0]
+DEST[127:64]  SRC2[63:0]
+DEST[VLMAX-1:128]  0
+---------------------------------------------------------------------
+
+MOVLPD—Move Low Packed Double-Precision Floating-Point Value
+
+Opcode/ Op/ 64/32-bit CPUID Description
+Instruction En Mode 
+               Feature 
+               Flag 
+
+66 0F 12 /r 
+MOVLPD xmm, m64
+RM V/V SSE2 
+Move double-precision floating-point value
+ from m64 to low quadword of xmm register.
+
+66 0F 13 /r
+MOVLPD m64, xmm
+MR V/V SSE2 
+Move double-precision floating-point nvalue
+ from low quadword of xmm register to m64.
+
+VEX.NDS.128.66.0F.WIG 12 /r
+VMOVLPD xmm2, xmm1, m64
+RVM V/V AVX 
+Merge double-precision floating-point value
+ from m64 and the high quadword of xmm1.
+
+VEX.128.66.0F.WIG 13/r
+VMOVLPD m64, xmm1
+MR V/V AVX 
+Move double-precision floating-point values
+ from low quadword of xmm1 to m64.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RM ModRM:reg (r, w) ModRM:r/m (r) NA NA
+MR ModRM:r/m (w) ModRM:reg (r) NA NA
+RVM ModRM:reg (w) VEX.vvvv (r) ModRM:r/m (r) NA
+
+Description
+This instruction cannot be used for register to register or memory to memory moves.
+128-bit Legacy SSE load:
+Moves a double-precision floating-point value from the source 64-bit memory operand and stores it in the low 64-
+bits of the destination XMM register. The upper 64bits of the XMM register are preserved. The upper 128-bits of the
+corresponding YMM destination register are preserved.
+In 64-bit mode, use of the REX.R prefix permits this instruction to access additional registers (XMM8-XMM15).
+VEX.128 encoded load:
+Loads a double-precision floating-point value from the source 64-bit memory operand (third operand), merges it
+with the upper 64-bits of the first source XMM register (second operand), and stores it in the low 128-bits of the
+destination XMM register (first operand). The upper 128-bits of the destination YMM register are zeroed.
+128-bit store:
+Stores a double-precision floating-point value from the low 64-bits of the XMM register source (second operand) to
+the 64-bit memory location (first operand).
+Note: VMOVLPD (store) (VEX.128.66.0F 13 /r) is legal and has the same behavior as the existing 66 0F 13 store.
+For VMOVLPD (store) (VEX.128.66.0F 13 /r) instruction version, VEX.vvvv is reserved and must be 1111b other-
+wise instruction will #UD.
+If VMOVLPD is encoded with VEX.L= 1, an attempt to execute the instruction encoded with VEX.L= 1 will cause an
+#UD exception.
+
+Operation
+MOVLPD (128-bit Legacy SSE load)
+DEST[63:0]  SRC[63:0]
+DEST[VLMAX-1:64] (Unmodified)
+MOVLPD—Move Low Packed Double-Precision Floating-Point Value
+Vol. 2A 3-535INSTRUCTION SET REFERENCE, A-M
+VMOVLPD (VEX.128 encoded load)
+DEST[63:0]  SRC2[63:0]
+DEST[127:64]  SRC1[127:64]
+DEST[VLMAX-1:128]  0
+VMOVLPD (store)
+DEST[63:0]  SRC[63:0]
+---------------------------------------------------------------------
+
+MOVLPS—Move Low Packed Single-Precision Floating-Point Values
+
+Opcode/ Op/ 64/32-bit CPUID Description
+Instruction En Mode 
+               Feature 
+               Flag 
+
+0F 12 /r 
+MOVLPS xmm, m64
+RM V/V SSE 
+Move two packed single-precision floating-
+ point values from m64 to low quadword of
+ xmm.
+
+0F 13 /r
+MOVLPS m64, xmm
+MR V/V SSE 
+Move two packed single-precision floating-
+ point values from low quadword of xmm to
+ m64.
+
+VEX.NDS.128.0F.WIG 12 /r
+VMOVLPS xmm2, xmm1, m64
+RVM V/V AVX 
+Merge two packed single-precision floating-
+ point values from m64 and the high quadword
+ of xmm1.
+
+VEX.128.0F.WIG 13/r
+VMOVLPS m64, xmm1
+MR V/V AVX 
+Move two packed single-precision floating-
+ point values from low quadword of xmm1 to
+ m64.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RM ModRM:reg (r, w) ModRM:r/m (r) NA NA
+MR ModRM:r/m (w) ModRM:reg (r) NA NA
+RVM ModRM:reg (w) VEX.vvvv (r) ModRM:r/m (r) NA
+
+Description
+This instruction cannot be used for register to register or memory to memory moves.
+128-bit Legacy SSE load:
+Moves two packed single-precision floating-point values from the source 64-bit memory operand and stores them
+in the low 64-bits of the destination XMM register. The upper 64bits of the XMM register are preserved. The upper
+128-bits of the corresponding YMM destination register are preserved.
+In 64-bit mode, use of the REX.R prefix permits this instruction to access additional registers (XMM8-XMM15).
+VEX.128 encoded load:
+Loads two packed single-precision floating-point values from the source 64-bit memory operand (third operand),
+merges them with the upper 64-bits of the first source XMM register (second operand), and stores them in the low
+128-bits of the destination XMM register (first operand). The upper 128-bits of the destination YMM register are
+zeroed.
+128-bit store:
+Loads two packed single-precision floating-point values from the low 64-bits of the XMM register source (second
+operand) to the 64-bit memory location (first operand).
+Note: VMOVLPS (store) (VEX.128.0F 13 /r) is legal and has the same behavior as the existing 0F 13 store. For
+VMOVLPS (store) (VEX.128.0F 13 /r) instruction version, VEX.vvvv is reserved and must be 1111b otherwise
+instruction will #UD.
+If VMOVLPS is encoded with VEX.L= 1, an attempt to execute the instruction encoded with VEX.L= 1 will cause an
+#UD exception.
+
+Operation
+MOVLPS (128-bit Legacy SSE load)
+DEST[63:0]  SRC[63:0]
+DEST[VLMAX-1:64] (Unmodified)
+VMOVLPS (VEX.128 encoded load)
+DEST[63:0]  SRC2[63:0]
+DEST[127:64]  SRC1[127:64]
+DEST[VLMAX-1:128]  0
+VMOVLPS (store)
+DEST[63:0]  SRC[63:0]
+---------------------------------------------------------------------
+
+MOVMSKPD—Extract Packed Double-Precision Floating-Point Sign Mask
+
+Opcode/ Op/ 64/32-bit CPUID Description
+Instruction En Mode 
+               Feature 
+               Flag 
+
+66 0F 50 /r 
+MOVMSKPD reg, xmm
+RM V/V SSE2 
+Extract 2-bit sign mask from xmm and store in
+ reg. The upper bits of r32 or r64 are filled with
+ zeros.
+
+VEX.128.66.0F.WIG 50 /r
+VMOVMSKPD reg, xmm2
+RM V/V AVX 
+Extract 2-bit sign mask from xmm2 and store
+ in reg. The upper bits of r32 or r64 are zeroed.
+
+VEX.256.66.0F.WIG 50 /r
+VMOVMSKPD reg, ymm2
+RM V/V AVX 
+Extract 4-bit sign mask from ymm2 and store
+ in reg. The upper bits of r32 or r64 are zeroed.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RM ModRM:reg (w) ModRM:r/m (r) NA NA
+
+Description
+Extracts the sign bits from the packed double-precision floating-point values in the source operand (second
+operand), formats them into a 2-bit mask, and stores the mask in the destination operand (first operand). The
+source operand is an XMM register, and the destination operand is a general-purpose register. The mask is stored
+in the 2 low-order bits of the destination operand. Zero-extend the upper bits of the destination.
+In 64-bit mode, the instruction can access additional registers (XMM8-XMM15, R8-R15) when used with a REX.R
+prefix. The default operand size is 64-bit in 64-bit mode.
+128-bit versions: The source operand is a YMM register. The destination operand is a general purpose register.
+VEX.256 encoded version: The source operand is a YMM register. The destination operand is a general purpose
+register.
+Note: In VEX-encoded versions, VEX.vvvv is reserved and must be 1111b, otherwise instructions will #UD.
+
+Operation
+(V)MOVMSKPD (128-bit versions)
+DEST[0]  SRC[63]
+DEST[1]  SRC[127]
+IF DEST = r32
+THEN DEST[31:2]  0;
+ELSE DEST[63:2]  0;
+FI
+VMOVMSKPD (VEX.256 encoded version)
+DEST[0]  SRC[63]
+DEST[1]  SRC[127]
+DEST[2]  SRC[191]
+DEST[3]  SRC[255]
+IF DEST = r32
+THEN DEST[31:4]  0;
+ELSE DEST[63:4]  0;
+FI
+---------------------------------------------------------------------
+
+MOVMSKPS—Extract Packed Single-Precision Floating-Point Sign Mask
+
+Opcode/ Op/ 64/32-bit CPUID Description
+Instruction En Mode 
+               Feature 
+               Flag 
+
+0F 50 /r 
+MOVMSKPS reg, xmm
+RM V/V SSE 
+Extract 4-bit sign mask from xmm and store in
+ reg. The upper bits of r32 or r64 are filled
+ with zeros.
+
+VEX.128.0F.WIG 50 /r
+VMOVMSKPS reg, xmm2
+RM V/V AVX 
+Extract 4-bit sign mask from xmm2 and store
+ in reg. The upper bits of r32 or r64 are zeroed.
+
+VEX.256.0F.WIG 50 /r
+VMOVMSKPS reg, ymm2
+RM V/V AVX 
+Extract 8-bit sign mask from ymm2 and store
+ in reg. The upper bits of r32 or r64 are zeroed.
+
+Instruction Operand Encoding1
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RM ModRM:reg (w) ModRM:r/m (r) NA NA
+
+Description
+Extracts the sign bits from the packed single-precision floating-point values in the source operand (second
+operand), formats them into a 4- or 8-bit mask, and stores the mask in the destination operand (first operand).
+The source operand is an XMM or YMM register, and the destination operand is a general-purpose register. The
+mask is stored in the 4 or 8 low-order bits of the destination operand. The upper bits of the destination operand
+beyond the mask are filled with zeros.
+In 64-bit mode, the instruction can access additional registers (XMM8-XMM15, R8-R15) when used with a REX.R
+prefix. The default operand size is 64-bit in 64-bit mode.
+128-bit versions: The source operand is a YMM register. The destination operand is a general purpose register.
+VEX.256 encoded version: The source operand is a YMM register. The destination operand is a general purpose
+register.
+Note: In VEX-encoded versions, VEX.vvvv is reserved and must be 1111b, otherwise instructions will #UD.
+
+Operation
+DEST[0] ← SRC[31];
+DEST[1] ← SRC[63];
+DEST[2] ← SRC[95];
+DEST[3] ← SRC[127];
+IF DEST = r32
+THEN DEST[31:4] ← ZeroExtend;
+ELSE DEST[63:4] ← ZeroExtend;
+FI;
+1. ModRM.MOD = 011B required
+(V)MOVMSKPS (128-bit version)
+DEST[0]  SRC[31]
+DEST[1]  SRC[63]
+DEST[2]  SRC[95]
+DEST[3]  SRC[127]
+IF DEST = r32
+THEN DEST[31:4]  0;
+ELSE DEST[63:4]  0;
+FI
+VMOVMSKPS (VEX.256 encoded version)
+DEST[0]  SRC[31]
+DEST[1]  SRC[63]
+DEST[2]  SRC[95]
+DEST[3]  SRC[127]
+DEST[4]  SRC[159]
+DEST[5]  SRC[191]
+DEST[6]  SRC[223]
+DEST[7]  SRC[255]
+IF DEST = r32
+THEN DEST[31:8]  0;
+ELSE DEST[63:8]  0;
+FI
+---------------------------------------------------------------------
+
+MOVNTDQA — Load Double Quadword Non-Temporal Aligned Hint
+
+Opcode/ Op/ 64/32-bit CPUID Description
+Instruction En Mode 
+               Feature 
+               Flag 
+
+66 0F 38 2A /r 
+MOVNTDQA xmm1, m128
+RM V/V SSE4_1 
+Move double quadword from m128 to xmm
+ using non-temporal hint if WC memory type.
+
+VEX.128.66.0F38.WIG 2A /r
+VMOVNTDQA xmm1, m128
+RM V/V AVX 
+Move double quadword from m128 to xmm
+ using non-temporal hint if WC memory type.
+
+VEX.256.66.0F38.WIG 2A /r
+VMOVNTDQA ymm1, m256
+RM V/V AVX2 
+Move 256-bit data from m256 to ymm using
+ non-temporal hint if WC memory type.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RM ModRM:reg (w) ModRM:r/m (r) NA NA
+
+Description
+(V)MOVNTDQA loads a double quadword from the source operand (second operand) to the destination operand
+(first operand) using a non-temporal hint. A processor implementation may make use of the non-temporal hint
+associated with this instruction if the memory source is WC (write combining) memory type. An implementation
+may also make use of the non-temporal hint associated with this instruction if the memory source is WB (write
+back) memory type.
+A processor’s implementation of the non-temporal hint does not override the effective memory type semantics, but
+the implementation of the hint is processor dependent. For example, a processor implementation may choose to
+ignore the hint and process the instruction as a normal MOVDQA for any memory type. Another implementation of
+the hint for WC memory type may optimize data transfer throughput of WC reads. A third implementation may
+optimize cache reads generated by (V)MOVNTDQA on WB memory type to reduce cache evictions.
+WC Streaming Load Hint
+For WC memory type in particular, the processor never appears to read the data into the cache hierarchy. Instead,
+the non-temporal hint may be implemented by loading a temporary internal buffer with the equivalent of an
+aligned cache line without filling this data to the cache. Any memory-type aliased lines in the cache will be snooped
+and flushed. Subsequent MOVNTDQA reads to unread portions of the WC cache line will receive data from the
+temporary internal buffer if data is available. The temporary internal buffer may be flushed by the processor at any
+time for any reason, for example:
+• A load operation other than a (V)MOVNTDQA which references memory already resident in a temporary
+   internal buffer.
+• A non-WC reference to memory already resident in a temporary internal buffer.
+Interleaving of reads and writes to memory currently residing in a single temporary internal buffer.
+Repeated (V)MOVNTDQA loads of a particular 16-byte item in a streaming line.
+Certain micro-architectural conditions including resource shortages, detection of a mis-speculation condition,
+and various fault conditions
+The memory type of the region being read can override the non-temporal hint, if the memory address specified for
+the non-temporal read is not a WC memory region. Information on non-temporal reads and writes can be found in
+Chapter 11, “Memory Cache Control” of Intel® 64 and IA-32 Architectures Software Developer’s Manual, Volume
+3A.
+Because the WC protocol uses a weakly-ordered memory consistency model, an MFENCE or locked instruction
+should be used in conjunction with MOVNTDQA instructions if multiple processors might reference the same WC
+memory locations or in order to synchronize reads of a processor with writes by other agents in the system.
+Because of the speculative nature of fetching due to MOVNTDQA, Streaming loads must not be used to reference
+memory addresses that are mapped to I/O devices having side effects or when reads to these devices are destruc-
+MOVNTDQA — Load Double Quadword Non-Temporal Aligned Hint
+Vol. 2A 3-543INSTRUCTION SET REFERENCE, A-M
+tive. For additional information on MOVNTDQA usages, see Section 12.10.3 in Chapter 12, “Programming with
+SSE3, SSSE3 and SSE4” of Intel® 64 and IA-32 Architectures Software Developer’s Manual, Volume 1.
+The 128-bit (V)MOVNTDQA addresses must be 16-byte aligned or the instruction will cause a #GP.
+The 256-bit VMOVNTDQA addresses must be 32-byte aligned or the instruction will cause a #GP.
+Note: In VEX-128 encoded versions, VEX.vvvv is reserved and must be 1111b, VEX.L must be 0; otherwise instruc-
+tions will #UD.
+
+Operation
+MOVNTDQA (128bit- Legacy SSE form)
+DEST  SRC
+DEST[VLMAX-1:128] (Unmodified)
+VMOVNTDQA (VEX.128 encoded form)
+DEST  SRC
+DEST[VLMAX-1:128]  0
+VMOVNTDQA (VEX.256 encoded form)
+DEST[255:0]  SRC[255:0]
+---------------------------------------------------------------------
+
+MOVNTDQ—Store Double Quadword Using Non-Temporal Hint
+
+Opcode/ Op/ 64/32-bit CPUID Description
+Instruction En Mode 
+               Feature 
+               Flag 
+
+66 0F E7 /r 
+MOVNTDQ m128, xmm
+MR V/V SSE2 
+Move double quadword from xmm to m128
+ using non-temporal hint.
+
+VEX.128.66.0F.WIG E7 /r
+VMOVNTDQ m128, xmm1
+MR V/V AVX 
+Move packed integer values in xmm1 to m128
+ using non-temporal hint.
+
+VEX.256.66.0F.WIG E7 /r
+VMOVNTDQ m256, ymm1
+MR V/V AVX 
+Move packed integer values in ymm1 to m256
+ using non-temporal hint.
+
+Instruction Operand Encoding1
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+MR ModRM:r/m (w) ModRM:reg (r) NA NA
+
+Description
+Moves the packed integers in the source operand (second operand) to the destination operand (first operand) using
+a non-temporal hint to prevent caching of the data during the write to memory. The source operand is an XMM
+register or YMM register, which is assumed to contain integer data (packed bytes, words, doublewords, or quad-
+words). The destination operand is a 128-bit or 256-bit memory location. The memory operand must be aligned on
+a 16-byte (128-bit version) or 32-byte (VEX.256 encoded version) boundary otherwise a general-protection
+exception (#GP) will be generated.
+The non-temporal hint is implemented by using a write combining (WC) memory type protocol when writing the
+data to memory. Using this protocol, the processor does not write the data into the cache hierarchy, nor does it
+fetch the corresponding cache line from memory into the cache hierarchy. The memory type of the region being
+written to can override the non-temporal hint, if the memory address specified for the non-temporal store is in an
+uncacheable (UC) or write protected (WP) memory region. For more information on non-temporal stores, see
+“Caching of Temporal vs. Non-Temporal Data” in Chapter 10 in the Intel® 64 and IA-32 Architectures Software
+Developer’s Manual, Volume 1.
+Because the WC protocol uses a weakly-ordered memory consistency model, a fencing operation implemented
+with the SFENCE or MFENCE instruction should be used in conjunction with MOVNTDQ instructions if multiple
+processors might use different memory types to read/write the destination memory locations.
+In 64-bit mode, use of the REX.R prefix permits this instruction to access additional registers (XMM8-XMM15).
+Note: In VEX-128 encoded versions, VEX.vvvv is reserved and must be 1111b, VEX.L must be 0; otherwise instruc-
+tions will #UD.
+
+Operation
+DEST ← SRC;
+---------------------------------------------------------------------
+
+MOVNTI—Store Doubleword Using Non-Temporal Hint
+
+Opcode Instruction Op/ 64-Bit Compat/ Description
+                   En Mode Leg Mode
+
+0F C3 /r 
+MOVNTI m32, r32 
+MR Valid Valid 
+Move doubleword from r32 to m32 using non-
+ temporal hint.
+
+REX.W + 0F C3 /r 
+MOVNTI m64, r64 
+MR Valid N.E. 
+Move quadword from r64 to m64 using non-
+ temporal hint.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+MR ModRM:r/m (w) ModRM:reg (r) NA NA
+
+Description
+Moves the doubleword integer in the source operand (second operand) to the destination operand (first operand)
+using a non-temporal hint to minimize cache pollution during the write to memory. The source operand is a
+general-purpose register. The destination operand is a 32-bit memory location.
+The non-temporal hint is implemented by using a write combining (WC) memory type protocol when writing the
+data to memory. Using this protocol, the processor does not write the data into the cache hierarchy, nor does it
+fetch the corresponding cache line from memory into the cache hierarchy. The memory type of the region being
+written to can override the non-temporal hint, if the memory address specified for the non-temporal store is in an
+uncacheable (UC) or write protected (WP) memory region. For more information on non-temporal stores, see
+“Caching of Temporal vs. Non-Temporal Data” in Chapter 10 in the Intel® 64 and IA-32 Architectures Software
+Developer’s Manual, Volume 1.
+Because the WC protocol uses a weakly-ordered memory consistency model, a fencing operation implemented
+with the SFENCE or MFENCE instruction should be used in conjunction with MOVNTI instructions if multiple proces-
+sors might use different memory types to read/write the destination memory locations.
+In 64-bit mode, the instruction’s default operation size is 32 bits. Use of the REX.R prefix permits access to addi-
+tional registers (R8-R15). Use of the REX.W prefix promotes operation to 64 bits. See the summary chart at the
+beginning of this section for encoding data and limits.
+
+Operation
+DEST ← SRC;
+---------------------------------------------------------------------
+
+MOVNTPD—Store Packed Double-Precision Floating-Point Values Using Non-Temporal Hint
+
+Opcode/ Op/ 64/32-bit CPUID Description
+Instruction En Mode 
+               Feature 
+               Flag 
+
+66 0F 2B /r 
+MOVNTPD m128, xmm
+MR V/V SSE2 
+Move packed double-precision floating-point
+ values from xmm to m128 using non-
+ temporal hint.
+
+VEX.128.66.0F.WIG 2B /r
+VMOVNTPD m128, xmm1
+MR V/V AVX 
+Move packed double-precision values in xmm1
+ to m128 using non-temporal hint.
+
+VEX.256.66.0F.WIG 2B /r
+VMOVNTPD m256, ymm1
+MR V/V AVX 
+Move packed double-precision values in ymm1
+ to m256 using non-temporal hint.
+
+Instruction Operand Encoding1
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+MR ModRM:r/m (w) ModRM:reg (r) NA NA
+
+Description
+Moves the packed double-precision floating-point values in the source operand (second operand) to the destination
+operand (first operand) using a non-temporal hint to prevent caching of the data during the write to memory. The
+source operand is an XMM register or YMM register, which is assumed to contain packed double-precision, floating-
+pointing data. The destination operand is a 128-bit or 256-bit memory location. The memory operand must be
+aligned on a 16-byte (128-bit version) or 32-byte (VEX.256 encoded version) boundary otherwise a general-
+protection exception (#GP) will be generated.
+The non-temporal hint is implemented by using a write combining (WC) memory type protocol when writing the
+data to memory. Using this protocol, the processor does not write the data into the cache hierarchy, nor does it
+fetch the corresponding cache line from memory into the cache hierarchy. The memory type of the region being
+written to can override the non-temporal hint, if the memory address specified for the non-temporal store is in an
+uncacheable (UC) or write protected (WP) memory region. For more information on non-temporal stores, see
+“Caching of Temporal vs. Non-Temporal Data” in Chapter 10 in the Intel® 64 and IA-32 Architectures Software
+Developer’s Manual, Volume 1.
+Because the WC protocol uses a weakly-ordered memory consistency model, a fencing operation implemented
+with the SFENCE or MFENCE instruction should be used in conjunction with MOVNTPD instructions if multiple
+processors might use different memory types to read/write the destination memory locations.
+In 64-bit mode, use of the REX.R prefix permits this instruction to access additional registers (XMM8-XMM15).
+Note: In VEX-128 encoded versions, VEX.vvvv is reserved and must be 1111b, VEX.L must be 0; otherwise instruc-
+tions will #UD.
+
+Operation
+DEST ← SRC;
+---------------------------------------------------------------------
+
+MOVNTPS—Store Packed Single-Precision Floating-Point Values Using Non-Temporal Hint
+
+Opcode/ Op/ 64/32-bit CPUID Description
+Instruction En Mode 
+               Feature 
+               Flag 
+
+0F 2B /r 
+MOVNTPS m128, xmm
+MR V/V SSE 
+Move packed single-precision floating-point
+ values from xmm to m128 using non-
+ temporal hint.
+
+VEX.128.0F.WIG 2B /r
+VMOVNTPS m128, xmm1
+MR V/V AVX 
+Move packed single-precision values xmm1 to
+ mem using non-temporal hint.
+
+VEX.256.0F.WIG 2B /r
+VMOVNTPS m256, ymm1
+MR V/V AVX 
+Move packed single-precision values ymm1 to
+ mem using non-temporal hint.
+
+Instruction Operand Encoding1
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+MR ModRM:r/m (w) ModRM:reg (r) NA NA
+
+Description
+Moves the packed single-precision floating-point values in the source operand (second operand) to the destination
+operand (first operand) using a non-temporal hint to prevent caching of the data during the write to memory. The
+source operand is an XMM register or YMM register, which is assumed to contain packed single-precision, floating-
+pointing. The destination operand is a 128-bit or 256-bitmemory location. The memory operand must be aligned
+on a 16-byte (128-bit version) or 32-byte (VEX.256 encoded version) boundary otherwise a general-protection
+exception (#GP) will be generated.
+The non-temporal hint is implemented by using a write combining (WC) memory type protocol when writing the
+data to memory. Using this protocol, the processor does not write the data into the cache hierarchy, nor does it
+fetch the corresponding cache line from memory into the cache hierarchy. The memory type of the region being
+written to can override the non-temporal hint, if the memory address specified for the non-temporal store is in an
+uncacheable (UC) or write protected (WP) memory region. For more information on non-temporal stores, see
+“Caching of Temporal vs. Non-Temporal Data” in Chapter 10 in the Intel® 64 and IA-32 Architectures Software
+Developer’s Manual, Volume 1.
+Because the WC protocol uses a weakly-ordered memory consistency model, a fencing operation implemented
+with the SFENCE or MFENCE instruction should be used in conjunction with MOVNTPS instructions if multiple
+processors might use different memory types to read/write the destination memory locations.
+In 64-bit mode, use of the REX.R prefix permits this instruction to access additional registers (XMM8-XMM15).
+Note: In VEX-encoded versions, VEX.vvvv is reserved and must be 1111b otherwise instructions will #UD.
+
+Operation
+DEST ← SRC;
+---------------------------------------------------------------------
+
+MOVNTQ—Store of Quadword Using Non-Temporal Hint
+
+Opcode Instruction Op/ 64-Bit Compat/ Description
+                   En Mode Leg Mode
+
+0F E7 /r 
+MOVNTQ m64, mm 
+MR Valid Valid
+Move quadword from mm to m64 using non-
+temporal hint.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+MR ModRM:r/m (w) ModRM:reg (r) NA NA
+
+Description
+Moves the quadword in the source operand (second operand) to the destination operand (first operand) using a
+non-temporal hint to minimize cache pollution during the write to memory. The source operand is an MMX tech-
+nology register, which is assumed to contain packed integer data (packed bytes, words, or doublewords). The
+destination operand is a 64-bit memory location.
+The non-temporal hint is implemented by using a write combining (WC) memory type protocol when writing the
+data to memory. Using this protocol, the processor does not write the data into the cache hierarchy, nor does it
+fetch the corresponding cache line from memory into the cache hierarchy. The memory type of the region being
+written to can override the non-temporal hint, if the memory address specified for the non-temporal store is in an
+uncacheable (UC) or write protected (WP) memory region. For more information on non-temporal stores, see
+“Caching of Temporal vs. Non-Temporal Data” in Chapter 10 in the Intel® 64 and IA-32 Architectures Software
+Developer’s Manual, Volume 1.
+Because the WC protocol uses a weakly-ordered memory consistency model, a fencing operation implemented
+with the SFENCE or MFENCE instruction should be used in conjunction with MOVNTQ instructions if multiple proces-
+sors might use different memory types to read/write the destination memory locations.
+This instruction’s operation is the same in non-64-bit modes and 64-bit mode.
+
+Operation
+DEST ← SRC;
+---------------------------------------------------------------------
+
+MOVQ—Move Quadword
+
+Opcode/ Op/ 64/32-bit CPUID Description
+Instruction En Mode 
+               Feature 
+               Flag 
+
+0F 6F /r 
+MOVQ mm, mm/m64
+RM V/V MMX 
+Move quadword from mm/m64 to mm.
+
+0F 7F /r
+MOVQ mm/m64, mm
+MR V/V MMX 
+Move quadword from mm to mm/m64.
+
+F3 0F 7E /r
+MOVQ xmm1, xmm2/m64
+RM V/V SSE2 
+Move quadword from xmm2/mem64 to
+ xmm1.
+
+VEX.128.F3.0F.WIG 7E /r
+VMOVQ xmm1, xmm2
+RM V/V AVX 
+Move quadword from xmm2 to xmm1.
+
+VEX.128.F3.0F.WIG 7E /r
+VMOVQ xmm1, m64
+RM V/V AVX 
+Load quadword from m64 to xmm1.
+
+66 0F D6 /r
+MOVQ xmm2/m64, xmm1
+MR V/V SSE2 
+Move quadword from xmm1 to
+ xmm2/mem64.
+
+VEX.128.66.0F.WIG D6 /r
+VMOVQ xmm1/m64, xmm2
+MR V/V AVX 
+Move quadword from xmm2 register to
+ xmm1/m64.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RM ModRM:reg (w) ModRM:r/m (r) NA NA
+MR ModRM:r/m (w) ModRM:reg (r) NA NA
+
+Description
+Copies a quadword from the source operand (second operand) to the destination operand (first operand). The
+source and destination operands can be MMX technology registers, XMM registers, or 64-bit memory locations. This
+instruction can be used to move a quadword between two MMX technology registers or between an MMX tech-
+nology register and a 64-bit memory location, or to move data between two XMM registers or between an XMM
+register and a 64-bit memory location. The instruction cannot be used to transfer data between memory locations.
+When the source operand is an XMM register, the low quadword is moved; when the destination operand is an XMM
+register, the quadword is stored to the low quadword of the register, and the high quadword is cleared to all 0s.
+In 64-bit mode, use of the REX prefix in the form of REX.R permits this instruction to access additional registers
+(XMM8-XMM15).
+Note: In VEX.128.66.0F D6 instruction version, VEX.vvvv and VEX.L=1 are reserved and the former must be 1111b
+otherwise instructions will #UD.
+Note: In VEX.128.F3.0F 7E version, VEX.vvvv and VEX.L=1 are reserved and the former must be 1111b, otherwise
+instructions will #UD.
+
+Operation
+MOVQ instruction when operating on MMX technology registers and memory locations:
+DEST ← SRC;
+MOVQ instruction when source and destination operands are XMM registers:
+DEST[63:0] ← SRC[63:0];
+DEST[127:64] ← 0000000000000000H;
+MOVQ instruction when source operand is XMM register and destination
+operand is memory location:
+DEST ← SRC[63:0];
+MOVQ instruction when source operand is memory location and destination
+operand is XMM register:
+DEST[63:0] ← SRC;
+DEST[127:64] ← 0000000000000000H;
+VMOVQ (VEX.NDS.128.F3.0F 7E) with XMM register source and destination:
+DEST[63:0] ← SRC[63:0]
+DEST[VLMAX-1:64] ← 0
+VMOVQ (VEX.128.66.0F D6) with XMM register source and destination:
+DEST[63:0] ← SRC[63:0]
+DEST[VLMAX-1:64] ← 0
+VMOVQ (7E) with memory source:
+DEST[63:0] ← SRC[63:0]
+DEST[VLMAX-1:64] ← 0
+VMOVQ (D6) with memory dest:
+DEST[63:0] ← SRC2[63:0]
+
+Flags Affected
+None.
+---------------------------------------------------------------------
