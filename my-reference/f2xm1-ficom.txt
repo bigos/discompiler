@@ -209,3 +209,777 @@ Set if result was rounded up; cleared otherwise.
 C0, C2, C3
 Undefined.
 ---------------------------------------------------------------------
+
+FCHS—Change Sign
+
+Opcode Instruction 64-Bit Compat/ Description
+                   Mode Leg Mode 
+
+D9 E0 
+FCHS 
+Valid Valid 
+Complements sign of ST(0).
+
+Description
+Complements the sign bit of ST(0). This operation changes a positive value into a negative value of equal magni-
+tude or vice versa. The following table shows the results obtained when changing the sign of various classes of
+numbers.
+Table 3-30. FCHS Results
+NOTES:
+* F means finite floating-point value.
+This instruction’s operation is the same in non-64-bit modes and 64-bit mode.
+
+Operation
+SignBit(ST(0)) ← NOT (SignBit(ST(0)));
+
+FPU Flags Affected
+C1 Set to 0.
+C0, C2, C3 Undefined.
+---------------------------------------------------------------------
+
+FCLEX/FNCLEX—Clear Exceptions
+Opcode Instruction 64-Bit Compat/ Description
+                    Mode Leg Mode 
+
+9B DB E2 
+FCLEX 
+Valid Valid 
+Clear floating-point exception flags after checking for
+ pending unmasked floating-point exceptions.
+
+DB E2 
+FNCLEX 
+Valid Valid 
+Clear floating-point exception flags without checking for
+ pending unmasked floating-point exceptions.
+
+NOTES:
+* See IA-32 Architecture Compatibility section below.
+
+Description
+Clears the floating-point exception flags (PE, UE, OE, ZE, DE, and IE), the exception summary status flag (ES), the
+stack fault flag (SF), and the busy flag (B) in the FPU status word. The FCLEX instruction checks for and handles
+any pending unmasked floating-point exceptions before clearing the exception flags; the FNCLEX instruction does
+not.
+The assembler issues two instructions for the FCLEX instruction (an FWAIT instruction followed by an FNCLEX
+instruction), and the processor executes each of these instructions separately. If an exception is generated for
+either of these instructions, the save EIP points to the instruction that caused the exception.
+
+IA-32 Architecture Compatibility
+When operating a Pentium or Intel486 processor in MS-DOS* compatibility mode, it is possible (under unusual
+circumstances) for an FNCLEX instruction to be interrupted prior to being executed to handle a pending FPU excep-
+tion. See the section titled “No-Wait FPU Instructions Can Get FPU Interrupt in Window” in Appendix D of the Intel®
+64 and IA-32 Architectures Software Developer’s Manual, Volume 1, for a description of these circumstances. An
+FNCLEX instruction cannot be interrupted in this way on a Pentium 4, Intel Xeon, or P6 family processor.
+This instruction affects only the x87 FPU floating-point exception flags. It does not affect the SIMD floating-point
+exception flags in the MXCRS register.
+This instruction’s operation is the same in non-64-bit modes and 64-bit mode.
+
+Operation
+FPUStatusWord[0:7] ← 0;
+FPUStatusWord[15] ← 0;
+
+FPU Flags Affected
+The PE, UE, OE, ZE, DE, IE, ES, SF, and B flags in the FPU status word are cleared. The C0, C1, C2, and C3 flags are
+undefined.
+---------------------------------------------------------------------
+
+FCMOVcc—Floating-Point Conditional Move
+
+Opcode Instruction 64-Bit Compat/
+            Mode Description
+                Leg Mode
+
+DA C0+i 
+FCMOVB ST(0), ST(i) 
+Valid Valid 
+Move if below (CF=1).
+
+DA C8+i 
+FCMOVE ST(0), ST(i) 
+Valid Valid 
+Move if equal (ZF=1).
+
+DA D0+i 
+FCMOVBE ST(0), ST(i) 
+Valid Valid 
+Move if below or equal (CF=1 or ZF=1).
+
+DA D8+i 
+FCMOVU ST(0), ST(i) 
+Valid Valid 
+Move if unordered (PF=1).
+
+DB C0+i 
+FCMOVNB ST(0), ST(i) 
+Valid Valid 
+Move if not below (CF=0).
+
+DB C8+i 
+FCMOVNE ST(0), ST(i) 
+Valid Valid 
+Move if not equal (ZF=0).
+
+DB D0+i 
+FCMOVNBE ST(0), ST(i) 
+Valid Valid 
+Move if not below or equal (CF=0 and ZF=0).
+
+DB D8+i 
+FCMOVNU ST(0), ST(i) 
+Valid Valid 
+Move if not unordered (PF=0).
+
+NOTES:
+* See IA-32 Architecture Compatibility section below.
+
+Description
+Tests the status flags in the EFLAGS register and moves the source operand (second operand) to the destination
+operand (first operand) if the given test condition is true. The condition for each mnemonic os given in the Descrip-
+tion column above and in Chapter 8 in the Intel® 64 and IA-32 Architectures Software Developer’s Manual, Volume
+1. The source operand is always in the ST(i) register and the destination operand is always ST(0).
+The FCMOVcc instructions are useful for optimizing small IF constructions. They also help eliminate branching
+overhead for IF operations and the possibility of branch mispredictions by the processor.
+A processor may not support the FCMOVcc instructions. Software can check if the FCMOVcc instructions are
+supported by checking the processor’s feature information with the CPUID instruction (see “COMISS—Compare
+Scalar Ordered Single-Precision Floating-Point Values and Set EFLAGS” in this chapter). If both the CMOV and FPU
+feature bits are set, the FCMOVcc instructions are supported.
+This instruction’s operation is the same in non-64-bit modes and 64-bit mode.
+
+IA-32 Architecture Compatibility
+The FCMOVcc instructions were introduced to the IA-32 Architecture in the P6 family processors and are not avail-
+able in earlier IA-32 processors.
+
+Operation
+IF condition TRUE
+THEN ST(0) ← ST(i);
+FI;
+
+FPU Flags Affected
+C1 Set to 0 if stack underflow occurred.
+C0, C2, C3 Undefined.
+---------------------------------------------------------------------
+
+FCOM/FCOMP/FCOMPP—Compare Floating Point Values
+Opcode Instruction 64-Bit Compat/ Description
+            Mode Leg Mode 
+
+D8 /2 
+FCOM m32fp 
+Valid Valid 
+Compare ST(0) with m32fp.
+
+DC /2 
+FCOM m64fp 
+Valid Valid 
+Compare ST(0) with m64fp.
+
+D8 D0+i 
+FCOM ST(i) 
+Valid Valid 
+Compare ST(0) with ST(i).
+
+D8 D1 
+FCOM 
+Valid Valid 
+Compare ST(0) with ST(1).
+
+D8 /3 
+FCOMP m32fp 
+Valid Valid 
+Compare ST(0) with m32fp and pop register stack.
+
+DC /3 
+FCOMP m64fp 
+Valid Valid 
+Compare ST(0) with m64fp and pop register stack.
+
+D8 D8+i 
+FCOMP ST(i) 
+Valid Valid 
+Compare ST(0) with ST(i) and pop register stack.
+
+D8 D9 
+FCOMP 
+Valid Valid 
+Compare ST(0) with ST(1) and pop register stack.
+
+DE D9 
+FCOMPP 
+Valid Valid 
+Compare ST(0) with ST(1) and pop register stack
+ twice.
+
+Description
+Compares the contents of register ST(0) and source value and sets condition code flags C0, C2, and C3 in the FPU
+status word according to the results (see the table below). The source operand can be a data register or a memory
+location. If no source operand is given, the value in ST(0) is compared with the value in ST(1). The sign of zero is
+ignored, so that –0.0 is equal to +0.0.
+Table 3-31. FCOM/FCOMP/FCOMPP Results
+Condition C3 C2 C0
+ST(0) > SRC 0 0 0
+ST(0) < SRC 0 0 1
+ST(0) = SRC 1 0 0
+Unordered* 1 1 1
+NOTES:
+* Flags not set if unmasked invalid-arithmetic-operand (#IA) exception is generated.
+This instruction checks the class of the numbers being compared (see “FXAM—Examine ModR/M” in this chapter).
+If either operand is a NaN or is in an unsupported format, an invalid-arithmetic-operand exception (#IA) is raised
+and, if the exception is masked, the condition flags are set to “unordered.” If the invalid-arithmetic-operand excep-
+tion is unmasked, the condition code flags are not set.
+The FCOMP instruction pops the register stack following the comparison operation and the FCOMPP instruction
+pops the register stack twice following the comparison operation. To pop the register stack, the processor marks
+the ST(0) register as empty and increments the stack pointer (TOP) by 1.
+The FCOM instructions perform the same operation as the FUCOM instructions. The only difference is how they
+handle QNaN operands. The FCOM instructions raise an invalid-arithmetic-operand exception (#IA) when either or
+both of the operands is a NaN value or is in an unsupported format. The FUCOM instructions perform the same
+operation as the FCOM instructions, except that they do not generate an invalid-arithmetic-operand exception for
+QNaNs.
+This instruction’s operation is the same in non-64-bit modes and 64-bit mode.
+
+Operation
+CASE (relation of operands) OF
+ST > SRC:
+C3, C2, C0 ← 000;
+ST < SRC:
+C3, C2, C0 ← 001;
+ST = SRC:
+C3, C2, C0 ← 100;
+ESAC;
+IF ST(0) or SRC = NaN or unsupported format
+THEN
+#IA
+IF FPUControlWord.IM = 1
+THEN
+C3, C2, C0 ← 111;
+FI;
+FI;
+IF Instruction = FCOMP
+THEN
+PopRegisterStack;
+FI;
+IF Instruction = FCOMPP
+THEN
+PopRegisterStack;
+PopRegisterStack;
+FI;
+
+FPU Flags Affected
+C1 Set to 0.
+C0, C2, C3 See table on previous page.
+---------------------------------------------------------------------
+
+FCOMI/FCOMIP/ FUCOMI/FUCOMIP—Compare Floating Point Values and Set EFLAGS
+
+Opcode Instruction 
+64-Bit
+Mode
+Compat/
+Leg Mode
+Description
+
+DB F0+i 
+FCOMI ST, ST(i) 
+Valid Valid 
+Compare ST(0) with ST(i) and set status flags accordingly.
+
+DF F0+i
+FCOMIP ST, ST(i) 
+Valid Valid 
+Compare ST(0) with ST(i), set status flags accordingly, and
+ pop register stack.
+
+DB E8+i 
+FUCOMI ST, ST(i) 
+Valid Valid 
+Compare ST(0) with ST(i), check for ordered values, and set
+ status flags accordingly.
+
+DF E8+i 
+FUCOMIP ST, ST(i) 
+Valid Valid 
+Compare ST(0) with ST(i), check for ordered values, set
+ status flags accordingly, and pop register stack.
+
+Description
+Performs an unordered comparison of the contents of registers ST(0) and ST(i) and sets the status flags ZF, PF, and
+CF in the EFLAGS register according to the results (see the table below). The sign of zero is ignored for compari-
+sons, so that –0.0 is equal to +0.0.
+Table 3-32. FCOMI/FCOMIP/ FUCOMI/FUCOMIP Results
+Comparison Results* ZF PF CF
+ST0 > ST(i) 0 0 0
+ST0 < ST(i) 0 0 1
+ST0 = ST(i) 1 0 0
+Unordered** 1 1 1
+NOTES:
+* See the IA-32 Architecture Compatibility section below.
+** Flags not set if unmasked invalid-arithmetic-operand (#IA) exception is generated.
+An unordered comparison checks the class of the numbers being compared (see “FXAM—Examine ModR/M” in this
+chapter). The FUCOMI/FUCOMIP instructions perform the same operations as the FCOMI/FCOMIP instructions. The
+only difference is that the FUCOMI/FUCOMIP instructions raise the invalid-arithmetic-operand exception (#IA) only
+when either or both operands are an SNaN or are in an unsupported format; QNaNs cause the condition code flags
+to be set to unordered, but do not cause an exception to be generated. The FCOMI/FCOMIP instructions raise an
+invalid-operation exception when either or both of the operands are a NaN value of any kind or are in an unsup-
+ported format.
+If the operation results in an invalid-arithmetic-operand exception being raised, the status flags in the EFLAGS
+register are set only if the exception is masked.
+The FCOMI/FCOMIP and FUCOMI/FUCOMIP instructions set the OF, SF and AF flags to zero in the EFLAGS register
+(regardless of whether an invalid-operation exception is detected).
+The FCOMIP and FUCOMIP instructions also pop the register stack following the comparison operation. To pop the
+register stack, the processor marks the ST(0) register as empty and increments the stack pointer (TOP) by 1.
+This instruction’s operation is the same in non-64-bit modes and 64-bit mode.
+
+IA-32 Architecture Compatibility
+The FCOMI/FCOMIP/FUCOMI/FUCOMIP instructions were introduced to the IA-32 Architecture in the P6 family
+processors and are not available in earlier IA-32 processors.
+3-272 Vol. 2A
+FCOMI/FCOMIP/ FUCOMI/FUCOMIP—Compare Floating Point Values and Set EFLAGSINSTRUCTION SET REFERENCE, A-M
+
+Operation
+CASE (relation of operands) OF
+ST(0) > ST(i):
+ZF, PF, CF ← 000;
+ST(0) < ST(i):
+ZF, PF, CF ← 001;
+ST(0) = ST(i):
+ZF, PF, CF ← 100;
+ESAC;
+IF Instruction is FCOMI or FCOMIP
+THEN
+IF ST(0) or ST(i) = NaN or unsupported format
+THEN
+#IA
+IF FPUControlWord.IM = 1
+THEN
+ZF, PF, CF ← 111;
+FI;
+FI;
+FI;
+IF Instruction is FUCOMI or FUCOMIP
+THEN
+IF ST(0) or ST(i) = QNaN, but not SNaN or unsupported format
+THEN
+ZF, PF, CF ← 111;
+ELSE (* ST(0) or ST(i) is SNaN or unsupported format *)
+#IA;
+IF FPUControlWord.IM = 1
+THEN
+ZF, PF, CF ← 111;
+FI;
+FI;
+FI;
+IF Instruction is FCOMIP or FUCOMIP
+THEN
+PopRegisterStack;
+FI;
+
+FPU Flags Affected
+C1 Set to 0.
+C0, C2, C3 Not affected.
+---------------------------------------------------------------------
+
+FCOS—Cosine
+
+Opcode Instruction 64-Bit Compat/ Description
+                   Mode Leg Mode 
+
+D9 FF 
+FCOS 
+Valid Valid 
+Replace ST(0) with its cosine.
+
+Description
+Computes the cosine of the source operand in register ST(0) and stores the result in ST(0). The source operand
+must be given in radians and must be within the range −263 to +263. The following table shows the results obtained
+when taking the cosine of various classes of numbers.
+Table 3-33. FCOS Results
+ST(0) SRC
+ST(0) DEST
+−∞ *
+−F −1 to +1
+−0 +1
++0 +1
++F − 1 to + 1
++∞ *
+NaN NaN
+NOTES:
+F Means finite floating-point value.
+* Indicates floating-point invalid-arithmetic-operand (#IA) exception.
+If the source operand is outside the acceptable range, the C2 flag in the FPU status word is set, and the value in
+register ST(0) remains unchanged. The instruction does not raise an exception when the source operand is out of
+range. It is up to the program to check the C2 flag for out-of-range conditions. Source values outside the range −
+263 to +263 can be reduced to the range of the instruction by subtracting an appropriate integer multiple of 2π or by
+using the FPREM instruction with a divisor of 2π. See the section titled “Pi” in Chapter 8 of the Intel® 64 and IA-32
+Architectures Software Developer’s Manual, Volume 1, for a discussion of the proper value to use for π in
+performing such reductions.
+This instruction’s operation is the same in non-64-bit modes and 64-bit mode.
+
+Operation
+IF |ST(0)| < 263
+THEN
+C2 ← 0;
+ST(0) ← cosine(ST(0));
+ELSE (* Source operand is out-of-range *)
+C2 ← 1;
+FI;
+
+FPU Flags Affected
+C1
+Set to 0 if stack underflow occurred.
+Set if result was rounded up; cleared otherwise.
+Undefined if C2 is 1.
+C2 Set to 1 if outsi
+---------------------------------------------------------------------
+
+FDECSTP—Decrement Stack-Top Pointer
+
+Opcode Instruction 64-Bit Compat/ Description
+                   Mode Leg Mode 
+
+D9 F6 
+FDECSTP 
+Valid Valid 
+Decrement TOP field in FPU status word.
+
+Description
+Subtracts one from the TOP field of the FPU status word (decrements the top-of-stack pointer). If the TOP field
+contains a 0, it is set to 7. The effect of this instruction is to rotate the stack by one position. The contents of the
+FPU data registers and tag register are not affected.
+This instruction’s operation is the same in non-64-bit modes and 64-bit mode.
+
+Operation
+IF TOP = 0
+THEN TOP ← 7;
+ELSE TOP ← TOP – 1;
+FI;
+
+FPU Flags Affected
+The C1 flag is set to 0. The C0, C2, and C3 flags are undefined.
+---------------------------------------------------------------------
+
+FDIV/FDIVP/FIDIV—Divide
+
+Opcode
+Instruction
+64-Bit
+Mode
+Compat/
+Leg Mode
+Description
+
+D8 /6 
+FDIV m32fp 
+Valid Valid 
+Divide ST(0) by m32fp and store result in ST(0).
+
+DC /6 
+FDIV m64fp 
+Valid Valid 
+Divide ST(0) by m64fp and store result in ST(0).
+
+D8 F0+i 
+FDIV ST(0), ST(i) 
+Valid Valid 
+Divide ST(0) by ST(i) and store result in ST(0).
+
+DC F8+i 
+FDIV ST(i), ST(0) 
+Valid Valid 
+Divide ST(i) by ST(0) and store result in ST(i).
+
+DE F8+i 
+FDIVP ST(i), ST(0) 
+Valid Valid 
+Divide ST(i) by ST(0), store result in ST(i), and pop the
+ register stack.
+
+DE F9 
+FDIVP 
+Valid Valid 
+Divide ST(1) by ST(0), store result in ST(1), and pop
+ the register stack.
+
+DA /6 
+FIDIV m32int 
+Valid Valid 
+Divide ST(0) by m32int and store result in ST(0).
+
+DE /6 
+FIDIV m16int 
+Valid Valid 
+Divide ST(0) by m64int and store result in ST(0).
+
+Description
+Divides the destination operand by the source operand and stores the result in the destination location. The desti-
+nation operand (dividend) is always in an FPU register; the source operand (divisor) can be a register or a memory
+location. Source operands in memory can be in single-precision or double-precision floating-point format, word or
+doubleword integer format.
+The no-operand version of the instruction divides the contents of the ST(1) register by the contents of the ST(0)
+register. The one-operand version divides the contents of the ST(0) register by the contents of a memory location
+(either a floating-point or an integer value). The two-operand version, divides the contents of the ST(0) register by
+the contents of the ST(i) register or vice versa.
+The FDIVP instructions perform the additional operation of popping the FPU register stack after storing the result.
+To pop the register stack, the processor marks the ST(0) register as empty and increments the stack pointer (TOP)
+by 1. The no-operand version of the floating-point divide instructions always results in the register stack being
+popped. In some assemblers, the mnemonic for this instruction is FDIV rather than FDIVP.
+The FIDIV instructions convert an integer source operand to double extended-precision floating-point format
+before performing the division. When the source operand is an integer 0, it is treated as a +0.
+If an unmasked divide-by-zero exception (#Z) is generated, no result is stored; if the exception is masked, an ∞ of
+the appropriate sign is stored in the destination operand.
+The following table shows the results obtained when dividing various classes of numbers, assuming that neither
+overflow nor underflow occurs.
+Table 3-34. FDIV/FDIVP/FIDIV Results
+DEST
+−∞ −F −0 +0
++F
++∞
+NaN
+−∞ +0 +0 −0 −0 * NaN
++∞ +F +0 −0 −F −∞ NaN
+−I +∞ +F +0 −0 −F −∞ NaN
+−0 +∞ ** * * ** −∞ NaN
++0 −∞ ** * * ** +∞ NaN
++I −∞ −F −0 +0 +F +∞ NaN
++F −∞ −F −0 +0 +F +∞ NaN
++∞ * −0 −0 +0 +0 * NaN
+NaN 
+SRC
+* −F NaN NaN NaN NaN NaN NaN NaN
+NOTES:
+F Means finite floating-point value.
+I Means integer.
+* Indicates floating-point invalid-arithmetic-operand (#IA) exception.
+** Indicates floating-point zero-divide (#Z) exception.
+This instruction’s operation is the same in non-64-bit modes and 64-bit mode.
+
+Operation
+IF SRC = 0
+THEN
+#Z;
+ELSE
+IF Instruction is FIDIV
+THEN
+DEST ← DEST / ConvertToDoubleExtendedPrecisionFP(SRC);
+ELSE (* Source operand is floating-point value *)
+DEST ← DEST / SRC;
+FI;
+FI;
+IF Instruction = FDIVP
+THEN
+PopRegisterStack;
+FI;
+
+FPU Flags Affected
+C1
+Set to 0 if stack underflow occurred.
+Set if result was rounded up; cleared otherwise.
+C0, C2, C3
+Undefined.
+---------------------------------------------------------------------
+
+FDIVR/FDIVRP/FIDIVR—Reverse Divide
+
+Opcode Instruction 64-Bit Compat/ Description
+                   Mode Leg Mode 
+
+D8 /7 
+FDIVR m32fp 
+Valid Valid 
+Divide m32fp by ST(0) and store result in ST(0).
+
+DC /7 
+FDIVR m64fp 
+Valid Valid 
+Divide m64fp by ST(0) and store result in ST(0).
+
+D8 F8+i 
+FDIVR ST(0), ST(i) 
+Valid Valid 
+Divide ST(i) by ST(0) and store result in ST(0).
+
+DC F0+i 
+FDIVR ST(i), ST(0) 
+Valid Valid 
+Divide ST(0) by ST(i) and store result in ST(i).
+
+DE F0+i 
+FDIVRP ST(i), ST(0) 
+Valid Valid 
+Divide ST(0) by ST(i), store result in ST(i), and pop the
+ register stack.
+
+DE F1 
+FDIVRP 
+Valid Valid 
+Divide ST(0) by ST(1), store result in ST(1), and pop the
+ register stack.
+
+DA /7 
+FIDIVR m32int 
+Valid Valid 
+Divide m32int by ST(0) and store result in ST(0).
+
+DE /7 
+FIDIVR m16int 
+Valid Valid 
+Divide m16int by ST(0) and store result in ST(0).
+
+Description
+Divides the source operand by the destination operand and stores the result in the destination location. The desti-
+nation operand (divisor) is always in an FPU register; the source operand (dividend) can be a register or a memory
+location. Source operands in memory can be in single-precision or double-precision floating-point format, word or
+doubleword integer format.
+These instructions perform the reverse operations of the FDIV, FDIVP, and FIDIV instructions. They are provided to
+support more efficient coding.
+The no-operand version of the instruction divides the contents of the ST(0) register by the contents of the ST(1)
+register. The one-operand version divides the contents of a memory location (either a floating-point or an integer
+value) by the contents of the ST(0) register. The two-operand version, divides the contents of the ST(i) register by
+the contents of the ST(0) register or vice versa.
+The FDIVRP instructions perform the additional operation of popping the FPU register stack after storing the result.
+To pop the register stack, the processor marks the ST(0) register as empty and increments the stack pointer (TOP)
+by 1. The no-operand version of the floating-point divide instructions always results in the register stack being
+popped. In some assemblers, the mnemonic for this instruction is FDIVR rather than FDIVRP.
+The FIDIVR instructions convert an integer source operand to double extended-precision floating-point format
+before performing the division.
+If an unmasked divide-by-zero exception (#Z) is generated, no result is stored; if the exception is masked, an ∞ of
+the appropriate sign is stored in the destination operand.
+The following table shows the results obtained when dividing various classes of numbers, assuming that neither
+overflow nor underflow occurs.
+FDIVR/FDIVRP/FIDIVR—Reverse Divide
+Vol. 2A 3-281INSTRUCTION SET REFERENCE, A-M
+Table 3-35. FDIVR/FDIVRP/FIDIVR Results
+DEST
+−∞ −0 +0 +F −∞ * +∞ +∞ −∞ −∞ * NaN
+−F +0 +F ** ** −F −0 NaN
+−I +0 +F ** ** −F −0 NaN
+−0 +0 +0 * * −0 −0 NaN
++0 −0 −0 * * +0 +0 NaN
++I 
+SRC
+−F 
++∞
+−0 −F ** ** +F +0 NaN
+NaN
++F −0 −F ** ** +F +0 NaN
++∞ * −∞ −∞ +∞ +∞ * NaN
+NaN NaN NaN NaN NaN NaN NaN NaN
+NOTES:
+F Means finite floating-point value.
+I Means integer.
+* Indicates floating-point invalid-arithmetic-operand (#IA) exception.
+** Indicates floating-point zero-divide (#Z) exception.
+When the source operand is an integer 0, it is treated as a +0. This instruction’s operation is the same in non-64-bit
+modes and 64-bit mode.
+
+Operation
+IF DEST = 0
+THEN
+#Z;
+ELSE
+IF Instruction = FIDIVR
+THEN
+DEST ← ConvertToDoubleExtendedPrecisionFP(SRC) / DEST;
+ELSE (* Source operand is floating-point value *)
+DEST ← SRC / DEST;
+FI;
+FI;
+IF Instruction = FDIVRP
+THEN
+PopRegisterStack;
+FI;
+
+FPU Flags Affected
+C1
+Set to 0 if stack underflow occurred.
+Set if result was rounded up; cleared otherwise.
+C0, C2, C3
+Undefined.
+---------------------------------------------------------------------
+
+FFREE—Free Floating-Point Register
+
+Opcode Instruction 64-Bit Compat/ Description
+                   Mode Leg Mode 
+
+DD C0+i 
+FFREE ST(i) 
+Valid Valid 
+Sets tag for ST(i) to empty.
+
+Description
+Sets the tag in the FPU tag register associated with register ST(i) to empty (11B). The contents of ST(i) and the FPU
+stack-top pointer (TOP) are not affected.
+This instruction’s operation is the same in non-64-bit modes and 64-bit mode.
+
+Operation
+TAG(i) ← 11B;
+FPU Flags Affected
+C0, C1, C2, C3 undefined.
+
+Floating-Point Exceptions
+None.
+---------------------------------------------------------------------
+
+FICOM/FICOMP—Compare Integer
+
+Opcode Instruction 64-Bit Compat/ Description
+                   Mode Leg Mode 
+
+DE /2 
+FICOM m16int 
+Valid Valid 
+Compare ST(0) with m16int.
+
+DA /2 
+FICOM m32int 
+Valid Valid 
+Compare ST(0) with m32int.
+
+DE /3 
+FICOMP m16int 
+Valid Valid 
+Compare ST(0) with m16int and pop stack register.
+
+DA /3 
+FICOMP m32int 
+Valid Valid 
+Compare ST(0) with m32int and pop stack register.
+
+Description
+Compares the value in ST(0) with an integer source operand and sets the condition code flags C0, C2, and C3 in
+the FPU status word according to the results (see table below). The integer value is converted to double extended-
+precision floating-point format before the comparison is made.
+Table 3-36. FICOM/FICOMP Results
+Condition C3 C2 C0
+ST(0) > SRC 0 0 0
+ST(0) < SRC 0 0 1
+ST(0) = SRC 1 0 0
+Unordered 1 1 1
+These instructions perform an “unordered comparison.” An unordered comparison also checks the class of the
+numbers being compared (see “FXAM—Examine ModR/M” in this chapter). If either operand is a NaN or is in an
+undefined format, the condition flags are set to “unordered.”
+The sign of zero is ignored, so that –0.0 ← +0.0.
+The FICOMP instructions pop the register stack following the comparison. To pop the register stack, the processor
+marks the ST(0) register empty and increments the stack pointer (TOP) by 1.
+This instruction’s operation is the same in non-64-bit modes and 64-bit mode.
+
+Operation
+CASE (relation of operands) OF
+ST(0) > SRC:
+C3, C2, C0 ← 000;
+ST(0) < SRC:
+C3, C2, C0 ← 001;
+ST(0) = SRC:
+C3, C2, C0 ← 100;
+Unordered:
+C3, C2, C0 ← 111;
+ESAC;
+IF Instruction = FICOMP
+THEN
+PopRegisterStack;
+FI;
+
+FPU Flags Affected
+C1 Set to 0.
+C0, C2, C3 See table on previous page.
+---------------------------------------------------------------------
