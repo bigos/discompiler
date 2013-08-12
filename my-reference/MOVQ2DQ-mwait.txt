@@ -1,0 +1,1266 @@
+MOVQ2DQ—Move Quadword from MMX Technology to XMM Register
+
+Opcode Instruction Op/ 64-Bit Compat/ Description
+                   En Mode Leg Mode
+
+F3 0F D6 /r 
+MOVQ2DQ xmm, mm 
+RM Valid Valid
+Move quadword from mmx to low quadword
+of xmm.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RM ModRM:reg (w) ModRM:r/m (r) NA NA
+
+Description
+Moves the quadword from the source operand (second operand) to the low quadword of the destination operand
+(first operand). The source operand is an MMX technology register and the destination operand is an XMM register.
+This instruction causes a transition from x87 FPU to MMX technology operation (that is, the x87 FPU top-of-stack
+pointer is set to 0 and the x87 FPU tag word is set to all 0s [valid]). If this instruction is executed while an x87 FPU
+floating-point exception is pending, the exception is handled before the MOVQ2DQ instruction is executed.
+In 64-bit mode, use of the REX.R prefix permits this instruction to access additional registers (XMM8-XMM15).
+
+Operation
+DEST[63:0] ← SRC[63:0];
+DEST[127:64] ← 00000000000000000H;
+---------------------------------------------------------------------
+
+MOVS/MOVSB/MOVSW/MOVSD/MOVSQ—Move Data from String to String
+
+\
+Opcode Instruction Op/ 64-Bit Compat/ Description
+                   En Mode Leg Mode
+
+A4 
+MOVS m8, m8 
+NP Valid Valid For legacy mode, Move byte from address
+                             DS:(E)SI to ES:(E)DI. For 64-bit mode move
+                            byte from address (R|E)SI to (R|E)DI.
+A5 
+MOVS m16, m16 
+NP Valid Valid 
+For legacy mode, move word from address
+ DS:(E)SI to ES:(E)DI. For 64-bit mode move
+ word at address (R|E)SI to (R|E)DI.
+
+A5 
+MOVS m32, m32 
+NP Valid Valid 
+For legacy mode, move dword from address
+ DS:(E)SI to ES:(E)DI. For 64-bit mode move
+ dword from address (R|E)SI to (R|E)DI.
+
+REX.W + A5 
+MOVS m64, m64 
+NP Valid N.E. 
+Move qword from address (R|E)SI to (R|E)DI.
+
+A4 
+MOVSB 
+NP Valid Valid 
+For legacy mode, Move byte from address
+ DS:(E)SI to ES:(E)DI. For 64-bit mode move
+ byte from address (R|E)SI to (R|E)DI.
+
+A5 
+MOVSW 
+NP Valid Valid 
+For legacy mode, move word from address
+ DS:(E)SI to ES:(E)DI. For 64-bit mode move
+ word at address (R|E)SI to (R|E)DI.
+
+A5 
+MOVSD 
+NP Valid Valid 
+For legacy mode, move dword from address
+ DS:(E)SI to ES:(E)DI. For 64-bit mode move
+ dword from address (R|E)SI to (R|E)DI.
+
+REX.W + A5 
+MOVSQ 
+NP Valid N.E. 
+Move qword from address (R|E)SI to (R|E)DI.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+NP NA NA NA NA
+
+Description
+Moves the byte, word, or doubleword specified with the second operand (source operand) to the location specified
+with the first operand (destination operand). Both the source and destination operands are located in memory. The
+address of the source operand is read from the DS:ESI or the DS:SI registers (depending on the address-size
+attribute of the instruction, 32 or 16, respectively). The address of the destination operand is read from the ES:EDI
+or the ES:DI registers (again depending on the address-size attribute of the instruction). The DS segment may be
+overridden with a segment override prefix, but the ES segment cannot be overridden.
+At the assembly-code level, two forms of this instruction are allowed: the “explicit-operands” form and the “no-
+operands” form. The explicit-operands form (specified with the MOVS mnemonic) allows the source and destination
+operands to be specified explicitly. Here, the source and destination operands should be symbols that indicate the
+size and location of the source value and the destination, respectively. This explicit-operands form is provided to
+allow documentation; however, note that the documentation provided by this form can be misleading. That is, the
+source and destination operand symbols must specify the correct type (size) of the operands (bytes, words, or
+doublewords), but they do not have to specify the correct location. The locations of the source and destination
+operands are always specified by the DS:(E)SI and ES:(E)DI registers, which must be loaded correctly before the
+move string instruction is executed.
+The no-operands form provides “short forms” of the byte, word, and doubleword versions of the MOVS instruc-
+tions. Here also DS:(E)SI and ES:(E)DI are assumed to be the source and destination operands, respectively. The
+size of the source and destination operands is selected with the mnemonic: MOVSB (byte move), MOVSW (word
+move), or MOVSD (doubleword move).
+After the move operation, the (E)SI and (E)DI registers are incremented or decremented automatically according
+to the setting of the DF flag in the EFLAGS register. (If the DF flag is 0, the (E)SI and (E)DI register are incre-
+MOVS/MOVSB/MOVSW/MOVSD/MOVSQ—Move Data from String to String
+Vol. 2A 3-557INSTRUCTION SET REFERENCE, A-M
+mented; if the DF flag is 1, the (E)SI and (E)DI registers are decremented.) The registers are incremented or
+decremented by 1 for byte operations, by 2 for word operations, or by 4 for doubleword operations.
+NOTE
+To improve performance, more recent processors support modifications to the processor’s
+operation during the string store operations initiated with MOVS and MOVSB. See Section 7.3.9.3
+in the Intel® 64 and IA-32 Architectures Software Developer’s Manual, Volume 1 for additional
+information on fast-string operation.
+The MOVS, MOVSB, MOVSW, and MOVSD instructions can be preceded by the REP prefix (see “REP/REPE/REPZ
+/REPNE/REPNZ—Repeat String Operation Prefix” in Chapter 4 of the Intel® 64 and IA-32 Architectures Software
+Developer’s Manual, Volume 2B, for a description of the REP prefix) for block moves of ECX bytes, words, or
+doublewords.
+In 64-bit mode, the instruction’s default address size is 64 bits, 32-bit address size is supported using the prefix
+67H. The 64-bit addresses are specified by RSI and RDI; 32-bit address are specified by ESI and EDI. Use of the
+REX.W prefix promotes doubleword operation to 64 bits. See the summary chart at the beginning of this section for
+encoding data and limits.
+
+Operation
+DEST ← SRC;
+Non-64-bit Mode:
+IF (Byte move)
+THEN IF DF = 0
+THEN
+(E)SI ← (E)SI + 1;
+(E)DI ← (E)DI + 1;
+ELSE
+(E)SI ← (E)SI – 1;
+(E)DI ← (E)DI – 1;
+FI;
+ELSE IF (Word move)
+THEN IF DF = 0
+(E)SI ← (E)SI + 2;
+(E)DI ← (E)DI + 2;
+FI;
+ELSE
+(E)SI ← (E)SI – 2;
+(E)DI ← (E)DI – 2;
+FI;
+ELSE IF (Doubleword move)
+THEN IF DF = 0
+(E)SI ← (E)SI + 4;
+(E)DI ← (E)DI + 4;
+FI;
+ELSE
+(E)SI ← (E)SI – 4;
+(E)DI ← (E)DI – 4;
+FI;
+FI;
+64-bit Mode:
+IF (Byte move)
+THEN IF DF = 0
+THEN
+(R|E)SI ← (R|E)SI + 1;
+(R|E)DI ← (R|E)DI + 1;
+ELSE
+(R|E)SI ← (R|E)SI – 1;
+(R|E)DI ← (R|E)DI – 1;
+FI;
+ELSE IF (Word move)
+THEN IF DF = 0
+(R|E)SI ← (R|E)SI + 2;
+(R|E)DI ← (R|E)DI + 2;
+FI;
+ELSE
+(R|E)SI ← (R|E)SI – 2;
+(R|E)DI ← (R|E)DI – 2;
+FI;
+ELSE IF (Doubleword move)
+THEN IF DF = 0
+(R|E)SI ← (R|E)SI + 4;
+(R|E)DI ← (R|E)DI + 4;
+FI;
+ELSE
+(R|E)SI ← (R|E)SI – 4;
+(R|E)DI ← (R|E)DI – 4;
+FI;
+ELSE IF (Quadword move)
+THEN IF DF = 0
+(R|E)SI ← (R|E)SI + 8;
+(R|E)DI ← (R|E)DI + 8;
+FI;
+ELSE
+(R|E)SI ← (R|E)SI – 8;
+(R|E)DI ← (R|E)DI – 8;
+FI;
+FI;
+
+Flags Affected
+None.
+---------------------------------------------------------------------
+
+MOVSD—Move Scalar Double-Precision Floating-Point Value
+
+Opcode/ Op/ 64/32-bit CPUID Description
+Instruction En Mode 
+               Feature 
+               Flag 
+
+F2 0F 10 /r 
+MOVSD xmm1, xmm2/m64
+RM V/V SSE2 
+Move scalar double-precision floating-point
+ value from xmm2/m64 to xmm1 register.
+
+VEX.NDS.LIG.F2.0F.WIG 10 /r
+VMOVSD xmm1, xmm2, xmm3
+RVM V/V AVX 
+Merge scalar double-precision floating-point
+ value from xmm2 and xmm3 to xmm1
+ register.
+
+VEX.LIG.F2.0F.WIG 10 /r
+VMOVSD xmm1, m64
+XM V/V AVX 
+Load scalar double-precision floating-point
+ value from m64 to xmm1 register.
+
+F2 0F 11 /r
+MOVSD xmm2/m64, xmm1
+MR V/V SSE2 
+Move scalar double-precision floating-point
+ value from xmm1 register to xmm2/m64.
+
+VEX.NDS.LIG.F2.0F.WIG 11 /r
+VMOVSD xmm1, xmm2, xmm3
+MVR V/V AVX 
+Merge scalar double-precision floating-point
+ value from xmm2 and xmm3 registers to
+ xmm1.
+
+VEX.LIG.F2.0F.WIG 11 /r
+VMOVSD m64, xmm1
+MR V/V AVX 
+Move scalar double-precision floating-point
+ value from xmm1 register to m64.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RM ModRM:reg (w) ModRM:r/m (r) NA NA
+RVM ModRM:reg (w) VEX.vvvv (r) ModRM:r/m (r) NA
+MR ModRM:r/m (w) ModRM:reg (r) NA NA
+XM ModRM:reg (w) ModRM:r/m (r) NA NA
+MVR ModRM:r/m (w) VEX.vvvv (r) ModRM:reg (r) NA
+
+Description
+MOVSD moves a scalar double-precision floating-point value from the source operand (second operand) to the
+destination operand (first operand). The source and destination operands can be XMM registers or 64-bit memory
+locations. This instruction can be used to move a double-precision floating-point value to and from the low quad-
+word of an XMM register and a 64-bit memory location, or to move a double-precision floating-point value between
+the low quadwords of two XMM registers. The instruction cannot be used to transfer data between memory loca-
+tions.
+For non-VEX encoded instruction syntax and when the source and destination operands are XMM registers, the
+high quadword of the destination operand remains unchanged. When the source operand is a memory location and
+destination operand is an XMM registers, the high quadword of the destination operand is cleared to all 0s.
+In 64-bit mode, use of the REX.R prefix permits this instruction to access additional registers (XMM8-XMM15).
+Note: For the “VMOVSD m64, xmm1” (memory store form) instruction version, VEX.vvvv is reserved and must be
+1111b, otherwise instruction will #UD.
+Note: For the “VMOVSD xmm1, m64” (memory load form) instruction version, VEX.vvvv is reserved and must be
+1111b otherwise instruction will #UD.
+VEX encoded instruction syntax supports two source operands and a destination operand if ModR/M.mod field is
+11B. VEX.vvvv is used to encode the first source operand (the second operand). The low 128 bits of the destination
+operand stores the result of merging the low quadword of the second source operand with the quad word in bits
+127:64 of the first source operand. The upper bits of the destination operand are cleared.
+
+Operation
+MOVSD (128-bit Legacy SSE version: MOVSD XMM1, XMM2)
+DEST[63:0]  SRC[63:0]
+DEST[VLMAX-1:64] (Unmodified)
+MOVSD/VMOVSD (128-bit versions: MOVSD m64, xmm1 or VMOVSD m64, xmm1)
+DEST[63:0]  SRC[63:0]
+MOVSD (128-bit Legacy SSE version: MOVSD XMM1, m64)
+DEST[63:0]  SRC[63:0]
+DEST[127:64]  0
+DEST[VLMAX-1:128] (Unmodified)
+VMOVSD (VEX.NDS.128.F2.0F 11 /r: VMOVSD xmm1, xmm2, xmm3)
+DEST[63:0]  SRC2[63:0]
+DEST[127:64]  SRC1[127:64]
+DEST[VLMAX-1:128]  0
+VMOVSD (VEX.NDS.128.F2.0F 10 /r: VMOVSD xmm1, xmm2, xmm3)
+DEST[63:0]  SRC2[63:0]
+DEST[127:64]  SRC1[127:64]
+DEST[VLMAX-1:128]  0
+VMOVSD (VEX.NDS.128.F2.0F 10 /r: VMOVSD xmm1, m64)
+DEST[63:0]  SRC[63:0]
+DEST[VLMAX-1:64]  0
+---------------------------------------------------------------------
+
+MOVSHDUP—Move Packed Single-FP High and Duplicate
+
+Opcode/ Op/ 64/32-bit CPUID Description
+Instruction En Mode 
+               Feature 
+               Flag 
+
+F3 0F 16 /r 
+MOVSHDUP xmm1, xmm2/m128
+RM V/V SSE3 
+Move two single-precision floating-point
+ values from the higher 32-bit operand of each
+ qword in xmm2/m128 to xmm1 and duplicate
+ each 32-bit operand to the lower 32-bits of
+ each qword.
+
+VEX.128.F3.0F.WIG 16 /r
+VMOVSHDUP xmm1, xmm2/m128
+RM V/V AVX 
+Move odd index single-precision floating-point
+          values from xmm2/mem and duplicate each
+         element into xmm1.
+
+VEX.256.F3.0F.WIG 16 /r
+VMOVSHDUP ymm1, ymm2/m256
+RM V/V AVX 
+Move odd index single-precision floating-point
+ values from ymm2/mem and duplicate each
+ element into ymm1.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RM ModRM:reg (w) ModRM:r/m (r) NA NA
+
+Description
+The linear address corresponds to the address of the least-significant byte of the referenced memory data. When
+a memory address is indicated, the 16 bytes of data at memory location m128 are loaded and the single-precision
+elements in positions 1 and 3 are duplicated. When the register-register form of this operation is used, the same
+operation is performed but with data coming from the 128-bit source register. See Figure 3-25.
+In 64-bit mode, use of the REX prefix in the form of REX.R permits this instruction to access additional registers
+(XMM8-XMM15).
+128-bit Legacy SSE version: Bits (VLMAX-1:128) of the corresponding YMM destination register remain
+unchanged.
+VEX.128 encoded version: Bits (VLMAX-1:128) of the destination YMM register are zeroed.
+Note: In VEX-encoded versions, VEX.vvvv is reserved and must be 1111b otherwise instructions will #UD.
+
+Operation
+MOVSHDUP (128-bit Legacy SSE version)
+DEST[31:0]  SRC[63:32]
+DEST[63:32]  SRC[63:32]
+DEST[95:64]  SRC[127:96]
+DEST[127:96]  SRC[127:96]
+DEST[VLMAX-1:128] (Unmodified)
+VMOVSHDUP (VEX.128 encoded version)
+DEST[31:0]  SRC[63:32]
+DEST[63:32]  SRC[63:32]
+DEST[95:64]  SRC[127:96]
+DEST[127:96]  SRC[127:96]
+DEST[VLMAX-1:128]  0
+VMOVSHDUP (VEX.256 encoded version)
+DEST[31:0]  SRC[63:32]
+DEST[63:32]  SRC[63:32]
+DEST[95:64]  SRC[127:96]
+DEST[127:96]  SRC[127:96]
+DEST[159:128]  SRC[191:160]
+DEST[191:160]  SRC[191:160]
+DEST[223:192]  SRC[255:224]
+DEST[255:224]  SRC[255:224]
+---------------------------------------------------------------------
+
+MOVSLDUP—Move Packed Single-FP Low and Duplicate
+
+Opcode/ Op/ 64/32-bit CPUID Description
+Instruction En Mode 
+               Feature 
+               Flag 
+
+F3 0F 12 /r 
+MOVSLDUP xmm1, xmm2/m128
+RM V/V SSE3 
+Move two single-precision floating-point
+ values from the lower 32-bit operand of each
+ qword in xmm2/m128 to xmm1 and duplicate
+ each 32-bit operand to the higher 32-bits of
+ each qword.
+
+VEX.128.F3.0F.WIG 12 /r
+VMOVSLDUP xmm1, xmm2/m128
+RM V/V AVX 
+Move even index single-precision floating-
+ point values from xmm2/mem and duplicate
+ each element into xmm1.
+
+VEX.256.F3.0F.WIG 12 /r
+VMOVSLDUP ymm1, ymm2/m256
+RM V/V AVX 
+Move even index single-precision floating-
+ point values from ymm2/mem and duplicate
+ each element into ymm1.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RM ModRM:reg (w) ModRM:r/m (r) NA NA
+
+Description
+The linear address corresponds to the address of the least-significant byte of the referenced memory data. When
+a memory address is indicated, the 16 bytes of data at memory location m128 are loaded and the single-precision
+elements in positions 0 and 2 are duplicated. When the register-register form of this operation is used, the same
+operation is performed but with data coming from the 128-bit source register.
+See Figure 3-26.
+In 64-bit mode, use of the REX.R prefix permits this instruction to access additional registers (XMM8-XMM15).
+128-bit Legacy SSE version: Bits (VLMAX-1:128) of the corresponding YMM destination register remain
+unchanged.
+VEX.128 encoded version: Bits (VLMAX-1:128) of the destination YMM register are zeroed.
+MOVSLDUP—Move Packed Single-FP Low and Duplicate
+Vol. 2A 3-565INSTRUCTION SET REFERENCE, A-M
+Note: In VEX-encoded versions, VEX.vvvv is reserved and must be 1111b otherwise instructions will #UD.
+
+Operation
+MOVSLDUP (128-bit Legacy SSE version)
+DEST[31:0]  SRC[31:0]
+DEST[63:32]  SRC[31:0]
+DEST[95:64]  SRC[95:64]
+DEST[127:96]  SRC[95:64]
+DEST[VLMAX-1:128] (Unmodified)
+VMOVSLDUP (VEX.128 encoded version)
+DEST[31:0]  SRC[31:0]
+DEST[63:32]  SRC[31:0]
+DEST[95:64]  SRC[95:64]
+DEST[127:96]  SRC[95:64]
+DEST[VLMAX-1:128]  0
+VMOVSLDUP (VEX.256 encoded version)
+DEST[31:0]  SRC[31:0]
+DEST[63:32]  SRC[31:0]
+DEST[95:64]  SRC[95:64]
+DEST[127:96]  SRC[95:64]
+DEST[159:128]  SRC[159:128]
+DEST[191:160]  SRC[159:128]
+DEST[223:192]  SRC[223:192]
+DEST[255:224]  SRC[223:192]
+---------------------------------------------------------------------
+MOVSS—Move Scalar Single-Precision Floating-Point Values
+
+Opcode/ Op/ 64/32-bit CPUID Description
+Instruction En Mode 
+               Feature 
+               Flag 
+
+F3 0F 10 /r 
+MOVSS xmm1, xmm2/m32
+RM V/V SSE 
+Move scalar single-precision floating-point
+ value from xmm2/m32 to xmm1 register.
+
+VEX.NDS.LIG.F3.0F.WIG 10 /r
+VMOVSS xmm1, xmm2, xmm3
+RVM V/V AVX 
+Merge scalar single-precision floating-point
+ value from xmm2 and xmm3 to xmm1
+ register.
+
+VEX.LIG.F3.0F.WIG 10 /r
+VMOVSS xmm1, m32
+XM V/V AVX 
+Load scalar single-precision floating-point
+ value from m32 to xmm1 register.
+
+F3 0F 11 /r
+MOVSS xmm2/m32, xmm
+MR V/V SSE 
+Move scalar single-precision floating-point
+ value from xmm1 register to xmm2/m32.
+
+VEX.NDS.LIG.F3.0F.WIG 11 /r
+VMOVSS xmm1, xmm2, xmm3
+MVR V/V AVX 
+Move scalar single-precision floating-point
+ value from xmm2 and xmm3 to xmm1 regis-
+ ter.
+
+VEX.LIG.F3.0F.WIG 11 /r
+VMOVSS m32, xmm1
+MR V/V AVX 
+Move scalar single-precision floating-point
+ value from xmm1 register to m32.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RM ModRM:reg (w) ModRM:r/m (r) NA NA
+RVM ModRM:reg (w) VEX.vvvv (r) ModRM:r/m (r) NA
+MR ModRM:r/m (w) ModRM:reg (r) NA NA
+XM ModRM:reg (w) ModRM:r/m (r) NA NA
+MVR ModRM:r/m (w) VEX.vvvv (r) ModRM:reg (r) NA
+
+Description
+Moves a scalar single-precision floating-point value from the source operand (second operand) to the destination
+operand (first operand). The source and destination operands can be XMM registers or 32-bit memory locations.
+This instruction can be used to move a single-precision floating-point value to and from the low doubleword of an
+XMM register and a 32-bit memory location, or to move a single-precision floating-point value between the low
+doublewords of two XMM registers. The instruction cannot be used to transfer data between memory locations.
+For non-VEX encoded syntax and when the source and destination operands are XMM registers, the high double-
+words of the destination operand remains unchanged. When the source operand is a memory location and destina-
+tion operand is an XMM registers, the high doublewords of the destination operand is cleared to all 0s.
+In 64-bit mode, use of the REX.R prefix permits this instruction to access additional registers (XMM8-XMM15).
+VEX encoded instruction syntax supports two source operands and a destination operand if ModR/M.mod field is
+11B. VEX.vvvv is used to encode the first source operand (the second operand). The low 128 bits of the destination
+operand stores the result of merging the low dword of the second source operand with three dwords in bits 127:32
+of the first source operand. The upper bits of the destination operand are cleared.
+Note: For the “VMOVSS m32, xmm1” (memory store form) instruction version, VEX.vvvv is reserved and must be
+1111b otherwise instruction will #UD.
+Note: For the “VMOVSS xmm1, m32” (memory load form) instruction version, VEX.vvvv is reserved and must be
+1111b otherwise instruction will #UD.
+
+Operation
+MOVSS (Legacy SSE version when the source and destination operands are both XMM registers)
+DEST[31:0]  SRC[31:0]
+DEST[VLMAX-1:32] (Unmodified)
+MOVSS/VMOVSS (when the source operand is an XMM register and the destination is memory)
+DEST[31:0]  SRC[31:0]
+MOVSS (Legacy SSE version when the source operand is memory and the destination is an XMM register)
+DEST[31:0]  SRC[31:0]
+DEST[127:32]  0
+DEST[VLMAX-1:128] (Unmodified)
+VMOVSS (VEX.NDS.128.F3.0F 11 /r where the destination is an XMM register)
+DEST[31:0]  SRC2[31:0]
+DEST[127:32]  SRC1[127:32]
+DEST[VLMAX-1:128]  0
+VMOVSS (VEX.NDS.128.F3.0F 10 /r where the source and destination are XMM registers)
+DEST[31:0]  SRC2[31:0]
+DEST[127:32]  SRC1[127:32]
+DEST[VLMAX-1:128]  0
+VMOVSS (VEX.NDS.128.F3.0F 10 /r when the source operand is memory and the destination is an XMM register)
+DEST[31:0]  SRC[31:0]
+DEST[VLMAX-1:32]  0
+---------------------------------------------------------------------
+
+MOVSX/MOVSXD—Move with Sign-Extension
+
+Opcode Instruction Op/ 64-Bit Compat/ Description
+                   En Mode Leg Mode
+
+0F BE /r 
+MOVSX r16, r/m8 
+RM Valid Valid 
+Move byte to word with sign-extension.
+
+0F BE /r 
+MOVSX r32, r/m8 
+RM Valid Valid 
+Move byte to doubleword with sign-
+ extension.
+
+REX + 0F BE /r 
+MOVSX r64, r/m8
+RM Valid N.E. 
+Move byte to quadword with sign-extension.
+
+0F BF /r 
+MOVSX r32, r/m16 
+RM Valid Valid 
+Move word to doubleword, with sign-
+ extension.
+
+REX.W + 0F BF /r 
+MOVSX r64, r/m16 
+RM Valid N.E. 
+Move word to quadword with sign-extension.
+
+REX.W + 63 /r 
+MOVSXD r64, r/m32 
+RM Valid N.E. 
+Move doubleword to quadword with sign-
+ extension.
+
+NOTES:
+* In 64-bit mode, r/m8 can not be encoded to access the following byte registers if a REX prefix is used: AH, BH, CH, DH.
+** The use of MOVSXD without REX.W in 64-bit mode is discouraged, Regular MOV should be used instead of using MOVSXD without
+REX.W.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RM ModRM:reg (w) ModRM:r/m (r) NA NA
+
+Description
+Copies the contents of the source operand (register or memory location) to the destination operand (register) and
+sign extends the value to 16 or 32 bits (see Figure 7-6 in the Intel® 64 and IA-32 Architectures Software Devel-
+oper’s Manual, Volume 1). The size of the converted value depends on the operand-size attribute.
+In 64-bit mode, the instruction’s default operation size is 32 bits. Use of the REX.R prefix permits access to addi-
+tional registers (R8-R15). Use of the REX.W prefix promotes operation to 64 bits. See the summary chart at the
+beginning of this section for encoding data and limits.
+
+Operation
+DEST ← SignExtend(SRC);
+
+Flags Affected
+None.
+---------------------------------------------------------------------
+
+MOVUPD—Move Unaligned Packed Double-Precision Floating-Point Values
+
+Opcode/ Op/ 64/32-bit CPUID Description
+Instruction En Mode 
+               Feature 
+               Flag 
+
+66 0F 10 /r 
+MOVUPD xmm1, xmm2/m128
+RM V/V SSE2 
+Move packed double-precision floating-point
+ values from xmm2/m128 to xmm1.
+
+VEX.128.66.0F.WIG 10 /r
+VMOVUPD xmm1, xmm2/m128
+RM V/V AVX 
+Move unaligned packed double-precision
+ floating-point from xmm2/mem to xmm1.
+
+VEX.256.66.0F.WIG 10 /r
+VMOVUPD ymm1, ymm2/m256
+RM V/V AVX 
+Move unaligned packed double-precision
+ floating-point from ymm2/mem to ymm1.
+
+66 0F 11 /r
+MOVUPD xmm2/m128, xmm
+MR V/V SSE2 
+Move packed double-precision floating-point
+ values from xmm1 to xmm2/m128.
+
+VEX.128.66.0F.WIG 11 /r
+VMOVUPD xmm2/m128, xmm1
+MR V/V AVX 
+Move unaligned packed double-precision
+ floating-point from xmm1 to xmm2/mem.
+
+VEX.256.66.0F.WIG 11 /r
+VMOVUPD ymm2/m256, ymm1
+MR V/V AVX 
+Move unaligned packed double-precision
+ floating-point from ymm1 to ymm2/mem.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RM ModRM:reg (w) ModRM:r/m (r) NA NA
+MR ModRM:r/m (w) ModRM:reg (r) NA NA
+
+Description
+128-bit versions:
+Moves a double quadword containing two packed double-precision floating-point values from the source operand
+(second operand) to the destination operand (first operand). This instruction can be used to load an XMM register
+from a 128-bit memory location, store the contents of an XMM register into a 128-bit memory location, or move
+data between two XMM registers.
+In 64-bit mode, use of the REX.R prefix permits this instruction to access additional registers (XMM8-XMM15).
+128-bit Legacy SSE version: Bits (VLMAX-1:128) of the corresponding YMM destination register remain
+unchanged.
+When the source or destination operand is a memory operand, the operand may be unaligned on a 16-byte
+boundary without causing a general-protection exception (#GP) to be generated.1
+To move double-precision floating-point values to and from memory locations that are known to be aligned on 16-
+byte boundaries, use the MOVAPD instruction.
+While executing in 16-bit addressing mode, a linear address for a 128-bit data access that overlaps the end of a 16-
+bit segment is not allowed and is defined as reserved behavior. A specific processor implementation may or may
+not generate a general-protection exception (#GP) in this situation, and the address that spans the end of the
+segment may or may not wrap around to the beginning of the segment.
+VEX.128 encoded version: Bits (VLMAX-1:128) of the destination YMM register are zeroed.
+VEX.256 encoded version: Moves 256 bits of packed double-precision floating-point values from the source
+operand (second operand) to the destination operand (first operand). This instruction can be used to load a YMM
+register from a 256-bit memory location, to store the contents of a YMM register into a 256-bit memory location,
+or to move data between two YMM registers.
+1. If alignment checking is enabled (CR0.AM = 1, RFLAGS.AC = 1, and CPL = 3), an alignment-check exception (#AC) may or may not be
+generated (depending on processor implementation) when the operand is not aligned on an 8-byte boundary.
+MOVUPD—Move Unaligned Packed Double-Precision Floating-Point Values
+Vol. 2A 3-571INSTRUCTION SET REFERENCE, A-M
+Note: In VEX-encoded versions, VEX.vvvv is reserved and must be 1111b otherwise instructions will #UD.
+
+Operation
+MOVUPD (128-bit load and register-copy form Legacy SSE version)
+DEST[127:0]  SRC[127:0]
+DEST[VLMAX-1:128] (Unmodified)
+(V)MOVUPD (128-bit store form)
+DEST[127:0]  SRC[127:0]
+VMOVUPD (VEX.128 encoded version)
+DEST[127:0]  SRC[127:0]
+DEST[VLMAX-1:128]  0
+VMOVUPD (VEX.256 encoded version)
+DEST[255:0]  SRC[255:0]
+---------------------------------------------------------------------
+
+MOVUPS—Move Unaligned Packed Single-Precision Floating-Point Values
+
+Opcode/ Op/ 64/32-bit CPUID Description
+Instruction En Mode 
+               Feature 
+               Flag 
+
+0F 10 /r 
+MOVUPS xmm1, xmm2/m128
+RM V/V SSE 
+Move packed single-precision floating-point
+ values from xmm2/m128 to xmm1.
+
+VEX.128.0F.WIG 10 /r
+VMOVUPS xmm1, xmm2/m128
+RM V/V AVX 
+Move unaligned packed single-precision
+ floating-point from xmm2/mem to xmm1.
+
+VEX.256.0F.WIG 10 /r
+VMOVUPS ymm1, ymm2/m256
+RM V/V AVX 
+Move unaligned packed single-precision
+ floating-point from ymm2/mem to ymm1.
+
+0F 11 /r
+MOVUPS xmm2/m128, xmm1
+MR V/V SSE 
+Move packed single-precision floating-point
+ values from xmm1 to xmm2/m128.
+
+VEX.128.0F.WIG 11 /r
+VMOVUPS xmm2/m128, xmm1
+MR V/V AVX 
+Move unaligned packed single-precision
+ floating-point from xmm1 to xmm2/mem.
+
+VEX.256.0F.WIG 11 /r
+VMOVUPS ymm2/m256, ymm1
+MR V/V AVX 
+Move unaligned packed single-precision
+ floating-point from ymm1 to ymm2/mem.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RM ModRM:reg (w) ModRM:r/m (r) NA NA
+MR ModRM:r/m (w) ModRM:reg (r) NA NA
+
+Description
+128-bit versions: Moves a double quadword containing four packed single-precision floating-point values from the
+source operand (second operand) to the destination operand (first operand). This instruction can be used to load
+an XMM register from a 128-bit memory location, store the contents of an XMM register into a 128-bit memory
+location, or move data between two XMM registers.
+In 64-bit mode, use of the REX.R prefix permits this instruction to access additional registers (XMM8-XMM15).
+128-bit Legacy SSE version: Bits (VLMAX-1:128) of the corresponding YMM destination register remain
+unchanged.
+When the source or destination operand is a memory operand, the operand may be unaligned on a 16-byte
+boundary without causing a general-protection exception (#GP) to be generated.1
+To move packed single-precision floating-point values to and from memory locations that are known to be aligned
+on 16-byte boundaries, use the MOVAPS instruction.
+While executing in 16-bit addressing mode, a linear address for a 128-bit data access that overlaps the end of a 16-
+bit segment is not allowed and is defined as reserved behavior. A specific processor implementation may or may
+not generate a general-protection exception (#GP) in this situation, and the address that spans the end of the
+segment may or may not wrap around to the beginning of the segment.
+VEX.128 encoded version: Bits (VLMAX-1:128) of the destination YMM register are zeroed.
+VEX.256 encoded version: Moves 256 bits of packed single-precision floating-point values from the source operand
+(second operand) to the destination operand (first operand). This instruction can be used to load a YMM register
+from a 256-bit memory location, to store the contents of a YMM register into a 256-bit memory location, or to move
+data between two YMM registers.
+Note: In VEX-encoded versions, VEX.vvvv is reserved and must be 1111b otherwise instructions will #UD.
+1. If alignment checking is enabled (CR0.AM = 1, RFLAGS.AC = 1, and CPL = 3), an alignment-check exception (#AC) may or may not be
+generated (depending on processor implementation) when the operand is not aligned on an 8-byte boundary.
+
+Operation
+MOVUPS (128-bit load and register-copy form Legacy SSE version)
+DEST[127:0]  SRC[127:0]
+DEST[VLMAX-1:128] (Unmodified)
+(V)MOVUPS (128-bit store form)
+DEST[127:0]  SRC[127:0]
+VMOVUPS (VEX.128 encoded load-form)
+DEST[127:0]  SRC[127:0]
+DEST[VLMAX-1:128]  0
+VMOVUPS (VEX.256 encoded version)
+DEST[255:0]  SRC[255:0]
+---------------------------------------------------------------------
+
+MOVZX—Move with Zero-Extend
+
+Opcode Instruction Op/ 64-Bit Compat/ Description
+                   En Mode Leg Mode
+
+0F B6 /r 
+MOVZX r16, r/m8 
+RM Valid Valid 
+Move byte to word with zero-extension.
+
+0F B6 /r 
+MOVZX r32, r/m8 
+RM Valid Valid 
+Move byte to doubleword, zero-extension.
+
+REX.W + 0F B6 /r 
+MOVZX r64, r/m8
+RM Valid N.E. 
+Move byte to quadword, zero-extension.
+
+0F B7 /r 
+MOVZX r32, r/m16 
+RM Valid Valid 
+Move word to doubleword, zero-extension.
+
+REX.W + 0F B7 /r 
+MOVZX r64, r/m16 
+RM Valid N.E. 
+Move word to quadword, zero-extension.
+
+NOTES:
+* In 64-bit mode, r/m8 can not be encoded to access the following byte registers if the REX prefix is used: AH, BH, CH, DH.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RM ModRM:reg (w) ModRM:r/m (r) NA NA
+
+Description
+Copies the contents of the source operand (register or memory location) to the destination operand (register) and
+zero extends the value. The size of the converted value depends on the operand-size attribute.
+In 64-bit mode, the instruction’s default operation size is 32 bits. Use of the REX.R prefix permits access to addi-
+tional registers (R8-R15). Use of the REX.W prefix promotes operation to 64 bit operands. See the summary chart
+at the beginning of this section for encoding data and limits.
+
+Operation
+DEST ← ZeroExtend(SRC);
+
+Flags Affected
+None.
+---------------------------------------------------------------------
+
+MPSADBW — Compute Multiple Packed Sums of Absolute Difference
+
+Opcode/ Op/ 64/32-bit CPUID Description
+Instruction En Mode 
+               Feature 
+               Flag 
+
+66 0F 3A 42 /r ib 
+MPSADBW xmm1, xmm2/m128, imm8
+RMI V/V SSE4_1 
+Sums absolute 8-bit integer difference of
+ adjacent groups of 4 byte integers in xmm1
+ and xmm2/m128 and writes the results in
+ xmm1. Starting offsets within xmm1 and
+ xmm2/m128 are determined by imm8.
+
+VEX.NDS.128.66.0F3A.WIG 42 /r ib
+VMPSADBW xmm1, xmm2, xmm3/m128, imm8
+RVMI V/V AVX Sums absolute 8-bit integer difference of
+ adjacent groups of 4 byte integers in xmm2
+ and xmm3/m128 and writes the results in
+ xmm1. Starting offsets within xmm2 and
+ xmm3/m128 are determined by imm8.
+
+VEX.NDS.256.66.0F3A.WIG 42 /r ib
+VMPSADBW ymm1, ymm2, ymm3/m256, imm8
+RVMI V/V AVX2 Sums absolute 8-bit integer difference of
+ adjacent groups of 4 byte integers in xmm2
+ and ymm3/m128 and writes the results in
+ ymm1. Starting offsets within ymm2 and
+ xmm3/m128 are determined by imm8.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RMI ModRM:reg (r, w) ModRM:r/m (r) imm8 NA
+RVMI ModRM:reg (w) VEX.vvvv (r) ModRM:r/m (r) imm8
+
+Description
+(V)MPSADBW sums the absolute difference of 4 unsigned bytes (block_2) in the second source operand with
+sequential groups of 4 unsigned bytes (block_1) in the first source operand. The immediate byte provides bit fields
+that specify the initial offset of block_1 within the first source operand, and the offset of block_2 within the second
+source operand. The offset granularity in both source operands are 32 bits. The sum-absolute-difference (SAD)
+operation is repeated 8 times for (V)MPSADW between the same block_2 (fixed offset within the second source
+operand) and a variable block_1 (offset is shifted by 8 bits for each SAD operation) in the first source operand.
+Each 16-bit result of eight SAD operations is written to the respective word in the destination operand.
+
+Flags Affected
+None
+---------------------------------------------------------------------
+
+MUL—Unsigned Multiply
+
+Opcode Instruction Op/ 64-Bit Compat/ Description
+                   En Mode Leg Mode
+
+F6 /4 
+MUL r/m8 
+M Valid Valid 
+Unsigned multiply (AX ← AL ∗ r/m8).
+
+REX + F6 /4 
+MUL r/m8* 
+M Valid N.E. 
+Unsigned multiply (AX ← AL ∗ r/m8).
+
+F7 /4 
+MUL r/m16 
+M Valid Valid 
+Unsigned multiply (DX:AX ← AX ∗ r/m16).
+
+F7 /4 
+MUL r/m32 
+M Valid Valid 
+Unsigned multiply (EDX:EAX ← EAX ∗ r/m32).
+
+REX.W + F7 /4 
+MUL r/m64 
+M Valid N.E. 
+Unsigned multiply (RDX:RAX ← RAX ∗ r/m64).
+
+NOTES:
+* In 64-bit mode, r/m8 can not be encoded to access the following byte registers if a REX prefix is used: AH, BH, CH, DH.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+M ModRM:r/m (r) NA NA NA
+
+Description
+Performs an unsigned multiplication of the first operand (destination operand) and the second operand (source
+operand) and stores the result in the destination operand. The destination operand is an implied operand located
+in register AL, AX or EAX (depending on the size of the operand); the source operand is located in a general-
+purpose register or a memory location. The action of this instruction and the location of the result depends on the
+opcode and the operand size as shown in Table 3-66.
+The result is stored in register AX, register pair DX:AX, or register pair EDX:EAX (depending on the operand size),
+with the high-order bits of the product contained in register AH, DX, or EDX, respectively. If the high-order bits of
+the product are 0, the CF and OF flags are cleared; otherwise, the flags are set.
+In 64-bit mode, the instruction’s default operation size is 32 bits. Use of the REX.R prefix permits access to addi-
+tional registers (R8-R15). Use of the REX.W prefix promotes operation to 64 bits.
+See the summary chart at the beginning of this section for encoding data and limits.
+Table 3-66. MUL Results
+Operand Size
+Source 1
+Source 2
+Destination
+Byte AL r/m8 AX
+Word AX r/m16 DX:AX
+Doubleword EAX r/m32 EDX:EAX
+Quadword RAX r/m64 RDX:RAX
+MUL—Unsigned Multiply
+Vol. 2A 3-585INSTRUCTION SET REFERENCE, A-M
+
+Operation
+IF (Byte operation)
+THEN
+AX ← AL ∗ SRC;
+ELSE (* Word or doubleword operation *)
+IF OperandSize = 16
+THEN
+DX:AX ← AX ∗ SRC;
+ELSE IF OperandSize = 32
+THEN EDX:EAX ← EAX ∗ SRC; FI;
+ELSE (* OperandSize = 64 *)
+RDX:RAX ← RAX ∗ SRC;
+FI;
+FI;
+
+Flags Affected
+The OF and CF flags are set to 0 if the upper half of the result is 0; otherwise, they are set to 1. The SF, ZF, AF, and
+PF flags are undefined.
+---------------------------------------------------------------------
+
+MULPD—Multiply Packed Double-Precision Floating-Point Values
+
+Opcode/ Op/ 64/32-bit CPUID Description
+Instruction En Mode 
+               Feature 
+               Flag 
+
+66 0F 59 /r 
+MULPD xmm1, xmm2/m128
+RM V/V SSE2 
+Multiply packed double-precision floating-point
+ values in xmm2/m128 by xmm1.
+
+VEX.NDS.128.66.0F.WIG 59 /r
+VMULPD xmm1,xmm2, xmm3/m128
+RVM V/V AVX 
+Multiply packed double-precision floating-point
+ values from xmm3/mem to xmm2 and stores
+ result in xmm1.
+
+VEX.NDS.256.66.0F.WIG 59 /r
+VMULPD ymm1, ymm2, ymm3/m256
+RVM V/V AVX 
+Multiply packed double-precision floating-point
+ values from ymm3/mem to ymm2 and stores
+ result in ymm1.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RM ModRM:reg (r, w) ModRM:r/m (r) NA NA
+RVM ModRM:reg (w) VEX.vvvv (r) ModRM:r/m (r) NA
+
+Description
+Performs a SIMD multiply of the two or four packed double-precision floating-point values from the source operand
+(second operand) and the destination operand (first operand), and stores the packed double-precision floating-
+point results in the destination operand. The source operand can be an XMM register or a 128-bit memory location.
+The destination operand is an XMM register. See Figure 11-3 in the Intel® 64 and IA-32 Architectures Software
+Developer’s Manual, Volume 1, for an illustration of a SIMD double-precision floating-point operation.
+In 64-bit mode, use of the REX.R prefix permits this instruction to access additional registers (XMM8-XMM15).
+128-bit Legacy SSE version: The second source can be an XMM register or an 128-bit memory location. The desti-
+nation is not distinct from the first source XMM register and the upper bits (VLMAX-1:128) of the corresponding
+YMM register destination are unmodified.
+VEX.128 encoded version: the first source operand is an XMM register or 128-bit memory location. The destination
+operand is an XMM register. The upper bits (VLMAX-1:128) of the destination YMM register destination are zeroed.
+VEX.256 encoded version: The first source operand is a YMM register. The second source operand can be a YMM
+register or a 256-bit memory location. The destination operand is a YMM register.
+
+Operation
+MULPD (128-bit Legacy SSE version)
+DEST[63:0]  DEST[63:0] * SRC[63:0]
+DEST[127:64]  DEST[127:64] * SRC[127:64]
+DEST[VLMAX-1:128] (Unmodified)
+VMULPD (VEX.128 encoded version)
+DEST[63:0]  SRC1[63:0] * SRC2[63:0]
+DEST[127:64]  SRC1[127:64] * SRC2[127:64]
+DEST[VLMAX-1:128]  0
+VMULPD (VEX.256 encoded version)
+DEST[63:0]  SRC1[63:0] * SRC2[63:0]
+DEST[127:64]  SRC1[127:64] * SRC2[127:64]
+DEST[191:128]  SRC1[191:128] * SRC2[191:128]
+DEST[255:192]  SRC1[255:192] * SRC2[255:192]
+---------------------------------------------------------------------
+
+MULPS—Multiply Packed Single-Precision Floating-Point Values
+
+Opcode/ Op/ 64/32-bit CPUID Description
+Instruction En Mode 
+               Feature 
+               Flag 
+
+0F 59 /r 
+MULPS xmm1, xmm2/m128
+RM V/V SSE 
+Multiply packed single-precision floating-point
+ values in xmm2/mem by xmm1.
+
+VEX.NDS.128.0F.WIG 59 /r
+VMULPS xmm1,xmm2, xmm3/m128
+RVM V/V AVX 
+Multiply packed single-precision floating-point
+ values from xmm3/mem to xmm2 and stores
+ result in xmm1.
+
+VEX.NDS.256.0F.WIG 59 /r
+VMULPS ymm1, ymm2, ymm3/m256
+RVM V/V AVX 
+Multiply packed single-precision floating-point
+ values from ymm3/mem to ymm2 and stores
+ result in ymm1.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RM ModRM:reg (r, w) ModRM:r/m (r) NA NA
+RVM ModRM:reg (w) VEX.vvvv (r) ModRM:r/m (r) NA
+
+Description
+Performs a SIMD multiply of the four packed single-precision floating-point values from the source operand
+(second operand) and the destination operand (first operand), and stores the packed single-precision floating-
+point results in the destination operand. See Figure 10-5 in the Intel® 64 and IA-32 Architectures Software Devel-
+oper’s Manual, Volume 1, for an illustration of a SIMD single-precision floating-point operation.
+In 64-bit mode, use of the REX.R prefix permits this instruction to access additional registers (XMM8-XMM15).
+128-bit Legacy SSE version: The second source can be an XMM register or an 128-bit memory location. The desti-
+nation is not distinct from the first source XMM register and the upper bits (VLMAX-1:128) of the corresponding
+YMM register destination are unmodified.
+VEX.128 encoded version: the first source operand is an XMM register or 128-bit memory location. The destination
+operand is an XMM register. The upper bits (VLMAX-1:128) of the destination YMM register destination are zeroed.
+VEX.256 encoded version: The first source operand is a YMM register. The second source operand can be a YMM
+register or a 256-bit memory location. The destination operand is a YMM register.
+
+Operation
+MULPS (128-bit Legacy SSE version)
+DEST[31:0]  SRC1[31:0] * SRC2[31:0]
+DEST[63:32]  SRC1[63:32] * SRC2[63:32]
+DEST[95:64]  SRC1[95:64] * SRC2[95:64]
+DEST[127:96]  SRC1[127:96] * SRC2[127:96]
+DEST[VLMAX-1:128] (Unmodified)
+VMULPS (VEX.128 encoded version)
+DEST[31:0]  SRC1[31:0] * SRC2[31:0]
+DEST[63:32]  SRC1[63:32] * SRC2[63:32]
+DEST[95:64]  SRC1[95:64] * SRC2[95:64]
+DEST[127:96]  SRC1[127:96] * SRC2[127:96]
+DEST[VLMAX-1:128]  0
+VMULPS (VEX.256 encoded version)
+DEST[31:0]  SRC1[31:0] * SRC2[31:0]
+DEST[63:32]  SRC1[63:32] * SRC2[63:32]
+DEST[95:64]  SRC1[95:64] * SRC2[95:64]
+DEST[127:96]  SRC1[127:96] * SRC2[127:96]
+DEST[159:128]  SRC1[159:128] * SRC2[159:128]
+DEST[191:160] SRC1[191:160] * SRC2[191:160]
+DEST[223:192]  SRC1[223:192] * SRC2[223:192]
+DEST[255:224]  SRC1[255:224] * SRC2[255:224].
+---------------------------------------------------------------------
+
+MULSD—Multiply Scalar Double-Precision Floating-Point Values
+
+Opcode/ Op/ 64/32-bit CPUID Description
+Instruction En Mode 
+               Feature 
+               Flag 
+
+F2 0F 59 /r 
+MULSD xmm1, xmm2/m64
+RM V/V SSE2 
+Multiply the low double-precision floating-
+ point value in xmm2/mem64 by low double-
+ precision floating-point value in xmm1.
+
+VEX.NDS.LIG.F2.0F.WIG 59/r
+VMULSD xmm1,xmm2, xmm3/m64
+RVM V/V AVX 
+Multiply the low double-precision floating-
+ point value in xmm3/mem64 by low double
+ precision floating-point value in xmm2.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RM ModRM:reg (r, w) ModRM:r/m (r) NA NA
+RVM ModRM:reg (w) VEX.vvvv (r) ModRM:r/m (r) NA
+
+Description
+Multiplies the low double-precision floating-point value in the source operand (second operand) by the low double-
+precision floating-point value in the destination operand (first operand), and stores the double-precision floating-
+point result in the destination operand. The source operand can be an XMM register or a 64-bit memory location.
+The destination operand is an XMM register. The high quadword of the destination operand remains unchanged.
+See Figure 11-4 in the Intel® 64 and IA-32 Architectures Software Developer’s Manual, Volume 1, for an illustra-
+tion of a scalar double-precision floating-point operation.
+In 64-bit mode, use of the REX.R prefix permits this instruction to access additional registers (XMM8-XMM15).
+128-bit Legacy SSE version: The first source operand and the destination operand are the same. Bits (VLMAX-
+1:64) of the corresponding YMM destination register remain unchanged.
+VEX.128 encoded version: Bits (VLMAX-1:128) of the destination YMM register are zeroed.
+
+Operation
+MULSD (128-bit Legacy SSE version)
+DEST[63:0]  DEST[63:0] * SRC[63:0]
+DEST[VLMAX-1:64] (Unmodified)
+VMULSD (VEX.128 encoded version)
+DEST[63:0]  SRC1[63:0] * SRC2[63:0]
+DEST[127:64]  SRC1[127:64]
+DEST[VLMAX-1:128]  0
+---------------------------------------------------------------------
+
+MULSS—Multiply Scalar Single-Precision Floating-Point Values
+
+Opcode/ Op/ 64/32-bit CPUID Description
+Instruction En Mode 
+               Feature 
+               Flag 
+
+F3 0F 59 /r 
+MULSS xmm1, xmm2/m32
+RM V/V SSE 
+Multiply the low single-precision floating-point
+ value in xmm2/mem by the low single-
+ precision floating-point value in xmm1.
+
+VEX.NDS.LIG.F3.0F.WIG 59 /r
+VMULSS xmm1,xmm2, xmm3/m32
+RVM V/V AVX 
+Multiply the low single-precision floating-point
+ value in xmm3/mem by the low single-
+ precision floating-point value in xmm2.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RM ModRM:reg (r, w) ModRM:r/m (r) NA NA
+RVM ModRM:reg (w) VEX.vvvv (r) ModRM:r/m (r) NA
+
+Description
+Multiplies the low single-precision floating-point value from the source operand (second operand) by the low
+single-precision floating-point value in the destination operand (first operand), and stores the single-precision
+floating-point result in the destination operand. The source operand can be an XMM register or a 32-bit memory
+location. The destination operand is an XMM register. The three high-order doublewords of the destination operand
+remain unchanged. See Figure 10-6 in the Intel® 64 and IA-32 Architectures Software Developer’s Manual,
+Volume 1, for an illustration of a scalar single-precision floating-point operation.
+In 64-bit mode, use of the REX.R prefix permits this instruction to access additional registers (XMM8-XMM15).
+128-bit Legacy SSE version: The first source operand and the destination operand are the same. Bits (VLMAX-
+1:32) of the corresponding YMM destination register remain unchanged.
+VEX.128 encoded version: Bits (VLMAX-1:128) of the destination YMM register are zeroed.
+
+Operation
+MULSS (128-bit Legacy SSE version)
+DEST[31:0]  DEST[31:0] * SRC[31:0]
+DEST[VLMAX-1:32] (Unmodified)
+VMULSS (VEX.128 encoded version)
+DEST[31:0]  SRC1[31:0] * SRC2[31:0]
+DEST[127:32]  SRC1[127:32]
+DEST[VLMAX-1:128]  0
+---------------------------------------------------------------------
+MULX — Unsigned Multiply Without Affecting Flags
+
+Opcode/ Op/
+Instruction En
+CPUID Description
+Feature 
+Flag 
+64/32 
+-bit
+Mode 
+
+VEX.NDD.LZ.F2.0F38.W0 F6 /r 
+MULX r32a, r32b, r/m32 
+RVM V/V BMI2 
+Unsigned multiply of r/m32 with EDX without affecting arithmetic flags.
+
+VEX.NDD.LZ.F2.0F38.W1 F6 /r 
+MULX r64a, r64b, r/m64 
+RVM V/N.E. BMI2 
+Unsigned multiply of r/m64 with RDX without affecting arithmetic flags.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RVM ModRM:reg (w) VEX.vvvv (w) ModRM:r/m (r) RDX/EDX is implied 64/32 bits source
+
+Description
+Performs an unsigned multiplication of the implicit source operand (EDX/RDX) and the specified source operand
+(the third operand) and stores the low half of the result in the second destination (second operand), the high half
+of the result in the first destination operand (first operand), without reading or writing the arithmetic flags. This
+enables efficient programming where the software can interleave add with carry operations and multiplications.
+If the first and second operand are identical, it will contain the high half of the multiplication result.
+This instruction is not supported in real mode and virtual-8086 mode. The operand size is always 32 bits if not in
+64-bit mode. In 64-bit mode operand size 64 requires VEX.W1. VEX.W1 is ignored in non-64-bit modes. An
+attempt to execute this instruction with VEX.L not equal to 0 will cause #UD.
+
+Operation
+// DEST1: ModRM:reg
+// DEST2: VEX.vvvv
+IF (OperandSize = 32)
+SRC1 ← EDX;
+DEST2 ← (SRC1*SRC2)[31:0];
+DEST1 ← (SRC1*SRC2)[63:32];
+ELSE IF (OperandSize = 64)
+SRC1 ← RDX;
+DEST2 ← (SRC1*SRC2)[63:0];
+DEST1 ← (SRC1*SRC2)[127:64];
+FI
+
+Flags Affected
+None
+---------------------------------------------------------------------
+
+MWAIT—Monitor Wait
+
+Opcode Instruction Op/ 64-Bit Compat/ Description
+                   En Mode Leg Mode
+
+0F 01 C9 
+MWAIT 
+NP Valid Valid
+A hint that allow the processor to stop
+instruction execution and enter an
+implementation-dependent optimized state
+until occurrence of a class of events.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+NP NA NA NA NA
+
+Description
+MWAIT instruction provides hints to allow the processor to enter an implementation-dependent optimized state.
+There are two principal targeted usages: address-range monitor and advanced power management. Both usages
+of MWAIT require the use of the MONITOR instruction.
+CPUID.01H:ECX.MONITOR[bit 3] indicates the availability of MONITOR and MWAIT in the processor. When set,
+MWAIT may be executed only at privilege level 0 (use at any other privilege level results in an invalid-opcode
+exception). The operating system or system BIOS may disable this instruction by using the IA32_MISC_ENABLE
+MSR; disabling MWAIT clears the CPUID feature flag and causes execution to generate an invalid-opcode excep-
+tion.
+This instruction’s operation is the same in non-64-bit modes and 64-bit mode.
+ECX specifies optional extensions for the MWAIT instruction. EAX may contain hints such as the preferred opti-
+mized state the processor should enter. The first processors to implement MWAIT supported only the zero value for
+EAX and ECX. Later processors allowed setting ECX[0] to enable masked interrupts as break events for MWAIT
+(see below). Software can use the CPUID instruction to determine the extensions and hints supported by the
+processor.
+---------------------------------------------------------------------

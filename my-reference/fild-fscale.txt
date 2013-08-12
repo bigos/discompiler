@@ -1,0 +1,1023 @@
+FILD—Load Integer
+
+Opcode Instruction 64-Bit Compat/ Description
+                   Mode Leg Mode 
+
+DF /0 
+FILD m16int 
+Valid Valid 
+Push m16int onto the FPU register stack.
+
+DB /0 
+FILD m32int 
+Valid Valid 
+Push m32int onto the FPU register stack.
+
+DF /5 
+FILD m64int 
+Valid Valid 
+Push m64int onto the FPU register stack.
+
+Description
+Converts the signed-integer source operand into double extended-precision floating-point format and pushes the
+value onto the FPU register stack. The source operand can be a word, doubleword, or quadword integer. It is loaded
+without rounding errors. The sign of the source operand is preserved.
+This instruction’s operation is the same in non-64-bit modes and 64-bit mode.
+
+Operation
+TOP ← TOP − 1;
+ST(0) ← ConvertToDoubleExtendedPrecisionFP(SRC);
+
+FPU Flags Affected
+C1 Set to 1 if stack overflow occurred; set to 0 otherwise.
+C0, C2, C3 Undefined.
+---------------------------------------------------------------------
+
+FINCSTP—Increment Stack-Top Pointer
+Opcode Instruction 64-Bit Compat/ Description
+                   Mode Leg Mode 
+
+D9 F7 
+FINCSTP 
+Valid Valid 
+Increment the TOP field in the FPU status register.
+
+Description
+Adds one to the TOP field of the FPU status word (increments the top-of-stack pointer). If the TOP field contains a
+7, it is set to 0. The effect of this instruction is to rotate the stack by one position. The contents of the FPU data
+registers and tag register are not affected. This operation is not equivalent to popping the stack, because the tag
+for the previous top-of-stack register is not marked empty.
+This instruction’s operation is the same in non-64-bit modes and 64-bit mode.
+
+Operation
+IF TOP = 7
+THEN TOP ← 0;
+ELSE TOP ← TOP + 1;
+FI;
+
+FPU Flags Affected
+The C1 flag is set to 0. The C0, C2, and C3 flags are undefined.
+---------------------------------------------------------------------
+
+FINIT/FNINIT—Initialize Floating-Point Unit
+
+Opcode Instruction 64-Bit Compat/ Description
+                   Mode Leg Mode 
+
+9B DB E3 
+FINIT 
+Valid Valid 
+Initialize FPU after checking for pending unmasked
+ floating-point exceptions.
+
+DB E3 
+FNINIT
+Valid Valid 
+Initialize FPU without checking for pending unmasked
+ floating-point exceptions.
+
+NOTES:
+* See IA-32 Architecture Compatibility section below.
+
+Description
+Sets the FPU control, status, tag, instruction pointer, and data pointer registers to their default states. The FPU
+control word is set to 037FH (round to nearest, all exceptions masked, 64-bit precision). The status word is cleared
+(no exception flags set, TOP is set to 0). The data registers in the register stack are left unchanged, but they are all
+tagged as empty (11B). Both the instruction and data pointers are cleared.
+The FINIT instruction checks for and handles any pending unmasked floating-point exceptions before performing
+the initialization; the FNINIT instruction does not.
+The assembler issues two instructions for the FINIT instruction (an FWAIT instruction followed by an FNINIT
+instruction), and the processor executes each of these instructions in separately. If an exception is generated for
+either of these instructions, the save EIP points to the instruction that caused the exception.
+This instruction’s operation is the same in non-64-bit modes and 64-bit mode.
+
+IA-32 Architecture Compatibility
+When operating a Pentium or Intel486 processor in MS-DOS compatibility mode, it is possible (under unusual
+circumstances) for an FNINIT instruction to be interrupted prior to being executed to handle a pending FPU excep-
+tion. See the section titled “No-Wait FPU Instructions Can Get FPU Interrupt in Window” in Appendix D of the Intel®
+64 and IA-32 Architectures Software Developer’s Manual, Volume 1, for a description of these circumstances. An
+FNINIT instruction cannot be interrupted in this way on a Pentium 4, Intel Xeon, or P6 family processor.
+In the Intel387 math coprocessor, the FINIT/FNINIT instruction does not clear the instruction and data pointers.
+This instruction affects only the x87 FPU. It does not affect the XMM and MXCSR registers.
+
+Operation
+FPUControlWord ← 037FH;
+FPUStatusWord ← 0;
+FPUTagWord ← FFFFH;
+FPUDataPointer ← 0;
+FPUInstructionPointer ← 0;
+FPULastInstructionOpcode ← 0;
+
+FPU Flags Affected
+C0, C1, C2, C3 set to 0.
+---------------------------------------------------------------------
+
+FIST/FISTP—Store Integer
+
+Opcode
+Instruction
+64-Bit
+Mode
+Compat/
+Leg Mode
+Description
+
+DF /2 
+FIST m16int 
+Valid Valid 
+Store ST(0) in m16int.
+
+DB /2 
+FIST m32int 
+Valid Valid 
+Store ST(0) in m32int.
+
+DF /3 
+FISTP m16int 
+Valid Valid 
+Store ST(0) in m16int and pop register stack.
+
+DB /3 
+FISTP m32int 
+Valid Valid 
+Store ST(0) in m32int and pop register stack.
+
+DF /7 
+FISTP m64int 
+Valid Valid 
+Store ST(0) in m64int and pop register stack.
+
+Description
+The FIST instruction converts the value in the ST(0) register to a signed integer and stores the result in the desti-
+nation operand. Values can be stored in word or doubleword integer format. The destination operand specifies the
+address where the first byte of the destination value is to be stored.
+The FISTP instruction performs the same operation as the FIST instruction and then pops the register stack. To pop
+the register stack, the processor marks the ST(0) register as empty and increments the stack pointer (TOP) by 1.
+The FISTP instruction also stores values in quadword integer format.
+The following table shows the results obtained when storing various classes of numbers in integer format.
+Table 3-37. FIST/FISTP Results
+NOTES:
+F Means finite floating-point value.
+I Means integer.
+* Indicates floating-point invalid-operation (#IA) exception.
+** 0 or ±1, depending on the rounding mode.
+If the source value is a non-integral value, it is rounded to an integer value, according to the rounding mode spec-
+ified by the RC field of the FPU control word.
+If the converted value is too large for the destination format, or if the source operand is an ∞, SNaN, QNAN, or is in
+an unsupported format, an invalid-arithmetic-operand condition is signaled. If the invalid-operation exception is
+not masked, an invalid-arithmetic-operand exception (#IA) is generated and no value is stored in the destination
+operand. If the invalid-operation exception is masked, the integer indefinite value is stored in memory.
+This instruction’s operation is the same in non-64-bit modes and 64-bit mode.
+
+Operation
+DEST ← Integer(ST(0));
+IF Instruction = FISTP
+THEN
+PopRegisterStack;
+FI;
+
+FPU Flags Affected
+C1
+Set to 0 if stack underflow occurred.
+Indicates rounding direction of if the inexact exception (#P) is generated: 0 ← not roundup; 1
+← roundup.
+Set to 0 otherwise.
+C0, C2, C3
+Undefined.
+---------------------------------------------------------------------
+
+FLD—Load Floating Point Value
+
+Opcode Instruction 64-Bit Compat/ Description
+                   Mode Leg Mode 
+
+D9 /0 
+FLD m32fp 
+Valid Valid 
+Push m32fp onto the FPU register stack.
+
+DD /0 
+FLD m64fp 
+Valid Valid 
+Push m64fp onto the FPU register stack.
+
+DB /5 
+FLD m80fp 
+Valid Valid 
+Push m80fp onto the FPU register stack.
+
+D9 C0+i 
+FLD ST(i) 
+Valid Valid 
+Push ST(i) onto the FPU register stack.
+
+Description
+Pushes the source operand onto the FPU register stack. The source operand can be in single-precision, double-
+precision, or double extended-precision floating-point format. If the source operand is in single-precision or
+double-precision floating-point format, it is automatically converted to the double extended-precision floating-
+point format before being pushed on the stack.
+The FLD instruction can also push the value in a selected FPU register [ST(i)] onto the stack. Here, pushing register
+ST(0) duplicates the stack top.
+This instruction’s operation is the same in non-64-bit modes and 64-bit mode.
+
+Operation
+IF SRC is ST(i)
+THEN
+temp ← ST(i);
+FI;
+TOP ← TOP
+− 1;
+IF SRC is memory-operand
+THEN
+ST(0) ← ConvertToDoubleExtendedPrecisionFP(SRC);
+ELSE (* SRC is ST(i) *)
+ST(0) ← temp;
+FI;
+
+FPU Flags Affected
+C1 Set to 1 if stack overflow occurred; otherwise, set to 0.
+C0, C2, C3 Undefined.
+---------------------------------------------------------------------
+
+FLD1/FLDL2T/FLDL2E/FLDPI/FLDLG2/FLDLN2/FLDZ—Load Constant
+
+Opcode Instruction 64-Bit Compat/ Description
+                    Mode Leg Mode 
+
+D9 E8 
+FLD1 
+Valid Valid 
+Push +1.0 onto the FPU register stack.
+
+D9 E9 
+FLDL2T 
+Valid Valid 
+Push log210 onto the FPU register stack.
+
+D9 EA 
+FLDL2E 
+Valid Valid 
+Push log2e onto the FPU register stack.
+
+D9 EB 
+FLDPI 
+Valid Valid 
+Push π onto the FPU register stack.
+
+D9 EC 
+FLDLG2 
+Valid Valid 
+Push log102 onto the FPU register stack.
+
+D9 ED 
+FLDLN2 
+Valid Valid 
+Push loge2 onto the FPU register stack.
+
+D9 EE 
+FLDZ 
+Valid Valid 
+Push +0.0 onto the FPU register stack.
+
+NOTES:
+* See IA-32 Architecture Compatibility section below.
+
+Description
+Push one of seven commonly used constants (in double extended-precision floating-point format) onto the FPU
+register stack. The constants that can be loaded with these instructions include +1.0, +0.0, log210, log2e, π, log102,
+and loge2. For each constant, an internal 66-bit constant is rounded (as specified by the RC field in the FPU control
+word) to double extended-precision floating-point format. The inexact-result exception (#P) is not generated as a
+result of the rounding, nor is the C1 flag set in the x87 FPU status word if the value is rounded up.
+See the section titled “Pi” in Chapter 8 of the Intel® 64 and IA-32 Architectures Software Developer’s Manual,
+Volume 1, for a description of the π constant.
+This instruction’s operation is the same in non-64-bit modes and 64-bit mode.
+
+IA-32 Architecture Compatibility
+When the RC field is set to round-to-nearest, the FPU produces the same constants that is produced by the Intel
+8087 and Intel 287 math coprocessors.
+
+Operation
+TOP ← TOP − 1;
+ST(0) ← CONSTANT;
+
+FPU Flags Affected
+C1 Set to 1 if stack overflow occurred; otherwise, set to 0.
+C0, C2, C3 Undefined.
+---------------------------------------------------------------------
+
+FLDCW—Load x87 FPU Control Word
+
+Opcode Instruction 64-Bit Compat/ Description
+                   Mode Leg Mode 
+
+D9 /5 
+FLDCW m2byte 
+Valid Valid 
+Load FPU control word from m2byte.
+
+Description
+Loads the 16-bit source operand into the FPU control word. The source operand is a memory location. This instruc-
+tion is typically used to establish or change the FPU’s mode of operation.
+If one or more exception flags are set in the FPU status word prior to loading a new FPU control word and the new
+control word unmasks one or more of those exceptions, a floating-point exception will be generated upon execution
+of the next floating-point instruction (except for the no-wait floating-point instructions, see the section titled “Soft-
+ware Exception Handling” in Chapter 8 of the Intel® 64 and IA-32 Architectures Software Developer’s Manual,
+Volume 1). To avoid raising exceptions when changing FPU operating modes, clear any pending exceptions (using
+the FCLEX or FNCLEX instruction) before loading the new control word.
+This instruction’s operation is the same in non-64-bit modes and 64-bit mode.
+
+Operation
+FPUControlWord ← SRC;
+
+FPU Flags Affected
+C0, C1, C2, C3 undefined.
+---------------------------------------------------------------------
+
+FLDENV—Load x87 FPU Environment
+
+Opcode Instruction 64-Bit Compat/ Description
+                   Mode Leg Mode 
+
+D9 /4 
+FLDENV m14/28byte 
+Valid Valid 
+Load FPU environment from m14byte or m28byte.
+
+Description
+Loads the complete x87 FPU operating environment from memory into the FPU registers. The source operand spec-
+ifies the first byte of the operating-environment data in memory. This data is typically written to the specified
+memory location by a FSTENV or FNSTENV instruction.
+The FPU operating environment consists of the FPU control word, status word, tag word, instruction pointer, data
+pointer, and last opcode. Figures 8-9 through 8-12 in the Intel® 64 and IA-32 Architectures Software Developer’s
+Manual, Volume 1, show the layout in memory of the loaded environment, depending on the operating mode of the
+processor (protected or real) and the current operand-size attribute (16-bit or 32-bit). In virtual-8086 mode, the
+real mode layouts are used.
+The FLDENV instruction should be executed in the same operating mode as the corresponding FSTENV/FNSTENV
+instruction.
+If one or more unmasked exception flags are set in the new FPU status word, a floating-point exception will be
+generated upon execution of the next floating-point instruction (except for the no-wait floating-point instructions,
+see the section titled “Software Exception Handling” in Chapter 8 of the Intel® 64 and IA-32 Architectures Soft-
+ware Developer’s Manual, Volume 1). To avoid generating exceptions when loading a new environment, clear all
+the exception flags in the FPU status word that is being loaded.
+If a page or limit fault occurs during the execution of this instruction, the state of the x87 FPU registers as seen by
+the fault handler may be different than the state being loaded from memory. In such situations, the fault handler
+should ignore the status of the x87 FPU registers, handle the fault, and return. The FLDENV instruction will then
+complete the loading of the x87 FPU registers with no resulting context inconsistency.
+This instruction’s operation is the same in non-64-bit modes and 64-bit mode.
+
+Operation
+FPUControlWord ← SRC[FPUControlWord];
+FPUStatusWord ← SRC[FPUStatusWord];
+FPUTagWord ← SRC[FPUTagWord];
+FPUDataPointer ← SRC[FPUDataPointer];
+FPUInstructionPointer ← SRC[FPUInstructionPointer];
+FPULastInstructionOpcode ← SRC[FPULastInstructionOpcode];
+
+FPU Flags Affected
+The C0, C1, C2, C3 flags are loaded.
+---------------------------------------------------------------------
+
+FMUL/FMULP/FIMUL—Multiply
+
+Opcode
+Instruction
+64-Bit
+Mode
+Compat/
+Leg Mode
+Description
+
+D8 /1 
+FMUL m32fp 
+Valid Valid 
+Multiply ST(0) by m32fp and store result in ST(0).
+
+DC /1 
+FMUL m64fp 
+Valid Valid 
+Multiply ST(0) by m64fp and store result in ST(0).
+
+D8 C8+i 
+FMUL ST(0), ST(i) 
+Valid Valid 
+Multiply ST(0) by ST(i) and store result in ST(0).
+
+DC C8+i 
+FMUL ST(i), ST(0) 
+Valid Valid 
+Multiply ST(i) by ST(0) and store result in ST(i).
+
+DE C8+i 
+FMULP ST(i), ST(0) 
+Valid Valid 
+Multiply ST(i) by ST(0), store result in ST(i), and pop the
+ register stack.
+
+DE C9 
+FMULP 
+Valid Valid 
+Multiply ST(1) by ST(0), store result in ST(1), and pop
+ the register stack.
+
+DA /1 
+FIMUL m32int 
+Valid Valid 
+Multiply ST(0) by m32int and store result in ST(0).
+
+DE /1 
+FIMUL m16int 
+Valid Valid 
+Multiply ST(0) by m16int and store result in ST(0).
+
+Description
+Multiplies the destination and source operands and stores the product in the destination location. The destination
+operand is always an FPU data register; the source operand can be an FPU data register or a memory location.
+Source operands in memory can be in single-precision or double-precision floating-point format or in word or
+doubleword integer format.
+The no-operand version of the instruction multiplies the contents of the ST(1) register by the contents of the ST(0)
+register and stores the product in the ST(1) register. The one-operand version multiplies the contents of the ST(0)
+register by the contents of a memory location (either a floating point or an integer value) and stores the product in
+the ST(0) register. The two-operand version, multiplies the contents of the ST(0) register by the contents of the
+ST(i) register, or vice versa, with the result being stored in the register specified with the first operand (the desti-
+nation operand).
+The 
+FMULP instructions perform the additional operation of popping the FPU register stack after storing the
+product. To pop the register stack, the processor marks the ST(0) register as empty and increments the stack
+pointer (TOP) by 1. The no-operand version of the floating-point multiply instructions always results in the register
+stack being popped. In some assemblers, the mnemonic for this instruction is FMUL rather than FMULP.
+The FIMUL instructions convert an integer source operand to double extended-
+precision floating-point format before performing the multiplication.
+The sign of the result is always the exclusive-OR of the source signs, even if one or more of the values being multi-
+plied is 0 or ∞. When the source operand is an integer 0, it is treated as a +0.
+The following table shows the results obtained when multiplying various classes of numbers, assuming that neither
+overflow nor underflow occurs.
+Table 3-39. FMUL/FMULP/FIMUL Results
+DEST
+−∞ −∞ +∞ +∞
+−F +∞ +F
+−I +∞ +F
+−0 * +0 * +I 
+SRC
+−F
++0 +F +∞ NaN
+* * −∞ −∞ NaN
++0 −0 −F −∞ NaN
++0 −0 −F −∞ NaN
++0 +0 −0 −0 * NaN
+−0 −0 +0 +0 * NaN
+−∞ −F −0 +0 +F +∞ NaN
+−0
++F −∞ −F −0 +0 +F +∞ NaN
++∞ −∞ −∞ * * +∞ +∞ NaN
+NaN NaN NaN NaN NaN NaN NaN NaN
+NOTES:
+F Means finite floating-point value.
+I Means Integer.
+* Indicates 
+invalid-arithmetic-operand (#IA) exception.
+This instruction’s operation is the same in non-64-bit modes and 64-bit mode.
+
+Operation
+IF Instruction = FIMUL
+THEN
+DEST ← DEST ∗ ConvertToDoubleExtendedPrecisionFP(SRC);
+ELSE (* Source operand is floating-point value *)
+DEST ← DEST ∗ SRC;
+FI;
+IF Instruction = FMULP
+THEN
+PopRegisterStack;
+FI;
+
+FPU Flags Affected
+C1
+Set to 0 if stack underflow occurred.
+Set if result was rounded up; cleared otherwise.
+C0, C2, C3
+Undefined.
+---------------------------------------------------------------------
+
+FNOP—No Operation
+
+Opcode Instruction 64-Bit Compat/ Description
+                   Mode Leg Mode 
+
+D9 D0 
+FNOP 
+Valid Valid 
+No operation is performed.
+
+Description
+Performs no FPU operation. This instruction takes up space in the instruction stream but does not affect the FPU or
+machine context, except the EIP register.
+This instruction’s operation is the same in non-64-bit modes and 64-bit mode.
+
+FPU Flags Affected
+C0, C1, C2, C3 undefined.
+---------------------------------------------------------------------
+
+FPATAN—Partial Arctangent
+
+Opcode* Instruction 64-Bit Compat/ Description
+                    Mode Leg Mode 
+
+D9 F3 
+FPATAN 
+Valid Valid 
+Replace ST(1) with arctan(ST(1)/ST(0)) and pop the register stack.
+
+NOTES:
+* See IA-32 Architecture Compatibility section below.
+
+Description
+Computes the arctangent of the source operand in register ST(1) divided by the source operand in register ST(0),
+stores the result in ST(1), and pops the FPU register stack. The result in register ST(0) has the same sign as the
+source operand ST(1) and a magnitude less than +π.
+The FPATAN instruction returns the angle between the X axis and the line from the origin to the point (X,Y), where
+Y (the ordinate) is ST(1) and X (the abscissa) is ST(0). The angle depends on the sign of X and Y independently,
+not just on the sign of the ratio Y/X. This is because a point (−X,Y) is in the second quadrant, resulting in an angle
+between π/2 and π, while a point (X,−Y) is in the fourth quadrant, resulting in an angle between 0 and −π/2. A point
+(−X,−Y) is in the third quadrant, giving an angle between −π/2 and −π.
+The following table shows the results obtained when computing the arctangent of various classes of numbers,
+assuming that underflow does not occur.
+Table 3-40. FPATAN Results
+ST(0)
+−∞ −0 +0 +F +∞ NaN
+−∞ − 3π/4* − π/2 − π/2 − π/2 − π/2 − π/4* NaN
+−F -p −π to −π/2 −π/2 −π/2 −π/2 to −0 -0 NaN
+−0 -p -p -p* − 0* −0 −0 NaN
++0 +p +p + π* + 0* +0 +0 NaN
++F +p +π to +π/2 + π/2 +π/2 +π/2 to +0 +0 NaN
++∞ 
+ST(1)
+−F +3π/4* +π/2 +π/2 +π/2 + π/2 + π/4* NaN
+NaN
+NaN
+NaN
+NaN
+NaN
+NaN
+NaN
+NaN
+NOTES:
+F Means finite floating-point value.
+* Table 8-10 in the Intel® 64 and IA-32 Architectures Software Developer’s Manual, Volume 1, specifies that the ratios 0/0 and ∞/∞
+generate the floating-point invalid arithmetic-operation exception and, if this exception is masked, the floating-point QNaN indefi-
+nite value is returned. With the FPATAN instruction, the 0/0 or ∞/∞ value is actually not calculated using division. Instead, the arct-
+angent of the two variables is derived from a standard mathematical formulation that is generalized to allow complex numbers as
+arguments. In this complex variable formulation, arctangent(0,0) etc. has well defined values. These values are needed to develop
+a library to compute transcendental functions with complex arguments, based on the FPU functions that only allow floating-point
+values as arguments.
+There is no restriction on the range of source operands that FPATAN can accept.
+This instruction’s operation is the same in non-64-bit modes and 64-bit mode.
+
+IA-32 Architecture Compatibility
+The source operands for this instruction are restricted for the 80287 math coprocessor to the following range:
+0 ≤ |ST(1)| < |ST(0)| < +∞
+
+Operation
+ST(1) ← arctan(ST(1) / ST(0));
+PopRegisterStack;
+
+FPU Flags Affected
+C1
+Set to 0 if stack underflow occurred.
+Set if result was rounded up; cleared otherwise.
+C0, C2, C3
+Undefined.
+---------------------------------------------------------------------
+
+FPREM—Partial Remainder
+
+Opcode Instruction 64-Bit Compat/ Description
+                   Mode Leg Mode 
+
+D9 F8 
+FPREM 
+Valid Valid 
+Replace ST(0) with the remainder obtained from dividing
+ ST(0) by ST(1).
+
+Description
+Computes the remainder obtained from dividing the value in the ST(0) register (the dividend) by the value in the
+ST(1) register (the divisor or modulus), and stores the result in ST(0). The remainder represents the following
+value:
+Remainder ← ST(0) − (Q ∗ ST(1))
+Here, Q is an integer value that is obtained by truncating the floating-point number quotient of [ST(0) / ST(1)]
+toward zero. The sign of the remainder is the same as the sign of the dividend. The magnitude of the remainder is
+less than that of the modulus, unless a partial remainder was computed (as described below).
+This instruction produces an exact result; the inexact-result exception does not occur and the rounding control has
+no effect. The following table shows the results obtained when computing the remainder of various classes of
+numbers, assuming that underflow does not occur.
+Table 3-41. FPREM Results
+ST(1)
+-∞ -0 +0 +F +∞ NaN
+-∞ * * * * * * NaN
+-F ST(0) -F or -0 ** ** -F or -0 ST(0) NaN
+-0 -0 -0 * * -0 -0 NaN
++0 +0 +0 * * +0 +0 NaN
++F ST(0) +F or +0 ** ** +F or +0 ST(0) NaN
++∞ * * * * * * NaN
+NaN 
+ST(0)
+-F NaN NaN NaN NaN NaN NaN NaN
+NOTES:
+F Means finite floating-point value.
+* Indicates floating-point invalid-arithmetic-operand (#IA) exception.
+** Indicates floating-point zero-divide (#Z) exception.
+When the result is 0, its sign is the same as that of the dividend. When the modulus is ∞, the result is equal to the
+value in ST(0).
+The FPREM instruction does not compute the remainder specified in IEEE Std 754. The IEEE specified remainder
+can be computed with the FPREM1 instruction. The FPREM instruction is provided for compatibility with the Intel
+8087 and Intel287 math coprocessors.
+The FPREM instruction gets its name “partial remainder” because of the way it computes the remainder. This
+instruction arrives at a remainder through iterative subtraction. It can, however, reduce the exponent of ST(0) by
+no more than 63 in one execution of the instruction. If the instruction succeeds in producing a remainder that is
+less than the modulus, the operation is complete and the C2 flag in the FPU status word is cleared. Otherwise, C2
+is set, and the result in ST(0) is called the partial remainder. The exponent of the partial remainder will be less
+than the exponent of the original dividend by at least 32. Software can re-execute the instruction (using the partial
+remainder in ST(0) as the dividend) until C2 is cleared. (Note that while executing such a remainder-computation
+loop, a higher-priority interrupting routine that needs the FPU can force a context switch in-between the instruc-
+tions in the loop.)
+An important use of the FPREM instruction is to reduce the arguments of periodic functions. When reduction is
+complete, the instruction stores the three least-significant bits of the quotient in the C3, C1, and C0 flags of the FPU
+status word. This information is important in argument reduction for the tangent function (using a modulus of π/4),
+because it locates the original angle in the correct one of eight sectors of the unit circle.
+This instruction’s operation is the same in non-64-bit modes and 64-bit mode.
+
+Operation
+D ← exponent(ST(0)) – exponent(ST(1));
+IF D < 64
+THEN
+Q ← Integer(TruncateTowardZero(ST(0) / ST(1)));
+ST(0) ← ST(0) – (ST(1) ∗ Q);
+C2 ← 0;
+C0, C3, C1 ← LeastSignificantBits(Q); (* Q2, Q1, Q0 *)
+ELSE
+C2 ← 1;
+N ← An implementation-dependent number between 32 and 63;
+QQ ← Integer(TruncateTowardZero((ST(0) / ST(1)) / 2(D − N)));
+ST(0) ← ST(0) – (ST(1) ∗ QQ ∗ 2(D − N));
+FI;
+
+FPU Flags Affected
+C0 Set to bit 2 (Q2) of the quotient.
+C1 Set to 0 if stack underflow occurred; otherwise, set to least significant bit of quotient (Q0).
+C2 Set to 0 if reduction complete; set to 1 if incomplete.
+C3 Set to bit 1 (Q1) of the quotient.
+---------------------------------------------------------------------
+
+FPREM1—Partial Remainder
+
+Opcode Instruction 64-Bit Compat/ Description
+                   Mode Leg Mode 
+
+D9 F5 
+FPREM1 
+Valid Valid 
+Replace ST(0) with the IEEE remainder obtained from dividing
+ ST(0) by ST(1).
+
+Description
+Computes the IEEE remainder obtained from dividing the value in the ST(0) register (the dividend) by the value in
+the ST(1) register (the divisor or modulus), and stores the result in ST(0). The remainder represents the following
+value:
+Remainder ← ST(0) − (Q ∗ ST(1))
+Here, Q is an integer value that is obtained by rounding the floating-point number quotient of [ST(0) / ST(1)]
+toward the nearest integer value. The magnitude of the remainder is less than or equal to half the magnitude of the
+modulus, unless a partial remainder was computed (as described below).
+This instruction produces an exact result; the precision (inexact) exception does not occur and the rounding control
+has no effect. The following table shows the results obtained when computing the remainder of various classes of
+numbers, assuming that underflow does not occur.
+Table 3-42. FPREM1 Results
+ST(1)
+−∞ −0 +0 +F +∞ NaN
+−∞ * * * * * * NaN
+−F ST(0) ±F or −0 ** ** ± F or − 0 ST(0) NaN
+−0 −0 −0 * * −0 -0 NaN
++0 +0 +0 * * +0 +0 NaN
++F ST(0) ± F or + 0 ** ** ± F or + 0 ST(0) NaN
++∞ * * * * * * NaN
+NaN 
+ST(0)
+−F NaN NaN NaN NaN NaN NaN NaN
+NOTES:
+F Means finite floating-point value.
+* Indicates floating-point invalid-arithmetic-operand (#IA) exception.
+** Indicates floating-point zero-divide (#Z) exception.
+When the result is 0, its sign is the same as that of the dividend. When the modulus is ∞, the result is equal to the
+value in ST(0).
+The FPREM1 instruction computes the remainder specified in IEEE Standard 754. This instruction operates differ-
+ently from the FPREM instruction in the way that it rounds the quotient of ST(0) divided by ST(1) to an integer (see
+the “Operation” section below).
+Like the FPREM instruction, FPREM1 computes the remainder through iterative subtraction, but can reduce the
+exponent of ST(0) by no more than 63 in one execution of the instruction. If the instruction succeeds in producing
+a remainder that is less than one half the modulus, the operation is complete and the C2 flag in the FPU status word
+is cleared. Otherwise, C2 is set, and the result in ST(0) is called the partial remainder. The exponent of the partial
+remainder will be less than the exponent of the original dividend by at least 32. Software can re-execute the
+instruction (using the partial remainder in ST(0) as the dividend) until C2 is cleared. (Note that while executing
+such a remainder-computation loop, a higher-priority interrupting routine that needs the FPU can force a context
+switch in-between the instructions in the loop.)
+An important use of the FPREM1 instruction is to reduce the arguments of periodic functions. When reduction is
+complete, the instruction stores the three least-significant bits of the quotient in the C3, C1, and C0 flags of the FPU
+FPREM1—Partial Remainder
+Vol. 2A 3-313INSTRUCTION SET REFERENCE, A-M
+status word. This information is important in argument reduction for the tangent function (using a modulus of π/4),
+because it locates the original angle in the correct one of eight sectors of the unit circle.
+This instruction’s operation is the same in non-64-bit modes and 64-bit mode.
+
+Operation
+D ← exponent(ST(0)) – exponent(ST(1));
+IF D < 64
+THEN
+Q ← Integer(RoundTowardNearestInteger(ST(0) / ST(1)));
+ST(0) ← ST(0) – (ST(1) ∗ Q);
+C2 ← 0;
+C0, C3, C1 ← LeastSignificantBits(Q); (* Q2, Q1, Q0 *)
+ELSE
+C2 ← 1;
+N ← An implementation-dependent number between 32 and 63;
+QQ ← Integer(TruncateTowardZero((ST(0) / ST(1)) / 2(D − N)));
+ST(0) ← ST(0) – (ST(1) ∗ QQ ∗ 2(D − N));
+FI;
+
+FPU Flags Affected
+C0 Set to bit 2 (Q2) of the quotient.
+C1 Set to 0 if stack underflow occurred; otherwise, set to least significant bit of quotient (Q0).
+C2 Set to 0 if reduction complete; set to 1 if incomplete.
+C3 Set to bit 1 (Q1) of the quotient.
+---------------------------------------------------------------------
+
+FPTAN—Partial Tangent
+
+Opcode Instruction 64-Bit Compat/ Description
+                   Mode Leg Mode 
+
+D9 F2 
+FPTAN 
+Valid Valid 
+Replace ST(0) with its tangent and push 1 onto the FPU
+ stack.
+
+Description
+Computes the tangent of the source operand in register ST(0), stores the result in ST(0), and pushes a 1.0 onto
+the FPU register stack. The source operand must be given in radians and must be less than ±263. The following
+table shows the unmasked results obtained when computing the partial tangent of various classes of numbers,
+assuming that underflow does not occur.
+Table 3-43. FPTAN Results
+ST(0) SRC ST(0) DEST
+−∞ *
+−F − F to + F
+−0 -0
++0 +0
++F − F to + F
++∞ *
+NaN NaN
+NOTES:
+F Means finite floating-point value.
+* Indicates floating-point invalid-arithmetic-operand (#IA) exception.
+If the source operand is outside the acceptable range, the C2 flag in the FPU status word is set, and the value in
+register ST(0) remains unchanged. The instruction does not raise an exception when the source operand is out of
+range. It is up to the program to check the C2 flag for out-of-range conditions. Source values outside the range −
+263 to +263 can be reduced to the range of the instruction by subtracting an appropriate integer multiple of 2π or by
+using the FPREM instruction with a divisor of 2π. See the section titled “Pi” in Chapter 8 of the Intel® 64 and IA-32
+Architectures Software Developer’s Manual, Volume 1, for a discussion of the proper value to use for π in
+performing such reductions.
+The value 1.0 is pushed onto the register stack after the tangent has been computed to maintain compatibility with
+the Intel 8087 and Intel287 math coprocessors. This operation also simplifies the calculation of other trigonometric
+functions. For instance, the cotangent (which is the reciprocal of the tangent) can be computed by executing a
+FDIVR instruction after the FPTAN instruction.
+This instruction’s operation is the same in non-64-bit modes and 64-bit mode.
+
+Operation
+IF ST(0) < 263
+THEN
+C2 ← 0;
+ST(0) ← tan(ST(0));
+TOP ← TOP − 1;
+ST(0) ← 1.0;
+ELSE (* Source operand is out-of-range *)
+C2 ← 1;
+FI;
+
+FPU Flags Affected
+C1
+Set to 0 if stack underflow occurred; set to 1 if stack overflow occurred.
+Set if result was rounded up; cleared otherwise.
+C2 Set to 1 if outside range (−263 < source operand < +263); otherwise, set to 0.
+C0, C3 Undefined.
+---------------------------------------------------------------------
+
+FRNDINT—Round to Integer
+
+Opcode Instruction 64-Bit Compat/ Description
+                   Mode Leg Mode 
+
+D9 FC 
+FRNDINT 
+Valid Valid 
+Round ST(0) to an integer.
+
+Description
+Rounds the source value in the ST(0) register to the nearest integral value, depending on the current rounding
+mode (setting of the RC field of the FPU control word), and stores the result in ST(0).
+If the source value is ∞, the value is not changed. If the source value is not an integral value, the floating-point
+inexact-result exception (#P) is generated.
+This instruction’s operation is the same in non-64-bit modes and 64-bit mode.
+
+Operation
+ST(0) ← RoundToIntegralValue(ST(0));
+
+FPU Flags Affected
+C1
+Set to 0 if stack underflow occurred.
+Set if result was rounded up; cleared otherwise.
+C0, C2, C3
+Undefined.
+---------------------------------------------------------------------
+
+FRSTOR—Restore x87 FPU State
+
+Opcode Instruction 64-Bit Compat/ Description
+                   Mode Leg Mode 
+
+DD /4 
+FRSTOR m94/108byte 
+Valid Valid 
+Load FPU state from m94byte or m108byte.
+
+Description
+Loads the FPU state (operating environment and register stack) from the memory area specified with the source
+operand. This state data is typically written to the specified memory location by a previous FSAVE/FNSAVE instruc-
+tion.
+The FPU operating environment consists of the FPU control word, status word, tag word, instruction pointer, data
+pointer, and last opcode. Figures 8-9 through 8-12 in the Intel® 64 and IA-32 Architectures Software Developer’s
+Manual, Volume 1, show the layout in memory of the stored environment, depending on the operating mode of the
+processor (protected or real) and the current operand-size attribute (16-bit or 32-bit). In virtual-8086 mode, the
+real mode layouts are used. The contents of the FPU register stack are stored in the 80 bytes immediately following
+the operating environment image.
+The FRSTOR instruction should be executed in the same operating mode as the corresponding FSAVE/FNSAVE
+instruction.
+If one or more unmasked exception bits are set in the new FPU status word, a floating-point exception will be
+generated. To avoid raising exceptions when loading a new operating environment, clear all the exception flags in
+the FPU status word that is being loaded.
+This instruction’s operation is the same in non-64-bit modes and 64-bit mode.
+
+Operation
+FPUControlWord ← SRC[FPUControlWord];
+FPUStatusWord ← SRC[FPUStatusWord];
+FPUTagWord ← SRC[FPUTagWord];
+FPUDataPointer ← SRC[FPUDataPointer];
+FPUInstructionPointer ← SRC[FPUInstructionPointer];
+FPULastInstructionOpcode ← SRC[FPULastInstructionOpcode];
+ST(0) ← SRC[ST(0)];
+ST(1) ← SRC[ST(1)];
+ST(2) ← SRC[ST(2)];
+ST(3) ← SRC[ST(3)];
+ST(4) ← SRC[ST(4)];
+ST(5) ← SRC[ST(5)];
+ST(6) ← SRC[ST(6)];
+ST(7) ← SRC[ST(7)];
+
+FPU Flags Affected
+The C0, C1, C2, C3 flags are loaded.
+---------------------------------------------------------------------
+
+FSAVE/FNSAVE—Store x87 FPU State
+
+Opcode Instruction 64-Bit Compat/ Description
+                   Mode Leg Mode 
+
+9B DD /6 
+FSAVE m94/108byte 
+Valid Valid 
+Store FPU state to m94byte or m108byte after
+ checking for pending unmasked floating-point
+ exceptions. Then re-initialize the FPU.
+
+DD /6 
+FNSAVE m94/108byte 
+Valid Valid 
+Store FPU environment to m94byte or m108byte
+ without checking for pending unmasked floating-
+ point exceptions. Then re-initialize the FPU.
+
+NOTES:
+* See IA-32 Architecture Compatibility section below.
+
+Description
+Stores the current FPU state (operating environment and register stack) at the specified destination in memory,
+and then re-initializes the FPU. The FSAVE instruction checks for and handles pending unmasked floating-point
+exceptions before storing the FPU state; the FNSAVE instruction does not.
+The FPU operating environment consists of the FPU control word, status word, tag word, instruction pointer, data
+pointer, and last opcode. Figures 8-9 through 8-12 in the Intel® 64 and IA-32 Architectures Software Developer’s
+Manual, Volume 1, show the layout in memory of the stored environment, depending on the operating mode of the
+processor (protected or real) and the current operand-size attribute (16-bit or 32-bit). In virtual-8086 mode, the
+real mode layouts are used. The contents of the FPU register stack are stored in the 80 bytes immediately follow
+the operating environment image.
+The saved image reflects the state of the FPU after all floating-point instructions preceding the FSAVE/FNSAVE
+instruction in the instruction stream have been executed.
+After the FPU state has been saved, the FPU is reset to the same default values it is set to with the FINIT/FNINIT
+instructions (see “FINIT/FNINIT—Initialize Floating-Point Unit” in this chapter).
+The FSAVE/FNSAVE instructions are typically used when the operating system needs to perform a context switch,
+an exception handler needs to use the FPU, or an application program needs to pass a “clean” FPU to a procedure.
+The assembler issues two instructions for the FSAVE instruction (an FWAIT instruction followed by an FNSAVE
+instruction), and the processor executes each of these instructions separately. If an exception is generated for
+either of these instructions, the save EIP points to the instruction that caused the exception.
+This instruction’s operation is the same in non-64-bit modes and 64-bit mode.
+
+IA-32 Architecture Compatibility
+For Intel math coprocessors and FPUs prior to the Intel Pentium processor, an FWAIT instruction should be
+executed before attempting to read from the memory image stored with a prior FSAVE/FNSAVE instruction. This
+FWAIT instruction helps ensure that the storage operation has been completed.
+When operating a Pentium or Intel486 processor in MS-DOS compatibility mode, it is possible (under unusual
+circumstances) for an FNSAVE instruction to be interrupted prior to being executed to handle a pending FPU excep-
+tion. See the section titled “No-Wait FPU Instructions Can Get FPU Interrupt in Window” in Appendix D of the Intel®
+64 and IA-32 Architectures Software Developer’s Manual, Volume 1, for a description of these circumstances. An
+FNSAVE instruction cannot be interrupted in this way on a Pentium 4, Intel Xeon, or P6 family processor.
+
+Operation
+(* Save FPU State and Registers *)
+DEST[FPUControlWord] ← FPUControlWord;
+DEST[FPUStatusWord] ← FPUStatusWord;
+DEST[FPUTagWord] ← FPUTagWord;
+DEST[FPUDataPointer] ← FPUDataPointer;
+DEST[FPUInstructionPointer] ← FPUInstructionPointer;
+DEST[FPULastInstructionOpcode] ← FPULastInstructionOpcode;
+DEST[ST(0)] ← ST(0);
+DEST[ST(1)] ← ST(1);
+DEST[ST(2)] ← ST(2);
+DEST[ST(3)] ← ST(3);
+DEST[ST(4)]← ST(4);
+DEST[ST(5)] ← ST(5);
+DEST[ST(6)] ← ST(6);
+DEST[ST(7)] ← ST(7);
+(* Initialize FPU *)
+FPUControlWord ← 037FH;
+FPUStatusWord ← 0;
+FPUTagWord ← FFFFH;
+FPUDataPointer ← 0;
+FPUInstructionPointer ← 0;
+FPULastInstructionOpcode ← 0;
+
+FPU Flags Affected
+The C0, C1, C2, and C3 flags are saved and then cleared.
+---------------------------------------------------------------------
+
+FSCALE—Scale
+
+Opcode Instruction 64-Bit Compat/ Description
+                   Mode Leg Mode 
+
+D9 FD 
+FSCALE 
+Valid Valid 
+Scale ST(0) by ST(1).
+
+Description
+Truncates the value in the source operand (toward 0) to an integral value and adds that value to the exponent of
+the destination operand. The destination and source operands are floating-point values located in registers ST(0)
+and ST(1), respectively. This instruction provides rapid multiplication or division by integral powers of 2. The
+following table shows the results obtained when scaling various classes of numbers, assuming that neither over-
+flow nor underflow occurs.
+Table 3-44. FSCALE Results
+ST(1)
+−∞ −0 +0 +F +∞ NaN
+−∞ NaN −∞ −∞ −∞ −∞ −∞ NaN
+−F −0 −F −F −F −F −∞ NaN
+−0 −0 −0 −0 −0 −0 NaN NaN
++0 +0 +0 +0 +0 +0 NaN NaN
++F +0 +F +F +F +F +∞ NaN
++∞ NaN +∞ +∞ +∞ +∞ +∞ NaN
+NaN 
+ST(0)
+−F NaN NaN NaN NaN NaN NaN NaN
+NOTES:
+F Means finite floating-point value.
+In most cases, only the exponent is changed and the mantissa (significand) remains unchanged. However, when
+the value being scaled in ST(0) is a denormal value, the mantissa is also changed and the result may turn out to be
+a normalized number. Similarly, if overflow or underflow results from a scale operation, the resulting mantissa will
+differ from the source’s mantissa.
+The FSCALE instruction can also be used to reverse the action of the FXTRACT instruction, as shown in the following
+example:
+FXTRACT;
+FSCALE;
+FSTP ST(1);
+In this example, the FXTRACT instruction extracts the significand and exponent from the value in ST(0) and stores
+them in ST(0) and ST(1) respectively. The FSCALE then scales the significand in ST(0) by the exponent in ST(1),
+recreating the original value before the FXTRACT operation was performed. The FSTP ST(1) instruction overwrites
+the exponent (extracted by the FXTRACT instruction) with the recreated value, which returns the stack to its orig-
+inal state with only one register [ST(0)] occupied.
+This instruction’s operation is the same in non-64-bit modes and 64-bit mode.
+
+Operation
+ST(0) ← ST(0) ∗ 2RoundTowardZero(ST(1));
+
+FPU Flags Affected
+C1
+Set to 0 if stack underflow occurred.
+Set if result was rounded up; cleared otherwise.
+C0, C2, C3
+Undefined.
+---------------------------------------------------------------------
+
