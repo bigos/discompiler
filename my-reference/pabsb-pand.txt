@@ -1,0 +1,856 @@
+PABSB/PABSW/PABSD — Packed Absolute Value
+
+Opcode/ Op/ 64/32 bit CPUID Description
+Instruction En Mode Feature 
+               Support Flag 
+
+0F 38 1C /r 
+PABSB mm1, mm2/m64
+RM V/V SSSE3 
+Compute the absolute value of bytes in
+ mm2/m64 and store UNSIGNED result in mm1.
+
+66 0F 38 1C /r
+PABSB xmm1, xmm2/m128
+RM V/V SSSE3 
+Compute the absolute value of bytes in
+ xmm2/m128 and store UNSIGNED result in
+ xmm1.
+
+0F 38 1D /r
+PABSW mm1, mm2/m64
+RM V/V SSSE3 
+Compute the absolute value of 16-bit integers
+ in mm2/m64 and store UNSIGNED result in
+ mm1.
+
+66 0F 38 1D /r
+PABSW xmm1, xmm2/m128
+RM V/V SSSE3 
+Compute the absolute value of 16-bit integers
+ in xmm2/m128 and store UNSIGNED result in
+ xmm1.
+
+0F 38 1E /r
+PABSD mm1, mm2/m64
+RM V/V SSSE3 
+Compute the absolute value of 32-bit integers
+ in mm2/m64 and store UNSIGNED result in
+ mm1.
+
+66 0F 38 1E /r
+PABSD xmm1, xmm2/m128
+RM V/V SSSE3 
+Compute the absolute value of 32-bit integers
+ in xmm2/m128 and store UNSIGNED result in
+ xmm1.
+
+VEX.128.66.0F38.WIG 1C /r
+VPABSB xmm1, xmm2/m128
+RM V/V AVX 
+Compute the absolute value of bytes in
+ xmm2/m128 and store UNSIGNED result in
+ xmm1.
+
+VEX.128.66.0F38.WIG 1D /r
+VPABSW xmm1, xmm2/m128
+RM V/V AVX 
+Compute the absolute value of 16- bit
+ integers in xmm2/m128 and store UNSIGNED
+ result in xmm1.
+
+VEX.128.66.0F38.WIG 1E /r
+VPABSD xmm1, xmm2/m128
+RM V/V AVX 
+Compute the absolute value of 32- bit
+ integers in xmm2/m128 and store UNSIGNED
+ result in xmm1.
+
+VEX.256.66.0F38.WIG 1C /r 
+VPABSB ymm1, ymm2/m256 ymm2/m256 
+RM V/V AVX2 
+Compute the absolute value of bytes in
+ and store UNSIGNED result in
+ ymm1.
+
+VEX.256.66.0F38.WIG 1D /r 
+VPABSW ymm1, ymm2/m256
+RM V/V AVX2 
+Compute the absolute value of 16-bit integers
+ in ymm2/m256 and store UNSIGNED result in
+ ymm1.
+
+VEX.256.66.0F38.WIG 1E /r
+VPABSD ymm1, ymm2/m256
+RM V/V AVX2 
+Compute the absolute value of 32-bit integers
+ in ymm2/m256 and store UNSIGNED result in
+ ymm1.
+
+NOTES:
+1. See note in Section 2.4, “Instruction Exception Specification” in the Intel® 64 and IA-32 Architectures Software Developer’s Manual,
+Volume 2A and Section 22.25.3, “Exception Conditions of Legacy SIMD Instructions Operating on MMX Registers” in the Intel® 64 and
+IA-32 Architectures Software Developer’s Manual, Volume 3A.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RM ModRM:reg (w) ModRM:r/m (r) NA NA
+
+Description
+(V)PABSB/W/D computes the absolute value of each data element of the source operand (the second operand) and
+stores the UNSIGNED results in the destination operand (the first operand). (V)PABSB operates on signed bytes,
+(V)PABSW operates on 16-bit words, and (V)PABSD operates on signed 32-bit integers. The source operand can be
+an MMX register or a 64-bit memory location, or it can be an XMM register, a YMM register, a 128-bit memory loca-
+tion, or a 256-bit memory location. The destination operand can be an MMX, an XMM or a YMM register. Both oper-
+ands can be MMX registers or XMM registers. When the source operand is a 128-bit memory operand, the operand
+must be aligned on a 16byte boundary or a general-protection exception (#GP) will be generated.
+In 64-bit mode, use the REX prefix to access additional registers.
+128-bit Legacy SSE version: The source operand can be an XMM register or a 128-bit memory location. The desti-
+nation is not distinct from the first source XMM register and the upper bits (VLMAX-1:128) of the corresponding
+YMM register destination are unmodified.
+VEX.128 encoded version: The source operand is an XMM register or 128-bit memory location. The destination
+operand is an XMM register. The upper bits (VLMAX-1:128) of the corresponding YMM register destination are
+zeroed.
+VEX.256 encoded version: The first source operand is a YMM register or a 256-bit memory location. The destination
+operand is a YMM register.
+Note: VEX.vvvv is reserved and must be 1111b, VEX.L must be 0; otherwise instructions will #UD.
+
+Operation
+PABSB (with 64 bit operands)
+Unsigned DEST[7:0] ← ABS(SRC[7:0])
+Repeat operation for 2nd through 7th bytes
+Unsigned DEST[63:56] ← ABS(SRC[63:56])
+PABSB (with 128 bit operands)
+Unsigned DEST[7:0] ← ABS(SRC[7:.0])
+Repeat operation for 2nd through 15th bytes
+Unsigned DEST[127:120] ← ABS(SRC[127:120])
+PABSW (with 64 bit operands)
+Unsigned DEST[15:0] ← ABS(SRC[15:0])
+Repeat operation for 2nd through 3rd 16-bit words
+Unsigned DEST[63:48] ← ABS(SRC[63:48])
+PABSW (with 128 bit operands)
+Unsigned DEST[15:0] ← ABS(SRC[15:0])
+Repeat operation for 2nd through 7th 16-bit words
+Unsigned DEST[127:112] ← ABS(SRC[127:112])
+PABSD (with 64 bit operands)
+Unsigned DEST[31:0] ← ABS(SRC[31:0])
+Unsigned DEST[63:32] ← ABS(SRC[63:32])
+PABSD (with 128 bit operands)
+Unsigned DEST[31:0] ← ABS(SRC[31:0])
+Repeat operation for 2nd through 3rd 32-bit double words
+Unsigned DEST[127:96] ← ABS(SRC[127:96])
+PABSB (128-bit Legacy SSE version)
+DEST[127:0]  BYTE_ABS(SRC)
+DEST[VLMAX-1:128] (Unmodified)
+VPABSB (VEX.128 encoded version)
+DEST[127:0]  BYTE_ABS(SRC)
+DEST[VLMAX-1:128]  0
+VPABSB (VEX.256 encoded version)
+Unsigned DEST[7:0] ABS(SRC[7:.0])
+Repeat operation for 2nd through 31st bytes
+Unsigned DEST[255:248]  ABS(SRC[255:248])
+PABSW (128-bit Legacy SSE version)
+DEST[127:0]  WORD_ABS(SRC)
+DEST[VLMAX-1:128] (Unmodified)
+VPABSW (VEX.128 encoded version)
+DEST[127:0]  WORD_ABS(SRC)
+DEST[VLMAX-1:128]  0
+VPABSW (VEX.256 encoded version)
+Unsigned DEST[15:0] ABS(SRC[15:0])
+Repeat operation for 2nd through 15th 16-bit words
+Unsigned DEST[255:240]  ABS(SRC[255:240])
+PABSD (128-bit Legacy SSE version)
+DEST[127:0]  DWORD_ABS(SRC)
+DEST[VLMAX-1:128] (Unmodified)
+VPABSD (VEX.128 encoded version)
+DEST[127:0]  DWORD_ABS(SRC)
+DEST[VLMAX-1:128]  0
+VPABSD (VEX.256 encoded version)
+Unsigned DEST[31:0]  ABS(SRC[31:0])
+Repeat operation for 2nd through 7th 32-bit double words
+Unsigned DEST[255:224]  ABS(SRC[255:224])
+---------------------------------------------------------------------
+
+PACKSSWB/PACKSSDW—Pack with Signed Saturation
+
+Opcode/ Op/ 64/32 bit CPUID Description
+Instruction En Mode Feature 
+               Support Flag 
+
+0F 63 /r 
+PACKSSWB mm1, mm2/m64
+RM V/V MMX 
+Converts 4 packed signed word integers from
+ mm1 and from mm2/m64 into 8 packed
+ signed byte integers in mm1 using signed
+ saturation.
+
+66 0F 63 /r
+PACKSSWB xmm1, xmm2/m128
+RM V/V SSE2 
+Converts 8 packed signed word integers from
+ xmm1 and from xxm2/m128 into 16 packed
+ signed byte integers in xxm1 using signed
+ saturation.
+
+0F 6B /r
+PACKSSDW mm1, mm2/m64
+RM V/V MMX 
+Converts 2 packed signed doubleword
+ integers from mm1 and from mm2/m64 into 4
+ packed signed word integers in mm1 using
+ signed saturation.
+
+66 0F 6B /r
+PACKSSDW xmm1, xmm2/m128
+RM V/V SSE2 
+Converts 4 packed signed doubleword
+ integers from xmm1 and from xxm2/m128
+ into 8 packed signed word integers in xxm1
+ using signed saturation.
+
+VEX.NDS.128.66.0F.WIG 63 /r
+VPACKSSWB xmm1,xmm2, xmm3/m128
+RVM V/V AVX Converts 8 packed signed word integers from
+ xmm2 and from xmm3/m128 into 16 packed
+ signed byte integers in xmm1 using signed
+ saturation.
+
+VEX.NDS.128.66.0F.WIG 6B /r
+VPACKSSDW xmm1,xmm2, xmm3/m128
+RVM V/V AVX 
+Converts 4 packed signed doubleword
+ integers from xmm2 and from xmm3/m128
+ into 8 packed signed word integers in xmm1
+ using signed saturation.
+
+VEX.NDS.256.66.0F.WIG 63 /r
+VPACKSSWB ymm1, ymm2, ymm3/m256
+RVM V/V AVX2 
+Converts 16 packed signed word integers
+ from ymm2 and from ymm3/m256 into 32
+ packed signed byte integers in ymm1 using
+ signed saturation.
+
+VEX.NDS.256.66.0F.WIG 6B /r
+VPACKSSDW ymm1, ymm2, ymm3/m256
+RVM V/V AVX2
+Converts 8 packed signed doubleword
+ integers from ymm2 and from ymm3/m256
+ into 16 packed signed word integers in
+ ymm1using signed saturation.
+
+NOTES:
+1. See note in Section 2.4, “Instruction Exception Specification” in the Intel® 64 and IA-32 Architectures Software Developer’s Manual,
+Volume 2A and Section 22.25.3, “Exception Conditions of Legacy SIMD Instructions Operating on MMX Registers” in the Intel® 64 and
+IA-32 Architectures Software Developer’s Manual, Volume 3A.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RM ModRM:reg (r, w) ModRM:r/m (r) NA NA
+RVM ModRM:reg (w) VEX.vvvv (r) ModRM:r/m (r) NA
+
+Description
+Converts packed signed word integers into packed signed byte integers (PACKSSWB) or converts packed signed
+doubleword integers into packed signed word integers (PACKSSDW), using saturation to handle overflow condi-
+tions. See Figure 4-2 for an example of the packing operation.
+---------------------------------------------------------------------
+
+PACKUSDW — Pack with Unsigned Saturation
+
+Opcode/ Op/ 64/32 bit CPUID Description
+Instruction En Mode Feature 
+               Support Flag 
+
+66 0F 38 2B /r 
+PACKUSDW xmm1, xmm2/m128 
+RM V/V SSE4_1 
+Convert 4 packed signed doubleword integers
+ from xmm1 and 4 packed signed doubleword
+ integers from xmm2/m128 into 8 packed
+ unsigned word integers in xmm1 using
+ unsigned saturation.
+
+VEX.NDS.128.66.0F38.WIG 2B /r 
+VPACKUSDW xmm1, xmm2, xmm3/m128 
+RVM V/V AVX 
+Convert 4 packed signed doubleword integers
+ from xmm2 and 4 packed signed doubleword
+ integers from xmm3/m128 into 8 packed
+ unsigned word integers in xmm1 using
+ unsigned saturation.
+
+VEX.NDS.256.66.0F38.WIG 2B /r 
+VPACKUSDW ymm1, ymm2, ymm3/m256 
+RVM V/V AVX2 
+Convert 8 packed signed doubleword integers
+ from ymm2 and 8 packed signed doubleword
+ integers from ymm3/m128 into 16 packed
+ unsigned word integers in ymm1 using
+ unsigned saturation.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RM ModRM:reg (r, w) ModRM:r/m (r) NA NA
+RVM ModRM:reg (w) VEX.vvvv (r) ModRM:r/m (r) NA
+
+Description
+Converts packed signed doubleword integers into packed unsigned word integers using unsigned saturation to
+handle overflow conditions. If the signed doubleword value is beyond the range of an unsigned word (that is,
+greater than FFFFH or less than 0000H), the saturated unsigned word integer value of FFFFH or 0000H, respec-
+tively, is stored in the destination.
+128-bit Legacy SSE version: The first source operand is an XMM register. The second operand can be an XMM
+register or a 128-bit memory location. The destination is not distinct from the first source XMM register and the
+upper bits (VLMAX-1:128) of the corresponding YMM register destination are unmodified.
+VEX.128 encoded version: The first source operand is an XMM register. The second source operand is an XMM
+register or 128-bit memory location. The destination operand is an XMM register. The upper bits (VLMAX-1:128) of
+the corresponding YMM register destination are zeroed.
+VEX.256 encoded version: The first source operand is a YMM register. The second source operand is a YMM register
+or a 256-bit memory location. The destination operand is a YMM register.
+Note: VEX.L must be 0, otherwise the instruction will #UD.
+---------------------------------------------------------------------
+
+PACKUSWB—Pack with Unsigned Saturation
+
+Opcode/ Op/ 64/32 bit CPUID Description
+Instruction En Mode Feature 
+               Support Flag 
+
+0F 67 /r 
+PACKUSWB mm, mm/m64
+RM V/V MMX 
+Converts 4 signed word integers from mm and
+ 4 signed word integers from mm/m64 into 8
+ unsigned byte integers in mm using unsigned
+ saturation.
+
+66 0F 67 /r
+PACKUSWB xmm1, xmm2/m128
+RM V/V SSE2 
+Converts 8 signed word integers from xmm1
+ and 8 signed word integers from xmm2/m128
+ into 16 unsigned byte integers in xmm1 using
+ unsigned saturation.
+
+VEX.NDS.128.66.0F.WIG 67 /r
+VPACKUSWB xmm1, xmm2, xmm3/m128
+RVM V/V AVX 
+Converts 8 signed word integers from xmm2
+ and 8 signed word integers from xmm3/m128
+ into 16 unsigned byte integers in xmm1 using
+ unsigned saturation.
+
+VEX.NDS.256.66.0F.WIG 67 /r
+VPACKUSWB ymm1, ymm2, ymm3/m256
+RVM V/V AVX2 
+Converts 16 signed word integers from ymm2
+ and 16signed word integers from
+ ymm3/m256 into 32 unsigned byte integers
+ in ymm1 using unsigned saturation.
+
+NOTES:
+1. See note in Section 2.4, “Instruction Exception Specification” in the Intel® 64 and IA-32 Architectures Software Developer’s Manual,
+Volume 2A and Section 22.25.3, “Exception Conditions of Legacy SIMD Instructions Operating on MMX Registers” in the Intel® 64 and
+IA-32 Architectures Software Developer’s Manual, Volume 3A.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RM ModRM:reg (r, w) ModRM:r/m (r) NA NA
+RVM ModRM:reg (w) VEX.vvvv (r) ModRM:r/m (r) NA
+
+Description
+Converts 4, 8 or 16 signed word integers from the destination operand (first operand) and 4, 8 or 16 signed word
+integers from the source operand (second operand) into 8, 16 or 32 unsigned byte integers and stores the result in
+the destination operand. (See Figure 4-2 for an example of the packing operation.) If a signed word integer value
+is beyond the range of an unsigned byte integer (that is, greater than FFH or less than 00H), the saturated
+unsigned byte integer value of FFH or 00H, respectively, is stored in the destination.
+The PACKUSWB instruction operates on either 64-bit, 128-bit or 256-bit operands. When operating on 64-bit oper-
+ands, the destination operand must be an MMX technology register and the source operand can be either an MMX
+technology register or a 64-bit memory location. In 64-bit mode, using a REX prefix in the form of REX.R permits
+this instruction to access additional registers (XMM8-XMM15).
+128-bit Legacy SSE version: The first source operand is an XMM register. The second operand can be an XMM
+register or a 128-bit memory location. The destination is not distinct from the first source XMM register and the
+upper bits (VLMAX-1:128) of the corresponding YMM register destination are unmodified.
+VEX.128 encoded version: The first source operand is an XMM register. The second source operand is an XMM
+register or 128-bit memory location. The destination operand is an XMM register. The upper bits (VLMAX-1:128) of
+the corresponding YMM register destination are zeroed.
+VEX.256 encoded version: The first source operand is a YMM register. The second source operand is a YMM register
+or a 256-bit memory location. The destination operand is a YMM register.
+---------------------------------------------------------------------
+
+PADDB/PADDW/PADDD—Add Packed Integers
+
+Opcode/ Op/ 64/32 bit CPUID Description
+Instruction En Mode Feature 
+               Support Flag 
+
+0F FC /r 
+PADDB mm, mm/m64
+RM V/V MMX 
+Add packed byte integers from mm/m64 and
+ mm.
+
+66 0F FC /r
+PADDB xmm1, xmm2/m128
+RM V/V SSE2 
+Add packed byte integers from xmm2/m128
+ and xmm1.
+
+0F FD /r
+PADDW mm, mm/m64
+RM V/V MMX 
+Add packed word integers from mm/m64 and
+ mm.
+
+66 0F FD /r
+PADDW xmm1, xmm2/m128
+RM V/V SSE2 
+Add packed word integers from xmm2/m128
+ and xmm1.
+
+0F FE /r
+PADDD mm, mm/m64
+RM V/V MMX 
+Add packed doubleword integers from
+ mm/m64 and mm.
+ 
+66 0F FE /r
+PADDD xmm1, xmm2/m128
+RM V/V SSE2 
+Add packed doubleword integers from
+ xmm2/m128 and xmm1.
+
+VEX.NDS.128.66.0F.WIG FC /r
+VPADDB xmm1, xmm2, xmm3/m128
+RVM V/V AVX 
+Add packed byte integers from xmm3/m128
+ and xmm2.
+
+VEX.NDS.128.66.0F.WIG FD /r
+VPADDW xmm1, xmm2, xmm3/m128
+RVM V/V AVX 
+Add packed word integers from xmm3/m128
+ and xmm2.
+
+VEX.NDS.128.66.0F.WIG FE /r
+VPADDD xmm1, xmm2, xmm3/m128
+RVM V/V AVX 
+Add packed doubleword integers from
+ xmm3/m128 and xmm2.
+
+VEX.NDS.256.66.0F.WIG FC /r
+VPADDB ymm1, ymm2, ymm3/m256
+RVM V/V AVX2 
+Add packed byte integers from ymm2, and
+ ymm3/m256 and store in ymm1.
+
+VEX.NDS.256.66.0F.WIG FD /r
+VPADDW ymm1, ymm2, ymm3/m256
+RVM V/V AVX2
+Add packed word integers from ymm2,
+ ymm3/m256 and store in ymm1.
+
+VEX.NDS.256.66.0F.WIG FE /r
+VPADDD ymm1, ymm2, ymm3/m256
+RVM V/V AVX2 
+Add packed doubleword integers from ymm2,
+ ymm3/m256 and store in ymm1.
+
+NOTES:
+1. See note in Section 2.4, “Instruction Exception Specification” in the Intel® 64 and IA-32 Architectures Software Developer’s Manual,
+Volume 2A and Section 22.25.3, “Exception Conditions of Legacy SIMD Instructions Operating on MMX Registers” in the Intel® 64 and
+IA-32 Architectures Software Developer’s Manual, Volume 3A.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RM ModRM:reg (r, w) ModRM:r/m (r) NA NA
+RVM ModRM:reg (w) VEX.vvvv (r) ModRM:r/m (r) NA
+
+Description
+Performs a SIMD add of the packed integers from the source operand (second operand) and the destination
+operand (first operand), and stores the packed integer results in the destination operand. See Figure 9-4 in the
+Intel® 64 and IA-32 Architectures Software Developer’s Manual, Volume 1, for an illustration of a SIMD operation.
+Overflow is handled with wraparound, as described in the following paragraphs.
+Adds the packed byte, word, doubleword, or quadword integers in the first source operand to the second source
+operand and stores the result in the destination operand. When a result is too large to be represented in the
+8/16/32 integer (overflow), the result is wrapped around and the low bits are written to the destination element
+(that is, the carry is ignored).
+Note that these instructions can operate on either unsigned or signed (two’s complement notation) integers;
+however, it does not set bits in the EFLAGS register to indicate overflow and/or a carry. To prevent undetected
+overflow conditions, software must control the ranges of the values operated on.
+These instructions can operate on either 64-bit, 128-bit or 256-bit operands. When operating on 64-bit operands,
+the destination operand must be an MMX technology register and the source operand can be either an MMX tech-
+nology register or a 64-bit memory location. In 64-bit mode, using a REX prefix in the form of REX.R permits this
+instruction to access additional registers (XMM8-XMM15).
+128-bit Legacy SSE version: The first source operand is an XMM register. The second operand can be an XMM
+register or a 128-bit memory location. The destination is not distinct from the first source XMM register and the
+upper bits (VLMAX-1:128) of the corresponding YMM register destination are unmodified.
+VEX.128 encoded version: The first source operand is an XMM register. The second source operand is an XMM
+register or 128-bit memory location. The destination operand is an XMM register. The upper bits (VLMAX-1:128) of
+the corresponding YMM register destination are zeroed.
+VEX.256 encoded version: The first source operand is a YMM register. The second source operand is a YMM register
+or a 256-bit memory location. The destination operand is a YMM register.
+Note: VEX.L must be 0, otherwise the instruction will #UD.
+---------------------------------------------------------------------
+
+PADDQ—Add Packed Quadword Integers
+
+Opcode/ Op/ 64/32 bit CPUID Description
+Instruction En Mode Feature 
+               Support Flag 
+
+0F D4 /r
+PADDQ mm1, mm2/m64
+RM V/V SSE2 
+Add quadword integer mm2/m64 to mm1.
+
+66 0F D4 /r
+PADDQ xmm1, xmm2/m128
+RM V/V SSE2 
+Add packed quadword integers xmm2/m128
+ to xmm1.
+
+VEX.NDS.128.66.0F.WIG D4 /r
+VPADDQ xmm1, xmm2, xmm3/m128
+RVM V/V AVX 
+Add packed quadword integers xmm3/m128
+ and xmm2.
+
+VEX.NDS.256.66.0F.WIG D4 /r
+VPADDQ ymm1, ymm2, ymm3/m256
+RVM V/V AVX2 
+Add packed quadword integers from ymm2,
+ ymm3/m256 and store in ymm1.
+
+NOTES:
+1. See note in Section 2.4, “Instruction Exception Specification” in the Intel® 64 and IA-32 Architectures Software Developer’s Manual,
+Volume 2A and Section 22.25.3, “Exception Conditions of Legacy SIMD Instructions Operating on MMX Registers” in the Intel® 64 and
+IA-32 Architectures Software Developer’s Manual, Volume 3A.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RM ModRM:reg (r, w) ModRM:r/m (r) NA NA
+RVM ModRM:reg (w) VEX.vvvv (r) ModRM:r/m (r) NA
+
+Description
+Adds the first operand (destination operand) to the second operand (source operand) and stores the result in the
+destination operand. The source operand can be a quadword integer stored in an MMX technology register or a 64-
+bit memory location, or it can be two packed quadword integers stored in an XMM register or an 128-bit memory
+location. The destination operand can be a quadword integer stored in an MMX technology register or two packed
+quadword integers stored in an XMM register. When packed quadword operands are used, a SIMD add is
+performed. When a quadword result is too large to be represented in 64 bits (overflow), the result is wrapped
+around and the low 64 bits are written to the destination element (that is, the carry is ignored).
+Note that the (V)PADDQ instruction can operate on either unsigned or signed (two’s complement notation) inte-
+gers; however, it does not set bits in the EFLAGS register to indicate overflow and/or a carry. To prevent undetected
+overflow conditions, software must control the ranges of the values operated on.
+In 64-bit mode, using a REX prefix in the form of REX.R permits this instruction to access additional registers
+(XMM8-XMM15).
+128-bit Legacy SSE version: The first source operand is an XMM register. The second operand can be an XMM
+register or a 128-bit memory location. The destination is not distinct from the first source XMM register and the
+upper bits (VLMAX-1:128) of the corresponding YMM register destination are unmodified.
+VEX.128 encoded version: The first source operand is an XMM register. The second source operand is an XMM
+register or 128-bit memory location. The destination operand is an XMM register. The upper bits (VLMAX-1:128) of
+the corresponding YMM register destination are zeroed.
+VEX.256 encoded version: The first source operand is a YMM register. The second source operand is a YMM register
+or a 256-bit memory location. The destination operand is a YMM register.
+Note: VEX.L must be 0, otherwise the instruction will #UD.
+---------------------------------------------------------------------
+
+PADDSB/PADDSW—Add Packed Signed Integers with Signed Saturation
+
+Opcode/ Op/ 64/32 bit CPUID Description
+Instruction En Mode Feature 
+               Support Flag 
+
+0F EC /r 
+PADDSB mm, mm/m64
+RM V/V MMX 
+Add packed signed byte integers from
+ mm/m64 and mm and saturate the results.
+
+66 0F EC /r
+PADDSB xmm1, xmm2/m128
+RM V/V SSE2 
+Add packed signed byte integers from
+ xmm2/m128 and xmm1 saturate the results.
+
+0F ED /r1
+PADDSW mm, mm/m64
+RM V/V MMX 
+Add packed signed word integers from
+ mm/m64 and mm and saturate the results.
+
+66 0F ED /r
+PADDSW xmm1, xmm2/m128
+RM V/V SSE2 
+Add packed signed word integers from
+ xmm2/m128 and xmm1 and saturate the
+ results.
+
+VEX.NDS.128.66.0F.WIG EC /r 
+VPADDSB xmm1, xmm2, xmm3/m128 
+RVM V/V AVX 
+Add packed signed byte integers from
+xmm3/m128 and xmm2 saturate the results.
+
+VEX.NDS.128.66.0F.WIG ED /r 
+VPADDSW xmm1, xmm2, xmm3/m128
+RVM V/V AVX 
+Add packed signed word integers from
+ xmm3/m128 and xmm2 and saturate the
+ results.
+
+VEX.NDS.256.66.0F.WIG EC /r
+VPADDSB ymm1, ymm2, ymm3/m256
+RVM V/V AVX2 
+Add packed signed byte integers from ymm2,
+ and ymm3/m256 and store the saturated
+ results in ymm1.
+
+VEX.NDS.256.66.0F.WIG ED /r
+VPADDSW ymm1, ymm2, ymm3/m256
+RVM V/V AVX2 
+Add packed signed word integers from ymm2,
+ and ymm3/m256 and store the saturated
+ results in ymm1.
+
+NOTES:
+1. See note in Section 2.4, “Instruction Exception Specification” in the Intel® 64 and IA-32 Architectures Software Developer’s Manual,
+Volume 2A and Section 22.25.3, “Exception Conditions of Legacy SIMD Instructions Operating on MMX Registers” in the Intel® 64 and
+IA-32 Architectures Software Developer’s Manual, Volume 3A.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RM ModRM:reg (r, w) ModRM:r/m (r) NA NA
+RVM ModRM:reg (w) VEX.vvvv (r) ModRM:r/m (r) NA
+
+Description
+Performs a SIMD add of the packed signed integers from the source operand (second operand) and the destination
+operand (first operand), and stores the packed integer results in the destination operand. See Figure 9-4 in the
+Intel® 64 and IA-32 Architectures Software Developer’s Manual, Volume 1, for an illustration of a SIMD operation.
+Overflow is handled with signed saturation, as described in the following paragraphs.
+The PADDSB instruction adds packed signed byte integers. When an individual byte result is beyond the range of a
+signed byte integer (that is, greater than 7FH or less than 80H), the saturated value of 7FH or 80H, respectively, is
+written to the destination operand.
+The PADDSW instruction adds packed signed word integers. When an individual word result is beyond the range of
+a signed word integer (that is, greater than 7FFFH or less than 8000H), the saturated value of 7FFFH or 8000H,
+respectively, is written to the destination operand.
+These instructions can operate on either 64-bit, 128-bit or 256-bit operands. When operating on 64-bit operands,
+the destination operand must be an MMX technology register and the source operand can be either an MMX tech-
+nology register or a 64-bit memory location. In 64-bit mode, using a REX prefix in the form of REX.R permits this
+instruction to access additional registers (XMM8-XMM15).
+---------------------------------------------------------------------
+
+PADDUSB/PADDUSW—Add Packed Unsigned Integers with Unsigned Saturation
+
+Opcode/ Op/ 64/32 bit CPUID Description
+Instruction En Mode Feature 
+               Support Flag 
+
+0F DC /r1 
+PADDUSB mm, mm/m64
+RM V/V MMX 
+Add packed unsigned byte integers from
+ mm/m64 and mm and saturate the results.
+
+66 0F DC /r
+PADDUSB xmm1, xmm2/m128
+RM V/V SSE2 
+Add packed unsigned byte integers from
+ xmm2/m128 and xmm1 saturate the results.
+
+0F DD /r
+PADDUSW mm, mm/m64
+RM V/V MMX 
+Add packed unsigned word integers from
+ mm/m64 and mm and saturate the results.
+
+66 0F DD /r
+PADDUSW xmm1, xmm2/m128
+RM V/V SSE2 
+Add packed unsigned word integers from
+ xmm2/m128 to xmm1 and saturate the
+ results.
+
+VEX.NDS.128.660F.WIG DC /r
+VPADDUSB xmm1, xmm2, xmm3/m128
+RVM V/V AVX 
+Add packed unsigned byte integers from
+ xmm3/m128 to xmm2 and saturate the
+ results.
+
+VEX.NDS.128.66.0F.WIG DD /r
+VPADDUSW xmm1, xmm2, xmm3/m128
+RVM V/V AVX 
+Add packed unsigned word integers from
+ xmm3/m128 to xmm2 and saturate the
+ results.
+
+VEX.NDS.256.66.0F.WIG DC /r 
+VPADDUSB ymm1, ymm2, ymm3/m256 
+RVM V/V AVX2 
+Add packed unsigned byte integers from
+ ymm2, and ymm3/m256 and store the
+ saturated results in ymm1.
+
+VEX.NDS.256.66.0F.WIG DD /r 
+VPADDUSW ymm1, ymm2, ymm3/m256 
+RVM V/V AVX2 
+Add packed unsigned word integers from
+ ymm2, and ymm3/m256 and store the
+ saturated results in ymm1.
+
+NOTES:
+1. See note in Section 2.4, “Instruction Exception Specification” in the Intel® 64 and IA-32 Architectures Software Developer’s Manual,
+Volume 2A and Section 22.25.3, “Exception Conditions of Legacy SIMD Instructions Operating on MMX Registers” in the Intel® 64 and
+IA-32 Architectures Software Developer’s Manual, Volume 3A.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RM ModRM:reg (r, w) ModRM:r/m (r) NA NA
+RVM ModRM:reg (w) VEX.vvvv (r) ModRM:r/m (r) NA
+
+Description
+Performs a SIMD add of the packed unsigned integers from the source operand (second operand) and the destina-
+tion operand (first operand), and stores the packed integer results in the destination operand. See Figure 9-4 in the
+Intel® 64 and IA-32 Architectures Software Developer’s Manual, Volume 1, for an illustration of a SIMD operation.
+Overflow is handled with unsigned saturation, as described in the following paragraphs.
+The (V)PADDUSB instruction adds packed unsigned byte integers. When an individual byte result is beyond the
+range of an unsigned byte integer (that is, greater than FFH), the saturated value of FFH is written to the destina-
+tion operand.
+The (V)PADDUSW instruction adds packed unsigned word integers. When an individual word result is beyond the
+range of an unsigned word integer (that is, greater than FFFFH), the saturated value of FFFFH is written to the
+destination operand.
+These instructions can operate on either 64-bit, 128-bit or 256-bit operands. When operating on 64-bit operands,
+the destination operand must be an MMX technology register and the source operand can be either an MMX tech-
+---------------------------------------------------------------------
+
+PALIGNR — Packed Align Right
+
+Opcode/ Op/ 64/32 bit CPUID Description
+Instruction En Mode Feature 
+               Support Flag 
+
+0F 3A 0F /r ib 
+PALIGNR mm1, mm2/m64, imm8
+RMI V/V SSSE3 
+Concatenate destination and source
+ operands, extract byte-aligned result shifted
+ to the right by constant value in imm8 into mm1.
+
+66 0F 3A 0F /r ib
+PALIGNR xmm1, xmm2/m128, imm8
+RMI V/V SSSE3 
+Concatenate destination and source
+ operands, extract byte-aligned result shifted
+ to the right by constant value in imm8 into xmm1.
+
+VEX.NDS.128.66.0F3A.WIG 0F /r ib
+VPALIGNR xmm1, xmm2, xmm3/m128, imm8
+RVMI V/V AVX 
+Concatenate xmm2 and xmm3/m128, extract
+ byte aligned result shifted to the right by
+ constant value in imm8 and result is stored in xmm1.
+
+VEX.NDS.256.66.0F3A.WIG 0F /r ib
+VPALIGNR ymm1, ymm2, ymm3/m256, imm8
+RVMI V/V AVX2 
+Concatenate pairs of 16 bytes in ymm2 and
+ ymm3/m256 into 32-byte intermediate
+ result, extract byte-aligned, 16-byte result
+ shifted to the right by constant values in
+ imm8 from each intermediate result, and two
+ 16-byte results are stored in ymm1.
+
+NOTES:
+1. See note in Section 2.4, “Instruction Exception Specification” in the Intel® 64 and IA-32 Architectures Software Developer’s Manual,
+Volume 2A and Section 22.25.3, “Exception Conditions of Legacy SIMD Instructions Operating on MMX Registers” in the Intel® 64 and
+IA-32 Architectures Software Developer’s Manual, Volume 3A.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RMI ModRM:reg (r, w) ModRM:r/m (r) imm8 NA
+RVMI ModRM:reg (w) VEX.vvvv (r) ModRM:r/m (r) imm8
+
+Description
+(V)PALIGNR concatenates the destination operand (the first operand) and the source operand (the second
+operand) into an intermediate composite, shifts the composite at byte granularity to the right by a constant imme-
+diate, and extracts the right-aligned result into the destination. The first and the second operands can be an MMX,
+XMM or a YMM register. The immediate value is considered unsigned. Immediate shift counts larger than the 2L
+(i.e. 32 for 128-bit operands, or 16 for 64-bit operands) produce a zero result. Both operands can be MMX regis-
+ters, XMM registers or YMM registers. When the source operand is a 128-bit memory operand, the operand must
+be aligned on a 16-byte boundary or a general-protection exception (#GP) will be generated.
+In 64-bit mode, use the REX prefix to access additional registers.
+128-bit Legacy SSE version: Bits (VLMAX-1:128) of the corresponding YMM destination register remain
+unchanged.
+VEX.128 encoded version: The first source operand is an XMM register. The second source operand is an XMM
+register or 128-bit memory location. The destination operand is an XMM register. The upper bits (VLMAX-1:128) of
+the corresponding YMM register destination are zeroed.
+VEX.256 encoded version: The first source operand is a YMM register and contains two 16-byte blocks. The second
+source operand is a YMM register or a 256-bit memory location containing two 16-byte block. The destination
+operand is a YMM register and contain two 16-byte results. The imm8[7:0] is the common shift count used for the
+two lower 16-byte block sources and the two upper 16-byte block sources. The low 16-byte block of the two source
+---------------------------------------------------------------------
+PAND—Logical AND
+Opcode/ Op/ 64/32 bit CPUID Description
+Instruction En Mode Feature 
+               Support Flag 
+0F DB /r 
+PAND mm, mm/m64
+RM V/V MMX 
+Bitwise AND mm/m64 and mm.
+
+66 0F DB /r
+PAND xmm1, xmm2/m128
+RM V/V SSE2 
+Bitwise AND of xmm2/m128 and xmm1.
+
+VEX.NDS.128.66.0F.WIG DB /r
+VPAND xmm1, xmm2, xmm3/m128
+RVM V/V AVX 
+Bitwise AND of xmm3/m128 and xmm.
+
+VEX.NDS.256.66.0F.WIG DB /r
+VPAND ymm1, ymm2, ymm3/.m256
+RVM V/V AVX2 
+Bitwise AND of ymm2, and ymm3/m256 and
+ store result in ymm1.
+
+NOTES:
+1. See note in Section 2.4, “Instruction Exception Specification” in the Intel® 64 and IA-32 Architectures Software Developer’s Manual,
+Volume 2A and Section 22.25.3, “Exception Conditions of Legacy SIMD Instructions Operating on MMX Registers” in the Intel® 64 and
+IA-32 Architectures Software Developer’s Manual, Volume 3A.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RM ModRM:reg (r, w) ModRM:r/m (r) NA NA
+RVM ModRM:reg (w) VEX.vvvv (r) ModRM:r/m (r) NA
+
+Description
+Performs a bitwise logical AND operation on the first source operand and second source operand and stores the
+result in the destination operand. Each bit of the result is set to 1 if the corresponding bits of the first and second
+operands are 1, otherwise it is set to 0.
+In 64-bit mode, using a REX prefix in the form of REX.R permits this instruction to access additional registers
+(XMM8-XMM15).
+Legacy SSE instructions: The source operand can be an MMX technology register or a 64-bit memory location. The
+destination operand can be an MMX technology register.
+128-bit Legacy SSE version: The first source operand is an XMM register. The second operand can be an XMM
+register or a 128-bit memory location. The destination is not distinct from the first source XMM register and the
+upper bits (VLMAX-1:128) of the corresponding YMM register destination are unmodified.
+VEX.128 encoded version: The first source operand is an XMM register. The second source operand is an XMM
+register or 128-bit memory location. The destination operand is an XMM register. The upper bits (VLMAX-1:128) of
+the corresponding YMM register destination are zeroed.
+VEX.256 encoded version: The first source operand is a YMM register. The second source operand is a YMM register
+or a 256-bit memory location. The destination operand is a YMM register.
+Note: VEX.L must be 0, otherwise the instruction will #UD.
+
+Operation
+PAND (128-bit Legacy SSE version)
+DEST  DEST AND SRC
+DEST[VLMAX-1:128] (Unmodified)
+VPAND (VEX.128 encoded version)
+DEST  SRC1 AND SRC2
+DEST[VLMAX-1:128]  0
+VPAND (VEX.256 encoded instruction)
+DEST[255:0]  (SRC1[255:0] AND SRC2[255:0])
+---------------------------------------------------------------------
