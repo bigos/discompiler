@@ -1,0 +1,283 @@
+PANDN—Logical AND NOT
+
+Opcode/ Op/ 64/32 bit CPUID Description
+
+Instruction En Mode Feature 
+               Support Flag 
+
+0F DF /r 
+PANDN mm, mm/m64
+RM V/V MMX 
+Bitwise AND NOT of mm/m64 and mm.
+
+66 0F DF /r
+PANDN xmm1, xmm2/m128
+RM V/V SSE2 
+Bitwise AND NOT of xmm2/m128 and xmm1.
+
+VEX.NDS.128.66.0F.WIG DF /r
+VPANDN xmm1, xmm2, xmm3/m128
+RVM V/V AVX 
+Bitwise AND NOT of xmm3/m128 and xmm2.
+
+VEX.NDS.256.66.0F.WIG DF /r
+VPANDN ymm1, ymm2, ymm3/m256
+RVM V/V AVX2 
+Bitwise AND NOT of ymm2, and ymm3/m256
+ and store result in ymm1.
+
+NOTES:
+1. See note in Section 2.4, “Instruction Exception Specification” in the Intel® 64 and IA-32 Architectures Software Developer’s Manual,
+Volume 2A and Section 22.25.3, “Exception Conditions of Legacy SIMD Instructions Operating on MMX Registers” in the Intel® 64 and
+IA-32 Architectures Software Developer’s Manual, Volume 3A.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RM ModRM:reg (r, w) ModRM:r/m (r) NA NA
+RVM ModRM:reg (w) VEX.vvvv (r) ModRM:r/m (r) NA
+
+Description
+Performs a bitwise logical NOT operation on the first source operand, then performs bitwise AND with second
+source operand and stores the result in the destination operand. Each bit of the result is set to 1 if the corre-
+sponding bit in the first operand is 0 and the corresponding bit in the second operand is 1, otherwise it is set to 0.
+In 64-bit mode, using a REX prefix in the form of REX.R permits this instruction to access additional registers
+(XMM8-XMM15).
+Legacy SSE instructions: The source operand can be an MMX technology register or a 64-bit memory location. The
+destination operand can be an MMX technology register.
+128-bit Legacy SSE version: The first source operand is an XMM register. The second operand can be an XMM
+register or a 128-bit memory location. The destination is not distinct from the first source XMM register and the
+upper bits (VLMAX-1:128) of the corresponding YMM register destination are unmodified.
+VEX.128 encoded version: The first source operand is an XMM register. The second source operand is an XMM
+register or 128-bit memory location. The destination operand is an XMM register. The upper bits (VLMAX-1:128) of
+the corresponding YMM register destination are zeroed.
+VEX.256 encoded version: The first source operand is a YMM register. The second source operand is a YMM register
+or a 256-bit memory location. The destination operand is a YMM register.
+Note: VEX.L must be 0, otherwise the instruction will #UD.
+
+Operation
+PANDN(128-bit Legacy SSE version)
+DEST  NOT(DEST) AND SRC
+DEST[VLMAX-1:128] (Unmodified)
+VPANDN (VEX.128 encoded version)
+DEST  NOT(SRC1) AND SRC2
+DEST[VLMAX-1:128]  0
+VPANDN (VEX.256 encoded instruction)
+DEST[255:0]  ((NOT SRC1[255:0]) AND SRC2[255:0])
+---------------------------------------------------------------------
+
+PAUSE—Spin Loop Hint
+
+Opcode Instruction Op/ 64-Bit Compat/ Description
+                   En Mode Leg Mode
+
+F3 90
+PAUSE 
+NP Valid Valid
+Gives hint to processor that improves
+performance of spin-wait loops.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+NP NA NA NA NA
+
+Description
+Improves the performance of spin-wait loops. When executing a “spin-wait loop,” processors will suffer a severe
+performance penalty when exiting the loop because it detects a possible memory order violation. The PAUSE
+instruction provides a hint to the processor that the code sequence is a spin-wait loop. The processor uses this hint
+to avoid the memory order violation in most situations, which greatly improves processor performance. For this
+reason, it is recommended that a PAUSE instruction be placed in all spin-wait loops.
+An additional function of the PAUSE instruction is to reduce the power consumed by a processor while executing a
+spin loop. A processor can execute a spin-wait loop extremely quickly, causing the processor to consume a lot of
+power while it waits for the resource it is spinning on to become available. Inserting a pause instruction in a spin-
+wait loop greatly reduces the processor’s power consumption.
+This instruction was introduced in the Pentium 4 processors, but is backward compatible with all IA-32 processors.
+In earlier IA-32 processors, the PAUSE instruction operates like a NOP instruction. The Pentium 4 and Intel Xeon
+processors implement the PAUSE instruction as a delay. The delay is finite and can be zero for some processors.
+This instruction does not change the architectural state of the processor (that is, it performs essentially a delaying
+no-op operation).
+This instruction’s operation is the same in non-64-bit modes and 64-bit mode.
+
+Operation
+Execute_Next_Instruction(DELAY);
+---------------------------------------------------------------------
+
+PAVGB/PAVGW—Average Packed Integers
+
+Opcode/ Op/ 64/32 bit CPUID Description
+Instruction En Mode Feature 
+               Support Flag 
+
+0F E0 /r 
+PAVGB mm1, mm2/m64
+RM V/V SSE 
+Average packed unsigned byte integers from
+ mm2/m64 and mm1 with rounding.
+
+66 0F E0, /r
+PAVGB xmm1, xmm2/m128
+RM V/V SSE2 
+Average packed unsigned byte integers from
+ xmm2/m128 and xmm1 with rounding.
+
+0F E3 /r
+PAVGW mm1, mm2/m64
+RM V/V SSE 
+Average packed unsigned word integers from
+ mm2/m64 and mm1 with rounding.
+
+66 0F E3 /r
+PAVGW xmm1, xmm2/m128
+RM V/V SSE2 
+Average packed unsigned word integers from
+ xmm2/m128 and xmm1 with rounding.
+
+VEX.NDS.128.66.0F.WIG E0 /r
+VPAVGB xmm1, xmm2, xmm3/m128
+RVM V/V AVX 
+Average packed unsigned byte integers from
+ xmm3/m128 and xmm2 with rounding.
+
+VEX.NDS.128.66.0F.WIG E3 /r
+VPAVGW xmm1, xmm2, xmm3/m128
+RVM V/V AVX 
+Average packed unsigned word integers from
+ xmm3/m128 and xmm2 with rounding.
+
+VEX.NDS.256.66.0F.WIG E0 /r
+VPAVGB ymm1, ymm2, ymm3/m256
+RVM V/V AVX2 
+Average packed unsigned byte integers from
+ ymm2, and ymm3/m256 with rounding and
+ store to ymm1.
+
+VEX.NDS.256.66.0F.WIG E3 /r
+VPAVGW ymm1, ymm2, ymm3/m256
+RVM V/V AVX2 
+Average packed unsigned word integers from
+ ymm2, ymm3/m256 with rounding to ymm1.
+
+NOTES:
+1. See note in Section 2.4, “Instruction Exception Specification” in the Intel® 64 and IA-32 Architectures Software Developer’s Manual,
+Volume 2A and Section 22.25.3, “Exception Conditions of Legacy SIMD Instructions Operating on MMX Registers” in the Intel® 64 and
+IA-32 Architectures Software Developer’s Manual, Volume 3A.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RM ModRM:reg (r, w) ModRM:r/m (r) NA NA
+RVM ModRM:reg (w) VEX.vvvv (r) ModRM:r/m (r) NA
+
+Description
+Performs a SIMD average of the packed unsigned integers from the source operand (second operand) and the
+destination operand (first operand), and stores the results in the destination operand. For each corresponding pair
+of data elements in the first and second operands, the elements are added together, a 1 is added to the temporary
+sum, and that result is shifted right one bit position.
+The (V)PAVGB instruction operates on packed unsigned bytes and the (V)PAVGW instruction operates on packed
+unsigned words.
+In 64-bit mode, using a REX prefix in the form of REX.R permits this instruction to access additional registers
+(XMM8-XMM15).
+Legacy SSE instructions: The source operand can be an MMX technology register or a 64-bit memory location. The
+destination operand can be an MMX technology register.
+128-bit Legacy SSE version: The first source operand is an XMM register. The second operand can be an XMM
+register or a 128-bit memory location. The destination is not distinct from the first source XMM register and the
+upper bits (VLMAX-1:128) of the corresponding YMM register destination are unmodified.
+VEX.128 encoded version: The first source operand is an XMM register. The second source operand is an XMM
+register or 128-bit memory location. The destination operand is an XMM register. The upper bits (VLMAX-1:128) of
+the corresponding YMM register destination are zeroed.
+VEX.256 encoded version: The first source operand is a YMM register. The second source operand is a YMM register
+or a 256-bit memory location. The destination operand is a YMM register.
+
+Operation
+PAVGB (with 64-bit operands)
+DEST[7:0] ← (SRC[7:0] + DEST[7:0] + 1) >> 1; (* Temp sum before shifting is 9 bits *)
+(* Repeat operation performed for bytes 2 through 6 *)
+DEST[63:56] ← (SRC[63:56] + DEST[63:56] + 1) >> 1;
+PAVGW (with 64-bit operands)
+DEST[15:0] ← (SRC[15:0] + DEST[15:0] + 1) >> 1; (* Temp sum before shifting is 17 bits *)
+(* Repeat operation performed for words 2 and 3 *)
+DEST[63:48] ← (SRC[63:48] + DEST[63:48] + 1) >> 1;
+PAVGB (with 128-bit operands)
+DEST[7:0] ← (SRC[7:0] + DEST[7:0] + 1) >> 1; (* Temp sum before shifting is 9 bits *)
+(* Repeat operation performed for bytes 2 through 14 *)
+DEST[127:120] ← (SRC[127:120] + DEST[127:120] + 1) >> 1;
+PAVGW (with 128-bit operands)
+DEST[15:0] ← (SRC[15:0] + DEST[15:0] + 1) >> 1; (* Temp sum before shifting is 17 bits *)
+(* Repeat operation performed for words 2 through 6 *)
+DEST[127:112] ← (SRC[127:112] + DEST[127:112] + 1) >> 1;
+VPAVGB (VEX.128 encoded version)
+DEST[7:0]  (SRC1[7:0] + SRC2[7:0] + 1) >> 1;
+(* Repeat operation performed for bytes 2 through 15 *)
+DEST[127:120]  (SRC1[127:120] + SRC2[127:120] + 1) >> 1
+DEST[VLMAX-1:128]  0
+VPAVGW (VEX.128 encoded version)
+DEST[15:0]  (SRC1[15:0] + SRC2[15:0] + 1) >> 1;
+(* Repeat operation performed for 16-bit words 2 through 7 *)
+DEST[127:112]  (SRC1[127:112] + SRC2[127:112] + 1) >> 1
+DEST[VLMAX-1:128]  0
+VPAVGB (VEX.256 encoded instruction)
+DEST[7:0]  (SRC1[7:0] + SRC2[7:0] + 1) >> 1; (* Temp sum before shifting is 9 bits *)
+(* Repeat operation performed for bytes 2 through 31)
+DEST[255:248]  (SRC1[255:248] + SRC2[255:248] + 1) >> 1;
+VPAVGW (VEX.256 encoded instruction)
+DEST[15:0]  (SRC1[15:0] + SRC2[15:0] + 1) >> 1; (* Temp sum before shifting is 17 bits *)
+(* Repeat operation performed for words 2 through 15)
+DEST[255:14])  (SRC1[255:240] + SRC2[255:240] + 1) >> 1;
+---------------------------------------------------------------------
+
+PBLENDVB — Variable Blend Packed Bytes
+
+Opcode/ Op/ 64/32 bit CPUID Description
+Instruction En Mode Feature 
+               Support Flag 
+
+66 0F 38 10 /r 
+PBLENDVB xmm1, xmm2/m128, <XMM0> 
+RM V/V SSE4_1 
+Select byte values from xmm1 and
+ xmm2/m128 from mask specified in the high
+ bit of each byte in XMM0 and store the
+ values into xmm1.
+
+VEX.NDS.128.66.0F3A.W0 4C /r /is4 
+VPBLENDVB xmm1, xmm2, xmm3/m128, xmm4 
+RVMR V/V AVX 
+Select byte values from xmm2 and
+ xmm3/m128 using mask bits in the specified
+ mask register, xmm4, and store the values
+ into xmm1.
+
+VEX.NDS.256.66.0F3A.W0 4C /r /is4 
+VPBLENDVB ymm1, ymm2, ymm3/m256, ymm4 
+RVMR V/V AVX2 
+Select byte values from ymm2 and
+ ymm3/m256 from mask specified in the high
+ bit of each byte in ymm4 and store the
+ values into ymm1.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RM ModRM:reg (r, w) ModRM:r/m (r) <XMM0> NA
+RVMR ModRM:reg (w) VEX.vvvv (r) ModRM:r/m (r) ModRM:reg (r)
+
+Description
+Conditionally copies byte elements from the source operand (second operand) to the destination operand (first
+operand) depending on mask bits defined in the implicit third register argument, XMM0. The mask bits are the
+most significant bit in each byte element of the XMM0 register.
+If a mask bit is “1", then the corresponding byte element in the source operand is copied to the destination, else
+the byte element in the destination operand is left unchanged.
+The register assignment of the implicit third operand is defined to be the architectural register XMM0.
+128-bit Legacy SSE version: The first source operand and the destination operand is the same. Bits (VLMAX-1:128)
+of the corresponding YMM destination register remain unchanged. The mask register operand is implicitly defined
+to be the architectural register XMM0. An attempt to execute PBLENDVB with a VEX prefix will cause #UD.
+VEX.128 encoded version: The first source operand and the destination operand are XMM registers. The second
+source operand is an XMM register or 128-bit memory location. The mask operand is the third source register, and
+encoded in bits[7:4] of the immediate byte(imm8). The bits[3:0] of imm8 are ignored. In 32-bit mode, imm8[7] is
+ignored. The upper bits (VLMAX-1:128) of the corresponding YMM register (destination register) are zeroed. VEX.L
+must be 0, otherwise the instruction will #UD. VEX.W must be 0, otherwise, the instruction will #UD.
+VEX.256 encoded version: The first source operand and the destination operand are YMM registers. The second
+source operand is an YMM register or 256-bit memory location. The third source register is an YMM register and
+encoded in bits[7:4] of the immediate byte(imm8). The bits[3:0] of imm8 are ignored. In 32-bit mode, imm8[7] is
+ignored.
+VPBLENDVB permits the mask to be any XMM or YMM register. In contrast, PBLENDVB treats XMM0 implicitly as the
+mask and do not support non-destructive destination operation. An attempt to execute PBLENDVB encoded with a
+VEX prefix will cause a #UD exception.
+---------------------------------------------------------------------
