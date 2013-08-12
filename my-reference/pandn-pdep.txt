@@ -281,3 +281,584 @@ VPBLENDVB permits the mask to be any XMM or YMM register. In contrast, PBLENDVB 
 mask and do not support non-destructive destination operation. An attempt to execute PBLENDVB encoded with a
 VEX prefix will cause a #UD exception.
 ---------------------------------------------------------------------
+
+PBLENDW — Blend Packed Words
+
+Opcode/ Op/ 64/32 bit CPUID Description
+Instruction En Mode Feature 
+               Support Flag 
+
+66 0F 3A 0E /r ib 
+PBLENDW xmm1, xmm2/m128, imm8 
+RMI V/V SSE4_1 
+Select words from xmm1 and xmm2/m128
+ from mask specified in imm8 and store the
+ values into xmm1.
+
+VEX.NDS.128.66.0F3A.WIG 0E /r ib 
+VPBLENDW xmm1, xmm2, xmm3/m128, imm8 
+RVMI V/V AVX 
+Select words from xmm2 and xmm3/m128
+ from mask specified in imm8 and store the
+ values into xmm1.
+
+VEX.NDS.256.66.0F3A.WIG 0E /r ib 
+VPBLENDW ymm1, ymm2, ymm3/m256, imm8 
+RVMI V/V AVX2 
+Select words from ymm2 and ymm3/m256
+ from mask specified in imm8 and store the
+ values into ymm1.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RMI ModRM:reg (r, w) ModRM:r/m (r) imm8 NA
+RVMI ModRM:reg (w) VEX.vvvv (r) ModRM:r/m (r) imm8
+
+Description
+Words from the source operand (second operand) are conditionally written to the destination operand (first
+operand) depending on bits in the immediate operand (third operand). The immediate bits (bits 7:0) form a mask
+that determines whether the corresponding word in the destination is copied from the source. If a bit in the mask,
+corresponding to a word, is “1", then the word is copied, else the word element in the destination operand is
+unchanged.
+128-bit Legacy SSE version: The second source operand can be an XMM register or a 128-bit memory location. The
+first source and destination operands are XMM registers. Bits (VLMAX-1:128) of the corresponding YMM destination
+register remain unchanged.
+VEX.128 encoded version: The second source operand can be an XMM register or a 128-bit memory location. The
+first source and destination operands are XMM registers. Bits (VLMAX-1:128) of the corresponding YMM register
+are zeroed.
+VEX.256 encoded version: The first source operand is a YMM register. The second source operand is a YMM register
+or a 256-bit memory location. The destination operand is a YMM register.
+---------------------------------------------------------------------
+
+PCLMULQDQ - Carry-Less Multiplication Quadword
+
+Opcode/ Op/ 64/32 bit CPUID Description
+Instruction En Mode Feature 
+               Support Flag 
+
+66 0F 3A 44 /r ib 
+PCLMULQDQ xmm1, xmm2/m128, imm8 
+RMI V/V CLMUL 
+Carry-less multiplication of one quadword of
+ xmm1 by one quadword of xmm2/m128,
+ stores the 128-bit result in xmm1. The imme-
+ diate is used to determine which quadwords
+ of xmm1 and xmm2/m128 should be used.
+
+VEX.NDS.128.66.0F3A.WIG 44 /r ib 
+VPCLMULQDQ xmm1, xmm2, xmm3/m128, imm8 
+RVMI V/V Both CLMUL and AVX flags
+Carry-less multiplication of one quadword of
+ xmm2 by one quadword of xmm3/m128,
+ stores the 128-bit result in xmm1. The imme-
+ diate is used to determine which quadwords
+ of xmm2 and xmm3/m128 should be used.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand2 Operand3 Operand4
+RMI ModRM:reg (r, w) ModRM:r/m (r) imm8 NA
+RVMI ModRM:reg (w) VEX.vvvv (r) ModRM:r/m (r) imm8
+
+Description
+Performs a carry-less multiplication of two quadwords, selected from the first source and second source operand
+according to the value of the immediate byte. Bits 4 and 0 are used to select which 64-bit half of each operand to
+use according to Table 4-10, other bits of the immediate byte are ignored.
+---------------------------------------------------------------------
+
+PCMPEQB/PCMPEQW/PCMPEQD— Compare Packed Data for Equal
+
+Opcode/ Op/ 64/32 bit CPUID Description
+Instruction En Mode Feature 
+               Support Flag 
+
+0F 74 /r 
+PCMPEQB mm, mm/m64
+RM V/V MMX 
+Compare packed bytes in mm/m64 and mm
+ for equality.
+
+66 0F 74 /r
+PCMPEQB xmm1, xmm2/m128
+RM V/V SSE2 
+Compare packed bytes in xmm2/m128 and
+ xmm1 for equality.
+
+0F 75 /r
+PCMPEQW mm, mm/m64
+RM V/V MMX 
+Compare packed words in mm/m64 and mm
+ for equality.
+
+66 0F 75 /r
+PCMPEQW xmm1, xmm2/m128
+RM V/V SSE2 
+Compare packed words in xmm2/m128 and
+ xmm1 for equality.
+
+0F 76 /r
+PCMPEQD mm, mm/m64
+RM V/V MMX 
+Compare packed doublewords in mm/m64 and
+ mm for equality.
+
+66 0F 76 /r
+PCMPEQD xmm1, xmm2/m128
+RM V/V SSE2 
+Compare packed doublewords in xmm2/m128
+ and xmm1 for equality.
+
+VEX.NDS.128.66.0F.WIG 74 /r
+VPCMPEQB xmm1, xmm2, xmm3/m128
+RVM V/V AVX 
+Compare packed bytes in xmm3/m128 and
+ xmm2 for equality.
+
+VEX.NDS.128.66.0F.WIG 75 /r
+VPCMPEQW xmm1, xmm2, xmm3/m128
+RVM V/V AVX 
+Compare packed words in xmm3/m128 and
+ xmm2 for equality.
+
+VEX.NDS.128.66.0F.WIG 76 /r
+VPCMPEQD xmm1, xmm2, xmm3/m128
+RVM V/V AVX 
+Compare packed doublewords in xmm3/m128
+ and xmm2 for equality.
+
+VEX.NDS.256.66.0F.WIG 75 /r
+VPCMPEQW ymm1, ymm2, ymm3 /m256
+RVM V/V AVX2 
+Compare packed words in ymm3/m256 and
+ ymm2 for equality.
+
+VEX.NDS.256.66.0F.WIG 76 /r
+VPCMPEQD ymm1, ymm2, ymm3 /m256
+RVM V/V AVX2 
+Compare packed doublewords in ymm3/m256
+ and ymm2 for equality.
+
+VEX.NDS.256.66.0F38.WIG 29 /r
+VPCMPEQQ ymm1, ymm2, ymm3 /m256
+RVM V/V AVX2 
+Compare packed quadwords in ymm3/m256
+ and ymm2 for equality.
+
+NOTES:
+1. See note in Section 2.4, “Instruction Exception Specification” in the Intel® 64 and IA-32 Architectures Software Developer’s Manual,
+Volume 2A and Section 22.25.3, “Exception Conditions of Legacy SIMD Instructions Operating on MMX Registers” in the Intel® 64 and
+IA-32 Architectures Software Developer’s Manual, Volume 3A.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RM ModRM:reg (r, w) ModRM:r/m (r) NA NA
+RVM ModRM:reg (w) VEX.vvvv (r) ModRM:r/m (r) NA
+
+Description
+Performs a SIMD compare for equality of the packed bytes, words, or doublewords in the destination operand (first
+operand) and the source operand (second operand). If a pair of data elements is equal, the corresponding data
+element in the destination operand is set to all 1s; otherwise, it is set to all 0s.
+The (V)PCMPEQB instruction compares the corresponding bytes in the destination and source operands; the
+(V)PCMPEQW instruction compares the corresponding words in the destination and source operands; and the
+(V)PCMPEQD instruction compares the corresponding doublewords in the destination and source operands.
+---------------------------------------------------------------------
+
+PCMPEQQ — Compare Packed Qword Data for Equal
+
+Opcode/ Op/ 64/32 bit CPUID Description
+Instruction En Mode Feature 
+               Support Flag 
+
+66 0F 38 29 /r 
+PCMPEQQ xmm1, xmm2/m128 
+RM V/V SSE4_1 
+Compare packed qwords in xmm2/m128 and
+ xmm1 for equality.
+
+VEX.NDS.128.66.0F38.WIG 29 /r 
+VPCMPEQQ xmm1, xmm2, xmm3/m128 
+RVM V/V AVX 
+Compare packed quadwords in xmm3/m128
+ and xmm2 for equality.
+
+VEX.NDS.256.66.0F38.WIG 29 /r 
+VPCMPEQQ ymm1, ymm2, ymm3 /m256 
+RVM V/V AVX2 
+Compare packed quadwords in ymm3/m256
+ and ymm2 for equality.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RM ModRM:reg (r, w) ModRM:r/m (r) NA NA
+RVM ModRM:reg (w) VEX.vvvv (r) ModRM:r/m (r) NA
+
+Description
+Performs an SIMD compare for equality of the packed quadwords in the destination operand (first operand) and the
+source operand (second operand). If a pair of data elements is equal, the corresponding data element in the desti-
+nation is set to all 1s; otherwise, it is set to 0s.
+128-bit Legacy SSE version: The second source operand can be an XMM register or a 128-bit memory location. The
+first source and destination operands are XMM registers. Bits (VLMAX-1:128) of the corresponding YMM destination
+register remain unchanged.
+VEX.128 encoded version: The second source operand can be an XMM register or a 128-bit memory location. The
+first source and destination operands are XMM registers. Bits (VLMAX-1:128) of the corresponding YMM register
+are zeroed.
+VEX.256 encoded version: The first source operand is a YMM register. The second source operand is a YMM register
+or a 256-bit memory location. The destination operand is a YMM register.
+Note: VEX.L must be 0, otherwise the instruction will #UD.
+
+Operation
+IF (DEST[63:0] = SRC[63:0])
+THEN DEST[63:0]  FFFFFFFFFFFFFFFFH;
+ELSE DEST[63:0]  0; FI;
+IF (DEST[127:64] = SRC[127:64])
+THEN DEST[127:64]  FFFFFFFFFFFFFFFFH;
+ELSE DEST[127:64]  0; FI;
+VPCMPEQQ (VEX.128 encoded version)
+DEST[127:0] COMPARE_QWORDS_EQUAL(SRC1,SRC2)
+DEST[VLMAX-1:128]  0
+VPCMPEQQ (VEX.256 encoded version)
+DEST[127:0] COMPARE_QWORDS_EQUAL(SRC1[127:0],SRC2[127:0])
+DEST[255:128] COMPARE_QWORDS_EQUAL(SRC1[255:128],SRC2[255:128])
+---------------------------------------------------------------------
+
+PCMPESTRI — Packed Compare Explicit Length Strings, Return Index
+
+Opcode/ Op/ 64/32 bit CPUID Description
+Instruction En Mode Feature 
+               Support Flag 
+
+66 0F 3A 61 /r imm8 
+PCMPESTRI xmm1, xmm2/m128, imm8 
+RMI V/V SSE4_2 
+Perform a packed comparison of string data
+ with explicit lengths, generating an index, and
+ storing the result in ECX.
+
+VEX.128.66.0F3A.WIG 61 /r ib 
+VPCMPESTRI xmm1, xmm2/m128, imm8 
+RMI V/V AVX 
+Perform a packed comparison of string data
+ with explicit lengths, generating an index, and
+ storing the result in ECX.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RMI ModRM:reg (r) ModRM:r/m (r) imm8 NA
+
+Description
+The instruction compares and processes data from two string fragments based on the encoded value in the Imm8
+Control Byte (see Section 4.1, “Imm8 Control Byte Operation for PCMPESTRI / PCMPESTRM / PCMPISTRI / PCMP-
+ISTRM”), and generates an index stored to the count register (ECX/RCX).
+Each string fragment is represented by two values. The first value is an xmm (or possibly m128 for the second
+operand) which contains the data elements of the string (byte or word data). The second value is stored in an input
+length register. The input length register is EAX/RAX (for xmm1) or EDX/RDX (for xmm2/m128). The length repre-
+sents the number of bytes/words which are valid for the respective xmm/m128 data.
+The length of each input is interpreted as being the absolute-value of the value in the length register. The absolute-
+value computation saturates to 16 (for bytes) and 8 (for words), based on the value of imm8[bit3] when the value
+in the length register is greater than 16 (8) or less than -16 (-8).
+The comparison and aggregation operations are performed according to the encoded value of Imm8 bit fields (see
+Section 4.1). The index of the first (or last, according to imm8[6]) set bit of IntRes2 (see Section 4.1.4) is returned
+in ECX. If no bits are set in IntRes2, ECX is set to 16 (8).
+---------------------------------------------------------------------
+
+PCMPESTRM — Packed Compare Explicit Length Strings, Return Mask
+
+Opcode/ Op/ 64/32 bit CPUID Description
+Instruction En Mode Feature 
+               Support Flag 
+
+66 0F 3A 60 /r imm8 
+PCMPESTRM xmm1, xmm2/m128, imm8 
+RMI V/V SSE4_2 
+Perform a packed comparison of string data
+ with explicit lengths, generating a mask, and
+ storing the result in XMM0
+
+VEX.128.66.0F3A.WIG 60 /r ib 
+VPCMPESTRM xmm1, xmm2/m128, imm8 
+RMI V/V AVX 
+Perform a packed comparison of string data
+ with explicit lengths, generating a mask, and
+ storing the result in XMM0.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RMI ModRM:reg (r) ModRM:r/m (r) imm8 NA
+
+Description
+The instruction compares data from two string fragments based on the encoded value in the imm8 contol byte (see
+Section 4.1, “Imm8 Control Byte Operation for PCMPESTRI / PCMPESTRM / PCMPISTRI / PCMPISTRM”), and gener-
+ates a mask stored to XMM0.
+Each string fragment is represented by two values. The first value is an xmm (or possibly m128 for the second
+operand) which contains the data elements of the string (byte or word data). The second value is stored in an input
+length register. The input length register is EAX/RAX (for xmm1) or EDX/RDX (for xmm2/m128). The length repre-
+sents the number of bytes/words which are valid for the respective xmm/m128 data.
+The length of each input is interpreted as being the absolute-value of the value in the length register. The absolute-
+value computation saturates to 16 (for bytes) and 8 (for words), based on the value of imm8[bit3] when the value
+in the length register is greater than 16 (8) or less than -16 (-8).
+The comparison and aggregation operations are performed according to the encoded value of Imm8 bit fields (see
+Section 4.1). As defined by imm8[6], IntRes2 is then either stored to the least significant bits of XMM0 (zero
+extended to 128 bits) or expanded into a byte/word-mask and then stored to XMM0.
+---------------------------------------------------------------------
+
+PCMPGTB/PCMPGTW/PCMPGTD—Compare Packed Signed Integers for Greater Than
+
+Opcode/ Op/ 64/32 bit CPUID Description
+Instruction En Mode Feature 
+               Support Flag 
+
+0F 64 /r 
+PCMPGTB mm, mm/m64
+RM V/V MMX 
+Compare packed signed byte integers in mm
+ and mm/m64 for greater than.
+
+66 0F 64 /r
+PCMPGTB xmm1, xmm2/m128
+RM V/V SSE2 
+Compare packed signed byte integers in xmm1
+ and xmm2/m128 for greater than.
+
+0F 65 /r
+PCMPGTW mm, mm/m64
+RM V/V MMX 
+Compare packed signed word integers in mm
+ and mm/m64 for greater than.
+
+66 0F 65 /r
+PCMPGTW xmm1, xmm2/m128
+RM V/V SSE2 
+Compare packed signed word integers in
+ xmm1 and xmm2/m128 for greater than.
+
+0F 66 /r
+PCMPGTD mm, mm/m64
+RM V/V MMX 
+Compare packed signed doubleword integers in
+ mm and mm/m64 for greater than.
+
+66 0F 66 /r
+PCMPGTD xmm1, xmm2/m128
+RM V/V SSE2 
+Compare packed signed doubleword integers in
+ xmm1 and xmm2/m128 for greater than.
+
+VEX.NDS.128.66.0F.WIG 64 /r
+VPCMPGTB xmm1, xmm2, xmm3/m128
+RVM V/V AVX 
+Compare packed signed byte integers in xmm2
+ and xmm3/m128 for greater than.
+
+VEX.NDS.128.66.0F.WIG 65 /r
+VPCMPGTW xmm1, xmm2, xmm3/m128
+RVM V/V AVX 
+Compare packed signed word integers in
+ xmm2 and xmm3/m128 for greater than.
+
+VEX.NDS.128.66.0F.WIG 66 /r
+VPCMPGTD xmm1, xmm2, xmm3/m128
+RVM V/V AVX 
+Compare packed signed doubleword integers in
+ xmm2 and xmm3/m128 for greater than.
+
+VEX.NDS.256.66.0F.WIG 64 /r
+VPCMPGTB ymm1, ymm2, ymm3/m256
+RVM V/V AVX2 
+Compare packed signed byte integers in ymm2
+ and ymm3/m256 for greater than.
+
+VEX.NDS.256.66.0F.WIG 65 /r
+VPCMPGTW ymm1, ymm2, ymm3/m256
+RVM V/V AVX2 
+Compare packed signed word integers in ymm2
+ and ymm3/m256 for greater than.
+
+VEX.NDS.256.66.0F.WIG 66 /r
+VPCMPGTD ymm1, ymm2, ymm3/m256
+RVM V/V AVX2 
+Compare packed signed doubleword integers in
+ ymm2 and ymm3/m256 for greater than.
+
+NOTES:
+1. See note in Section 2.4, “Instruction Exception Specification” in the Intel® 64 and IA-32 Architectures Software Developer’s Manual,
+Volume 2A and Section 22.25.3, “Exception Conditions of Legacy SIMD Instructions Operating on MMX Registers” in the Intel® 64 and
+IA-32 Architectures Software Developer’s Manual, Volume 3A.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RM ModRM:reg (r, w) ModRM:r/m (r) NA NA
+RVM ModRM:reg (w) VEX.vvvv (r) ModRM:r/m (r) NA
+
+Description
+Performs an SIMD signed compare for the greater value of the packed byte, word, or doubleword integers in the
+destination operand (first operand) and the source operand (second operand). If a data element in the destination
+operand is greater than the corresponding date element in the source operand, the corresponding data element in
+the destination operand is set to all 1s; otherwise, it is set to all 0s.
+The PCMPGTB instruction compares the corresponding signed byte integers in the destination and source oper-
+ands; the PCMPGTW instruction compares the corresponding signed word integers in the destination and source
+---------------------------------------------------------------------
+
+PCMPGTQ — Compare Packed Data for Greater Than
+
+Opcode/ Op/ 64/32 bit CPUID Description
+Instruction En Mode Feature 
+               Support Flag 
+
+66 0F 38 37 /r 
+PCMPGTQ xmm1,xmm2/m128 
+RM V/V SSE4_2 
+Compare packed signed qwords in
+ xmm2/m128 and xmm1 for greater than.
+
+VEX.NDS.128.66.0F38.WIG 37 /r 
+VPCMPGTQ xmm1, xmm2, xmm3/m128 
+RVM V/V AVX 
+Compare packed signed qwords in xmm2 and
+ xmm3/m128 for greater than.
+
+VEX.NDS.256.66.0F38.WIG 37 /r 
+VPCMPGTQ ymm1, ymm2, ymm3/m256 
+RVM V/V AVX2 
+Compare packed signed qwords in ymm2 and
+ ymm3/m256 for greater than.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RM ModRM:reg (r, w) ModRM:r/m (r) NA NA
+RVM ModRM:reg (w) VEX.vvvv (r) ModRM:r/m (r) NA
+
+Description
+Performs an SIMD signed compare for the packed quadwords in the destination operand (first operand) and the
+source operand (second operand). If the data element in the first (destination) operand is greater than the
+corresponding element in the second (source) operand, the corresponding data element in the destination is set
+to all 1s; otherwise, it is set to 0s.
+128-bit Legacy SSE version: The second source operand can be an XMM register or a 128-bit memory location. The
+first source operand and destination operand are XMM registers. Bits (VLMAX-1:128) of the corresponding YMM
+destination register remain unchanged.
+VEX.128 encoded version: The second source operand can be an XMM register or a 128-bit memory location. The
+first source operand and destination operand are XMM registers. Bits (VLMAX-1:128) of the corresponding YMM
+register are zeroed.
+VEX.256 encoded version: The first source operand is a YMM register. The second source operand is a YMM register
+or a 256-bit memory location. The destination operand is a YMM register.
+Note: VEX.L must be 0, otherwise the instruction will #UD.
+
+Operation
+IF (DEST[63-0] > SRC[63-0])
+THEN DEST[63-0]  FFFFFFFFFFFFFFFFH;
+ELSE DEST[63-0]  0; FI
+IF (DEST[127-64] > SRC[127-64])
+THEN DEST[127-64]  FFFFFFFFFFFFFFFFH;
+ELSE DEST[127-64]  0; FI
+VPCMPGTQ (VEX.128 encoded version)
+DEST[127:0] COMPARE_QWORDS_GREATER(SRC1,SRC2)
+DEST[VLMAX-1:128]  0
+VPCMPGTQ (VEX.256 encoded version)
+DEST[127:0] COMPARE_QWORDS_GREATER(SRC1[127:0],SRC2[127:0])
+DEST[255:128] COMPARE_QWORDS_GREATER(SRC1[255:128],SRC2[255:128])
+PCMPGTQ — Compare Packed Data for Greater Than
+---------------------------------------------------------------------
+
+PCMPISTRI — Packed Compare Implicit Length Strings, Return Index
+
+Opcode/ Op/ 64/32 bit CPUID Description
+Instruction En Mode Feature 
+               Support Flag 
+
+66 0F 3A 63 /r imm8 
+PCMPISTRI xmm1, xmm2/m128, imm8 
+RM V/V SSE4_2 
+Perform a packed comparison of string data
+ with implicit lengths, generating an index, and
+ storing the result in ECX.
+
+VEX.128.66.0F3A.WIG 63 /r ib 
+VPCMPISTRI xmm1, xmm2/m128, imm8 
+RM V/V AVX 
+Perform a packed comparison of string data
+ with implicit lengths, generating an index, and
+ storing the result in ECX.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RM ModRM:reg (r) ModRM:r/m (r) imm8 NA
+
+Description
+The instruction compares data from two strings based on the encoded value in the Imm8 Control Byte (see Section
+4.1, “Imm8 Control Byte Operation for PCMPESTRI / PCMPESTRM / PCMPISTRI / PCMPISTRM”), and generates an
+index stored to ECX.
+Each string is represented by a single value. The value is an xmm (or possibly m128 for the second operand) which
+contains the data elements of the string (byte or word data). Each input byte/word is augmented with a
+valid/invalid tag. A byte/word is considered valid only if it has a lower index than the least significant null
+byte/word. (The least significant null byte/word is also considered invalid.)
+The comparison and aggregation operations are performed according to the encoded value of Imm8 bit fields (see
+Section 4.1). The index of the first (or last, according to imm8[6]) set bit of IntRes2 is returned in ECX. If no bits
+are set in IntRes2, ECX is set to 16 (8).
+---------------------------------------------------------------------
+
+PCMPISTRM — Packed Compare Implicit Length Strings, Return Mask
+
+Opcode/ Op/ 64/32 bit CPUID Description
+Instruction En Mode Feature 
+               Support Flag 
+
+66 0F 3A 62 /r imm8 
+PCMPISTRM xmm1, xmm2/m128, imm8 
+RM V/V SSE4_2 
+Perform a packed comparison of string data
+ with implicit lengths, generating a mask, and
+ storing the result in XMM0.
+
+VEX.128.66.0F3A.WIG 62 /r ib 
+VPCMPISTRM xmm1, xmm2/m128, imm8
+RM V/V AVX 
+Perform a packed comparison of string data
+ with implicit lengths, generating a Mask, and
+ storing the result in XMM0.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RM ModRM:reg (r) ModRM:r/m (r) imm8 NA
+
+Description
+The instruction compares data from two strings based on the encoded value in the imm8 byte (see Section 4.1,
+“Imm8 Control Byte Operation for PCMPESTRI / PCMPESTRM / PCMPISTRI / PCMPISTRM”) generating a mask
+stored to XMM0.
+Each string is represented by a single value. The value is an xmm (or possibly m128 for the second operand) which
+contains the data elements of the string (byte or word data). Each input byte/word is augmented with a
+valid/invalid tag. A byte/word is considered valid only if it has a lower index than the least significant null
+byte/word. (The least significant null byte/word is also considered invalid.)
+The comparison and aggregation operation are performed according to the encoded value of Imm8 bit fields (see
+Section 4.1). As defined by imm8[6], IntRes2 is then either stored to the least significant bits of XMM0 (zero
+extended to 128 bits) or expanded into a byte/word-mask and then stored to XMM0.
+---------------------------------------------------------------------
+
+PDEP — Parallel Bits Deposit
+
+Opcode/ Op/
+Instruction En
+Description
+64/32 CPUID
+    -bit Feature
+    Mode Flag
+    
+VEX.NDS.LZ.F2.0F38.W0 F5 /r 
+PDEP r32a, r32b, r/m32 
+RVM V/V BMI2
+Parallel deposit of bits from r32b using mask in r/m32, result is written to r32a.
+
+VEX.NDS.LZ.F2.0F38.W1 F5 /r 
+PDEP r64a, r64b, r/m64 
+RVM V/N.E. BMI2
+Parallel deposit of bits from r64b using mask in r/m64, result is writ-
+ten to r64a.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RVM ModRM:reg (w) VEX.vvvv (r) ModRM:r/m (r) NA
+
+Description
+PDEP uses a mask in the second source operand (the third operand) to transfer/scatter contiguous low order bits
+in the first source operand (the second operand) into the destination (the first operand). PDEP takes the low bits
+from the first source operand and deposit them in the destination operand at the corresponding bit locations that
+are set in the second source operand (mask). All other bits (bits not set in mask) in destination are set to zero.
+---------------------------------------------------------------------
+
