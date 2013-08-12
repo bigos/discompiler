@@ -4,9 +4,7 @@
   (format t "running skeleton program")
   ;; (test-arithmetic)
   ;; (test-mod-vals)
-  ;; (run-tests :all)
-  (format t "~&~s~%" (cl-ppcre:scan-to-strings "^1 .?" "1 2 3 a b c"))
-  
+  ;; (run-tests :all)  
   (with-open-file (stream "./my-reference/vol2a.txt")
     (do ((line (read-line stream nil)
                (read-line stream nil)))
