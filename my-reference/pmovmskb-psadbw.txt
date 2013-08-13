@@ -1,0 +1,1210 @@
+PMOVMSKB—Move Byte Mask
+
+Opcode/ Op/ 64/32 bit CPUID Description
+Instruction En Mode Feature 
+               Support Flag 
+
+0F D7 /r 
+PMOVMSKB reg, mm
+RM V/V SSE 
+Move a byte mask of mm to reg. The upper
+ bits of r32 or r64 are zeroed
+
+66 0F D7 /r
+PMOVMSKB reg, xmm
+RM V/V SSE2 
+Move a byte mask of xmm to reg. The upper
+ bits of r32 or r64 are zeroed
+
+VEX.128.66.0F.WIG D7 /r
+VPMOVMSKB reg, xmm1
+RM V/V AVX 
+Move a byte mask of xmm1 to reg. The upper
+ bits of r32 or r64 are filled with zeros.
+
+VEX.256.66.0F.WIG D7 /r
+VPMOVMSKB reg, ymm1
+RM V/V AVX2 
+Move a 32-bit mask of ymm1 to reg. The
+ upper bits of r64 are filled with zeros.
+
+NOTES:
+1. See note in Section 2.4, “Instruction Exception Specification” in the Intel® 64 and IA-32 Architectures Software Developer’s Manual,
+Volume 2A and Section 22.25.3, “Exception Conditions of Legacy SIMD Instructions Operating on MMX Registers” in the Intel® 64 and
+IA-32 Architectures Software Developer’s Manual, Volume 3A.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RM ModRM:reg (w) ModRM:r/m (r) NA NA
+
+Description
+Creates a mask made up of the most significant bit of each byte of the source operand (second operand) and stores
+the result in the low byte or word of the destination operand (first operand).
+The byte mask is 8 bits for 64-bit source operand, 16 bits for 128-bit source operand and 32 bits for 256-bit source
+operand. The destination operand is a general-purpose register.
+In 64-bit mode, the instruction can access additional registers (XMM8-XMM15, R8-R15) when used with a REX.R
+prefix. The default operand size is 64-bit in 64-bit mode.
+Legacy SSE version: The source operand is an MMX technology register.
+128-bit Legacy SSE version: The source operand is an XMM register.
+VEX.128 encoded version: The source operand is an XMM register.
+VEX.256 encoded version: The source operand is a YMM register.
+Note: VEX.vvvv is reserved and must be 1111b, VEX.L must be 0, otherwise the instruction will #UD.
+---------------------------------------------------------------------
+
+PMOVSX — Packed Move with Sign Extend
+
+Opcode/ Op/ 64/32 bit CPUID Description
+Instruction En Mode Feature 
+               Support Flag 
+
+66 0f 38 20 /r 
+PMOVSXBW xmm1, xmm2/m64 
+RM V/V SSE4_1 
+Sign extend 8 packed signed 8-bit integers in
+ the low 8 bytes of xmm2/m64 to 8 packed
+ signed 16-bit integers in xmm1.
+
+66 0f 38 21 /r 
+PMOVSXBD xmm1, xmm2/m32 
+RM V/V SSE4_1 
+Sign extend 4 packed signed 8-bit integers in
+ the low 4 bytes of xmm2/m32 to 4 packed
+ signed 32-bit integers in xmm1.
+
+66 0f 38 22 /r 
+PMOVSXBQ xmm1, xmm2/m16
+RM V/V SSE4_1 
+Sign extend 2 packed signed 8-bit integers in
+ the low 2 bytes of xmm2/m16 to 2 packed
+ signed 64-bit integers in xmm1.
+
+66 0f 38 23 /r 
+PMOVSXWD xmm1, xmm2/m64 
+RM V/V SSE4_1 
+Sign extend 4 packed signed 16-bit integers in
+ the low 8 bytes of xmm2/m64 to 4 packed
+ signed 32-bit integers in xmm1.
+
+66 0f 38 24 /r 
+PMOVSXWQ xmm1, xmm2/m32 
+RM V/V SSE4_1 
+Sign extend 2 packed signed 16-bit integers in
+ the low 4 bytes of xmm2/m32 to 2 packed
+ signed 64-bit integers in xmm1.
+
+66 0f 38 25 /r 
+PMOVSXDQ xmm1, xmm2/m64 
+RM V/V SSE4_1 
+Sign extend 2 packed signed 32-bit integers in
+ the low 8 bytes of xmm2/m64 to 2 packed
+ signed 64-bit integers in xmm1.
+
+VEX.128.66.0F38.WIG 20 /r 
+VPMOVSXBW xmm1, xmm2/m64 
+RM V/V AVX 
+Sign extend 8 packed 8-bit integers in the low
+8 bytes of xmm2/m64 to 8 packed 16-bit
+ integers in xmm1.
+
+VEX.128.66.0F38.WIG 21 /r 
+VPMOVSXBD xmm1, xmm2/m32 
+RM V/V AVX 
+Sign extend 4 packed 8-bit integers in the low
+ 4 bytes of xmm2/m32 to 4 packed 32-bit
+ integers in xmm1.
+
+VEX.128.66.0F38.WIG 22 /r 
+VPMOVSXBQ xmm1, xmm2/m16 
+RM V/V AVX 
+Sign extend 2 packed 8-bit integers in the low
+ 2 bytes of xmm2/m16 to 2 packed 64-bit
+ integers in xmm1.
+
+VEX.128.66.0F38.WIG 23 /r 
+VPMOVSXWD xmm1, xmm2/m64 
+RM V/V AVX 
+Sign extend 4 packed 16-bit integers in the
+ low 8 bytes of xmm2/m64 to 4 packed 32-bit
+ integers in xmm1.
+
+VEX.128.66.0F38.WIG 24 /r 
+VPMOVSXWQ xmm1, xmm2/m32 
+RM V/V AVX 
+Sign extend 2 packed 16-bit integers in the
+ low 4 bytes of xmm2/m32 to 2 packed 64-bit
+ integers in xmm1.
+
+VEX.128.66.0F38.WIG 25 /r 
+VPMOVSXDQ xmm1, xmm2/m64 
+RM V/V AVX 
+Sign extend 2 packed 32-bit integers in the
+ low 8 bytes of xmm2/m64 to 2 packed 64-bit
+ integers in xmm1.
+
+VEX.256.66.0F38.WIG 20 /r 
+VPMOVSXBW ymm1, xmm2/m128 
+RM V/V AVX2 
+Sign extend 16 packed 8-bit integers in
+ xmm2/m128 to 16 packed 16-bit integers in
+ ymm1.
+
+VEX.256.66.0F38.WIG 21 /r 
+VPMOVSXBD ymm1, xmm2/m64 
+RM V/V AVX2 
+Sign extend 8 packed 8-bit integers in the low
+ 8 bytes of xmm2/m64 to 8 packed 32-bit
+ integers in ymm1.
+
+VEX.256.66.0F38.WIG 22 /r 
+VPMOVSXBQ ymm1, xmm2/m32 
+RM V/V AVX2 
+Sign extend 4 packed 8-bit integers in the low
+ 4 bytes of xmm2/m32 to 4 packed 64-bit
+ integers in ymm1.
+
+VEX.256.66.0F38.WIG 23 /r 
+VPMOVSXWD ymm1, xmm2/m128 
+RM V/V AVX2 
+Sign extend 8 packed 16-bit integers in the
+ low 16 bytes of xmm2/m128 to 8 packed 32-
+ bit integers in ymm1.
+
+VEX.256.66.0F38.WIG 24 /r 
+VPMOVSXWQ ymm1, xmm2/m64 
+RM V/V AVX2 
+Sign extend 4 packed 16-bit integers in the
+ low 8 bytes of xmm2/m64 to 4 packed 64-bit
+ integers in ymm1.
+
+VEX.256.66.0F38.WIG 25 /r 
+VPMOVSXDQ ymm1, xmm2/m128 
+RM V/V AVX2 
+Sign extend 4 packed 32-bit integers in the
+ low 16 bytes of xmm2/m128 to 4 packed 64-
+ bit integers in ymm1.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RM ModRM:reg (w) ModRM:r/m (r) NA NA
+
+Description
+Sign-extend the low byte/word/dword values in each word/dword/qword element of the source operand (second
+operand) to word/dword/qword integers and stored as packed data in the destination operand (first operand).
+128-bit Legacy SSE version: Bits (VLMAX-1:128) of the corresponding YMM destination register remain
+unchanged.
+VEX.128 encoded version: Bits (VLMAX-1:128) of the destination YMM register are zeroed.
+VEX.256 encoded version: The destination register is YMM Register.
+Note: VEX.vvvv is reserved and must be 1111b, VEX.L must be 0, otherwise the instruction will #UD.
+---------------------------------------------------------------------
+
+PMOVZX — Packed Move with Zero Extend
+
+Opcode/ Op/ 64/32 bit CPUID Description
+Instruction En Mode Feature 
+               Support Flag 
+
+66 0f 38 30 /r 
+PMOVZXBW xmm1, xmm2/m64
+RM V/V SSE4_1 
+Zero extend 8 packed 8-bit integers in the low
+ 8 bytes of xmm2/m64 to 8 packed 16-bit
+ integers in xmm1.
+
+66 0f 38 31 /r 
+PMOVZXBD xmm1, xmm2/m32
+RM V/V SSE4_1 
+Zero extend 4 packed 8-bit integers in the low
+ 4 bytes of xmm2/m32 to 4 packed 32-bit
+ integers in xmm1.
+
+66 0f 38 32 /r 
+PMOVZXBQ xmm1, xmm2/m16
+RM V/V SSE4_1 
+Zero extend 2 packed 8-bit integers in the low
+ 2 bytes of xmm2/m16 to 2 packed 64-bit
+ integers in xmm1.
+
+66 0f 38 33 /r 
+PMOVZXWD xmm1, xmm2/m64
+RM V/V SSE4_1 
+Zero extend 4 packed 16-bit integers in the
+ low 8 bytes of xmm2/m64 to 4 packed 32-bit
+ integers in xmm1.
+
+66 0f 38 34 /r 
+PMOVZXWQ xmm1, xmm2/m32
+RM V/V SSE4_1 
+Zero extend 2 packed 16-bit integers in the
+ low 4 bytes of xmm2/m32 to 2 packed 64-bit
+ integers in xmm1.
+
+66 0f 38 35 /r 
+PMOVZXDQ xmm1, xmm2/m64
+RM V/V SSE4_1 
+Zero extend 2 packed 32-bit integers in the
+ low 8 bytes of xmm2/m64 to 2 packed 64-bit
+ integers in xmm1.
+
+VEX.128.66.0F38.WIG 30 /r 
+VPMOVZXBW xmm1, xmm2/m64
+RM V/V AVX 
+Zero extend 8 packed 8-bit integers in the low
+ 8 bytes of xmm2/m64 to 8 packed 16-bit
+ integers in xmm1.
+
+VEX.128.66.0F38.WIG 31 /r 
+VPMOVZXBD xmm1, xmm2/m32
+RM V/V AVX 
+Zero extend 4 packed 8-bit integers in the low
+ 4 bytes of xmm2/m32 to 4 packed 32-bit
+ integers in xmm1.
+
+VEX.128.66.0F38.WIG 32 /r 
+VPMOVZXBQ xmm1, xmm2/m16
+RM V/V AVX 
+Zero extend 2 packed 8-bit integers in the low
+ 2 bytes of xmm2/m16 to 2 packed 64-bit
+ integers in xmm1.
+
+VEX.128.66.0F38.WIG 33 /r 
+VPMOVZXWD xmm1, xmm2/m64
+RM V/V AVX 
+Zero extend 4 packed 16-bit integers in the
+ low 8 bytes of xmm2/m64 to 4 packed 32-bit
+ integers in xmm1.
+
+VEX.128.66.0F38.WIG 34 /r 
+VPMOVZXWQ xmm1, xmm2/m32
+RM V/V AVX 
+Zero extend 2 packed 16-bit integers in the
+ low 4 bytes of xmm2/m32 to 2 packed 64-bit
+ integers in xmm1.
+
+VEX.128.66.0F38.WIG 35 /r 
+VPMOVZXDQ xmm1, xmm2/m64
+RM V/V AVX 
+Zero extend 2 packed 32-bit integers in the
+ low 8 bytes of xmm2/m64 to 2 packed 64-bit
+ integers in xmm1.
+
+VEX.256.66.0F38.WIG 30 /r 
+VPMOVZXBW ymm1, xmm2/m128
+RM V/V AVX2 
+Zero extend 16 packed 8-bit integers in the
+ low 16 bytes of xmm2/m128 to 16 packed
+ 16-bit integers in ymm1.
+
+VEX.256.66.0F38.WIG 31 /r 
+VPMOVZXBD ymm1, xmm2/m64
+RM V/V AVX2 
+Zero extend 8 packed 8-bit integers in the low
+ 8 bytes of xmm2/m64 to 8 packed 32-bit
+ integers in ymm1.
+
+VEX.256.66.0F38.WIG 32 /r 
+VPMOVZXBQ ymm1, xmm2/m32
+RM V/V AVX2 
+Zero extend 4 packed 8-bit integers in the low
+ 4 bytes of xmm2/m32 to 4 packed 64-bit
+ integers in ymm1.
+
+VEX.256.66.0F38.WIG 33 /r 
+VPMOVZXWD ymm1, xmm2/m128
+RM V/V AVX2 
+Zero extend 8 packed 16-bit integers in the
+ low 16 bytes of xmm2/m128 to 8 packed 32-
+ bit integers in ymm1.
+
+VEX.256.66.0F38.WIG 34 /r 
+VPMOVZXWQ ymm1, xmm2/m64
+RM V/V AVX2 
+Zero extend 4 packed 16-bit integers in the
+ low 8 bytes of xmm2/m64 to 4 packed 64-bit
+ integers in xmm1.
+
+VEX.256.66.0F38.WIG 35 /r 
+VPMOVZXDQ ymm1, xmm2/m128
+RM V/V AVX2 
+Zero extend 4 packed 32-bit integers in the
+ low 16 bytes of xmm2/m128 to 4 packed 64-
+ bit integers in ymm1.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RM ModRM:reg (w) ModRM:r/m (r) NA NA
+
+Description
+Zero-extend the low byte/word/dword values in each word/dword/qword element of the source operand (second
+operand) to word/dword/qword integers and stored as packed data in the destination operand (first operand).
+128-bit Legacy SSE version: Bits (VLMAX-1:128) of the corresponding YMM destination register remain
+unchanged.
+VEX.128 encoded version: Bits (VLMAX-1:128) of the destination YMM register are zeroed.
+VEX.256 encoded version: The destination register is YMM Register.
+Note: VEX.vvvv is reserved and must be 1111b, VEX.L must be 0, otherwise the instruction will #UD.
+---------------------------------------------------------------------
+
+PMULDQ — Multiply Packed Signed Dword Integers
+
+Opcode/ Op/ 64/32 bit CPUID Description
+Instruction En Mode Feature 
+               Support Flag 
+
+66 0F 38 28 /r 
+PMULDQ xmm1, xmm2/m128 
+RM V/V SSE4_1 
+Multiply the packed signed dword integers in
+ xmm1 and xmm2/m128 and store the
+ quadword product in xmm1.
+
+VEX.NDS.128.66.0F38.WIG 28 /r 
+VPMULDQ xmm1, xmm2, xmm3/m128 
+RVM V/V AVX 
+Multiply packed signed doubleword integers in
+ xmm2 by packed signed doubleword integers
+ in xmm3/m128, and store the quadword
+ results in xmm1.
+
+VEX.NDS.256.66.0F38.WIG 28 /r 
+VPMULDQ ymm1, ymm2, ymm3/m256 
+RVM V/V AVX2 
+Multiply packed signed doubleword integers in
+ ymm2 by packed signed doubleword integers
+ in ymm3/m256, and store the quadword
+ results in ymm1.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RM ModRM:reg (r, w) ModRM:r/m (r) NA NA
+RVM ModRM:reg (w) VEX.vvvv (r) ModRM:r/m (r) NA
+
+Description
+Multiplies the first source operand by the second source operand and stores the result in the destination operand.
+For PMULDQ and VPMULDQ (VEX.128 encoded version), the second source operand is two packed signed double-
+word integers stored in the first (low) and third doublewords of an XMM register or a 128-bit memory location. The
+first source operand is two packed signed doubleword integers stored in the first and third doublewords of an XMM
+register. The destination contains two packed signed quadword integers stored in an XMM register. For 128-bit
+memory operands, 128 bits are fetched from memory, but only the first and third doublewords are used in the
+computation.
+For VPMULDQ (VEX.256 encoded version), the second source operand is four packed signed doubleword integers
+stored in the first (low), third, fifth and seventh doublewords of an YMM register or a 256-bit memory location. The
+first source operand is four packed signed doubleword integers stored in the first, third, fifth and seventh double-
+words of an XMM register. The destination contains four packed signed quadword integers stored in an YMM
+register. For 256-bit memory operands, 256 bits are fetched from memory, but only the first, third, fifth and
+seventh doublewords are used in the computation.
+When a quadword result is too large to be represented in 64 bits (overflow), the result is wrapped around and the
+low 64 bits are written to the destination element (that is, the carry is ignored).
+128-bit Legacy SSE version: The first source and destination operands are XMM registers. The second source
+operand is an XMM register or a 128-bit memory location. Bits (VLMAX-1:128) of the corresponding YMM destina-
+tion register remain unchanged.
+VEX.128 encoded version: The first source and destination operands are XMM registers. The second source
+operand is an XMM register or a 128-bit memory location. Bits (VLMAX-1:128) of the destination YMM register are
+zeroed. VEX.L must be 0, otherwise the instruction will #UD.
+VEX.256 encoded version: The second source operand can be an YMM register or a 256-bit memory location. The
+first source and destination operands are YMM registers.
+---------------------------------------------------------------------
+
+PMULHRSW — Packed Multiply High with Round and Scale
+
+Opcode/ Op/ 64/32 bit CPUID Description
+Instruction En Mode Feature 
+               Support Flag 
+
+0F 38 0B /r 
+PMULHRSW mm1, mm2/m64
+RM V/V SSSE3 
+Multiply 16-bit signed words, scale and round
+ signed doublewords, pack high 16 bits to
+ mm1.
+
+66 0F 38 0B /r
+PMULHRSW xmm1, xmm2/m128
+RM V/V SSSE3 
+Multiply 16-bit signed words, scale and round
+ signed doublewords, pack high 16 bits to
+ xmm1.
+
+VEX.NDS.128.66.0F38.WIG 0B /r
+VPMULHRSW xmm1, xmm2, xmm3/m128
+RVM V/V AVX 
+Multiply 16-bit signed words, scale and round
+ signed doublewords, pack high 16 bits to
+ xmm1.
+
+VEX.NDS.256.66.0F38.WIG 0B /r
+VPMULHRSW ymm1, ymm2, ymm3/m256
+RVM V/V AVX2 
+Multiply 16-bit signed words, scale and round
+ signed doublewords, pack high 16 bits to
+ ymm1.
+
+NOTES:
+1. See note in Section 2.4, “Instruction Exception Specification” in the Intel® 64 and IA-32 Architectures Software Developer’s Manual,
+Volume 2A and Section 22.25.3, “Exception Conditions of Legacy SIMD Instructions Operating on MMX Registers” in the Intel® 64 and
+IA-32 Architectures Software Developer’s Manual, Volume 3A.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RM ModRM:reg (r, w) ModRM:r/m (r) NA NA
+RVM ModRM:reg (w) VEX.vvvv (r) ModRM:r/m (r) NA
+
+Description
+PMULHRSW multiplies vertically each signed 16-bit integer from the destination operand (first operand) with the
+corresponding signed 16-bit integer of the source operand (second operand), producing intermediate, signed 32-
+bit integers. Each intermediate 32-bit integer is truncated to the 18 most significant bits. Rounding is always
+performed by adding 1 to the least significant bit of the 18-bit intermediate result. The final result is obtained by
+selecting the 16 bits immediately to the right of the most significant bit of each 18-bit intermediate result and
+packed to the destination operand.
+When the source operand is a 128-bit memory operand, the operand must be aligned on a 16-byte boundary or a
+general-protection exception (#GP) will be generated.
+In 64-bit mode, use the REX prefix to access additional registers.
+Legacy SSE version: Both operands can be MMX registers. The second source operand is an MMX register or a 64-
+bit memory location.
+128-bit Legacy SSE version: The first source and destination operands are XMM registers. The second source
+operand is an XMM register or a 128-bit memory location. Bits (VLMAX-1:128) of the corresponding YMM destina-
+tion register remain unchanged.
+VEX.128 encoded version: The first source and destination operands are XMM registers. The second source
+operand is an XMM register or a 128-bit memory location. Bits (VLMAX-1:128) of the destination YMM register are
+zeroed. VEX.L must be 0, otherwise the instruction will #UD.
+VEX.256 encoded version: The second source operand can be an YMM register or a 256-bit memory location. The
+first source and destination operands are YMM registers.
+---------------------------------------------------------------------
+
+PMULHUW—Multiply Packed Unsigned Integers and Store High Result
+
+Opcode/ Op/ 64/32 bit CPUID Description
+Instruction En Mode Feature 
+               Support Flag 
+
+0F E4 /r 
+PMULHUW mm1, mm2/m64
+RM V/V SSE 
+Multiply the packed unsigned word integers in
+ mm1 register and mm2/m64, and store the
+ high 16 bits of the results in mm1.
+
+66 0F E4 /r
+PMULHUW xmm1, xmm2/m128
+RM V/V SSE2 
+Multiply the packed unsigned word integers in
+ xmm1 and xmm2/m128, and store the high
+ 16 bits of the results in xmm1.
+
+VEX.NDS.128.66.0F.WIG E4 /r
+VPMULHUW xmm1, xmm2, xmm3/m128
+RVM V/V AVX 
+Multiply the packed unsigned word integers in
+ xmm2 and xmm3/m128, and store the high
+ 16 bits of the results in xmm1.
+
+VEX.NDS.256.66.0F.WIG E4 /r
+VPMULHUW ymm1, ymm2, ymm3/m256
+RVM V/V AVX2 
+Multiply the packed unsigned word integers in
+ ymm2 and ymm3/m256, and store the high
+ 16 bits of the results in ymm1.
+
+NOTES:
+1. See note in Section 2.4, “Instruction Exception Specification” in the Intel® 64 and IA-32 Architectures Software Developer’s Manual,
+Volume 2A and Section 22.25.3, “Exception Conditions of Legacy SIMD Instructions Operating on MMX Registers” in the Intel® 64 and
+IA-32 Architectures Software Developer’s Manual, Volume 3A.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RM ModRM:reg (r, w) ModRM:r/m (r) NA NA
+RVM ModRM:reg (w) VEX.vvvv (r) ModRM:r/m (r) NA
+
+Description
+Performs a SIMD unsigned multiply of the packed unsigned word integers in the destination operand (first operand)
+and the source operand (second operand), and stores the high 16 bits of each 32-bit intermediate results in the
+destination operand. (Figure 4-8 shows this operation when using 64-bit operands.)
+In 64-bit mode, using a REX prefix in the form of REX.R permits this instruction to access additional registers
+(XMM8-XMM15).
+Legacy SSE version: The source operand can be an MMX technology register or a 64-bit memory location. The
+destination operand is an MMX technology register.
+128-bit Legacy SSE version: The first source and destination operands are XMM registers. The second source
+operand is an XMM register or a 128-bit memory location. Bits (VLMAX-1:128) of the corresponding YMM destina-
+tion register remain unchanged.
+VEX.128 encoded version: The first source and destination operands are XMM registers. The second source
+operand is an XMM register or a 128-bit memory location. Bits (VLMAX-1:128) of the destination YMM register are
+zeroed. VEX.L must be 0, otherwise the instruction will #UD.
+VEX.256 encoded version: The second source operand can be an YMM register or a 256-bit memory location. The
+first source and destination operands are YMM registers.
+---------------------------------------------------------------------
+
+PMULHW—Multiply Packed Signed Integers and Store High Result
+
+Opcode/ Op/ 64/32 bit CPUID Description
+Instruction En Mode Feature 
+               Support Flag 
+
+0F E5 /r 
+PMULHW mm, mm/m64
+RM V/V MMX 
+Multiply the packed signed word integers in
+ mm1 register and mm2/m64, and store the
+ high 16 bits of the results in mm1.
+
+66 0F E5 /r
+PMULHW xmm1, xmm2/m128
+RM V/V SSE2 
+Multiply the packed signed word integers in
+ xmm1 and xmm2/m128, and store the high
+ 16 bits of the results in xmm1.
+
+VEX.NDS.128.66.0F.WIG E5 /r
+VPMULHW xmm1, xmm2, xmm3/m128
+RVM V/V AVX 
+Multiply the packed signed word integers in
+ xmm2 and xmm3/m128, and store the high
+ 16 bits of the results in xmm1.
+
+VEX.NDS.256.66.0F.WIG E5 /r
+VPMULHW ymm1, ymm2, ymm3/m256
+RVM V/V AVX2 
+Multiply the packed signed word integers in
+ ymm2 and ymm3/m256, and store the high
+ 16 bits of the results in ymm1.
+
+NOTES:
+1. See note in Section 2.4, “Instruction Exception Specification” in the Intel® 64 and IA-32 Architectures Software Developer’s Manual,
+Volume 2A and Section 22.25.3, “Exception Conditions of Legacy SIMD Instructions Operating on MMX Registers” in the Intel® 64 and
+IA-32 Architectures Software Developer’s Manual, Volume 3A.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RM ModRM:reg (r, w) ModRM:r/m (r) NA NA
+RVM ModRM:reg (w) VEX.vvvv (r) ModRM:r/m (r) NA
+
+Description
+Performs a SIMD signed multiply of the packed signed word integers in the destination operand (first operand) and
+the source operand (second operand), and stores the high 16 bits of each intermediate 32-bit result in the destina-
+tion operand. (Figure 4-8 shows this operation when using 64-bit operands.)
+n 64-bit mode, using a REX prefix in the form of REX.R permits this instruction to access additional registers
+(XMM8-XMM15).
+Legacy SSE version: The source operand can be an MMX technology register or a 64-bit memory location. The
+destination operand is an MMX technology register.
+128-bit Legacy SSE version: The first source and destination operands are XMM registers. The second source
+operand is an XMM register or a 128-bit memory location. Bits (VLMAX-1:128) of the corresponding YMM destina-
+tion register remain unchanged.
+VEX.128 encoded version: The first source and destination operands are XMM registers. The second source
+operand is an XMM register or a 128-bit memory location. Bits (VLMAX-1:128) of the destination YMM register are
+zeroed. VEX.L must be 0, otherwise the instruction will #UD.
+VEX.256 encoded version: The second source operand can be an YMM register or a 256-bit memory location. The
+first source and destination operands are YMM registers.
+---------------------------------------------------------------------
+
+PMULLD — Multiply Packed Signed Dword Integers and Store Low Result
+
+Opcode/ Op/ 64/32 bit CPUID Description
+Instruction En Mode Feature 
+               Support Flag 
+
+66 0F 38 40 /r 
+PMULLD xmm1, xmm2/m128 
+RM V/V SSE4_1 
+Multiply the packed dword signed integers in
+ xmm1 and xmm2/m128 and store the low 32
+ bits of each product in xmm1.
+
+VEX.NDS.128.66.0F38.WIG 40 /r 
+VPMULLD xmm1, xmm2, xmm3/m128 
+RVM V/V AVX 
+Multiply the packed dword signed integers in
+ xmm2 and xmm3/m128 and store the low 32
+ bits of each product in xmm1.
+
+VEX.NDS.256.66.0F38.WIG 40 /r 
+VPMULLD ymm1, ymm2, ymm3/m256 
+RVM V/V AVX2 
+Multiply the packed dword signed integers in
+ ymm2 and ymm3/m256 and store the low 32
+ bits of each product in ymm1.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RM ModRM:reg (r, w) ModRM:r/m (r) NA NA
+RVM ModRM:reg (w) VEX.vvvv (r) ModRM:r/m (r) NA
+
+Description
+Performs four signed multiplications from four pairs of signed dword integers and stores the lower 32 bits of the
+four 64-bit products in the destination operand (first operand). Each dword element in the destination operand is
+multiplied with the corresponding dword element of the source operand (second operand) to obtain a 64-bit inter-
+mediate product.
+128-bit Legacy SSE version: The first source and destination operands are XMM registers. The second source
+operand is an XMM register or a 128-bit memory location. Bits (VLMAX-1:128) of the corresponding YMM destina-
+tion register remain unchanged.
+VEX.128 encoded version: The first source and destination operands are XMM registers. The second source
+operand is an XMM register or a 128-bit memory location. Bits (VLMAX-1:128) of the destination YMM register are
+zeroed.
+VEX.256 encoded version: The second source operand can be an YMM register or a 256-bit memory location. The
+first source and destination operands are YMM registers.
+Note: VEX.L must be 0, otherwise the instruction will #UD.
+---------------------------------------------------------------------
+
+PMULLW—Multiply Packed Signed Integers and Store Low Result
+
+Opcode/ Op/ 64/32 bit CPUID Description
+Instruction En Mode Feature 
+               Support Flag 
+
+0F D5 /r 
+PMULLW mm, mm/m64
+RM V/V MMX 
+Multiply the packed signed word integers in
+ mm1 register and mm2/m64, and store the
+ low 16 bits of the results in mm1.
+
+66 0F D5 /r
+PMULLW xmm1, xmm2/m128
+RM V/V SSE2 
+Multiply the packed signed word integers in
+ xmm1 and xmm2/m128, and store the low 16
+ bits of the results in xmm1.
+
+VEX.NDS.128.66.0F.WIG D5 /r
+VPMULLW xmm1, xmm2, xmm3/m128
+RVM V/V AVX 
+Multiply the packed dword signed integers in
+ xmm2 and xmm3/m128 and store the low 32
+ bits of each product in xmm1.
+
+VEX.NDS.256.66.0F.WIG D5 /r
+VPMULLW ymm1, ymm2, ymm3/m256
+RVM V/V AVX2 
+Multiply the packed signed word integers in
+ ymm2 and ymm3/m256, and store the low 16
+ bits of the results in ymm1.
+
+NOTES:
+1. See note in Section 2.4, “Instruction Exception Specification” in the Intel® 64 and IA-32 Architectures Software Developer’s Manual,
+Volume 2A and Section 22.25.3, “Exception Conditions of Legacy SIMD Instructions Operating on MMX Registers” in the Intel® 64 and
+IA-32 Architectures Software Developer’s Manual, Volume 3A.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RM ModRM:reg (r, w) ModRM:r/m (r) NA NA
+RVM ModRM:reg (w) VEX.vvvv (r) ModRM:r/m (r) NA
+
+Description
+Performs a SIMD signed multiply of the packed signed word integers in the destination operand (first operand) and
+the source operand (second operand), and stores the low 16 bits of each intermediate 32-bit result in the destina-
+tion operand. (Figure 4-8 shows this operation when using 64-bit operands.)
+In 64-bit mode, using a REX prefix in the form of REX.R permits this instruction to access additional registers
+(XMM8-XMM15).
+Legacy SSE version: The source operand can be an MMX technology register or a 64-bit memory location. The
+destination operand is an MMX technology register.
+128-bit Legacy SSE version: The first source and destination operands are XMM registers. The second source
+operand is an XMM register or a 128-bit memory location. Bits (VLMAX-1:128) of the corresponding YMM destina-
+tion register remain unchanged.
+VEX.128 encoded version: The first source and destination operands are XMM registers. The second source
+operand is an XMM register or a 128-bit memory location. Bits (VLMAX-1:128) of the destination YMM register are
+zeroed. VEX.L must be 0, otherwise the instruction will #UD.
+VEX.256 encoded version: The second source operand can be an YMM register or a 256-bit memory location. The
+first source and destination operands are YMM registers.
+---------------------------------------------------------------------
+
+PMULUDQ—Multiply Packed Unsigned Doubleword Integers
+
+Opcode/ Op/ 64/32 bit CPUID Description
+Instruction En Mode Feature 
+               Support Flag 
+
+0F F4 /r 
+PMULUDQ mm1, mm2/m64
+RM V/V SSE2 
+Multiply unsigned doubleword integer in mm1
+ by unsigned doubleword integer in mm2/m64,
+ and store the quadword result in mm1.
+
+66 0F F4 /r
+PMULUDQ xmm1, xmm2/m128
+RM V/V SSE2 
+Multiply packed unsigned doubleword integers
+ in xmm1 by packed unsigned doubleword
+ integers in xmm2/m128, and store the
+ quadword results in xmm1.
+
+VEX.NDS.128.66.0F.WIG F4 /r
+VPMULUDQ xmm1, xmm2, xmm3/m128
+RVM V/V AVX 
+Multiply packed unsigned doubleword integers
+ in xmm2 by packed unsigned doubleword
+ integers in xmm3/m128, and store the
+ quadword results in xmm1.
+
+VEX.NDS.256.66.0F.WIG F4 /r
+VPMULUDQ ymm1, ymm2, ymm3/m256
+RVM V/V AVX2 
+Multiply packed unsigned doubleword integers
+ in ymm2 by packed unsigned doubleword
+ integers in ymm3/m256, and store the
+ quadword results in ymm1.
+
+NOTES:
+1. See note in Section 2.4, “Instruction Exception Specification” in the Intel® 64 and IA-32 Architectures Software Developer’s Manual,
+Volume 2A and Section 22.25.3, “Exception Conditions of Legacy SIMD Instructions Operating on MMX Registers” in the Intel® 64 and
+IA-32 Architectures Software Developer’s Manual, Volume 3A.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RM ModRM:reg (r, w) ModRM:r/m (r) NA NA
+RVM ModRM:reg (w) VEX.vvvv (r) ModRM:r/m (r) NA
+
+Description
+Multiplies the first operand (destination operand) by the second operand (source operand) and stores the result in
+the destination operand.
+In 64-bit mode, using a REX prefix in the form of REX.R permits this instruction to access additional registers
+(XMM8-XMM15).
+Legacy SSE version: The source operand can be an unsigned doubleword integer stored in the low doubleword of
+an MMX technology register or a 64-bit memory location. The destination operand can be an unsigned doubleword
+integer stored in the low doubleword an MMX technology register. The result is an unsigned quadword integer
+stored in the destination an MMX technology register. When a quadword result is too large to be represented in 64
+bits (overflow), the result is wrapped around and the low 64 bits are written to the destination element (that is, the
+carry is ignored).
+For 64-bit memory operands, 64 bits are fetched from memory, but only the low doubleword is used in the compu-
+tation.
+128-bit Legacy SSE version: The second source operand is two packed unsigned doubleword integers stored in the
+first (low) and third doublewords of an XMM register or a 128-bit memory location. For 128-bit memory operands,
+128 bits are fetched from memory, but only the first and third doublewords are used in the computation.The first
+source operand is two packed unsigned doubleword integers stored in the first and third doublewords of an XMM
+register. The destination contains two packed unsigned quadword integers stored in an XMM register. Bits (VLMAX-
+1:128) of the corresponding YMM destination register remain unchanged.
+VEX.128 encoded version: The second source operand is two packed unsigned doubleword integers stored in the
+first (low) and third doublewords of an XMM register or a 128-bit memory location. For 128-bit memory operands,
+128 bits are fetched from memory, but only the first and third doublewords are used in the computation.The first
+---------------------------------------------------------------------
+
+POP—Pop a Value from the Stack
+
+Opcode Instruction Op/ 64-Bit Compat/ Description
+                   En Mode Leg Mode
+
+8F /0 
+POP r/m16 
+M Valid Valid 
+Pop top of stack into m16; increment stack
+ pointer.
+
+8F /0 
+POP r/m32 
+M N.E. Valid 
+Pop top of stack into m32; increment stack
+ pointer.
+
+8F /0 
+POP r/m64 
+M Valid N.E. 
+Pop top of stack into m64; increment stack
+ pointer. Cannot encode 32-bit operand size.
+
+58+ rw 
+POP r16 
+O Valid Valid 
+Pop top of stack into r16; increment stack
+ pointer.
+
+58+ rd 
+POP r32 
+O N.E. Valid 
+Pop top of stack into r32; increment stack
+ pointer.
+
+58+ rd 
+POP r64 
+O Valid N.E. 
+Pop top of stack into r64; increment stack
+ pointer. Cannot encode 32-bit operand size.
+
+1F 
+POP DS 
+NP Invalid Valid 
+Pop top of stack into DS; increment stack
+ pointer.
+
+07 
+POP ES 
+NP Invalid Valid 
+Pop top of stack into ES; increment stack
+ pointer.
+
+17 
+POP SS 
+NP Invalid Valid 
+Pop top of stack into SS; increment stack
+ pointer.
+
+0F A1 
+POP FS 
+NP Valid Valid 
+Pop top of stack into FS; increment stack
+ pointer by 16 bits.
+
+0F A1 
+POP FS 
+NP N.E. Valid 
+Pop top of stack into FS; increment stack
+ pointer by 32 bits.
+
+0F A1 
+POP FS 
+NP Valid N.E. 
+Pop top of stack into FS; increment stack
+ pointer by 64 bits.
+
+0F A9 
+POP GS 
+NP Valid Valid 
+Pop top of stack into GS; increment stack
+ pointer by 16 bits.
+
+0F A9 
+POP GS 
+NP N.E. Valid 
+Pop top of stack into GS; increment stack
+ pointer by 32 bits.
+
+0F A9 
+POP GS 
+NP Valid N.E. 
+Pop top of stack into GS; increment stack
+ pointer by 64 bits.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+M ModRM:r/m (w) NA NA NA
+O opcode + rd (w) NA NA NA
+NP NA NA NA NA
+
+Description
+Loads the value from the top of the stack to the location specified with the destination operand (or explicit opcode)
+and then increments the stack pointer. The destination operand can be a general-purpose register, memory loca-
+tion, or segment register.
+Address and operand sizes are determined and used as follows:
+Address size. The D flag in the current code-segment descriptor determines the default address size; it may be
+overridden by an instruction prefix (67H).
+---------------------------------------------------------------------
+
+POPA/POPAD—Pop All General-Purpose Registers
+
+Opcode Instruction Op/ 64-Bit Compat/ Description
+                   En Mode Leg Mode
+
+61 
+POPA 
+NP Invalid Valid 
+Pop DI, SI, BP, BX, DX, CX, and AX.
+
+61 
+POPAD 
+NP Invalid Valid 
+Pop EDI, ESI, EBP, EBX, EDX, ECX, and EAX.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+NP NA NA NA NA
+
+Description
+Pops doublewords (POPAD) or words (POPA) from the stack into the general-purpose registers. The registers are
+loaded in the following order: EDI, ESI, EBP, EBX, EDX, ECX, and EAX (if the operand-size attribute is 32) and DI,
+SI, BP, BX, DX, CX, and AX (if the operand-size attribute is 16). (These instructions reverse the operation of the
+PUSHA/PUSHAD instructions.) The value on the stack for the ESP or SP register is ignored. Instead, the ESP or SP
+register is incremented after each register is loaded.
+The POPA (pop all) and POPAD (pop all double) mnemonics reference the same opcode. The POPA instruction is
+intended for use when the operand-size attribute is 16 and the POPAD instruction for when the operand-size
+attribute is 32. Some assemblers may force the operand size to 16 when POPA is used and to 32 when POPAD is
+used (using the operand-size override prefix [66H] if necessary). Others may treat these mnemonics as synonyms
+(POPA/POPAD) and use the current setting of the operand-size attribute to determine the size of values to be
+popped from the stack, regardless of the mnemonic used. (The D flag in the current code segment’s segment
+descriptor determines the operand-size attribute.)
+This instruction executes as described in non-64-bit modes. It is not valid in 64-bit mode.
+---------------------------------------------------------------------
+
+POPCNT — Return the Count of Number of Bits Set to 1
+
+Opcode Instruction Op/ 64-Bit Compat/ Description
+                   En Mode Leg Mode
+
+F3 0F B8 /r 
+POPCNT r16, r/m16 
+RM Valid Valid 
+POPCNT on r/m16
+
+F3 0F B8 /r 
+POPCNT r32, r/m32 
+RM Valid Valid 
+POPCNT on r/m32
+
+F3 REX.W 0F B8 /r 
+POPCNT r64, r/m64 
+RM Valid N.E. 
+POPCNT on r/m64
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RM ModRM:reg (w) ModRM:r/m (r) NA NA
+
+Description
+This instruction calculates of number of bits set to 1 in the second operand (source) and returns the count in the
+first operand (a destination register).
+
+Operation
+Count = 0;
+For (i=0; i < OperandSize; i++)
+{
+IF (SRC[ i] = 1) // i’th bit
+THEN Count++; FI;
+}
+DEST  Count;
+
+Flags Affected
+OF, SF, ZF, AF, CF, PF are all cleared. ZF is set if SRC = 0, otherwise ZF is cleared
+---------------------------------------------------------------------
+
+POPF/POPFD/POPFQ—Pop Stack into EFLAGS Register
+
+Opcode Instruction Op/ 64-Bit Compat/ Description
+                   En Mode Leg Mode
+
+9D 
+POPF 
+NP Valid Valid 
+Pop top of stack into lower 16 bits of EFLAGS.
+
+9D 
+POPFD 
+NP N.E. Valid 
+Pop top of stack into EFLAGS.
+
+REX.W + 9D 
+POPFQ 
+NP Valid N.E. 
+Pop top of stack and zero-extend into RFLAGS.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+NP NA NA NA NA
+
+Description
+Pops a doubleword (POPFD) from the top of the stack (if the current operand-size attribute is 32) and stores the
+value in the EFLAGS register, or pops a word from the top of the stack (if the operand-size attribute is 16) and
+stores it in the lower 16 bits of the EFLAGS register (that is, the FLAGS register). These instructions reverse the
+operation of the PUSHF/PUSHFD instructions.
+The POPF (pop flags) and POPFD (pop flags double) mnemonics reference the same opcode. The POPF instruction
+is intended for use when the operand-size attribute is 16; the POPFD instruction is intended for use when the
+operand-size attribute is 32. Some assemblers may force the operand size to 16 for POPF and to 32 for POPFD.
+Others may treat the mnemonics as synonyms (POPF/POPFD) and use the setting of the operand-size attribute to
+determine the size of values to pop from the stack.
+The effect of POPF/POPFD on the EFLAGS register changes, depending on the mode of operation. When the
+processor is operating in protected mode at privilege level 0 (or in real-address mode, the equivalent to privilege
+level 0), all non-reserved flags in the EFLAGS register except RF1, VIP, VIF, and VM may be modified. VIP, VIF and
+VM remain unaffected.
+When operating in protected mode with a privilege level greater than 0, but less than or equal to IOPL, all flags can
+be modified except the IOPL field and VIP, VIF, and VM. Here, the IOPL flags are unaffected, the VIP and VIF flags
+are cleared, and the VM flag is unaffected. The interrupt flag (IF) is altered only when executing at a level at least
+as privileged as the IOPL. If a POPF/POPFD instruction is executed with insufficient privilege, an exception does not
+occur but privileged bits do not change.
+When operating in virtual-8086 mode, the IOPL must be equal to 3 to use POPF/POPFD instructions; VM, RF, IOPL,
+VIP, and VIF are unaffected. If the IOPL is less than 3, POPF/POPFD causes a general-protection exception (#GP).
+In 64-bit mode, use REX.W to pop the top of stack to RFLAGS. The mnemonic assigned is POPFQ (note that the 32-
+bit operand is not encodable). POPFQ pops 64 bits from the stack, loads the lower 32 bits into RFLAGS, and zero
+extends the upper bits of RFLAGS.
+See Chapter 3 of the Intel® 64 and IA-32 Architectures Software Developer’s Manual, Volume 1, for more informa-
+tion about the EFLAGS registers.
+---------------------------------------------------------------------
+
+POR—Bitwise Logical OR
+
+Opcode/ Op/ 64/32 bit CPUID Description
+Instruction En Mode Feature 
+               Support Flag 
+
+0F EB /r
+POR mm, mm/m64
+RM V/V MMX 
+Bitwise OR of mm/m64 and mm.
+
+66 0F EB /r
+POR xmm1, xmm2/m128
+RM V/V SSE2 
+Bitwise OR of xmm2/m128 and xmm1.
+
+VEX.NDS.128.66.0F.WIG EB /r
+VPOR xmm1, xmm2, xmm3/m128
+RVM V/V AVX 
+Bitwise OR of xmm2/m128 and xmm3.
+
+VEX.NDS.256.66.0F.WIG EB /r
+VPOR ymm1, ymm2, ymm3/m256
+RVM V/V AVX2 
+Bitwise OR of ymm2/m256 and ymm3.
+
+NOTES:
+1. See note in Section 2.4, “Instruction Exception Specification” in the Intel® 64 and IA-32 Architectures Software Developer’s Manual,
+Volume 2A and Section 22.25.3, “Exception Conditions of Legacy SIMD Instructions Operating on MMX Registers” in the Intel® 64 and
+IA-32 Architectures Software Developer’s Manual, Volume 3A.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RM ModRM:reg (r, w) ModRM:r/m (r) NA NA
+RVM ModRM:reg (w) VEX.vvvv (r) ModRM:r/m (r) NA
+
+Description
+Performs a bitwise logical OR operation on the source operand (second operand) and the destination operand (first
+operand) and stores the result in the destination operand. Each bit of the result is set to 1 if either or both of the
+corresponding bits of the first and second operands are 1; otherwise, it is set to 0.
+In 64-bit mode, using a REX prefix in the form of REX.R permits this instruction to access additional registers
+(XMM8-XMM15).
+Legacy SSE version: The source operand can be an MMX technology register or a 64-bit memory location. The
+destination operand is an MMX technology register.
+128-bit Legacy SSE version: The second source operand is an XMM register or a 128-bit memory location. The first
+source and destination operands can be XMM registers. Bits (VLMAX-1:128) of the corresponding YMM destination
+register remain unchanged.
+VEX.128 encoded version: The second source operand is an XMM register or a 128-bit memory location. The first
+source and destination operands can be XMM registers. Bits (VLMAX-1:128) of the destination YMM register are
+zeroed.
+VEX.256 encoded version: The second source operand is an YMM register or a 256-bit memory location. The first
+source and destination operands can be YMM registers.
+Note: VEX.L must be 0, otherwise the instruction will #UD.
+---------------------------------------------------------------------
+
+PREFETCHh—Prefetch Data Into Caches
+
+Opcode Instruction Op/ 64-Bit Compat/ Description
+                   En Mode Leg Mode
+
+0F 18 /1 
+PREFETCHT0 m8 
+M Valid Valid 
+Move data from m8 closer to the processor
+ using T0 hint.
+
+0F 18 /2 
+PREFETCHT1 m8 
+M Valid Valid 
+Move data from m8 closer to the processor
+ using T1 hint.
+
+0F 18 /3 
+PREFETCHT2 m8 
+M Valid Valid 
+Move data from m8 closer to the processor
+ using T2 hint.
+
+0F 18 /0 
+PREFETCHNTA m8 
+M Valid Valid 
+Move data from m8 closer to the processor
+ using NTA hint.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+M ModRM:r/m (r) NA NA NA
+
+Description
+Fetches the line of data from memory that contains the byte specified with the source operand to a location in the
+cache hierarchy specified by a locality hint:
+•
+T0 (temporal data)—prefetch data into all levels of the cache hierarchy.
+— Pentium III processor—1st- or 2nd-level cache.
+— Pentium 4 and Intel Xeon processors—2nd-level cache.
+•
+T1 (temporal data with respect to first level cache)—prefetch data into level 2 cache and higher.
+— Pentium III processor—2nd-level cache.
+— Pentium 4 and Intel Xeon processors—2nd-level cache.
+•
+T2 (temporal data with respect to second level cache)—prefetch data into level 2 cache and higher.
+— Pentium III processor—2nd-level cache.
+— Pentium 4 and Intel Xeon processors—2nd-level cache.
+•
+NTA (non-temporal data with respect to all cache levels)—prefetch data into non-temporal cache structure and
+into a location close to the processor, minimizing cache pollution.
+— Pentium III processor—1st-level cache
+— Pentium 4 and Intel Xeon processors—2nd-level cache
+The source operand is a byte memory location. (The locality hints are encoded into the machine level instruction
+using bits 3 through 5 of the ModR/M byte. Use of any ModR/M value other than the specified ones will lead to
+unpredictable behavior.)
+If the line selected is already present in the cache hierarchy at a level closer to the processor, no data movement
+occurs. Prefetches from uncacheable or WC memory are ignored.
+The PREFETCHh instruction is merely a hint and does not affect program behavior. If executed, this instruction
+moves data closer to the processor in anticipation of future use.
+The implementation of prefetch locality hints is implementation-dependent, and can be overloaded or ignored by a
+processor implementation. The amount of data prefetched is also processor implementation-dependent. It will,
+however, be a minimum of 32 bytes.
+It should be noted that processors are free to speculatively fetch and cache data from system memory regions that
+are assigned a memory-type that permits speculative reads (that is, the WB, WC, and WT memory types). A
+PREFETCHh instruction is considered a hint to this speculative behavior. Because this speculative fetching can occur
+at any time and is not tied to instruction execution, a PREFETCHh instruction is not ordered with respect to the
+---------------------------------------------------------------------
+
+PSADBW—Compute Sum of Absolute Differences
+
+Opcode/ Op/ 64/32 bit CPUID Description
+Instruction En Mode Feature 
+               Support Flag 
+
+0F F6 /r 
+PSADBW mm1, mm2/m64
+RM V/V SSE 
+Computes the absolute differences of the
+ packed unsigned byte integers from mm2
+ /m64 and mm1; differences are then summed
+ to produce an unsigned word integer result.
+
+66 0F F6 /r
+PSADBW xmm1, xmm2/m128
+RM V/V SSE2 
+Computes the absolute differences of the
+ packed unsigned byte integers from xmm2
+ /m128 and xmm1; the 8 low differences and 8
+ high differences are then summed separately
+ to produce two unsigned word integer results.
+
+VEX.NDS.128.66.0F.WIG F6 /r
+VPSADBW xmm1, xmm2, xmm3/m128
+RVM V/V AVX 
+Computes the absolute differences of the
+ packed unsigned byte integers from xmm3
+ /m128 and xmm2; the 8 low differences and 8
+ high differences are then summed separately
+ to produce two unsigned word integer results.
+
+VEX.NDS.256.66.0F.WIG F6 /r
+VPSADBW ymm1, ymm2, ymm3/m256
+RVM V/V AVX2 
+Computes the absolute differences of the
+ packed unsigned byte integers from ymm3
+ /m256 and ymm2; then each consecutive 8
+ differences are summed separately to produce
+ four unsigned word integer results.
+
+NOTES:
+1. See note in Section 2.4, “Instruction Exception Specification” in the Intel® 64 and IA-32 Architectures Software Developer’s Manual,
+Volume 2A and Section 22.25.3, “Exception Conditions of Legacy SIMD Instructions Operating on MMX Registers” in the Intel® 64 and
+IA-32 Architectures Software Developer’s Manual, Volume 3A.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RM ModRM:reg (r, w) ModRM:r/m (r) NA NA
+RVM ModRM:reg (w) VEX.vvvv (r) ModRM:r/m (r) NA
+
+Description
+Computes the absolute value of the difference of 8 unsigned byte integers from the source operand (second
+operand) and from the destination operand (first operand). These 8 differences are then summed to produce an
+unsigned word integer result that is stored in the destination operand. Figure 4-10 shows the operation of the
+PSADBW instruction when using 64-bit operands.
+When operating on 64-bit operands, the word integer result is stored in the low word of the destination operand,
+and the remaining bytes in the destination operand are cleared to all 0s.
+When operating on 128-bit operands, two packed results are computed. Here, the 8 low-order bytes of the source
+and destination operands are operated on to produce a word result that is stored in the low word of the destination
+operand, and the 8 high-order bytes are operated on to produce a word result that is stored in bits 64 through 79
+of the destination operand. The remaining bytes of the destination operand are cleared.
+In 64-bit mode, using a REX prefix in the form of REX.R permits this instruction to access additional registers
+(XMM8-XMM15).
+Legacy SSE version: The source operand can be an MMX technology register or a 64-bit memory location. The
+destination operand is an MMX technology register.
+128-bit Legacy SSE version: The first source operand and destination register are XMM registers. The second
+source operand is an XMM register or a 128-bit memory location. Bits (VLMAX-1:128) of the corresponding YMM
+destination register remain unchanged.
+---------------------------------------------------------------------
+
+
