@@ -1,0 +1,480 @@
+SMSW—Store Machine Status Word
+
+Opcode Instruction Op/ 64-Bit Compat/ Description
+                    En Mode Leg Mode
+
+0F 01 /4 
+SMSW r/m16 
+M Valid Valid 
+Store machine status word to r/m16.
+
+0F 01 /4 
+SMSW r32/m16 
+M Valid Valid 
+Store machine status word in low-order 16
+ bits of r32/m16; high-order 16 bits of r32 are
+ undefined.
+
+REX.W + 0F 01 /4 
+SMSW r64/m16 
+M Valid Valid 
+Store machine status word in low-order 16
+ bits of r64/m16; high-order 16 bits of r32 are
+ undefined.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+M ModRM:r/m (w) NA NA NA
+
+Description
+Stores the machine status word (bits 0 through 15 of control register CR0) into the destination operand. The desti-
+nation operand can be a general-purpose register or a memory location.
+In non-64-bit modes, when the destination operand is a 32-bit register, the low-order 16 bits of register CR0 are
+copied into the low-order 16 bits of the register and the high-order 16 bits are undefined. When the destination
+operand is a memory location, the low-order 16 bits of register CR0 are written to memory as a 16-bit quantity,
+regardless of the operand size.
+In 64-bit mode, the behavior of the SMSW instruction is defined by the following examples:
+SMSW r16 operand size 16, store CR0[15:0] in r16
+SMSW r32 operand size 32, zero-extend CR0[31:0], and store in r32
+SMSW r64 operand size 64, zero-extend CR0[63:0], and store in r64
+SMSW m16 operand size 16, store CR0[15:0] in m16
+SMSW m16 operand size 32, store CR0[15:0] in m16 (not m32)
+SMSW m16 operands size 64, store CR0[15:0] in m16 (not m64)
+SMSW is only useful in operating-system software. However, it is not a privileged instruction and can be used in
+application programs. The is provided for compatibility with the Intel 286 processor. Programs and procedures
+intended to run on the Pentium 4, Intel Xeon, P6 family, Pentium, Intel486, and Intel386 processors should use the
+MOV (control registers) instruction to load the machine status word.
+See “Changes to Instruction Behavior in VMX Non-Root Operation” in Chapter 25 of the Intel® 64 and IA-32 Archi-
+tectures Software Developer’s Manual, Volume 3C, for more information about the behavior of this instruction in
+VMX non-root operation.
+
+Operation
+DEST ← CR0[15:0];
+(* Machine status word *)
+
+Flags Affected
+None.
+---------------------------------------------------------------------
+
+SQRTPD—Compute Square Roots of Packed Double-Precision Floating-Point Values
+
+Opcode/ Op/ 64/32 bit CPUID Description
+Instruction En Mode Feature 
+               Support Flag 
+
+66 0F 51 /r 
+SQRTPD xmm1, xmm2/m128
+RM V/V SSE2 
+Computes square roots of the packed double-
+ precision floating-point values in xmm2/m128
+ and stores the results in xmm1.
+
+VEX.128.66.0F.WIG 51 /r
+VSQRTPD xmm1, xmm2/m128
+RM V/V AVX 
+Computes Square Roots of the packed double-
+ precision floating-point values in xmm2/m128
+ and stores the result in xmm1.
+
+VEX.256.66.0F.WIG 51/r
+VSQRTPD ymm1, ymm2/m256
+RM V/V AVX 
+Computes Square Roots of the packed double-
+ precision floating-point values in ymm2/m256
+ and stores the result in ymm1.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RM ModRM:reg (w) ModRM:r/m (r) NA NA
+
+Description
+Performs a SIMD computation of the square roots of the two packed double-precision floating-point values in the
+source operand (second operand) stores the packed double-precision floating-point results in the destination
+operand. The source operand can be an XMM register or a 128-bit memory location. The destination operand is an
+XMM register. See Figure 11-3 in the Intel® 64 and IA-32 Architectures Software Developer’s Manual, Volume 1,
+for an illustration of a SIMD double-precision floating-point operation.
+In 64-bit mode, using a REX prefix in the form of REX.R permits this instruction to access additional registers
+(XMM8-XMM15).
+128-bit Legacy SSE version: The second source can be an XMM register or 128-bit memory location. The destina-
+tion is not distinct from the first source XMM register and the upper bits (VLMAX-1:128) of the corresponding YMM
+register destination are unmodified.
+VEX.128 encoded version: the source operand second source operand or a 128-bit memory location. The destina-
+tion operand is an XMM register. The upper bits (VLMAX-1:128) of the corresponding YMM register destination are
+zeroed.
+VEX.256 encoded version: The source operand is a YMM register or a 256-bit memory location. The destination
+operand is a YMM register.
+Note: In VEX-encoded versions, VEX.vvvv is reserved and must be 1111b otherwise instructions will #UD.
+---------------------------------------------------------------------
+
+SQRTPS—Compute Square Roots of Packed Single-Precision Floating-Point Values
+
+Opcode/ Op/ 64/32 bit CPUID Description
+Instruction En Mode Feature 
+               Support Flag 
+
+0F 51 /r 
+SQRTPS xmm1, xmm2/m128
+RM V/V SSE 
+Computes square roots of the packed single-
+ precision floating-point values in xmm2/m128
+ and stores the results in xmm1.
+
+VEX.128.0F.WIG 51 /r
+VSQRTPS xmm1, xmm2/m128
+RM V/V AVX 
+Computes Square Roots of the packed single-
+ precision floating-point values in xmm2/m128
+ and stores the result in xmm1.
+
+VEX.256.0F.WIG 51/r
+VSQRTPS ymm1, ymm2/m256
+RM V/V AVX 
+Computes Square Roots of the packed single-
+ precision floating-point values in ymm2/m256
+ and stores the result in ymm1.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RM ModRM:reg (w) ModRM:r/m (r) NA NA
+
+Description
+Performs a SIMD computation of the square roots of the four packed single-precision floating-point values in the
+source operand (second operand) stores the packed single-precision floating-point results in the destination
+operand. The source operand can be an XMM register or a 128-bit memory location. The destination operand is an
+XMM register. See Figure 10-5 in the Intel® 64 and IA-32 Architectures Software Developer’s Manual, Volume 1,
+for an illustration of a SIMD single-precision floating-point operation.
+In 64-bit mode, using a REX prefix in the form of REX.R permits this instruction to access additional registers
+(XMM8-XMM15).
+128-bit Legacy SSE version: The second source can be an XMM register or 128-bit memory location. The destina-
+tion is not distinct from the first source XMM register and the upper bits (VLMAX-1:128) of the corresponding YMM
+register destination are unmodified.
+VEX.128 encoded version: the source operand second source operand or a 128-bit memory location. The destina-
+tion operand is an XMM register. The upper bits (VLMAX-1:128) of the corresponding YMM register destination are
+zeroed.
+VEX.256 encoded version: The source operand is a YMM register or a 256-bit memory location. The destination
+operand is a YMM register.
+Note: In VEX-encoded versions, VEX.vvvv is reserved and must be 1111b otherwise instructions will #UD.
+---------------------------------------------------------------------
+
+SQRTSD—Compute Square Root of Scalar Double-Precision Floating-Point Value
+
+Opcode/ Op/ 64/32 bit CPUID Description
+Instruction En Mode Feature 
+               Support Flag 
+
+F2 0F 51 /r 
+SQRTSD xmm1, xmm2/m64
+RM V/V SSE2 
+Computes square root of the low double-
+ precision floating-point value in xmm2/m64
+ and stores the results in xmm1.
+
+VEX.NDS.LIG.F2.0F.WIG 51/r
+VSQRTSD xmm1,xmm2, xmm3/m64
+RVM V/V AVX 
+Computes square root of the low double-
+ precision floating point value in xmm3/m64
+ and stores the results in xmm2. Also, upper
+ double precision floating-point value
+ (bits[127:64]) from xmm2 are copied to
+ xmm1[127:64].
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RM ModRM:reg (w) ModRM:r/m (r) NA NA
+RVM ModRM:reg (w) VEX.vvvv (r) ModRM:r/m (r) NA
+
+Description
+Computes the square root of the low double-precision floating-point value in the source operand (second operand)
+and stores the double-precision floating-point result in the destination operand. The source operand can be an XMM
+register or a 64-bit memory location. The destination operand is an XMM register. The high quadword of the desti-
+nation operand remains unchanged. See Figure 11-4 in the Intel® 64 and IA-32 Architectures Software Devel-
+oper’s Manual, Volume 1, for an illustration of a scalar double-precision floating-point operation.
+In 64-bit mode, using a REX prefix in the form of REX.R permits this instruction to access additional registers
+(XMM8-XMM15).
+128-bit Legacy SSE version: The first source operand and the destination operand are the same. Bits (VLMAX-
+1:64) of the corresponding YMM destination register remain unchanged.
+VEX.128 encoded version: Bits (VLMAX-1:128) of the destination YMM register are zeroed.
+---------------------------------------------------------------------
+
+SQRTSS—Compute Square Root of Scalar Single-Precision Floating-Point Value
+
+Opcode/ Op/ 64/32 bit CPUID Description
+Instruction En Mode Feature 
+               Support Flag 
+
+F3 0F 51 /r 
+SQRTSS xmm1, xmm2/m32
+RM V/V SSE 
+Computes square root of the low single-
+ precision floating-point value in xmm2/m32
+ and stores the results in xmm1.
+
+VEX.NDS.LIG.F3.0F.WIG 51/r
+VSQRTSS xmm1, xmm2, xmm3/m32
+RVM V/V AVX 
+Computes square root of the low single-
+ precision floating-point value in xmm3/m32
+ and stores the results in xmm1. Also, upper
+ single precision floating-point values
+ (bits[127:32]) from xmm2 are copied to
+ xmm1[127:32].
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RM ModRM:reg (w) ModRM:r/m (r) NA NA
+RVM ModRM:reg (w) VEX.vvvv (r) ModRM:r/m (r) NA
+
+Description
+Computes the square root of the low single-precision floating-point value in the source operand (second operand)
+and stores the single-precision floating-point result in the destination operand. The source operand can be an XMM
+register or a 32-bit memory location. The destination operand is an XMM register. The three high-order double-
+words of the destination operand remain unchanged. See Figure 10-6 in the Intel® 64 and IA-32 Architectures
+Software Developer’s Manual, Volume 1, for an illustration of a scalar single-precision floating-point operation.
+In 64-bit mode, using a REX prefix in the form of REX.R permits this instruction to access additional registers
+(XMM8-XMM15).
+128-bit Legacy SSE version: The first source operand and the destination operand are the same. Bits (VLMAX-
+1:32) of the corresponding YMM destination register remain unchanged.
+VEX.128 encoded version: Bits (VLMAX-1:128) of the destination YMM register are zeroed.
+
+Operation
+SQRTSS (128-bit Legacy SSE version)
+DEST[31:0]  SQRT(SRC2[31:0])
+DEST[VLMAX-1:32] (Unmodified)
+VSQRTSS (VEX.128 encoded version)
+DEST[31:0]  SQRT(SRC2[31:0])
+DEST[127:32]  SRC1[127:32]
+DEST[VLMAX-1:128]  0
+---------------------------------------------------------------------
+
+STC—Set Carry Flag
+
+Opcode Instruction Op/ 64-Bit Compat/ Description
+                    En Mode Leg Mode
+
+F9 
+STC 
+NP Valid Valid
+Set CF flag.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+NP NA NA NA NA
+
+Description
+Sets the CF flag in the EFLAGS register.
+This instruction’s operation is the same in non-64-bit modes and 64-bit mode.
+
+Operation
+CF ← 1;
+
+Flags Affected
+The CF flag is set. The OF, ZF, SF, AF, and PF flags are unaffected.
+---------------------------------------------------------------------
+
+STD—Set Direction Flag
+
+Opcode Instruction Op/ 64-Bit Compat/ Description
+                    En Mode Leg Mode
+
+FD 
+STD 
+NP Valid Valid
+Set DF flag.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+NP NA NA NA NA
+
+Description
+Sets the DF flag in the EFLAGS register. When the DF flag is set to 1, string operations decrement the index regis-
+ters (ESI and/or EDI).
+This instruction’s operation is the same in non-64-bit modes and 64-bit mode.
+
+Operation
+DF ← 1;
+
+Flags Affected
+The DF flag is set. The CF, OF, ZF, SF, AF, and PF flags are unaffected.
+---------------------------------------------------------------------
+
+STI—Set Interrupt Flag
+
+Opcode Instruction Op/ 64-Bit Compat/ Description
+                    En Mode Leg Mode
+
+FB 
+STI 
+NP Valid Valid
+Set interrupt flag; external, maskable
+interrupts enabled at the end of the next
+instruction.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+NP NA NA NA NA
+
+Description
+If protected-mode virtual interrupts are not enabled, STI sets the interrupt flag (IF) in the EFLAGS register. After
+the IF flag is set, the processor begins responding to external, maskable interrupts after the next instruction is
+executed. The delayed effect of this instruction is provided to allow interrupts to be enabled just before returning
+from a procedure (or subroutine). For instance, if an STI instruction is followed by an RET instruction, the RET
+instruction is allowed to execute before external interrupts are recognized1. If the STI instruction is followed by a
+CLI instruction (which clears the IF flag), the effect of the STI instruction is negated.
+The IF flag and the STI and CLI instructions do not prohibit the generation of exceptions and NMI interrupts. NMI
+interrupts (and SMIs) may be blocked for one macroinstruction following an STI.
+When protected-mode virtual interrupts are enabled, CPL is 3, and IOPL is less than 3; STI sets the VIF flag in the
+EFLAGS register, leaving IF unaffected.
+Table 4-15 indicates the action of the STI instruction depending on the processor’s mode of operation and the
+CPL/IOPL settings of the running program or procedure.
+This instruction’s operation is the same in non-64-bit modes and 64-bit mode.
+Table 4-15. Decision Table for STI Results
+---------------------------------------------------------------------
+
+STMXCSR—Store MXCSR Register State
+
+Opcode/ Op/ 64/32 bit CPUID Description
+Instruction En Mode Feature 
+               Support Flag 
+
+0F AE /3 
+STMXCSR m32
+M V/V SSE 
+Store contents of MXCSR register to m32.
+
+VEX.LZ.0F.WIG AE /3
+VSTMXCSR m32
+M V/V AVX 
+Store contents of MXCSR register to m32.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+M ModRM:r/m (w) NA NA NA
+
+Description
+Stores the contents of the MXCSR control and status register to the destination operand. The destination operand
+is a 32-bit memory location. The reserved bits in the MXCSR register are stored as 0s.
+This instruction’s operation is the same in non-64-bit modes and 64-bit mode.
+VEX.L must be 0, otherwise instructions will #UD.
+Note: In VEX-encoded versions, VEX.vvvv is reserved and must be 1111b, otherwise instructions will #UD.
+
+Operation
+m32 ← MXCSR;
+---------------------------------------------------------------------
+
+STOS/STOSB/STOSW/STOSD/STOSQ—Store String
+
+Opcode Instruction Op/ 64-Bit Compat/ Description
+                   En Mode Leg Mode
+
+AA 
+STOS m8 
+NA Valid Valid 
+For legacy mode, store AL at address ES:(E)DI;
+ For 64-bit mode store AL at address RDI or
+ EDI.
+
+AB 
+STOS m16 
+NA Valid Valid 
+For legacy mode, store AX at address ES:(E)DI;
+ For 64-bit mode store AX at address RDI or
+ EDI.
+
+AB 
+STOS m32 
+NA Valid Valid 
+For legacy mode, store EAX at address
+ ES:(E)DI; For 64-bit mode store EAX at address
+ RDI or EDI.
+
+REX.W + AB 
+STOS m64 
+NA Valid N.E. 
+Store RAX at address RDI or EDI.
+
+AA 
+STOSB 
+NA Valid Valid 
+For legacy mode, store AL at address ES:(E)DI;
+ For 64-bit mode store AL at address RDI or
+ EDI.
+
+AB 
+STOSW 
+NA Valid Valid 
+For legacy mode, store AX at address ES:(E)DI;
+ For 64-bit mode store AX at address RDI or
+ EDI.
+
+AB 
+STOSD 
+NA Valid Valid 
+For legacy mode, store EAX at address
+ ES:(E)DI; For 64-bit mode store EAX at address
+ RDI or EDI.
+
+REX.W + AB 
+STOSQ 
+NA Valid N.E. 
+Store RAX at address RDI or EDI.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+NA NA NA NA NA
+
+Description
+In non-64-bit and default 64-bit mode; stores a byte, word, or doubleword from the AL, AX, or EAX register
+(respectively) into the destination operand. The destination operand is a memory location, the address of which is
+read from either the ES:EDI or ES:DI register (depending on the address-size attribute of the instruction and the
+mode of operation). The ES segment cannot be overridden with a segment override prefix.
+At the assembly-code level, two forms of the instruction are allowed: the “explicit-operands” form and the “no-
+operands” form. The explicit-operands form (specified with the STOS mnemonic) allows the destination operand to
+be specified explicitly. Here, the destination operand should be a symbol that indicates the size and location of the
+destination value. The source operand is then automatically selected to match the size of the destination operand
+(the AL register for byte operands, AX for word operands, EAX for doubleword operands). The explicit-operands
+form is provided to allow documentation; however, note that the documentation provided by this form can be
+misleading. That is, the destination operand symbol must specify the correct type (size) of the operand (byte,
+word, or doubleword), but it does not have to specify the correct location. The location is always specified by the
+ES:(E)DI register. These must be loaded correctly before the store string instruction is executed.
+The no-operands form provides “short forms” of the byte, word, doubleword, and quadword versions of the STOS
+instructions. Here also ES:(E)DI is assumed to be the destination operand and AL, AX, or EAX is assumed to be the
+source operand. The size of the destination and source operands is selected by the mnemonic: STOSB (byte read
+from register AL), STOSW (word from AX), STOSD (doubleword from EAX).
+After the byte, word, or doubleword is transferred from the register to the memory location, the (E)DI register is
+incremented or decremented according to the setting of the DF flag in the EFLAGS register. If the DF flag is 0, the
+register is incremented; if the DF flag is 1, the register is decremented (the register is incremented or decremented
+by 1 for byte operations, by 2 for word operations, by 4 for doubleword operations).
+---------------------------------------------------------------------
+
+STR—Store Task Register
+
+Opcode Instruction Op/ 64-Bit Compat/ Description
+                   En Mode Leg Mode
+
+0F 00 /1 
+STR r/m16 
+M Valid Valid
+Stores segment selector from TR in r/m16.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+M ModRM:r/m (w) NA NA NA
+
+Description
+Stores the segment selector from the task register (TR) in the destination operand. The destination operand can be
+a general-purpose register or a memory location. The segment selector stored with this instruction points to the
+task state segment (TSS) for the currently running task.
+When the destination operand is a 32-bit register, the 16-bit segment selector is copied into the lower 16 bits of the
+register and the upper 16 bits of the register are cleared. When the destination operand is a memory location, the
+segment selector is written to memory as a 16-bit quantity, regardless of operand size.
+In 64-bit mode, operation is the same. The size of the memory operand is fixed at 16 bits. In register stores, the
+2-byte TR is zero extended if stored to a 64-bit register.
+The STR instruction is useful only in operating-system software. It can only be executed in protected mode.
+
+Operation
+DEST ← TR(SegmentSelector);
+
+Flags Affected
+None.
+---------------------------------------------------------------------
