@@ -1,0 +1,1460 @@
+VFMSUBADD132PD/VFMSUBADD213PD/VFMSUBADD231PD — Fused Multiply-Alternating
+Subtract/Add of Packed Double-Precision Floating-Point Values
+
+Opcode/ Op/
+Instruction En
+64/32 CPUID 
+  -bit Feature 
+  Mode Flag 
+  Description
+
+VEX.DDS.128.66.0F38.W1 97 /r 
+VFMSUBADD132PD xmm0, xmm1, xmm2/m128 
+A V/V FMA 
+Multiply packed double-precision floating-point
+ values from xmm0 and xmm2/mem, subtract/add
+ elements in xmm1 and put result in xmm0.
+
+VEX.DDS.128.66.0F38.W1 A7 /r 
+VFMSUBADD213PD xmm0, xmm1, xmm2/m128
+A V/V FMA 
+Multiply packed double-precision floating-point
+ values from xmm0 and xmm1, subtract/add ele-
+ ments in xmm2/mem and put result in xmm0.
+
+VEX.DDS.128.66.0F38.W1 B7 /r 
+VFMSUBADD231PD xmm0, xmm1, xmm2/m128
+A V/V FMA 
+Multiply packed double-precision floating-point
+ values from xmm1 and xmm2/mem, subtract/add
+ elements in xmm0 and put result in xmm0.
+
+VEX.DDS.256.66.0F38.W1 97 /r 
+VFMSUBADD132PD ymm0, ymm1, ymm2/m256
+A V/V FMA 
+Multiply packed double-precision floating-point
+ values from ymm0 and ymm2/mem, subtract/add
+ elements in ymm1 and put result in ymm0.
+
+VEX.DDS.256.66.0F38.W1 A7 /r 
+VFMSUBADD213PD ymm0, ymm1, ymm2/m256
+A V/V FMA 
+Multiply packed double-precision floating-point
+ values from ymm0 and ymm1, subtract/add ele-
+ ments in ymm2/mem and put result in ymm0.
+
+VEX.DDS.256.66.0F38.W1 B7 /r 
+VFMSUBADD231PD ymm0, ymm1, ymm2/m256
+A V/V FMA 
+Multiply packed double-precision floating-point
+ values from ymm1 and ymm2/mem, subtract/add
+ elements in ymm0 and put result in ymm0.
+
+
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+A ModRM:reg (r, w) VEX.vvvv (r) ModRM:r/m (r) NA
+
+Description
+VFMSUBADD132PD: Multiplies the two or four packed double-precision floating-point values from the first source
+operand to the two or four packed double-precision floating-point values in the third source operand. From the infi-
+nite precision intermediate result, subtracts the odd double-precision floating-point elements and adds the even
+double-precision floating-point values in the second source operand, performs rounding and stores the resulting
+two or four packed double-precision floating-point values to the destination operand (first source operand).
+VFMSUBADD213PD: Multiplies the two or four packed double-precision floating-point values from the second
+source operand to the two or four packed double-precision floating-point values in the first source operand. From
+the infinite precision intermediate result, subtracts the odd double-precision floating-point elements and adds the
+even double-precision floating-point values in the third source operand, performs rounding and stores the resulting
+two or four packed double-precision floating-point values to the destination operand (first source operand).
+VFMSUBADD231PD: Multiplies the two or four packed double-precision floating-point values from the second
+source operand to the two or four packed double-precision floating-point values in the third source operand. From
+the infinite precision intermediate result, subtracts the odd double-precision floating-point elements and adds the
+even double-precision floating-point values in the first source operand, performs rounding and stores the resulting
+two or four packed double-precision floating-point values to the destination operand (first source operand).
+VEX.128 encoded version: The destination operand (also first source operand) is a XMM register and encoded in
+reg_field. The second source operand is a XMM register and encoded in VEX.vvvv. The third source operand is a
+XMM register or a 128-bit memory location and encoded in rm_field. The upper 128 bits of the YMM destination
+register are zeroed.
+VEX.256 encoded version: The destination operand (also first source operand) is a YMM register and encoded in
+reg_field. The second source operand is a YMM register and encoded in VEX.vvvv. The third source operand is a
+YMM register or a 256-bit memory location and encoded in rm_field.
+Compiler tools may optionally support a complementary mnemonic for each instruction mnemonic listed in the
+opcode/instruction column of the summary table. The behavior of the complementary mnemonic in situations
+involving NANs are governed by the definition of the instruction mnemonic defined in the opcode/instruction
+column. See also Section 2.3.1, “FMA Instruction Operand Order and Arithmetic Behavior”.
+---------------------------------------------------------------------
+
+VFMSUBADD132PS/VFMSUBADD213PS/VFMSUBADD231PS — Fused Multiply-Alternating
+Subtract/Add of Packed Single-Precision Floating-Point Values
+
+Opcode/ Op/
+Instruction En
+64/32 
+-bit Feature 
+CPUID 
+Mode Flag 
+Description
+
+VEX.DDS.128.66.0F38.W0 97 /r 
+VFMSUBADD132PS xmm0, xmm1, xmm2/m128 
+A V/V FMA 
+Multiply packed single-precision floating-point
+values from xmm0 and xmm2/mem, subtract/add
+elements in xmm1 and put result in xmm0.
+
+VEX.DDS.128.66.0F38.W0 A7 /r 
+VFMSUBADD213PS xmm0, xmm1, xmm2/m128
+A V/V FMA 
+Multiply packed single-precision floating-point
+ values from xmm0 and xmm1, subtract/add ele-
+ ments in xmm2/mem and put result in xmm0.
+
+VEX.DDS.128.66.0F38.W0 B7 /r 
+VFMSUBADD231PS xmm0, xmm1, xmm2/m128 
+A V/V FMA 
+Multiply packed single-precision floating-point
+ values from xmm1 and xmm2/mem, sub-
+ tract/add elements in xmm0 and put result in
+ xmm0.
+ 
+VEX.DDS.256.66.0F38.W0 97 /r 
+VFMSUBADD132PS ymm0, ymm1, ymm2/m256
+A V/V FMA 
+Multiply packed single-precision floating-point
+ values from ymm0 and ymm2/mem, subtract/add
+ elements in ymm1 and put result in ymm0.
+
+VEX.DDS.256.66.0F38.W0 A7 /r 
+VFMSUBADD213PS ymm0, ymm1, ymm2/m256
+A V/V FMA 
+Multiply packed single-precision floating-point
+ values from ymm0 and ymm1, subtract/add ele-
+ ments in ymm2/mem and put result in ymm0.
+
+VEX.DDS.256.66.0F38.W0 B7 /r 
+VFMSUBADD231PS ymm0, ymm1, ymm2/m256
+A V/V FMA 
+Multiply packed single-precision floating-point
+ values from ymm1 and ymm2/mem, subtract/add
+ elements in ymm0 and put result in ymm0.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+A ModRM:reg (r, w) VEX.vvvv (r) ModRM:r/m (r) NA
+
+Description
+VFMSUBADD132PS: Multiplies the four or eight packed single-precision floating-point values from the first source
+operand to the four or eight packed single-precision floating-point values in the third source operand. From the infi-
+nite precision intermediate result, subtracts the odd single-precision floating-point elements and adds the even
+single-precision floating-point values in the second source operand, performs rounding and stores the resulting
+four or eight packed single-precision floating-point values to the destination operand (first source operand).
+VFMSUBADD213PS: Multiplies the four or eight packed single-precision floating-point values from the second
+source operand to the four or eight packed single-precision floating-point values in the first source operand. From
+the infinite precision intermediate result, subtracts the odd single-precision floating-point elements and adds the
+even single-precision floating-point values in the third source operand, performs rounding and stores the resulting
+four or eight packed single-precision floating-point values to the destination operand (first source operand).
+VFMSUBADD231PS: Multiplies the four or eight packed single-precision floating-point values from the second
+source operand to the four or eight packed single-precision floating-point values in the third source operand. From
+the infinite precision intermediate result, subtracts the odd single-precision floating-point elements and adds the
+even single-precision floating-point values in the first source operand, performs rounding and stores the resulting
+four or eight packed single-precision floating-point values to the destination operand (first source operand).
+VEX.128 encoded version: The destination operand (also first source operand) is a XMM register and encoded in
+reg_field. The second source operand is a XMM register and encoded in VEX.vvvv. The third source operand is a
+XMM register or a 128-bit memory location and encoded in rm_field. The upper 128 bits of the YMM destination
+register are zeroed.
+VEX.256 encoded version: The destination operand (also first source operand) is a YMM register and encoded in
+reg_field. The second source operand is a YMM register and encoded in VEX.vvvv. The third source operand is a
+YMM register or a 256-bit memory location and encoded in rm_field.
+VFMSUBADD132PS/VFMSUBADD213PS/VFMSUBADD231PS — Fused Multiply-Alternating Subtract/Add of Packed Single-Precision
+Vol. 2B 4-455INSTRUCTION SET REFERENCE, N-Z
+Compiler tools may optionally support a complementary mnemonic for each instruction mnemonic listed in the
+opcode/instruction column of the summary table. The behavior of the complementary mnemonic in situations
+involving NANs are governed by the definition of the instruction mnemonic defined in the opcode/instruction
+column. See also Section 2.3.1, “FMA Instruction Operand Order and Arithmetic Behavior”.
+---------------------------------------------------------------------
+
+VFMSUB132PD/VFMSUB213PD/VFMSUB231PD — Fused Multiply-Subtract of Packed Double-
+Precision Floating-Point Values
+
+Opcode/ Op/
+Instruction En
+CPUID Description
+Feature 
+Flag 
+64/32 
+-bit 
+Mode 
+
+VEX.DDS.128.66.0F38.W1 9A /r 
+VFMSUB132PD xmm0, xmm1, xmm2/m128 
+A V/V FMA 
+Multiply packed double-precision floating-point val-
+ues from xmm0 and xmm2/mem, subtract xmm1
+and put result in xmm0.
+
+VEX.DDS.128.66.0F38.W1 AA /r 
+VFMSUB213PD xmm0, xmm1, xmm2/m128 
+A V/V FMA 
+Multiply packed double-precision floating-point val-
+ues from xmm0 and xmm1, subtract xmm2/mem
+and put result in xmm0.
+
+VEX.DDS.128.66.0F38.W1 BA /r 
+VFMSUB231PD xmm0, xmm1, xmm2/m128 
+A V/V FMA 
+Multiply packed double-precision floating-point val-
+ ues from xmm1 and xmm2/mem, subtract xmm0
+ and put result in xmm0.
+
+VEX.DDS.256.66.0F38.W1 9A /r 
+VFMSUB132PD ymm0, ymm1, ymm2/m256
+A V/V FMA 
+Multiply packed double-precision floating-point val-
+ ues from ymm0 and ymm2/mem, subtract ymm1
+ and put result in ymm0.
+
+VEX.DDS.256.66.0F38.W1 AA /r 
+VFMSUB213PD ymm0, ymm1, ymm2/m256 
+A V/V FMA 
+Multiply packed double-precision floating-point val-
+ ues from ymm0 and ymm1, subtract ymm2/mem
+ and put result in ymm0.
+
+VEX.DDS.256.66.0F38.W1 BA /r 
+VFMSUB231PD ymm0, ymm1, ymm2/m256
+A V/V FMA 
+Multiply packed double-precision floating-point val-
+ ues from ymm1 and ymm2/mem, subtract ymm0
+ and put result in ymm0.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+A ModRM:reg (r, w) VEX.vvvv (r) ModRM:r/m (r) NA
+
+Description
+Performs a set of SIMD multiply-subtract computation on packed double-precision floating-point values using three
+source operands and writes the multiply-subtract results in the destination operand. The destination operand is
+also the first source operand. The second operand must be a SIMD register. The third source operand can be a
+SIMD register or a memory location.
+VFMSUB132PD: Multiplies the two or four packed double-precision floating-point values from the first source
+operand to the two or four packed double-precision floating-point values in the third source operand. From the infi-
+nite precision intermediate result, subtracts the two or four packed double-precision floating-point values in the
+second source operand, performs rounding and stores the resulting two or four packed double-precision floating-
+point values to the destination operand (first source operand).
+VFMSUB213PD: Multiplies the two or four packed double-precision floating-point values from the second source
+operand to the two or four packed double-precision floating-point values in the first source operand. From the infi-
+nite precision intermediate result, subtracts the two or four packed double-precision floating-point values in the
+third source operand, performs rounding and stores the resulting two or four packed double-precision floating-
+point values to the destination operand (first source operand).
+VFMSUB231PD: Multiplies the two or four packed double-precision floating-point values from the second source to
+the two or four packed double-precision floating-point values in the third source operand. From the infinite preci-
+sion intermediate result, subtracts the two or four packed double-precision floating-point values in the first source
+operand, performs rounding and stores the resulting two or four packed double-precision floating-point values to
+the destination operand (first source operand).
+VEX.128 encoded version: The destination operand (also first source operand) is a XMM register and encoded in
+reg_field. The second source operand is a XMM register and encoded in VEX.vvvv. The third source operand is a
+XMM register or a 128-bit memory location and encoded in rm_field. The upper 128 bits of the YMM destination
+register are zeroed.
+VEX.256 encoded version: The destination operand (also first source operand) is a YMM register and encoded in
+reg_field. The second source operand is a YMM register and encoded in VEX.vvvv. The third source operand is a
+YMM register or a 256-bit memory location and encoded in rm_field.
+Compiler tools may optionally support a complementary mnemonic for each instruction mnemonic listed in the
+opcode/instruction column of the summary table. The behavior of the complementary mnemonic in situations
+involving NANs are governed by the definition of the instruction mnemonic defined in the opcode/instruction
+column. See also Section 2.3.1, “FMA Instruction Operand Order and Arithmetic Behavior”.
+---------------------------------------------------------------------
+
+VFMSUB132PS/VFMSUB213PS/VFMSUB231PS — Fused Multiply-Subtract of Packed Single-
+Precision Floating-Point Values
+
+Opcode/ Op/
+Instruction En
+64/32 CPUID 
+  -bit Feature 
+  Mode Flag 
+  Description
+
+VEX.DDS.128.66.0F38.W0 9A /r 
+VFMSUB132PS xmm0, xmm1, xmm2/m128 
+A V/V FMA 
+Multiply packed single-precision floating-point values
+from xmm0 and xmm2/mem, subtract xmm1 and put
+result in xmm0.
+
+VEX.DDS.128.66.0F38.W0 AA /r 
+VFMSUB213PS xmm0, xmm1, xmm2/m128 
+A V/V FMA 
+Multiply packed single-precision floating-point values
+ from xmm0 and xmm1, subtract xmm2/mem and put
+ result in xmm0.
+
+VEX.DDS.128.66.0F38.W0 BA /r 
+VFMSUB231PS xmm0, xmm1, xmm2/m128 
+A V/V FMA 
+Multiply packed single-precision floating-point values
+ from xmm1 and xmm2/mem, subtract xmm0 and put
+ result in xmm0.
+
+VEX.DDS.256.66.0F38.W0 9A /r 
+VFMSUB132PS ymm0, ymm1, ymm2/m256 
+A V/V FMA 
+Multiply packed single-precision floating-point values
+ from ymm0 and ymm2/mem, subtract ymm1 and put
+ result in ymm0.
+
+VEX.DDS.256.66.0F38.W0 AA /r 
+VFMSUB213PS ymm0, ymm1, ymm2/m256 
+A V/V FMA 
+Multiply packed single-precision floating-point values
+ from ymm0 and ymm1, subtract ymm2/mem and put
+ result in ymm0.
+
+VEX.DDS.256.66.0F38.0 BA /r 
+VFMSUB231PS ymm0, ymm1, ymm2/m256 
+A V/V FMA 
+Multiply packed single-precision floating-point values
+ from ymm1 and ymm2/mem, subtract ymm0 and put
+ result in ymm0.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+A ModRM:reg (r, w) VEX.vvvv (r) ModRM:r/m (r) NA
+
+Description
+Performs a set of SIMD multiply-subtract computation on packed single-precision floating-point values using three
+source operands and writes the multiply-subtract results in the destination operand. The destination operand is
+also the first source operand. The second operand must be a SIMD register. The third source operand can be a
+SIMD register or a memory location.
+VFMSUB132PS: Multiplies the four or eight packed single-precision floating-point values from the first source
+operand to the four or eight packed single-precision floating-point values in the third source operand. From the infi-
+nite precision intermediate result, subtracts the four or eight packed single-precision floating-point values in the
+second source operand, performs rounding and stores the resulting four or eight packed single-precision floating-
+point values to the destination operand (first source operand).
+VFMSUB213PS: Multiplies the four or eight packed single-precision floating-point values from the second source
+operand to the four or eight packed single-precision floating-point values in the first source operand. From the infi-
+nite precision intermediate result, subtracts the four or eight packed single-precision floating-point values in the
+third source operand, performs rounding and stores the resulting four or eight packed single-precision floating-
+point values to the destination operand (first source operand).
+VFMSUB231PS: Multiplies the four or eight packed single-precision floating-point values from the second source to
+the four or eight packed single-precision floating-point values in the third source operand. From the infinite preci-
+sion intermediate result, subtracts the four or eight packed single-precision floating-point values in the first source
+operand, performs rounding and stores the resulting four or eight packed single-precision floating-point values to
+the destination operand (first source operand).
+VEX.128 encoded version: The destination operand (also first source operand) is a XMM register and encoded in
+reg_field. The second source operand is a XMM register and encoded in VEX.vvvv. The third source operand is a
+XMM register or a 128-bit memory location and encoded in rm_field. The upper 128 bits of the YMM destination
+register are zeroed.
+VEX.256 encoded version: The destination operand (also first source operand) is a YMM register and encoded in
+reg_field. The second source operand is a YMM register and encoded in VEX.vvvv. The third source operand is a
+YMM register or a 256-bit memory location and encoded in rm_field.
+Compiler tools may optionally support a complementary mnemonic for each instruction mnemonic listed in the
+opcode/instruction column of the summary table. The behavior of the complementary mnemonic in situations
+involving NANs are governed by the definition of the instruction mnemonic defined in the opcode/instruction
+column. See also Section 2.3.1, “FMA Instruction Operand Order and Arithmetic Behavior”.
+---------------------------------------------------------------------
+
+VFMSUB132SD/VFMSUB213SD/VFMSUB231SD — Fused Multiply-Subtract of Scalar Double-
+Precision Floating-Point Values
+
+Opcode/ Op/
+Instruction En
+64/32 CPUID 
+  -bit Feature 
+  Mode Flag 
+  Description
+
+VEX.DDS.LIG.128.66.0F38.W1 9B /r 
+VFMSUB132SD xmm0, xmm1, xmm2/m64 
+A V/V FMA 
+Multiply scalar double-precision floating-point value
+from xmm0 and xmm2/mem, subtract xmm1 and put
+result in xmm0.
+
+VEX.DDS.LIG.128.66.0F38.W1 AB /r 
+VFMSUB213SD xmm0, xmm1, xmm2/m64 
+A V/V FMA 
+Multiply scalar double-precision floating-point value
+ from xmm0 and xmm1, subtract xmm2/mem and put
+ result in xmm0.
+
+VEX.DDS.LIG.128.66.0F38.W1 BB /r 
+VFMSUB231SD xmm0, xmm1, xmm2/m64 
+A V/V FMA 
+Multiply scalar double-precision floating-point value
+ from xmm1 and xmm2/mem, subtract xmm0 and put
+ result in xmm0.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+A ModRM:reg (r, w) VEX.vvvv (r) ModRM:r/m (r) NA
+
+Description
+Performs a SIMD multiply-subtract computation on the low packed double-precision floating-point values using
+three source operands and writes the multiply-add result in the destination operand. The destination operand is
+also the first source operand. The second operand must be a SIMD register. The third source operand can be a
+SIMD register or a memory location.
+VFMSUB132SD: Multiplies the low packed double-precision floating-point value from the first source operand to the
+low packed double-precision floating-point value in the third source operand. From the infinite precision interme-
+diate result, subtracts the low packed double-precision floating-point values in the second source operand,
+performs rounding and stores the resulting packed double-precision floating-point value to the destination operand
+(first source operand).
+VFMSUB213SD: Multiplies the low packed double-precision floating-point value from the second source operand to
+the low packed double-precision floating-point value in the first source operand. From the infinite precision inter-
+mediate result, subtracts the low packed double-precision floating-point value in the third source operand,
+performs rounding and stores the resulting packed double-precision floating-point value to the destination operand
+(first source operand).
+VFMSUB231SD: Multiplies the low packed double-precision floating-point value from the second source to the low
+packed double-precision floating-point value in the third source operand. From the infinite precision intermediate
+result, subtracts the low packed double-precision floating-point value in the first source operand, performs
+rounding and stores the resulting packed double-precision floating-point value to the destination operand (first
+source operand).
+VEX.128 encoded version: The destination operand (also first source operand) is a XMM register and encoded in
+reg_field. The second source operand is a XMM register and encoded in VEX.vvvv. The third source operand is a
+XMM register or a 64-bit memory location and encoded in rm_field. The upper bits ([VLMAX-1:128]) of the YMM
+destination register are zeroed.
+Compiler tools may optionally support a complementary mnemonic for each instruction mnemonic listed in the
+opcode/instruction column of the summary table. The behavior of the complementary mnemonic in situations
+involving NANs are governed by the definition of the instruction mnemonic defined in the opcode/instruction
+column. See also Section 2.3.1, “FMA Instruction Operand Order and Arithmetic Behavior”.
+---------------------------------------------------------------------
+VFMSUB132SS/VFMSUB213SS/VFMSUB231SS — Fused Multiply-Subtract of Scalar Single-
+Precision Floating-Point Values
+
+Opcode/ Op/
+Instruction En
+CPUID Description
+Feature 
+Flag 
+64/32 
+-bit 
+Mode 
+
+VEX.DDS.LIG.128.66.0F38.W0 9B /r 
+VFMSUB132SS xmm0, xmm1, xmm2/m32 
+A V/V FMA 
+Multiply scalar single-precision floating-point value
+from xmm0 and xmm2/mem, subtract xmm1 and put
+result in xmm0.
+
+VEX.DDS.LIG.128.66.0F38.W0 AB /r 
+VFMSUB213SS xmm0, xmm1, xmm2/m32 
+A V/V FMA 
+Multiply scalar single-precision floating-point value
+from xmm0 and xmm1, subtract xmm2/mem and put
+result in xmm0.
+
+VEX.DDS.LIG.128.66.0F38.W0 BB /r 
+VFMSUB231SS xmm0, xmm1, xmm2/m32 
+A V/V FMA 
+Multiply scalar single-precision floating-point value
+ from xmm1 and xmm2/mem, subtract xmm0 and put
+ result in xmm0.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+A ModRM:reg (r, w) VEX.vvvv (r) ModRM:r/m (r) NA
+
+Description
+Performs a SIMD multiply-subtract computation on the low packed single-precision floating-point values using
+three source operands and writes the multiply-add result in the destination operand. The destination operand is
+also the first source operand. The second operand must be a SIMD register. The third source operand can be a
+SIMD register or a memory location.
+VFMSUB132SS: Multiplies the low packed single-precision floating-point value from the first source operand to the
+low packed single-precision floating-point value in the third source operand. From the infinite precision interme-
+diate result, subtracts the low packed single-precision floating-point values in the second source operand, performs
+rounding and stores the resulting packed single-precision floating-point value to the destination operand (first
+source operand).
+VFMSUB213SS: Multiplies the low packed single-precision floating-point value from the second source operand to
+the low packed single-precision floating-point value in the first source operand. From the infinite precision interme-
+diate result, subtracts the low packed single-precision floating-point value in the third source operand, performs
+rounding and stores the resulting packed single-precision floating-point value to the destination operand (first
+source operand).
+VFMSUB231SS: Multiplies the low packed single-precision floating-point value from the second source to the low
+packed single-precision floating-point value in the third source operand. From the infinite precision intermediate
+result, subtracts the low packed single-precision floating-point value in the first source operand, performs rounding
+and stores the resulting packed single-precision floating-point value to the destination operand (first source
+operand).
+VEX.128 encoded version: The destination operand (also first source operand) is a XMM register and encoded in
+reg_field. The second source operand is a XMM register and encoded in VEX.vvvv. The third source operand is a
+XMM register or a 32-bit memory location and encoded in rm_field. The upper bits ([VLMAX-1:128]) of the YMM
+destination register are zeroed.
+Compiler tools may optionally support a complementary mnemonic for each instruction mnemonic listed in the
+opcode/instruction column of the summary table. The behavior of the complementary mnemonic in situations
+involving NANs are governed by the definition of the instruction mnemonic defined in the opcode/instruction
+column. See also Section 2.3.1, “FMA Instruction Operand Order and Arithmetic Behavior”.
+---------------------------------------------------------------------
+
+VFNMADD132PD/VFNMADD213PD/VFNMADD231PD — Fused Negative Multiply-Add of Packed
+Double-Precision Floating-Point Values
+
+Opcode/ Op/
+Instruction En
+64/32 CPUID
+  -bit Feature
+  Mode Flag
+Description
+
+VEX.DDS.128.66.0F38.W1 9C /r 
+VFNMADD213PD xmm0, xmm1, xmm2/m128 
+A V/V FMA
+Multiply packed double-precision floating-point val-
+ues from xmm0 and xmm2/mem, negate the multi-
+plication result and add to xmm1 and put result in
+xmm0.
+
+VEX.DDS.128.66.0F38.W1 AC /r 
+VFNMADD132PD xmm0, xmm1, xmm2/m128 
+A V/V FMA
+Multiply packed double-precision floating-point val-
+ues from xmm0 and xmm1, negate the multiplica-
+tion result and add to xmm2/mem and put result in
+xmm0.
+
+VEX.DDS.128.66.0F38.W1 BC /r 
+VFNMADD231PD xmm0, xmm1, xmm2/m128 
+A V/V FMA
+Multiply packed double-precision floating-point val-
+ues from xmm1 and xmm2/mem, negate the multi-
+plication result and add to xmm0 and put result in
+xmm0.
+
+VEX.DDS.256.66.0F38.W1 9C /r 
+VFNMADD132PD ymm0, ymm1, ymm2/m256 
+A V/V FMA
+Multiply packed double-precision floating-point val-
+ues from ymm0 and ymm2/mem, negate the multi-
+plication result and add to ymm1 and put result in
+ymm0.
+
+VEX.DDS.256.66.0F38.W1 AC /r 
+VFNMADD213PD ymm0, ymm1, ymm2/m256 
+A V/V FMA
+Multiply packed double-precision floating-point val-
+ues from ymm0 and ymm1, negate the multiplica-
+tion result and add to ymm2/mem and put result in
+ymm0.
+
+VEX.DDS.256.66.0F38.W1 BC /r 
+VFNMADD231PD ymm0, ymm1, ymm2/m256 
+A V/V FMA
+Multiply packed double-precision floating-point val-
+ues from ymm1 and ymm2/mem, negate the multi-
+plication result and add to ymm0 and put result in
+ymm0.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+A ModRM:reg (r, w) VEX.vvvv (r) ModRM:r/m (r) NA
+
+Description
+VFNMADD132PD: Multiplies the two or four packed double-precision floating-point values from the first source
+operand to the two or four packed double-precision floating-point values in the third source operand, adds the
+negated infinite precision intermediate result to the two or four packed double-precision floating-point values in the
+second source operand, performs rounding and stores the resulting two or four packed double-precision floating-
+point values to the destination operand (first source operand).
+VFNMADD213PD: Multiplies the two or four packed double-precision floating-point values from the second source
+operand to the two or four packed double-precision floating-point values in the first source operand, adds the
+negated infinite precision intermediate result to the two or four packed double-precision floating-point values in the
+third source operand, performs rounding and stores the resulting two or four packed double-precision floating-
+point values to the destination operand (first source operand).
+VFNMADD231PD: Multiplies the two or four packed double-precision floating-point values from the second source
+to the two or four packed double-precision floating-point values in the third source operand, adds the negated infi-
+nite precision intermediate result to the two or four packed double-precision floating-point values in the first source
+operand, performs rounding and stores the resulting two or four packed double-precision floating-point values to
+the destination operand (first source operand).
+VEX.128 encoded version: The destination operand (also first source operand) is a XMM register and encoded in
+reg_field. The second source operand is a XMM register and encoded in VEX.vvvv. The third source operand is a
+XMM register or a 128-bit memory location and encoded in rm_field. The upper 128 bits of the YMM destination
+register are zeroed.
+VEX.256 encoded version: The destination operand (also first source operand) is a YMM register and encoded in
+reg_field. The second source operand is a YMM register and encoded in VEX.vvvv. The third source operand is a
+YMM register or a 256-bit memory location and encoded in rm_field.
+Compiler tools may optionally support a complementary mnemonic for each instruction mnemonic listed in the
+opcode/instruction column of the summary table. The behavior of the complementary mnemonic in situations
+involving NANs are governed by the definition of the instruction mnemonic defined in the opcode/instruction
+column. See also Section 2.3.1, “FMA Instruction Operand Order and Arithmetic Behavior”.
+---------------------------------------------------------------------
+
+VFNMADD132PS/VFNMADD213PS/VFNMADD231PS — Fused Negative Multiply-Add of Packed
+Single-Precision Floating-Point Values
+
+Opcode/ Op/
+Instruction En
+64/32 CPUID
+  -bit Feature
+  Mode Flag
+  Description
+
+
+VEX.DDS.128.66.0F38.W0 9C /r 
+VFNMADD132PS xmm0, xmm1, xmm2/m128 
+A V/V FMA
+Multiply packed single-precision floating-point val-
+ues from xmm0 and xmm2/mem, negate the multi-
+plication result and add to xmm1 and put result in
+xmm0.
+
+VEX.DDS.128.66.0F38.W0 AC /r 
+VFNMADD213PS xmm0, xmm1, xmm2/m128 
+A V/V FMA
+Multiply packed single-precision floating-point val-
+ues from xmm0 and xmm1, negate the multiplica-
+tion result and add to xmm2/mem and put result in
+xmm0.
+
+VEX.DDS.128.66.0F38.W0 BC /r 
+VFNMADD231PS xmm0, xmm1, xmm2/m128 
+A V/V FMA
+Multiply packed single-precision floating-point val-
+ues from xmm1 and xmm2/mem, negate the multi-
+plication result and add to xmm0 and put result in
+xmm0.
+
+VEX.DDS.256.66.0F38.W0 9C /r 
+VFNMADD132PS ymm0, ymm1, ymm2/m256 
+A V/V FMA
+Multiply packed single-precision floating-point val-
+ues from ymm0 and ymm2/mem, negate the multi-
+plication result and add to ymm1 and put result in
+ymm0.
+
+VEX.DDS.256.66.0F38.W0 AC /r 
+VFNMADD213PS ymm0, ymm1, ymm2/m256 
+A V/V FMA
+Multiply packed single-precision floating-point val-
+ues from ymm0 and ymm1, negate the multiplica-
+tion result and add to ymm2/mem and put result in
+ymm0.
+
+VEX.DDS.256.66.0F38.0 BC /r 
+VFNMADD231PS ymm0, ymm1, ymm2/m256 
+A V/V FMA
+Multiply packed single-precision floating-point val-
+ues from ymm1 and ymm2/mem, negate the multi-
+plication result and add to ymm0 and put result in
+ymm0.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+A ModRM:reg (r, w) VEX.vvvv (r) ModRM:r/m (r) NA
+
+Description
+VFNMADD132PS: Multiplies the four or eight packed single-precision floating-point values from the first source
+operand to the four or eight packed single-precision floating-point values in the third source operand, adds the
+negated infinite precision intermediate result to the four or eight packed single-precision floating-point values in
+the second source operand, performs rounding and stores the resulting four or eight packed single-precision
+floating-point values to the destination operand (first source operand).
+VFNMADD213PS: Multiplies the four or eight packed single-precision floating-point values from the second source
+operand to the four or eight packed single-precision floating-point values in the first source operand, adds the
+negated infinite precision intermediate result to the four or eight packed single-precision floating-point values in
+the third source operand, performs rounding and stores the resulting the four or eight packed single-precision
+floating-point values to the destination operand (first source operand).
+VFNMADD231PS: Multiplies the four or eight packed single-precision floating-point values from the second source
+operand to the four or eight packed single-precision floating-point values in the third source operand, adds the
+negated infinite precision intermediate result to the four or eight packed single-precision floating-point values in
+the first source operand, performs rounding and stores the resulting four or eight packed single-precision floating-
+point values to the destination operand (first source operand).
+VEX.256 encoded version: The destination operand (also first source operand) is a YMM register and encoded in
+reg_field. The second source operand is a YMM register and encoded in VEX.vvvv. The third source operand is a
+YMM register or a 256-bit memory location and encoded in rm_field.
+VEX.128 encoded version: The destination operand (also first source operand) is a XMM register and encoded in
+reg_field. The second source operand is a XMM register and encoded in VEX.vvvv. The third source operand is a
+XMM register or a 128-bit memory location and encoded in rm_field. The upper 128 bits of the YMM destination
+register are zeroed.
+Compiler tools may optionally support a complementary mnemonic for each instruction mnemonic listed in the
+opcode/instruction column of the summary table. The behavior of the complementary mnemonic in situations
+involving NANs are governed by the definition of the instruction mnemonic defined in the opcode/instruction
+column. See also Section 2.3.1, “FMA Instruction Operand Order and Arithmetic Behavior”.
+---------------------------------------------------------------------
+
+VFNMADD132SD/VFNMADD213SD/VFNMADD231SD — Fused Negative Multiply-Add of Scalar
+Double-Precision Floating-Point Values
+Opcode/ Op/
+Instruction En
+64/32 CPUID
+  -bit Feature
+  Mode Flag
+  Description
+
+VEX.DDS.LIG.128.66.0F38.W1 9D /r 
+VFNMADD213SD xmm0, xmm1, xmm2/m64 
+A V/V FMA
+Multiply scalar double-precision floating-point value
+from xmm0 and xmm2/mem, negate the multiplica-
+tion result and add to xmm1 and put result in xmm0.
+
+VEX.DDS.LIG.128.66.0F38.W1 AD /r 
+VFNMADD132SD xmm0, xmm1, xmm2/m64 
+A V/V FMA
+Multiply scalar double-precision floating-point value
+from xmm0 and xmm1, negate the multiplication
+result and add to xmm2/mem and put result in
+xmm0.
+
+VEX.DDS.LIG.128.66.0F38.W1 BD /r 
+VFNMADD231SD xmm0, xmm1, xmm2/m64 
+A V/V FMA
+Multiply scalar double-precision floating-point value
+from xmm1 and xmm2/mem, negate the multiplica-
+tion result and add to xmm0 and put result in xmm0.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+A ModRM:reg (r, w) VEX.vvvv (r) ModRM:r/m (r) NA
+
+Description
+VFNMADD132SD: Multiplies the low packed double-precision floating-point value from the first source operand to
+the low packed double-precision floating-point value in the third source operand, adds the negated infinite preci-
+sion intermediate result to the low packed double-precision floating-point values in the second source operand,
+performs rounding and stores the resulting packed double-precision floating-point value to the destination operand
+(first source operand).
+VFNMADD213SD: Multiplies the low packed double-precision floating-point value from the second source operand
+to the low packed double-precision floating-point value in the first source operand, adds the negated infinite preci-
+sion intermediate result to the low packed double-precision floating-point value in the third source operand,
+performs rounding and stores the resulting packed double-precision floating-point value to the destination operand
+(first source operand).
+VFNMADD231SD: Multiplies the low packed double-precision floating-point value from the second source to the low
+packed double-precision floating-point value in the third source operand, adds the negated infinite precision inter-
+mediate result to the low packed double-precision floating-point value in the first source operand, performs
+rounding and stores the resulting packed double-precision floating-point value to the destination operand (first
+source operand).
+VEX.128 encoded version: The destination operand (also first source operand) is a XMM register and encoded in
+reg_field. The second source operand is a XMM register and encoded in VEX.vvvv. The third source operand is a
+XMM register or a 64-bit memory location and encoded in rm_field. The upper bits ([VLMAX-1:128]) of the YMM
+destination register are zeroed.
+Compiler tools may optionally support a complementary mnemonic for each instruction mnemonic listed in the
+opcode/instruction column of the summary table. The behavior of the complementary mnemonic in situations
+involving NANs are governed by the definition of the instruction mnemonic defined in the opcode/instruction
+column. See also Section 2.3.1, “FMA Instruction Operand Order and Arithmetic Behavior”.
+---------------------------------------------------------------------
+
+VFNMADD132SS/VFNMADD213SS/VFNMADD231SS — Fused Negative Multiply-Add of Scalar
+Single-Precision Floating-Point Values
+
+Opcode/ Op/
+Instruction En
+64/32 CPUID 
+  -bit Feature 
+  Mode Flag 
+Description
+
+VEX.DDS.LIG.128.66.0F38.W0 9D /r 
+VFNMADD132SS xmm0, xmm1, xmm2/m32 
+A V/V FMA 
+Multiply scalar single-precision floating-point value
+from xmm0 and xmm2/mem, negate the multiplication
+result and add to xmm1 and put result in xmm0.
+
+VEX.DDS.LIG.128.66.0F38.W0 AD /r 
+VFNMADD213SS xmm0, xmm1, xmm2/m32 
+A V/V FMA 
+Multiply scalar single-precision floating-point value
+ from xmm0 and xmm1, negate the multiplication
+ result and add to xmm2/mem and put result in xmm0.
+
+VEX.DDS.LIG.128.66.0F38.W0 BD /r 
+VFNMADD231SS xmm0, xmm1, xmm2/m32
+A V/V FMA 
+Multiply scalar single-precision floating-point value
+ from xmm1 and xmm2/mem, negate the multiplication
+ result and add to xmm0 and put result in xmm0.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+A ModRM:reg (r, w) VEX.vvvv (r) ModRM:r/m (r) NA
+
+Description
+VFNMADD132SS: Multiplies the low packed single-precision floating-point value from the first source operand to
+the low packed single-precision floating-point value in the third source operand, adds the negated infinite precision
+intermediate result to the low packed single-precision floating-point value in the second source operand, performs
+rounding and stores the resulting packed single-precision floating-point value to the destination operand (first
+source operand).
+VFNMADD213SS: Multiplies the low packed single-precision floating-point value from the second source operand to
+the low packed single-precision floating-point value in the first source operand, adds the negated infinite precision
+intermediate result to the low packed single-precision floating-point value in the third source operand, performs
+rounding and stores the resulting packed single-precision floating-point value to the destination operand (first
+source operand).
+VFNMADD231SS: Multiplies the low packed single-precision floating-point value from the second source operand to
+the low packed single-precision floating-point value in the third source operand, adds the negated infinite precision
+intermediate result to the low packed single-precision floating-point value in the first source operand, performs
+rounding and stores the resulting packed single-precision floating-point value to the destination operand (first
+source operand).
+VEX.128 encoded version: The destination operand (also first source operand) is a XMM register and encoded in
+reg_field. The second source operand is a XMM register and encoded in VEX.vvvv. The third source operand is a
+XMM register or a 32-bit memory location and encoded in rm_field. The upper bits ([VLMAX-1:128]) of the YMM
+destination register are zeroed.
+Compiler tools may optionally support a complementary mnemonic for each instruction mnemonic listed in the
+opcode/instruction column of the summary table. The behavior of the complementary mnemonic in situations
+involving NANs are governed by the definition of the instruction mnemonic defined in the opcode/instruction
+column. See also Section 2.3.1, “FMA Instruction Operand Order and Arithmetic Behavior”.
+---------------------------------------------------------------------
+
+VFNMSUB132PD/VFNMSUB213PD/VFNMSUB231PD — Fused Negative Multiply-Subtract of
+Packed Double-Precision Floating-Point Values
+
+Opcode/ Op/
+Instruction En
+64/32 CPUID
+  -bit Feature
+  Mode Flag
+  Description
+
+VEX.DDS.128.66.0F38.W1 9E /r 
+VFNMSUB132PD xmm0, xmm1, xmm2/m128 
+A V/V FMA
+Multiply packed double-precision floating-point val-
+ues from xmm0 and xmm2/mem, negate the multi-
+plication result and subtract xmm1 and put result in
+xmm0.
+
+VEX.DDS.128.66.0F38.W1 AE /r 
+VFNMSUB213PD xmm0, xmm1, xmm2/m128 
+A V/V FMA
+Multiply packed double-precision floating-point val-
+ues from xmm0 and xmm1, negate the multiplica-
+tion result and subtract xmm2/mem and put result
+in xmm0.
+
+VEX.DDS.128.66.0F38.W1 BE /r 
+VFNMSUB231PD xmm0, xmm1, xmm2/m128 
+A V/V FMA
+Multiply packed double-precision floating-point val-
+ues from xmm1 and xmm2/mem, negate the multi-
+plication result and subtract xmm0 and put result in
+xmm0.
+
+VEX.DDS.256.66.0F38.W1 9E /r 
+VFNMSUB132PD ymm0, ymm1, ymm2/m256 
+A V/V FMA
+Multiply packed double-precision floating-point val-
+ues from ymm0 and ymm2/mem, negate the multi-
+plication result and subtract ymm1 and put result in
+ymm0.
+
+VEX.DDS.256.66.0F38.W1 AE /r 
+VFNMSUB213PD ymm0, ymm1, ymm2/m256 
+A V/V FMA
+Multiply packed double-precision floating-point val-
+ues from ymm0 and ymm1, negate the multiplica-
+tion result and subtract ymm2/mem and put result
+in ymm0.
+
+VEX.DDS.256.66.0F38.W1 BE /r 
+VFNMSUB231PD ymm0, ymm1, ymm2/m256 
+A V/V FMA
+Multiply packed double-precision floating-point val-
+ues from ymm1 and ymm2/mem, negate the multi-
+plication result and subtract ymm0 and put result in
+ymm0.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+A ModRM:reg (r, w) VEX.vvvv (r) ModRM:r/m (r) NA
+
+Description
+VFNMSUB132PD: Multiplies the two or four packed double-precision floating-point values from the first source
+operand to the two or four packed double-precision floating-point values in the third source operand. From negated
+infinite precision intermediate results, subtracts the two or four packed double-precision floating-point values in
+the second source operand, performs rounding and stores the resulting two or four packed double-precision
+floating-point values to the destination operand (first source operand).
+VFMSUB213PD: Multiplies the two or four packed double-precision floating-point values from the second source
+operand to the two or four packed double-precision floating-point values in the first source operand. From negated
+infinite precision intermediate results, subtracts the two or four packed double-precision floating-point values in
+the third source operand, performs rounding and stores the resulting two or four packed double-precision floating-
+point values to the destination operand (first source operand).
+VFMSUB231PD: Multiplies the two or four packed double-precision floating-point values from the second source to
+the two or four packed double-precision floating-point values in the third source operand. From negated infinite
+precision intermediate results, subtracts the two or four packed double-precision floating-point values in the first
+source operand, performs rounding and stores the resulting two or four packed double-precision floating-point
+values to the destination operand (first source operand).
+VEX.128 encoded version: The destination operand (also first source operand) is a XMM register and encoded in
+reg_field. The second source operand is a XMM register and encoded in VEX.vvvv. The third source operand is a
+XMM register or a 128-bit memory location and encoded in rm_field. The upper 128 bits of the YMM destination
+register are zeroed.
+VEX.256 encoded version: The destination operand (also first source operand) is a YMM register and encoded in
+reg_field. The second source operand is a YMM register and encoded in VEX.vvvv. The third source operand is a
+YMM register or a 256-bit memory location and encoded in rm_field.
+Compiler tools may optionally support a complementary mnemonic for each instruction mnemonic listed in the
+opcode/instruction column of the summary table. The behavior of the complementary mnemonic in situations
+involving NANs are governed by the definition of the instruction mnemonic defined in the opcode/instruction
+column. See also Section 2.3.1, “FMA Instruction Operand Order and Arithmetic Behavior”.
+---------------------------------------------------------------------
+
+VFNMSUB132PS/VFNMSUB213PS/VFNMSUB231PS — Fused Negative Multiply-Subtract of
+Packed Single-Precision Floating-Point Values
+
+Opcode/ Op/
+Instruction En
+  64/32 CPUID
+  -bit Feature
+  Mode Flag
+  Description
+
+VEX.DDS.128.66.0F38.W0 9E /r 
+VFNMSUB132PS xmm0, xmm1, xmm2/m128 
+A V/V FMA
+Multiply packed single-precision floating-point values
+from xmm0 and xmm2/mem, negate the multiplica-
+tion result and subtract xmm1 and put result in
+xmm0.
+
+VEX.DDS.128.66.0F38.W0 AE /r 
+VFNMSUB213PS xmm0, xmm1, xmm2/m128 
+A V/V FMA
+Multiply packed single-precision floating-point values
+from xmm0 and xmm1, negate the multiplication
+result and subtract xmm2/mem and put result in
+xmm0.
+
+VEX.DDS.128.66.0F38.W0 BE /r 
+VFNMSUB231PS xmm0, xmm1, xmm2/m128 
+A V/V FMA
+Multiply packed single-precision floating-point values
+from xmm1 and xmm2/mem, negate the multiplica-
+tion result and subtract xmm0 and put result in
+xmm0.
+
+VEX.DDS.256.66.0F38.W0 9E /r 
+VFNMSUB132PS ymm0, ymm1, ymm2/m256 
+A V/V FMA
+Multiply packed single-precision floating-point values
+from ymm0 and ymm2/mem, negate the multiplica-
+tion result and subtract ymm1 and put result in
+ymm0.
+
+VEX.DDS.256.66.0F38.W0 AE /r 
+VFNMSUB213PS ymm0, ymm1, ymm2/m256 
+A V/V FMA
+Multiply packed single-precision floating-point values
+from ymm0 and ymm1, negate the multiplication
+result and subtract ymm2/mem and put result in
+ymm0.
+
+VEX.DDS.256.66.0F38.0 BE /r 
+VFNMSUB231PS ymm0, ymm1, ymm2/m256 
+A V/V FMA
+Multiply packed single-precision floating-point values
+from ymm1 and ymm2/mem, negate the multiplica-
+tion result and subtract ymm0 and put result in
+ymm0.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+A ModRM:reg (r, w) VEX.vvvv (r) ModRM:r/m (r) NA
+
+Description
+VFNMSUB132PS: Multiplies the four or eight packed single-precision floating-point values from the first source
+operand to the four or eight packed single-precision floating-point values in the third source operand. From
+negated infinite precision intermediate results, subtracts the four or eight packed single-precision floating-point
+values in the second source operand, performs rounding and stores the resulting four or eight packed single-preci-
+sion floating-point values to the destination operand (first source operand).
+VFNMSUB213PS: Multiplies the four or eight packed single-precision floating-point values from the second source
+operand to the four or eight packed single-precision floating-point values in the first source operand. From negated
+infinite precision intermediate results, subtracts the four or eight packed single-precision floating-point values in
+the third source operand, performs rounding and stores the resulting four or eight packed single-precision floating-
+point values to the destination operand (first source operand).
+VFNMSUB231PS: Multiplies the four or eight packed single-precision floating-point values from the second source
+to the four or eight packed single-precision floating-point values in the third source operand. From negated infinite
+precision intermediate results, subtracts the four or eight packed single-precision floating-point values in the first
+source operand, performs rounding and stores the resulting four or eight packed single-precision floating-point
+values to the destination operand (first source operand).
+VEX.128 encoded version: The destination operand (also first source operand) is a XMM register and encoded in
+reg_field. The second source operand is a XMM register and encoded in VEX.vvvv. The third source operand is a
+XMM register or a 128-bit memory location and encoded in rm_field. The upper 128 bits of the YMM destination
+register are zeroed.
+VEX.256 encoded version: The destination operand (also first source operand) is a YMM register and encoded in
+reg_field. The second source operand is a YMM register and encoded in VEX.vvvv. The third source operand is a
+YMM register or a 256-bit memory location and encoded in rm_field.
+Compiler tools may optionally support a complementary mnemonic for each instruction mnemonic listed in the
+opcode/instruction column of the summary table. The behavior of the complementary mnemonic in situations
+involving NANs are governed by the definition of the instruction mnemonic defined in the opcode/instruction
+column. See also Section 2.3.1, “FMA Instruction Operand Order and Arithmetic Behavior”.
+---------------------------------------------------------------------
+
+VFNMSUB132SD/VFNMSUB213SD/VFNMSUB231SD — Fused Negative Multiply-Subtract of
+Scalar Double-Precision Floating-Point Values
+
+Opcode/ Op/
+Instruction En
+64/32- CPUID
+  bit Feature
+  Mode Flag
+  Description
+
+VEX.DDS.LIG.128.66.0F38.W1 9F /r 
+VFNMSUB132SD xmm0, xmm1, xmm2/m64 
+A V/V FMA
+Multiply scalar double-precision floating-point value
+from xmm0 and xmm2/mem, negate the multiplica-
+tion result and subtract xmm1 and put result in
+xmm0.
+
+VEX.DDS.LIG.128.66.0F38.W1 AF /r 
+VFNMSUB213SD xmm0, xmm1, xmm2/m64 
+A V/V FMA
+Multiply scalar double-precision floating-point value
+from xmm0 and xmm1, negate the multiplication
+result and subtract xmm2/mem and put result in
+xmm0.
+
+VEX.DDS.LIG.128.66.0F38.W1 BF /r 
+VFNMSUB231SD xmm0, xmm1, xmm2/m64 
+A V/V FMA
+Multiply scalar double-precision floating-point value
+from xmm1 and xmm2/mem, negate the multiplica-
+tion result and subtract xmm0 and put result in
+xmm0.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+A ModRM:reg (r, w) VEX.vvvv (r) ModRM:r/m (r) NA
+
+Description
+VFNMSUB132SD: Multiplies the low packed double-precision floating-point value from the first source operand to
+the low packed double-precision floating-point value in the third source operand. From negated infinite precision
+intermediate result, subtracts the low double-precision floating-point value in the second source operand, performs
+rounding and stores the resulting packed double-precision floating-point value to the destination operand (first
+source operand).
+VFNMSUB213SD: Multiplies the low packed double-precision floating-point value from the second source operand
+to the low packed double-precision floating-point value in the first source operand. From negated infinite precision
+intermediate result, subtracts the low double-precision floating-point value in the third source operand, performs
+rounding and stores the resulting packed double-precision floating-point value to the destination operand (first
+source operand).
+VFNMSUB231SD: Multiplies the low packed double-precision floating-point value from the second source to the low
+packed double-precision floating-point value in the third source operand. From negated infinite precision interme-
+diate result, subtracts the low double-precision floating-point value in the first source operand, performs rounding
+and stores the resulting packed double-precision floating-point value to the destination operand (first source
+operand).
+VEX.128 encoded version: The destination operand (also first source operand) is a XMM register and encoded in
+reg_field. The second source operand is a XMM register and encoded in VEX.vvvv. The third source operand is a
+XMM register or a 64-bit memory location and encoded in rm_field. The upper bits ([VLMAX-1:128]) of the YMM
+destination register are zeroed.
+Compiler tools may optionally support a complementary mnemonic for each instruction mnemonic listed in the
+opcode/instruction column of the summary table. The behavior of the complementary mnemonic in situations
+involving NANs are governed by the definition of the instruction mnemonic defined in the opcode/instruction
+column. See also Section 2.3.1, “FMA Instruction Operand Order and Arithmetic Behavior”.
+---------------------------------------------------------------------
+
+VFNMSUB132SS/VFNMSUB213SS/VFNMSUB231SS — Fused Negative Multiply-Subtract of
+Scalar Single-Precision Floating-Point Values
+
+Opcode/ Op/
+Instruction En
+64/32 
+-bit 
+Mode 
+CPUID Description
+Feature 
+Flag 
+
+VEX.DDS.LIG.128.66.0F38.W0 9F /r 
+VFNMSUB132SS xmm0, xmm1, xmm2/m32 
+A V/V FMA 
+Multiply scalar single-precision floating-point value from
+ xmm0 and xmm2/mem, negate the multiplication result
+ and subtract xmm1 and put result in xmm0.
+
+VEX.DDS.LIG.128.66.0F38.W0 AF /r 
+VFNMSUB213SS xmm0, xmm1, xmm2/m32 
+A V/V FMA 
+Multiply scalar single-precision floating-point value from
+ xmm0 and xmm1, negate the multiplication result and
+ subtract xmm2/mem and put result in xmm0.
+
+VEX.DDS.LIG.128.66.0F38.W0 BF /r 
+VFNMSUB231SS xmm0, xmm1, xmm2/m32 
+A V/V FMA 
+Multiply scalar single-precision floating-point value from
+ xmm1 and xmm2/mem, negate the multiplication result
+ and subtract xmm0 and put result in xmm0.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+A ModRM:reg (r, w) VEX.vvvv (r) ModRM:r/m (r) NA
+
+Description
+VFNMSUB132SS: Multiplies the low packed single-precision floating-point value from the first source operand to
+the low packed single-precision floating-point value in the third source operand. From negated infinite precision
+intermediate result, the low single-precision floating-point value in the second source operand, performs rounding
+and stores the resulting packed single-precision floating-point value to the destination operand (first source
+operand).
+VFNMSUB213SS: Multiplies the low packed single-precision floating-point value from the second source operand to
+the low packed single-precision floating-point value in the first source operand. From negated infinite precision
+intermediate result, the low single-precision floating-point value in the third source operand, performs rounding
+and stores the resulting packed single-precision floating-point value to the destination operand (first source
+operand).
+VFNMSUB231SS: Multiplies the low packed single-precision floating-point value from the second source to the low
+packed single-precision floating-point value in the third source operand. From negated infinite precision interme-
+diate result, the low single-precision floating-point value in the first source operand, performs rounding and stores
+the resulting packed single-precision floating-point value to the destination operand (first source operand).
+VEX.128 encoded version: The destination operand (also first source operand) is a XMM register and encoded in
+reg_field. The second source operand is a XMM register and encoded in VEX.vvvv. The third source operand is a
+XMM register or a 32-bit memory location and encoded in rm_field. The upper bits ([VLMAX-1:128]) of the YMM
+destination register are zeroed.
+Compiler tools may optionally support a complementary mnemonic for each instruction mnemonic listed in the
+opcode/instruction column of the summary table. The behavior of the complementary mnemonic in situations
+involving NANs are governed by the definition of the instruction mnemonic defined in the opcode/instruction
+column. See also Section 2.3.1, “FMA Instruction Operand Order and Arithmetic Behavior”.
+---------------------------------------------------------------------
+
+VGATHERDPD/VGATHERQPD — Gather Packed DP FP Values Using Signed Dword/Qword Indices
+
+Opcode/ Op/
+Instruction En
+64/32-bit 
+Mode 
+CPUID 
+Feature 
+Flag 
+Description
+
+VEX.DDS.128.66.0F38.W1 92 /r 
+VGATHERDPD xmm1, vm32x, xmm2 
+RMV V/V AVX2 
+Using dword indices specified in vm32x, gather double-pre-
+cision FP values from memory conditioned on mask speci-
+fied by xmm2. Conditionally gathered elements are merged
+into xmm1.
+    
+VEX.DDS.128.66.0F38.W1 93 /r 
+VGATHERQPD xmm1, vm64x, xmm2 
+RMV V/V AVX2 
+Using qword indices specified in vm64x, gather double-pre-
+cision FP values from memory conditioned on mask speci-
+ fied by xmm2. Conditionally gathered elements are merged
+ into xmm1.
+
+VEX.DDS.256.66.0F38.W1 92 /r 
+VGATHERDPD ymm1, vm32x, ymm2 
+RMV V/V AVX2 
+Using dword indices specified in vm32x, gather double-pre-
+ cision FP values from memory conditioned on mask speci-
+ fied by ymm2. Conditionally gathered elements are merged
+ into ymm1.
+
+VEX.DDS.256.66.0F38.W1 93 /r 
+VGATHERQPD ymm1, vm64y, ymm2
+RMV V/V AVX2 
+Using qword indices specified in vm64y, gather double-pre-
+ cision FP values from memory conditioned on mask speci-
+ fied by ymm2. Conditionally gathered elements are merged
+ into ymm1.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RMV ModRM:reg (r,w) BaseReg (R): VSIB:base, VEX.vvvv (r, w) NA
+                    VectorReg(R): VSIB:index 
+
+Description
+The instruction conditionally loads up to 2 or 4 double-precision floating-point values from memory addresses
+specified by the memory operand (the second operand) and using qword indices. The memory operand uses the
+VSIB form of the SIB byte to specify a general purpose register operand as the common base, a vector register for
+an array of indices relative to the base and a constant scale factor.
+The mask operand (the third operand) specifies the conditional load operation from each memory address and the
+corresponding update of each data element of the destination operand (the first operand). Conditionality is speci-
+fied by the most significant bit of each data element of the mask register. If an element’s mask bit is not set, the
+corresponding element of the destination register is left unchanged. The width of data element in the destination
+register and mask register are identical. The entire mask register will be set to zero by this instruction unless the
+instruction causes an exception.
+Using dword indices in the lower half of the mask register, the instruction conditionally loads up to 2 or 4 double-
+precision floating-point values from the VSIB addressing memory operand, and updates the destination register.
+This instruction can be suspended by an exception if at least one element is already gathered (i.e., if the exception
+is triggered by an element other than the rightmost one with its mask bit set). When this happens, the destination
+register and the mask operand are partially updated; those elements that have been gathered are placed into the
+destination register and have their mask bits set to zero. If any traps or interrupts are pending from already gath-
+ered elements, they will be delivered in lieu of the exception; in this case, EFLAG.RF is set to one so an instruction
+breakpoint is not re-triggered when the instruction is continued.
+If the data size and index size are different, part of the destination register and part of the mask register do not
+correspond to any elements being gathered. This instruction sets those parts to zero. It may do this to one or both
+of those registers even if the instruction triggers an exception, and even if the instruction triggers the exception
+before gathering any elements.
+VEX.128 version: The instruction will gather two double-precision floating-point values. For dword indices, only
+the lower two indices in the vector index register are used.
+VEX.256 version: The instruction will gather four double-precision floating-point values. For dword indices, only
+the lower four indices in the vector index register are used.
+Note that:
+• If any pair of the index, mask, or destination registers are the same, this instruction results a #UD fault.
+• Faults are delivered in a right-to-left manner. That is, if a fault is triggered by an element and delivered, all
+   elements closer to the LSB of the destination will be completed (and non-faulting). Individual elements closer
+  to the MSB may or may not be completed. If a given element triggers multiple faults, they are delivered in the
+ conventional order.
+• Elements may be gathered in any order, but faults must be delivered in a right-to-left order; thus, elements to
+   the left of a faulting one may be gathered before the fault is delivered. A given implementation of this
+  instruction is repeatable - given the same input values and architectural state, the same set of elements to the
+ left of the faulting one will be gathered.
+• This instruction does not perform AC checks, and so will never deliver an AC fault.
+• The scaled index may require more bits to represent than the address bits used by the processor (e.g., in 32-
+   bit mode, if the scale is greater than one). In this case, the most significant bits beyond the number of address
+  bits are ignored.
+The values may be read from memory in any order. Memory ordering with other instructions follows the Intel-
+64 memory-ordering model.
+This instruction will cause a #UD if the address size attribute is 16-bit.
+This instruction will cause a #UD if the memory operand is encoded without the SIB byte.
+This instruction should not be used to access memory mapped I/O as the ordering of the individual loads it does
+is implementation specific, and some implementations may use loads larger than the data element size or load
+elements an indeterminate number of times.
+---------------------------------------------------------------------
+
+VGATHERDPS/VGATHERQPS — Gather Packed SP FP values Using Signed Dword/Qword Indices
+Opcode/ Op/
+Instruction En
+64/32 CPUID 
+-bit Feature 
+Mode Flag 
+Description
+
+VEX.DDS.128.66.0F38.W0 92 /r 
+VGATHERDPS xmm1, vm32x, xmm2 
+RMV V/V AVX2 
+Using dword indices specified in vm32x, gather single-preci-
+sion FP values from memory conditioned on mask specified
+by xmm2. Conditionally gathered elements are merged into
+xmm1.
+
+VEX.DDS.128.66.0F38.W0 93 /r 
+VGATHERQPS xmm1, vm64x, xmm2 
+RMV V/V AVX2 
+Using qword indices specified in vm64x, gather single-preci-
+sion FP values from memory conditioned on mask specified
+ by xmm2. Conditionally gathered elements are merged into
+ xmm1.
+
+VEX.DDS.256.66.0F38.W0 92 /r 
+VGATHERDPS ymm1, vm32y, ymm2 
+RMV V/V AVX2 
+Using dword indices specified in vm32y, gather single-preci-
+sion FP values from memory conditioned on mask specified
+ by ymm2. Conditionally gathered elements are merged into
+ ymm1.
+
+VEX.DDS.256.66.0F38.W0 93 /r 
+VGATHERQPS xmm1, vm64y, xmm2 
+RMV V/V AVX2 
+Using qword indices specified in vm64y, gather single-preci-
+sion FP values from memory conditioned on mask specified
+ by xmm2. Conditionally gathered elements are merged into
+ xmm1.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+A ModRM:reg (r,w) BaseReg (R): VSIB:base, VEX.vvvv (r, w) NA
+                  VectorReg(R): VSIB:index 
+
+Description
+The instruction conditionally loads up to 4 or 8 single-precision floating-point values from memory addresses spec-
+ified by the memory operand (the second operand) and using dword indices. The memory operand uses the VSIB
+form of the SIB byte to specify a general purpose register operand as the common base, a vector register for an
+array of indices relative to the base and a constant scale factor.
+The mask operand (the third operand) specifies the conditional load operation from each memory address and the
+corresponding update of each data element of the destination operand (the first operand). Conditionality is speci-
+fied by the most significant bit of each data element of the mask register. If an element’s mask bit is not set, the
+corresponding element of the destination register is left unchanged. The width of data element in the destination
+register and mask register are identical. The entire mask register will be set to zero by this instruction unless the
+instruction causes an exception.
+Using qword indices, the instruction conditionally loads up to 2 or 4 single-precision floating-point values from the
+VSIB addressing memory operand, and updates the lower half of the destination register. The upper 128 or 256 bits
+of the destination register are zero’ed with qword indices.
+This instruction can be suspended by an exception if at least one element is already gathered (i.e., if the exception
+is triggered by an element other than the rightmost one with its mask bit set). When this happens, the destination
+register and the mask operand are partially updated; those elements that have been gathered are placed into the
+destination register and have their mask bits set to zero. If any traps or interrupts are pending from already gath-
+ered elements, they will be delivered in lieu of the exception; in this case, EFLAG.RF is set to one so an instruction
+breakpoint is not re-triggered when the instruction is continued.
+If the data size and index size are different, part of the destination register and part of the mask register do not
+correspond to any elements being gathered. This instruction sets those parts to zero. It may do this to one or both
+of those registers even if the instruction triggers an exception, and even if the instruction triggers the exception
+before gathering any elements.
+---------------------------------------------------------------------
+
+VPGATHERDD/VPGATHERQD — Gather Packed Dword Values Using Signed Dword/Qword
+Indices
+Opcode/ Op/
+Instruction En
+64/32 CPUID
+    -bit Feature
+    Mode Flag
+    Description
+
+VEX.DDS.128.66.0F38.W0 90 /r 
+VPGATHERDD xmm1, vm32x, xmm2 
+RMV V/V AVX2
+Using dword indices specified in vm32x, gather dword val-
+ues from memory conditioned on mask specified by
+xmm2. Conditionally gathered elements are merged into
+xmm1.
+
+VEX.DDS.128.66.0F38.W0 91 /r 
+VPGATHERQD xmm1, vm64x, xmm2 
+RMV V/V AVX2
+Using qword indices specified in vm64x, gather dword val-
+ues from memory conditioned on mask specified by
+xmm2. Conditionally gathered elements are merged into
+xmm1.
+
+VEX.DDS.256.66.0F38.W0 90 /r 
+VPGATHERDD ymm1, vm32y, ymm2 
+RMV V/V AVX2
+Using dword indices specified in vm32y, gather dword
+from memory conditioned on mask specified by ymm2.
+Conditionally gathered elements are merged into ymm1.
+
+VEX.DDS.256.66.0F38.W0 91 /r 
+VPGATHERQD xmm1, vm64y, xmm2 
+RMV V/V AVX2
+Using qword indices specified in vm64y, gather dword val-
+ues from memory conditioned on mask specified by
+xmm2. Conditionally gathered elements are merged into
+xmm1.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RMV ModRM:reg (r,w) BaseReg (R): VSIB:base, VEX.vvvv (r, w) NA
+                    VectorReg(R): VSIB:index 
+
+Description
+The instruction conditionally loads up to 4 or 8 dword values from memory addresses specified by the memory
+operand (the second operand) and using dword indices. The memory operand uses the VSIB form of the SIB byte
+to specify a general purpose register operand as the common base, a vector register for an array of indices relative
+to the base and a constant scale factor.
+The mask operand (the third operand) specifies the conditional load operation from each memory address and the
+corresponding update of each data element of the destination operand (the first operand). Conditionality is speci-
+fied by the most significant bit of each data element of the mask register. If an element’s mask bit is not set, the
+corresponding element of the destination register is left unchanged. The width of data element in the destination
+register and mask register are identical. The entire mask register will be set to zero by this instruction unless the
+instruction causes an exception.
+Using qword indices, the instruction conditionally loads up to 2 or 4 dword values from the VSIB addressing
+memory operand, and updates the lower half of the destination register. The upper 128 or 256 bits of the destina-
+tion register are zero’ed with qword indices.
+This instruction can be suspended by an exception if at least one element is already gathered (i.e., if the exception
+is triggered by an element other than the rightmost one with its mask bit set). When this happens, the destination
+register and the mask operand are partially updated; those elements that have been gathered are placed into the
+destination register and have their mask bits set to zero. If any traps or interrupts are pending from already gath-
+ered elements, they will be delivered in lieu of the exception; in this case, EFLAG.RF is set to one so an instruction
+breakpoint is not re-triggered when the instruction is continued.
+If the data size and index size are different, part of the destination register and part of the mask register do not
+correspond to any elements being gathered. This instruction sets those parts to zero. It may do this to one or both
+of those registers even if the instruction triggers an exception, and even if the instruction triggers the exception
+before gathering any elements.
+VEX.128 version: For dword indices, the instruction will gather four dword values. For qword indices, the instruc-
+tion will gather two values and zeroes the upper 64 bits of the destination.
+VEX.256 version: For dword indices, the instruction will gather eight dword values. For qword indices, the instruc-
+tion will gather four values and zeroes the upper 128 bits of the destination.
+Note that:
+• If any pair of the index, mask, or destination registers are the same, this instruction results a UD fault.
+• Faults are delivered in a right-to-left manner. That is, if a fault is triggered by an element and delivered, all
+   elements closer to the LSB of the destination will be completed (and non-faulting). Individual elements closer
+  to the MSB may or may not be completed. If a given element triggers multiple faults, they are delivered in the
+ conventional order.
+• Elements may be gathered in any order, but faults must be delivered in a right-to-left order; thus, elements to
+   the left of a faulting one may be gathered before the fault is delivered. A given implementation of this
+  instruction is repeatable - given the same input values and architectural state, the same set of elements to the
+ left of the faulting one will be gathered.
+• This instruction does not perform AC checks, and so will never deliver an AC fault.
+• The scaled index may require more bits to represent than the address bits used by the processor (e.g., in 32-
+   bit mode, if the scale is greater than one). In this case, the most significant bits beyond the number of address
+  bits are ignored.
+The values may be read from memory in any order. Memory ordering with other instructions follows the Intel-
+64 memory-ordering model.
+This instruction will cause a #UD if the address size attribute is 16-bit.
+This instruction will cause a #UD if the memory operand is encoded without the SIB byte.
+This instruction should not be used to access memory mapped I/O as the ordering of the individual loads it does
+is implementation specific, and some implementations may use loads larger than the data element size or load
+elements an indeterminate number of times.
+---------------------------------------------------------------------
+
+VPGATHERDQ/VPGATHERQQ — Gather Packed Qword Values Using Signed Dword/Qword
+Indices
+Opcode/ Op/
+Instruction En
+64/32 CPUID
+    -bit Feature
+    Mode Flag
+    Description
+
+VEX.DDS.128.66.0F38.W1 90 /r 
+VPGATHERDQ xmm1, vm32x, xmm2 
+RMV V/V AVX2
+Using dword indices specified in vm32x, gather qword val-
+ues from memory conditioned on mask specified by
+xmm2. Conditionally gathered elements are merged into
+xmm1.
+
+VEX.DDS.128.66.0F38.W1 91 /r 
+VPGATHERQQ xmm1, vm64x, xmm2 
+RMV V/V AVX2
+Using qword indices specified in vm64x, gather qword val-
+ues from memory conditioned on mask specified by
+xmm2. Conditionally gathered elements are merged into
+xmm1.
+
+VEX.DDS.256.66.0F38.W1 90 /r 
+VPGATHERDQ ymm1, vm32x, ymm2 
+RMV V/V AVX2
+Using dword indices specified in vm32x, gather qword val-
+ues from memory conditioned on mask specified by
+ymm2. Conditionally gathered elements are merged into
+ymm1.
+
+VEX.DDS.256.66.0F38.W1 91 /r 
+VPGATHERQQ ymm1, vm64y, ymm2 
+RMV V/V AVX2
+Using qword indices specified in vm64y, gather qword val-
+ues from memory conditioned on mask specified by
+ymm2. Conditionally gathered elements are merged into
+ymm1.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+A ModRM:reg (r,w) BaseReg (R): VSIB:base, VEX.vvvv (r, w) NA
+                  VectorReg(R): VSIB:index 
+
+Description
+The instruction conditionally loads up to 2 or 4 qword values from memory addresses specified by the memory
+operand (the second operand) and using qword indices. The memory operand uses the VSIB form of the SIB byte
+to specify a general purpose register operand as the common base, a vector register for an array of indices relative
+to the base and a constant scale factor.
+The mask operand (the third operand) specifies the conditional load operation from each memory address and the
+corresponding update of each data element of the destination operand (the first operand). Conditionality is speci-
+fied by the most significant bit of each data element of the mask register. If an element’s mask bit is not set, the
+corresponding element of the destination register is left unchanged. The width of data element in the destination
+register and mask register are identical. The entire mask register will be set to zero by this instruction unless the
+instruction causes an exception.
+Using dword indices in the lower half of the mask register, the instruction conditionally loads up to 2 or 4 qword
+values from the VSIB addressing memory operand, and updates the destination register.
+This instruction can be suspended by an exception if at least one element is already gathered (i.e., if the exception
+is triggered by an element other than the rightmost one with its mask bit set). When this happens, the destination
+register and the mask operand are partially updated; those elements that have been gathered are placed into the
+destination register and have their mask bits set to zero. If any traps or interrupts are pending from already gath-
+ered elements, they will be delivered in lieu of the exception; in this case, EFLAG.RF is set to one so an instruction
+breakpoint is not re-triggered when the instruction is continued.
+If the data size and index size are different, part of the destination register and part of the mask register do not
+correspond to any elements being gathered. This instruction sets those parts to zero. It may do this to one or both
+of those registers even if the instruction triggers an exception, and even if the instruction triggers the exception
+before gathering any elements.
+VEX.128 version: The instruction will gather two qword values. For dword indices, only the lower two indices in the
+vector index register are used.
+VEX.256 version: The instruction will gather four qword values. For dword indices, only the lower four indices in
+the vector index register are used.
+Note that:
+• If any pair of the index, mask, or destination registers are the same, this instruction results a UD fault.
+• Faults are delivered in a right-to-left manner. That is, if a fault is triggered by an element and delivered, all
+   elements closer to the LSB of the destination will be completed (and non-faulting). Individual elements closer
+  to the MSB may or may not be completed. If a given element triggers multiple faults, they are delivered in the
+ conventional order.
+• Elements may be gathered in any order, but faults must be delivered in a right-to-left order; thus, elements to
+   the left of a faulting one may be gathered before the fault is delivered. A given implementation of this
+  instruction is repeatable - given the same input values and architectural state, the same set of elements to the
+ left of the faulting one will be gathered.
+• This instruction does not perform AC checks, and so will never deliver an AC fault.
+• The scaled index may require more bits to represent than the address bits used by the processor (e.g., in 32-
+   bit mode, if the scale is greater than one). In this case, the most significant bits beyond the number of address
+  bits are ignored.
+The values may be read from memory in any order. Memory ordering with other instructions follows the Intel-
+64 memory-ordering model.
+This instruction will cause a #UD if the address size attribute is 16-bit.
+This instruction will cause a #UD if the memory operand is encoded without the SIB byte.
+This instruction should not be used to access memory mapped I/O as the ordering of the individual loads it does
+is implementation specific, and some implementations may use loads larger than the data element size or load
+elements an indeterminate number of times.
+---------------------------------------------------------------------
