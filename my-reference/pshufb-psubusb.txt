@@ -1,0 +1,1163 @@
+PSHUFB — Packed Shuffle Bytes
+
+Opcode/ Op/ 64/32 bit CPUID Description
+Instruction En Mode Feature 
+               Support Flag 
+
+0F 38 00 /r 
+PSHUFB mm1, mm2/m64
+RM V/V SSSE3 
+Shuffle bytes in mm1 according to contents of
+ mm2/m64.
+
+66 0F 38 00 /r
+PSHUFB xmm1, xmm2/m128
+RM V/V SSSE3 
+Shuffle bytes in xmm1 according to contents
+ of xmm2/m128.
+
+VEX.NDS.128.66.0F38.WIG 00 /r
+VPSHUFB xmm1, xmm2, xmm3/m128
+RVM V/V AVX 
+Shuffle bytes in xmm2 according to contents
+ of xmm3/m128.
+
+VEX.NDS.256.66.0F38.WIG 00 /r
+VPSHUFB ymm1, ymm2, ymm3/m256
+RVM V/V AVX2 
+Shuffle bytes in ymm2 according to contents
+ of ymm3/m256.
+
+NOTES:
+1. See note in Section 2.4, “Instruction Exception Specification” in the Intel® 64 and IA-32 Architectures Software Developer’s Manual,
+Volume 2A and Section 22.25.3, “Exception Conditions of Legacy SIMD Instructions Operating on MMX Registers” in the Intel® 64 and
+IA-32 Architectures Software Developer’s Manual, Volume 3A.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RM ModRM:reg (r, w) ModRM:r/m (r) NA NA
+RVM ModRM:reg (w) VEX.vvvv (r) ModRM:r/m (r) NA
+
+Description
+PSHUFB performs in-place shuffles of bytes in the destination operand (the first operand) according to the shuffle
+control mask in the source operand (the second operand). The instruction permutes the data in the destination
+operand, leaving the shuffle mask unaffected. If the most significant bit (bit[7]) of each byte of the shuffle control
+mask is set, then constant zero is written in the result byte. Each byte in the shuffle control mask forms an index
+to permute the corresponding byte in the destination operand. The value of each index is the least significant 4 bits
+(128-bit operation) or 3 bits (64-bit operation) of the shuffle control byte. When the source operand is a 128-bit
+memory operand, the operand must be aligned on a 16-byte boundary or a general-protection exception (#GP) will
+be generated.
+In 64-bit mode, use the REX prefix to access additional registers.
+Legacy SSE version: Both operands can be MMX registers.
+128-bit Legacy SSE version: The first source operand and the destination operand are the same. Bits (VLMAX-
+1:128) of the corresponding YMM destination register remain unchanged.
+VEX.128 encoded version: The destination operand is the first operand, the first source operand is the second
+operand, the second source operand is the third operand. Bits (VLMAX-1:128) of the destination YMM register are
+zeroed.
+VEX.256 encoded version: Bits (255:128) of the destination YMM register stores the 16-byte shuffle result of the
+upper 16 bytes of the first source operand, using the upper 16-bytes of the second source operand as control
+mask. The value of each index is for the high 128-bit lane is the least significant 4 bits of the respective shuffle
+control byte. The index value selects a source data element within each 128-bit lane.
+Note: VEX.L must be 0, otherwise the instruction will #UD.
+---------------------------------------------------------------------
+
+PSHUFD—Shuffle Packed Doublewords
+
+Opcode/ Op/ 64/32 bit CPUID Description
+Instruction En Mode Feature 
+               Support Flag 
+
+66 0F 70 /r ib 
+PSHUFD xmm1, xmm2/m128, imm8
+RMI V/V SSE2 
+Shuffle the doublewords in xmm2/m128
+ based on the encoding in imm8 and store the
+ result in xmm1.
+
+VEX.128.66.0F.WIG 70 /r ib
+VPSHUFD xmm1, xmm2/m128, imm8
+RMI V/V AVX 
+Shuffle the doublewords in xmm2/m128
+ based on the encoding in imm8 and store the
+ result in xmm1.
+
+VEX.256.66.0F.WIG 70 /r ib
+VPSHUFD ymm1, ymm2/m256, imm8
+RMI V/V AVX2 
+Shuffle the doublewords in ymm2/m256
+ based on the encoding in imm8 and store the
+ result in ymm1.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RMI ModRM:reg (w) ModRM:r/m (r) imm8 NA
+
+Description
+Copies doublewords from source operand (second operand) and inserts them in the destination operand (first
+operand) at the locations selected with the order operand (third operand). Figure 4-12 shows the operation of the
+256-bit VPSHUFD instruction and the encoding of the order operand. Each 2-bit field in the order operand selects
+the contents of one doubleword location within a 128-bit lane and copy to the target element in the destination
+operand. For example, bits 0 and 1 of the order operand targets the first doubleword element in the low and high
+128-bit lane of the destination operand for 256-bit VPSHUFD. The encoded value of bits 1:0 of the order operand
+(see the field encoding in Figure 4-12) determines which doubleword element (from the respective 128-bit lane) of
+the source operand will be copied to doubleword 0 of the destination operand.
+For 128-bit operation, only the low 128-bit lane are operative. The source operand can be an XMM register or a
+128-bit memory location. The destination operand is an XMM register. The order operand is an 8-bit immediate.
+Note that this instruction permits a doubleword in the source operand to be copied to more than one doubleword
+location in the destination operand.
+---------------------------------------------------------------------
+
+PSHUFHW—Shuffle Packed High Words
+
+Opcode/ Op/ 64/32 bit CPUID Description
+Instruction En Mode Feature 
+               Support Flag 
+
+F3 0F 70 /r ib 
+PSHUFHW xmm1, xmm2/m128, imm8
+RMI V/V SSE2 
+Shuffle the high words in xmm2/m128 based
+ on the encoding in imm8 and store the result
+ in xmm1.
+
+VEX.128.F3.0F.WIG 70 /r ib
+VPSHUFHW xmm1, xmm2/m128, imm8
+RMI V/V AVX 
+Shuffle the high words in xmm2/m128 based
+ on the encoding in imm8 and store the result
+ in xmm1.
+
+VEX.256.F3.0F.WIG 70 /r ib
+VPSHUFHW ymm1, ymm2/m256, imm8
+RMI V/V AVX2 
+Shuffle the high words in ymm2/m256 based
+ on the encoding in imm8 and store the result
+ in ymm1.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RMI ModRM:reg (w) ModRM:r/m (r) imm8 NA
+
+Description
+Copies words from the high quadword of a 128-bit lane of the source operand and inserts them in the high quad-
+word of the destination operand at word locations (of the respective lane) selected with the immediate operand .
+This 256-bit operation is similar to the in-lane operation used by the 256-bit VPSHUFD instruction, which is illus-
+trated in Figure 4-12. For 128-bit operation, only the low 128-bit lane is operative. Each 2-bit field in the immediate
+operand selects the contents of one word location in the high quadword of the destination operand. The binary
+encodings of the immediate operand fields select words (0, 1, 2 or 3, 4) from the high quadword of the source
+operand to be copied to the destination operand. The low quadword of the source operand is copied to the low
+quadword of the destination operand, for each 128-bit lane.
+Note that this instruction permits a word in the high quadword of the source operand to be copied to more than one
+word location in the high quadword of the destination operand.
+In 64-bit mode, using a REX prefix in the form of REX.R permits this instruction to access additional registers
+(XMM8-XMM15).
+128-bit Legacy SSE version: The destination operand is an XMM register. The source operand can be an XMM
+register or a 128-bit memory location. Bits (VLMAX-1:128) of the corresponding YMM destination register remain
+unchanged.
+VEX.128 encoded version: The destination operand is an XMM register. The source operand can be an XMM register
+or a 128-bit memory location. Bits (VLMAX-1:128) of the destination YMM register are zeroed. VEX.vvvv is
+reserved and must be 1111b, VEX.L must be 0, otherwise the instruction will #UD.
+VEX.256 encoded version: The destination operand is an YMM register. The source operand can be an YMM register
+or a 256-bit memory location.
+Note: In VEX encoded versions VEX.vvvv is reserved and must be 1111b otherwise instructions will #UD.
+---------------------------------------------------------------------
+PSHUFLW—Shuffle Packed Low Words
+
+Opcode/ Op/ 64/32 bit CPUID Description
+Instruction En Mode Feature 
+               Support Flag 
+
+F2 0F 70 /r ib 
+PSHUFLW xmm1, xmm2/m128, imm8
+RMI V/V SSE2 
+Shuffle the low words in xmm2/m128 based
+ on the encoding in imm8 and store the result
+ in xmm1.
+
+VEX.128.F2.0F.WIG 70 /r ib
+VPSHUFLW xmm1, xmm2/m128, imm8
+RMI V/V AVX 
+Shuffle the low words in xmm2/m128 based
+ on the encoding in imm8 and store the result
+ in xmm1.
+
+VEX.256.F2.0F.WIG 70 /r ib
+VPSHUFLW ymm1, ymm2/m256, imm8
+RMI V/V AVX2 
+Shuffle the low words in ymm2/m256 based
+ on the encoding in imm8 and store the result
+ in ymm1.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RMI ModRM:reg (w) ModRM:r/m (r) imm8 NA
+
+Description
+Copies words from the low quadword of a 128-bit lane of the source operand and inserts them in the low quadword
+of the destination operand at word locations (of the respective lane) selected with the immediate operand. The
+256-bit operation is similar to the in-lane operation used by the 256-bit VPSHUFD instruction, which is illustrated
+in Figure 4-12. For 128-bit operation, only the low 128-bit lane is operative. Each 2-bit field in the immediate
+operand selects the contents of one word location in the low quadword of the destination operand. The binary
+encodings of the immediate operand fields select words (0, 1, 2 or 3) from the low quadword of the source operand
+to be copied to the destination operand. The high quadword of the source operand is copied to the high quadword
+of the destination operand, for each 128-bit lane.
+Note that this instruction permits a word in the low quadword of the source operand to be copied to more than one
+word location in the low quadword of the destination operand.
+In 64-bit mode, using a REX prefix in the form of REX.R permits this instruction to access additional registers
+(XMM8-XMM15).
+128-bit Legacy SSE version: The destination operand is an XMM register. The source operand can be an XMM
+register or a 128-bit memory location. Bits (VLMAX-1:128) of the corresponding YMM destination register remain
+unchanged.
+VEX.128 encoded version: The destination operand is an XMM register. The source operand can be an XMM register
+or a 128-bit memory location. Bits (VLMAX-1:128) of the destination YMM register are zeroed.
+VEX.256 encoded version: The destination operand is an YMM register. The source operand can be an YMM register
+or a 256-bit memory location.
+Note: VEX.vvvv is reserved and must be 1111b, VEX.L must be 0, otherwise instructions will #UD.
+---------------------------------------------------------------------
+
+PSHUFW—Shuffle Packed Words
+
+Opcode/ Op/ 64-Bit Compat/ Description
+Instruction En Mode Leg Mode
+
+0F 70 /r ib 
+PSHUFW mm1, mm2/m64, imm8
+RMI Valid Valid
+Shuffle the words in mm2/m64 based on the
+ encoding in imm8 and store the result in mm1.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RMI ModRM:reg (w) ModRM:r/m (r) imm8 NA
+
+Description
+Copies words from the source operand (second operand) and inserts them in the destination operand (first
+operand) at word locations selected with the order operand (third operand). This operation is similar to the opera-
+tion used by the PSHUFD instruction, which is illustrated in Figure 4-12. For the PSHUFW instruction, each 2-bit
+field in the order operand selects the contents of one word location in the destination operand. The encodings of the
+order operand fields select words from the source operand to be copied to the destination operand.
+The source operand can be an MMX technology register or a 64-bit memory location. The destination operand is an
+MMX technology register. The order operand is an 8-bit immediate. Note that this instruction permits a word in the
+source operand to be copied to more than one word location in the destination operand.
+In 64-bit mode, using a REX prefix in the form of REX.R permits this instruction to access additional registers
+(XMM8-XMM15).
+---------------------------------------------------------------------
+
+PSIGNB/PSIGNW/PSIGND — Packed SIGN
+Opcode/ Op/ 64/32 bit CPUID Description
+Instruction En Mode Feature 
+               Support Flag 
+0F 38 08 /r 
+PSIGNB mm1, mm2/m64
+RM V/V SSSE3 
+Negate/zero/preserve packed byte integers in
+ mm1 depending on the corresponding sign in
+ mm2/m64.
+
+66 0F 38 08 /r
+PSIGNB xmm1, xmm2/m128
+RM V/V SSSE3 
+Negate/zero/preserve packed byte integers in
+ xmm1 depending on the corresponding sign in
+ xmm2/m128.
+
+0F 38 09 /r1
+PSIGNW mm1, mm2/m64
+RM V/V SSSE3 
+Negate/zero/preserve packed word integers
+ in mm1 depending on the corresponding sign
+ in mm2/m128.
+
+66 0F 38 09 /r
+PSIGNW xmm1, xmm2/m128
+RM V/V SSSE3 
+Negate/zero/preserve packed word integers
+ in xmm1 depending on the corresponding sign
+ in xmm2/m128.
+
+0F 38 0A /r1
+PSIGND mm1, mm2/m64
+RM V/V SSSE3 
+Negate/zero/preserve packed doubleword
+ integers in mm1 depending on the
+ corresponding sign in mm2/m128.
+
+66 0F 38 0A /r
+PSIGND xmm1, xmm2/m128
+RM V/V SSSE3 
+Negate/zero/preserve packed doubleword
+ integers in xmm1 depending on the
+ corresponding sign in xmm2/m128.
+
+VEX.NDS.128.66.0F38.WIG 08 /r
+VPSIGNB xmm1, xmm2, xmm3/m128
+RVM V/V AVX 
+Negate/zero/preserve packed byte integers in
+ xmm2 depending on the corresponding sign in
+ xmm3/m128.
+
+VEX.NDS.128.66.0F38.WIG 09 /r
+VPSIGNW xmm1, xmm2, xmm3/m128
+RVM V/V AVX 
+Negate/zero/preserve packed word integers
+ in xmm2 depending on the corresponding sign
+ in xmm3/m128.
+
+VEX.NDS.128.66.0F38.WIG 0A /r
+VPSIGND xmm1, xmm2, xmm3/m128
+RVM V/V AVX 
+Negate/zero/preserve packed doubleword
+ integers in xmm2 depending on the
+ corresponding sign in xmm3/m128.
+
+VEX.NDS.256.66.0F38.WIG 08 /r
+VPSIGNB ymm1, ymm2, ymm3/m256
+RVM V/V AVX2 
+Negate packed byte integers in ymm2 if the
+ corresponding sign in ymm3/m256 is less
+ than zero.
+
+VEX.NDS.256.66.0F38.WIG 09 /r
+VPSIGNW ymm1, ymm2, ymm3/m256
+RVM V/V AVX2 
+Negate packed 16-bit integers in ymm2 if the
+ corresponding sign in ymm3/m256 is less
+ than zero.
+
+VEX.NDS.256.66.0F38.WIG 0A /r
+VPSIGND ymm1, ymm2, ymm3/m256
+RVM V/V AVX2 
+Negate packed doubleword integers in ymm2
+ if the corresponding sign in ymm3/m256 is
+ less than zero.
+
+NOTES:
+1. See note in Section 2.4, “Instruction Exception Specification” in the Intel® 64 and IA-32 Architectures Software Developer’s Manual,
+Volume 2A and Section 22.25.3, “Exception Conditions of Legacy SIMD Instructions Operating on MMX Registers” in the Intel® 64 and
+IA-32 Architectures Software Developer’s Manual, Volume 3A.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RM ModRM:reg (r, w) ModRM:r/m (r) NA NA
+RVM ModRM:reg (w) VEX.vvvv (r) ModRM:r/m (r) NA
+
+Description
+(V)PSIGNB/(V)PSIGNW/(V)PSIGND negates each data element of the destination operand (the first operand) if the
+signed integer value of the corresponding data element in the source operand (the second operand) is less than
+zero. If the signed integer value of a data element in the source operand is positive, the corresponding data
+element in the destination operand is unchanged. If a data element in the source operand is zero, the corre-
+sponding data element in the destination operand is set to zero.
+(V)PSIGNB operates on signed bytes. (V)PSIGNW operates on 16-bit signed words. (V)PSIGND operates on signed
+32-bit integers. When the source operand is a 128bit memory operand, the operand must be aligned on a 16-byte
+boundary or a general-protection exception (#GP) will be generated.
+Legacy SSE instructions: Both operands can be MMX registers. In 64-bit mode, use the REX prefix to access addi-
+tional registers.
+128-bit Legacy SSE version: The first source and destination operands are XMM registers. The second source
+operand is an XMM register or a 128-bit memory location. Bits (VLMAX-1:128) of the corresponding YMM destina-
+tion register remain unchanged.
+VEX.128 encoded version: The first source and destination operands are XMM registers. The second source
+operand is an XMM register or a 128-bit memory location. Bits (VLMAX-1:128) of the destination YMM register are
+zeroed. VEX.L must be 0, otherwise instructions will #UD.
+VEX.256 encoded version: The first source and destination operands are YMM registers. The second source
+operand is an YMM register or a 256-bit memory location.
+---------------------------------------------------------------------
+
+PSLLDQ—Shift Double Quadword Left Logical
+
+Opcode/ Op/ 64/32 bit CPUID Description
+Instruction En Mode Feature 
+               Support Flag 
+
+66 0F 73 /7 ib 
+PSLLDQ xmm1, imm8
+MI V/V SSE2 
+Shift xmm1 left by imm8 bytes while shifting
+ in 0s.
+
+VEX.NDD.128.66.0F.WIG 73 /7 ib
+VPSLLDQ xmm1, xmm2, imm8
+VMI V/V AVX 
+Shift xmm2 left by imm8 bytes while shifting
+ in 0s and store result in xmm1.
+
+VEX.NDD.256.66.0F.WIG 73 /7 ib
+VPSLLDQ ymm1, ymm2, imm8
+VMI V/V AVX2 
+Shift ymm2 left by imm8 bytes while shifting
+ in 0s and store result in ymm1.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+MI ModRM:r/m (r, w) imm8 NA NA
+VMI VEX.vvvv (w) ModRM:r/m (r) imm8 NA
+
+Description
+Shifts the destination operand (first operand) to the left by the number of bytes specified in the count operand
+(second operand). The empty low-order bytes are cleared (set to all 0s). If the value specified by the count
+operand is greater than 15, the destination operand is set to all 0s. The count operand is an 8-bit immediate.
+128-bit Legacy SSE version: The source and destination operands are the same. Bits (VLMAX-1:128) of the corre-
+sponding YMM destination register remain unchanged.
+VEX.128 encoded version: The source and destination operands are XMM registers. Bits (VLMAX-1:128) of the
+destination YMM register are zeroed.
+VEX.256 encoded version: The source operand is a YMM register. The destination operand is a YMM register. The
+count operand applies to both the low and high 128-bit lanes.
+Note: VEX.vvvv encodes the destination register, and VEX.B + ModRM.r/m encodes the source register. VEX.L must
+be 0, otherwise instructions will #UD.
+---------------------------------------------------------------------
+
+PSLLW/PSLLD/PSLLQ—Shift Packed Data Left Logical
+
+Opcode/ Op/ 64/32 bit CPUID Description
+Instruction En Mode Feature 
+               Support Flag 
+
+0F F1 /r 
+PSLLW mm, mm/m64
+RM V/V MMX 
+Shift words in mm left mm/m64 while shifting
+ in 0s.
+
+66 0F F1 /r
+PSLLW xmm1, xmm2/m128
+RM V/V SSE2 
+Shift words in xmm1 left by xmm2/m128
+ while shifting in 0s.
+
+0F 71 /6 ib
+PSLLW mm1, imm8
+MI V/V MMX 
+Shift words in mm left by imm8 while shifting
+ in 0s.
+
+66 0F 71 /6 ib
+PSLLW xmm1, imm8
+MI V/V SSE2 
+Shift words in xmm1 left by imm8 while
+ shifting in 0s.
+
+0F F2 /r1
+PSLLD mm, mm/m64
+RM V/V MMX 
+Shift doublewords in mm left by mm/m64
+ while shifting in 0s.
+
+66 0F F2 /r
+PSLLD xmm1, xmm2/m128
+RM V/V SSE2 
+Shift doublewords in xmm1 left by
+ xmm2/m128 while shifting in 0s.
+
+0F 72 /6 ib1
+PSLLD mm, imm8
+MI V/V MMX 
+Shift doublewords in mm left by imm8 while
+ shifting in 0s.
+
+66 0F 72 /6 ib
+PSLLD xmm1, imm8
+MI V/V SSE2 
+Shift doublewords in xmm1 left by imm8 while
+ shifting in 0s.
+
+0F F3 /r1
+PSLLQ mm, mm/m64
+RM V/V MMX 
+Shift quadword in mm left by mm/m64 while
+ shifting in 0s.
+
+66 0F F3 /r
+PSLLQ xmm1, xmm2/m128
+RM V/V SSE2 
+Shift quadwords in xmm1 left by xmm2/m128
+ while shifting in 0s.
+
+0F 73 /6 ib1
+PSLLQ mm, imm8
+MI V/V MMX 
+Shift quadword in mm left by imm8 while
+ shifting in 0s.
+
+66 0F 73 /6 ib
+PSLLQ xmm1, imm8
+MI V/V SSE2 
+Shift quadwords in xmm1 left by imm8 while
+ shifting in 0s.
+
+VEX.NDS.128.66.0F.WIG F1 /r
+VPSLLW xmm1, xmm2, xmm3/m128
+RVM V/V AVX 
+Shift words in xmm2 left by amount specified
+ in xmm3/m128 while shifting in 0s.
+
+VEX.NDD.128.66.0F.WIG 71 /6 ib
+VPSLLW xmm1, xmm2, imm8
+VMI V/V AVX 
+Shift words in xmm2 left by imm8 while
+ shifting in 0s.
+
+VEX.NDS.128.66.0F.WIG F2 /r
+VPSLLD xmm1, xmm2, xmm3/m128
+RVM V/V AVX 
+Shift doublewords in xmm2 left by amount
+ specified in xmm3/m128 while shifting in 0s.
+
+VEX.NDD.128.66.0F.WIG 72 /6 ib
+VPSLLD xmm1, xmm2, imm8
+VMI V/V AVX 
+Shift doublewords in xmm2 left by imm8
+ while shifting in 0s.
+
+VEX.NDS.128.66.0F.WIG F3 /r
+VPSLLQ xmm1, xmm2, xmm3/m128
+RVM V/V AVX 
+Shift quadwords in xmm2 left by amount
+ specified in xmm3/m128 while shifting in 0s.
+
+VEX.NDD.128.66.0F.WIG 73 /6 ib
+VPSLLQ xmm1, xmm2, imm8
+VMI V/V AVX 
+Shift quadwords in xmm2 left by imm8 while
+ shifting in 0s.
+
+VEX.NDS.256.66.0F.WIG F1 /r
+VPSLLW ymm1, ymm2, xmm3/m128
+RVM V/V AVX2 
+Shift words in ymm2 left by amount specified
+ in xmm3/m128 while shifting in 0s.
+
+VEX.NDD.256.66.0F.WIG 71 /6 ib
+VPSLLW ymm1, ymm2, imm8
+VMI V/V AVX2 
+Shift words in ymm2 left by imm8 while
+ shifting in 0s.
+
+VEX.NDS.256.66.0F.WIG F2 /r
+VPSLLD ymm1, ymm2, xmm3/m128
+RVM V/V AVX2 
+Shift doublewords in ymm2 left by amount
+ specified in xmm3/m128 while shifting in 0s.
+
+VEX.NDD.256.66.0F.WIG 72 /6 ib
+VPSLLD ymm1, ymm2, imm8
+VMI V/V AVX2 
+Shift doublewords in ymm2 left by imm8 while
+ shifting in 0s.
+
+VEX.NDS.256.66.0F.WIG F3 /r
+VPSLLQ ymm1, ymm2, xmm3/m128
+RVM V/V AVX2 
+Shift quadwords in ymm2 left by amount
+ specified in xmm3/m128 while shifting in 0s.
+
+VEX.NDD.256.66.0F.WIG 73 /6 ib
+VPSLLQ ymm1, ymm2, imm8
+VMI V/V AVX2 
+Shift quadwords in ymm2 left by imm8 while
+ shifting in 0s.
+
+NOTES:
+1. See note in Section 2.4, “Instruction Exception Specification” in the Intel® 64 and IA-32 Architectures Software Developer’s Manual,
+Volume 2A and Section 22.25.3, “Exception Conditions of Legacy SIMD Instructions Operating on MMX Registers” in the Intel® 64 and
+IA-32 Architectures Software Developer’s Manual, Volume 3A.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RM ModRM:reg (r, w) ModRM:r/m (r) NA NA
+MI ModRM:r/m (r, w) imm8 NA NA
+RVM ModRM:reg (w) VEX.vvvv (r) ModRM:r/m (r) NA
+VMI VEX.vvvv (w) ModRM:r/m (r) imm8 NA
+
+Description
+Shifts the bits in the individual data elements (words, doublewords, or quadword) in the destination operand (first
+operand) to the left by the number of bits specified in the count operand (second operand). As the bits in the data
+elements are shifted left, the empty low-order bits are cleared (set to 0). If the value specified by the count
+operand is greater than 15 (for words), 31 (for doublewords), or 63 (for a quadword), then the destination operand
+is set to all 0s. Figure 4-13 gives an example of shifting words in a 64-bit operand.
+---------------------------------------------------------------------
+
+PSRAW/PSRAD—Shift Packed Data Right Arithmetic
+
+Opcode/ Op/ 64/32 bit CPUID Description
+Instruction En Mode Feature 
+               Support Flag 
+
+0F E1 /r
+PSRAW mm, mm/m64 
+RM V/V MMX 
+Shift words in mm right by mm/m64 while
+ shifting in sign bits.
+ 
+66 0F E1 /r
+PSRAW xmm1, xmm2/m128
+RM V/V SSE2 
+Shift words in xmm1 right by xmm2/m128
+ while shifting in sign bits.
+ 
+0F 71 /4 ib
+PSRAW mm, imm8
+MI V/V MMX 
+Shift words in mm right by imm8 while shifting
+ in sign bits
+ 
+66 0F 71 /4 ib
+PSRAW xmm1, imm8
+MI V/V SSE2 
+Shift words in xmm1 right by imm8 while
+ shifting in sign bits
+ 
+0F E2 /r
+PSRAD mm, mm/m64
+RM V/V MMX 
+Shift doublewords in mm right by mm/m64
+ while shifting in sign bits.
+ 
+66 0F E2 /r
+PSRAD xmm1, xmm2/m128
+RM V/V SSE2 
+Shift doubleword in xmm1 right by xmm2
+ /m128 while shifting in sign bits.
+ 
+0F 72 /4 ib
+PSRAD mm, imm8
+MI V/V MMX 
+Shift doublewords in mm right by imm8 while
+ shifting in sign bits.
+ 
+66 0F 72 /4 ib
+PSRAD xmm1, imm8
+MI V/V SSE2 
+Shift doublewords in xmm1 right by imm8
+ while shifting in sign bits.
+ 
+VEX.NDS.128.66.0F.WIG E1 /r
+VPSRAW xmm1, xmm2, xmm3/m128
+RVM V/V AVX 
+Shift words in xmm2 right by amount specified
+ in xmm3/m128 while shifting in sign bits.
+ 
+VEX.NDD.128.66.0F.WIG 71 /4 ib
+VPSRAW xmm1, xmm2, imm8
+VMI V/V AVX 
+Shift words in xmm2 right by imm8 while
+ shifting in sign bits.
+ 
+VEX.NDS.128.66.0F.WIG E2 /r
+VPSRAD xmm1, xmm2, xmm3/m128
+RVM V/V AVX 
+Shift doublewords in xmm2 right by amount
+ specified in xmm3/m128 while shifting in sign
+ bits.
+
+VEX.NDD.128.66.0F.WIG 72 /4 ib
+VPSRAD xmm1, xmm2, imm8
+VMI V/V AVX 
+Shift doublewords in xmm2 right by imm8
+ while shifting in sign bits.
+ 
+VEX.NDS.256.66.0F.WIG E1 /r
+VPSRAW ymm1, ymm2, xmm3/m128
+RVM V/V AVX2 
+Shift words in ymm2 right by amount specified
+ in xmm3/m128 while shifting in sign bits.
+ 
+VEX.NDD.256.66.0F.WIG 71 /4 ib
+VPSRAW ymm1, ymm2, imm8
+VMI V/V AVX2 
+Shift words in ymm2 right by imm8 while
+ shifting in sign bits.
+ 
+VEX.NDS.256.66.0F.WIG E2 /r
+VPSRAD ymm1, ymm2, xmm3/m128
+RVM V/V AVX2 
+Shift doublewords in ymm2 right by amount
+ specified in xmm3/m128 while shifting in sign
+ bits.
+
+VEX.NDD.256.66.0F.WIG 72 /4 ib
+VPSRAD ymm1, ymm2, imm8
+VMI V/V AVX2 
+Shift doublewords in ymm2 right by imm8
+ while shifting in sign bits.
+ 
+NOTES:
+1. See note in Section 2.4, “Instruction Exception Specification” in the Intel® 64 and IA-32 Architectures Software Developer’s Manual,
+Volume 2A and Section 22.25.3, “Exception Conditions of Legacy SIMD Instructions Operating on MMX Registers” in the Intel® 64 and
+IA-32 Architectures Software Developer’s Manual, Volume 3A.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RM ModRM:reg (r, w) ModRM:r/m (r) NA NA
+MI ModRM:r/m (r, w) imm8 NA NA
+RVM ModRM:reg (w) VEX.vvvv (r) ModRM:r/m (r) NA
+VMI VEX.vvvv (w) ModRM:r/m (r) imm8 NA
+
+Description
+Shifts the bits in the individual data elements (words or doublewords) in the destination operand (first operand) to
+the right by the number of bits specified in the count operand (second operand). As the bits in the data elements
+are shifted right, the empty high-order bits are filled with the initial value of the sign bit of the data element. If the
+value specified by the count operand is greater than 15 (for words) or 31 (for doublewords), each destination data
+element is filled with the initial value of the sign bit of the element. (Figure 4-14 gives an example of shifting words
+in a 64-bit operand.)
+---------------------------------------------------------------------
+
+PSRLDQ—Shift Double Quadword Right Logical
+
+Opcode/ Op/ 64/32 bit CPUID Description
+Instruction En Mode Feature 
+               Support Flag 
+
+66 0F 73 /3 ib 
+PSRLDQ xmm1, imm8
+MI V/V SSE2 
+Shift xmm1 right by imm8 while shifting in 0s.
+
+VEX.NDD.128.66.0F.WIG 73 /3 ib
+VPSRLDQ xmm1, xmm2, imm8
+VMI V/V AVX 
+Shift xmm2 right by imm8 bytes while shifting
+ in 0s.
+
+VEX.NDD.256.66.0F.WIG 73 /3 ib
+VPSRLDQ ymm1, ymm2, imm8
+VMI V/V AVX2 
+Shift ymm1 right by imm8 bytes while shifting
+ in 0s.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+MI ModRM:r/m (r, w) imm8 NA NA
+VMI VEX.vvvv (w) ModRM:r/m (r) imm8 NA
+
+Description
+Shifts the destination operand (first operand) to the right by the number of bytes specified in the count operand
+(second operand). The empty high-order bytes are cleared (set to all 0s). If the value specified by the count
+operand is greater than 15, the destination operand is set to all 0s. The count operand is an 8-bit immediate.
+In 64-bit mode, using a REX prefix in the form of REX.R permits this instruction to access additional registers
+(XMM8-XMM15).
+128-bit Legacy SSE version: The source and destination operands are the same. Bits (VLMAX-1:128) of the corre-
+sponding YMM destination register remain unchanged.
+VEX.128 encoded version: The source and destination operands are XMM registers. Bits (VLMAX-1:128) of the
+destination YMM register are zeroed.
+VEX.256 encoded version: The source operand is a YMM register. The destination operand is a YMM register. The
+count operand applies to both the low and high 128-bit lanes.
+Note: VEX.vvvv encodes the destination register, and VEX.B + ModRM.r/m encodes the source register. VEX.L must
+be 0, otherwise instructions will #UD.
+---------------------------------------------------------------------
+
+
+PSRLW/PSRLD/PSRLQ—Shift Packed Data Right Logical
+Opcode/ Op/ 64/32 bit CPUID Description
+Instruction En Mode Feature 
+               Support Flag 
+0F D1 /r1 
+PSRLW mm, mm/m64
+RM V/V MMX 
+Shift words in mm right by amount specified in
+ mm/m64 while shifting in 0s.
+
+66 0F D1 /r
+PSRLW xmm1, xmm2/m128
+RM V/V SSE2 
+Shift words in xmm1 right by amount
+ specified in xmm2/m128 while shifting in 0s.
+
+0F 71 /2 ib1
+PSRLW mm, imm8
+MI V/V MMX 
+Shift words in mm right by imm8 while shifting
+ in 0s.
+
+66 0F 71 /2 ib
+PSRLW xmm1, imm8
+MI V/V SSE2 
+Shift words in xmm1 right by imm8 while
+ shifting in 0s.
+
+0F D2 /r1
+PSRLD mm, mm/m64
+RM V/V MMX 
+Shift doublewords in mm right by amount
+ specified in mm/m64 while shifting in 0s.
+
+66 0F D2 /r
+PSRLD xmm1, xmm2/m128
+RM V/V SSE2 
+Shift doublewords in xmm1 right by amount
+ specified in xmm2 /m128 while shifting in 0s.
+
+0F 72 /2 ib1
+PSRLD mm, imm8
+MI V/V MMX 
+Shift doublewords in mm right by imm8 while
+ shifting in 0s.
+
+66 0F 72 /2 ib
+PSRLD xmm1, imm8
+MI V/V SSE2 
+Shift doublewords in xmm1 right by imm8
+ while shifting in 0s.
+
+0F D3 /r1
+PSRLQ mm, mm/m64
+RM V/V MMX 
+Shift mm right by amount specified in
+ mm/m64 while shifting in 0s.
+
+66 0F D3 /r
+PSRLQ xmm1, xmm2/m128
+RM V/V SSE2 
+Shift quadwords in xmm1 right by amount
+ specified in xmm2/m128 while shifting in 0s.
+
+0F 73 /2 ib1
+PSRLQ mm, imm8
+MI V/V MMX 
+Shift mm right by imm8 while shifting in 0s.
+ 
+66 0F 73 /2 ib
+PSRLQ xmm1, imm8MI 
+V/V SSE2 
+Shift quadwords in xmm1 right by imm8 while
+ shifting in 0s.
+
+VEX.NDS.128.66.0F.WIG D1 /r
+VPSRLW xmm1, xmm2, xmm3/m128
+RVM V/V AVX 
+Shift words in xmm2 right by amount
+ specified in xmm3/m128 while shifting in 0s.
+
+VEX.NDD.128.66.0F.WIG 71 /2 ib
+VPSRLW xmm1, xmm2, imm8
+VMI V/V AVX 
+Shift words in xmm2 right by imm8 while
+ shifting in 0s.
+
+VEX.NDS.128.66.0F.WIG D2 /r
+VPSRLD xmm1, xmm2, xmm3/m128
+RVM V/V AVX 
+Shift doublewords in xmm2 right by amount
+ specified in xmm3/m128 while shifting in 0s.
+
+VEX.NDD.128.66.0F.WIG 72 /2 ib
+VPSRLD xmm1, xmm2, imm8
+VMI V/V AVX 
+Shift doublewords in xmm2 right by imm8
+ while shifting in 0s.
+
+VEX.NDS.128.66.0F.WIG D3 /r
+VPSRLQ xmm1, xmm2, xmm3/m128
+RVM V/V AVX 
+Shift quadwords in xmm2 right by amount
+ specified in xmm3/m128 while shifting in 0s.
+
+VEX.NDD.128.66.0F.WIG 73 /2 ib
+VPSRLQ xmm1, xmm2, imm8
+VMI V/V AVX 
+Shift quadwords in xmm2 right by imm8 while
+ shifting in 0s.
+
+VEX.NDS.256.66.0F.WIG D1 /r
+VPSRLW ymm1, ymm2, xmm3/m128
+RVM V/V AVX2 
+Shift words in ymm2 right by amount specified
+ in xmm3/m128 while shifting in 0s.
+
+VEX.NDD.256.66.0F.WIG 71 /2 ib
+VPSRLW ymm1, ymm2, imm8
+VMI V/V AVX2 
+Shift words in ymm2 right by imm8 while
+ shifting in 0s.
+
+VEX.NDS.256.66.0F.WIG D2 /r
+VPSRLD ymm1, ymm2, xmm3/m128
+RVM V/V AVX2 
+Shift doublewords in ymm2 right by amount
+ specified in xmm3/m128 while shifting in 0s.
+
+VEX.NDD.256.66.0F.WIG 72 /2 ib
+VPSRLD ymm1, ymm2, imm8
+VMI V/V AVX2 
+Shift doublewords in ymm2 right by imm8
+ while shifting in 0s.
+
+VEX.NDS.256.66.0F.WIG D3 /r
+VPSRLQ ymm1, ymm2, xmm3/m128
+RVM V/V AVX2 
+Shift quadwords in ymm2 right by amount
+ specified in xmm3/m128 while shifting in 0s.
+
+VEX.NDD.256.66.0F.WIG 73 /2 ib
+VPSRLQ ymm1, ymm2, imm8
+VMI V/V AVX2 
+Shift quadwords in ymm2 right by imm8 while
+ shifting in 0s.
+
+NOTES:
+1. See note in Section 2.4, “Instruction Exception Specification” in the Intel® 64 and IA-32 Architectures Software Developer’s Manual,
+Volume 2A and Section 22.25.3, “Exception Conditions of Legacy SIMD Instructions Operating on MMX Registers” in the Intel® 64 and
+IA-32 Architectures Software Developer’s Manual, Volume 3A.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RM ModRM:reg (r, w) ModRM:r/m (r) NA NA
+MI ModRM:r/m (r, w) imm8 NA NA
+RVM ModRM:reg (w) VEX.vvvv (r) ModRM:r/m (r) NA
+VMI VEX.vvvv (w) ModRM:r/m (r) imm8 NA
+
+Description
+Shifts the bits in the individual data elements (words, doublewords, or quadword) in the destination operand (first
+operand) to the right by the number of bits specified in the count operand (second operand). As the bits in the data
+elements are shifted right, the empty high-order bits are cleared (set to 0). If the value specified by the count
+operand is greater than 15 (for words), 31 (for doublewords), or 63 (for a quadword), then the destination operand
+is set to all 0s. Figure 4-15 gives an example of shifting words in a 64-bit operand.
+Note that only the first 64-bits of a 128-bit count operand are checked to compute the count.
+---------------------------------------------------------------------
+
+PSUBB/PSUBW/PSUBD—Subtract Packed Integers
+
+Opcode/ Op/ 64/32 bit CPUID Description
+Instruction En Mode Feature 
+               Support Flag 
+
+0F F8 /r 
+PSUBB mm, mm/m64
+RM V/V MMX 
+Subtract packed byte integers in mm/m64
+ from packed byte integers in mm.
+
+66 0F F8 /r
+PSUBB xmm1, xmm2/m128
+RM V/V SSE2 
+Subtract packed byte integers in xmm2/m128
+ from packed byte integers in xmm1.
+
+0F F9 /r
+PSUBW mm, mm/m64
+RM V/V MMX 
+Subtract packed word integers in mm/m64
+ from packed word integers in mm.
+
+66 0F F9 /r
+PSUBW xmm1, xmm2/m128
+RM V/V SSE2 
+Subtract packed word integers in
+ xmm2/m128 from packed word integers in
+          xmm1.
+
+0F FA /r
+PSUBD mm, mm/m64
+RM V/V MMX 
+Subtract packed doubleword integers in
+ mm/m64 from packed doubleword integers in
+ mm.
+
+66 0F FA /r
+PSUBD xmm1, xmm2/m128
+RM V/V SSE2 
+Subtract packed doubleword integers in
+ xmm2/mem128 from packed doubleword
+ integers in xmm1.
+
+VEX.NDS.128.66.0F.WIG F8 /r 
+VPSUBB xmm1, xmm2, xmm3/m128 
+RVM V/V AVX 
+Subtract packed byte integers in xmm3/m128
+ from xmm2.
+
+VEX.NDS.128.66.0F.WIG F9 /r 
+VPSUBW xmm1, xmm2, xmm3/m128
+RVM V/V AVX 
+Subtract packed word integers in
+ xmm3/m128 from xmm2.
+
+VEX.NDS.128.66.0F.WIG FA /r 
+VPSUBD xmm1, xmm2, xmm3/m128 xmm3/m128 
+RVM V/V AVX 
+Subtract packed doubleword integers in
+ from xmm2.
+
+VEX.NDS.256.66.0F.WIG F8 /r 
+VPSUBB ymm1, ymm2, ymm3/m256 
+RVM V/V AVX2 
+Subtract packed byte integers in ymm3/m256
+ from ymm2.
+
+VEX.NDS.256.66.0F.WIG F9 /r 
+VPSUBW ymm1, ymm2, ymm3/m256 
+RVM V/V AVX2 
+Subtract packed word integers in
+ ymm3/m256 from ymm2.
+
+VEX.NDS.256.66.0F.WIG FA /r 
+VPSUBD ymm1, ymm2, ymm3/m256 
+RVM V/V AVX2 
+Subtract packed doubleword integers in
+ ymm3/m256 from ymm2.
+
+NOTES:
+1. See note in Section 2.4, “Instruction Exception Specification” in the Intel® 64 and IA-32 Architectures Software Developer’s Manual,
+Volume 2A and Section 22.25.3, “Exception Conditions of Legacy SIMD Instructions Operating on MMX Registers” in the Intel® 64 and
+IA-32 Architectures Software Developer’s Manual, Volume 3A.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RM ModRM:reg (r, w) ModRM:r/m (r) NA NA
+RVM ModRM:reg (w) VEX.vvvv (r) ModRM:r/m (r) NA
+
+Description
+Performs a SIMD subtract of the packed integers of the source operand (second operand) from the packed integers
+of the destination operand (first operand), and stores the packed integer results in the destination operand. See
+Figure 9-4 in the Intel® 64 and IA-32 Architectures Software Developer’s Manual, Volume 1, for an illustration of
+a SIMD operation. Overflow is handled with wraparound, as described in the following paragraphs.
+The (V)PSUBB instruction subtracts packed byte integers. When an individual result is too large or too small to be
+represented in a byte, the result is wrapped around and the low 8 bits are written to the destination element.
+---------------------------------------------------------------------
+
+PSUBQ—Subtract Packed Quadword Integers
+
+Opcode/ Op/ 64/32 bit CPUID Description
+Instruction En Mode Feature 
+               Support Flag 
+
+0F FB /r 
+PSUBQ mm1, mm2/m64
+RM V/V SSE2 
+Subtract quadword integer in mm1 from mm2
+ /m64.
+
+66 0F FB /r
+PSUBQ xmm1, xmm2/m128
+RM V/V SSE2 
+Subtract packed quadword integers in xmm1
+ from xmm2 /m128.
+
+VEX.NDS.128.66.0F.WIG FB/r
+VPSUBQ xmm1, xmm2, xmm3/m128
+RVM V/V AVX 
+Subtract packed quadword integers in
+ xmm3/m128 from xmm2.
+
+VEX.NDS.256.66.0F.WIG FB /r
+VPSUBQ ymm1, ymm2, ymm3/m256
+RVM V/V AVX2 
+Subtract packed quadword integers in
+ ymm3/m256 from ymm2.
+
+NOTES:
+1. See note in Section 2.4, “Instruction Exception Specification” in the Intel® 64 and IA-32 Architectures Software Developer’s Manual,
+Volume 2A and Section 22.25.3, “Exception Conditions of Legacy SIMD Instructions Operating on MMX Registers” in the Intel® 64 and
+IA-32 Architectures Software Developer’s Manual, Volume 3A.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RM ModRM:reg (r, w) ModRM:r/m (r) NA NA
+RVM ModRM:reg (w) VEX.vvvv (r) ModRM:r/m (r) NA
+
+Description
+Subtracts the second operand (source operand) from the first operand (destination operand) and stores the result
+in the destination operand. When packed quadword operands are used, a SIMD subtract is performed. When a
+quadword result is too large to be represented in 64 bits (overflow), the result is wrapped around and the low 64
+bits are written to the destination element (that is, the carry is ignored).
+Note that the (V)PSUBQ instruction can operate on either unsigned or signed (two’s complement notation) inte-
+gers; however, it does not set bits in the EFLAGS register to indicate overflow and/or a carry. To prevent undetected
+overflow conditions, software must control the ranges of the values upon which it operates.
+In 64-bit mode, using a REX prefix in the form of REX.R permits this instruction to access additional registers
+(XMM8-XMM15).
+Legacy SSE version: The source operand can be a quadword integer stored in an MMX technology register or a 64-
+bit memory location.
+128-bit Legacy SSE version: The second source operand is an XMM register or a 128-bit memory location. The first
+source operand and destination operands are XMM registers. Bits (VLMAX-1:128) of the corresponding YMM desti-
+nation register remain unchanged.
+VEX.128 encoded version: The second source operand is an XMM register or a 128-bit memory location. The first
+source operand and destination operands are XMM registers. Bits (VLMAX-1:128) of the destination YMM register
+are zeroed.
+VEX.256 encoded version: The second source operand is an YMM register or a 256-bit memory location. The first
+source operand and destination operands are YMM registers.
+Note: VEX.L must be 0, otherwise instructions will #UD.
+---------------------------------------------------------------------
+
+PSUBSB/PSUBSW—Subtract Packed Signed Integers with Signed Saturation
+
+Opcode/ Op/ 64/32 bit CPUID Description
+Instruction En Mode Feature 
+               Support Flag 
+
+0F E8 /r 
+PSUBSB mm, mm/m64
+RM V/V MMX 
+Subtract signed packed bytes in mm/m64
+ from signed packed bytes in mm and saturate
+ results.
+
+66 0F E8 /r
+PSUBSB xmm1, xmm2/m128
+RM V/V SSE2 
+Subtract packed signed byte integers in
+ xmm2/m128 from packed signed byte
+ integers in xmm1 and saturate results.
+
+0F E9 /r
+PSUBSW mm, mm/m64
+RM V/V MMX 
+Subtract signed packed words in mm/m64
+ from signed packed words in mm and saturate
+ results.
+
+66 0F E9 /r
+PSUBSW xmm1, xmm2/m128
+RM V/V SSE2 
+Subtract packed signed word integers in
+ xmm2/m128 from packed signed word
+ integers in xmm1 and saturate results.
+
+VEX.NDS.128.66.0F.WIG E8 /r
+VPSUBSB xmm1, xmm2, xmm3/m128
+RVM V/V AVX 
+Subtract packed signed byte integers in
+ xmm3/m128 from packed signed byte
+ integers in xmm2 and saturate results.
+
+VEX.NDS.128.66.0F.WIG E9 /r
+VPSUBSW xmm1, xmm2, xmm3/m128
+RVM V/V AVX 
+Subtract packed signed word integers in
+ xmm3/m128 from packed signed word
+ integers in xmm2 and saturate results.
+
+VEX.NDS.256.66.0F.WIG E8 /r
+VPSUBSB ymm1, ymm2, ymm3/m256
+RVM V/V AVX2 
+Subtract packed signed byte integers in
+ ymm3/m256 from packed signed byte
+ integers in ymm2 and saturate results.
+
+VEX.NDS.256.66.0F.WIG E9 /r
+VPSUBSW ymm1, ymm2, ymm3/m256
+RVM V/V AVX2 
+Subtract packed signed word integers in
+ ymm3/m256 from packed signed word
+ integers in ymm2 and saturate results.
+
+NOTES:
+1. See note in Section 2.4, “Instruction Exception Specification” in the Intel® 64 and IA-32 Architectures Software Developer’s Manual,
+Volume 2A and Section 22.25.3, “Exception Conditions of Legacy SIMD Instructions Operating on MMX Registers” in the Intel® 64 and
+IA-32 Architectures Software Developer’s Manual, Volume 3A.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RM ModRM:reg (r, w) ModRM:r/m (r) NA NA
+RVM ModRM:reg (w) VEX.vvvv (r) ModRM:r/m (r) NA
+
+Description
+Performs a SIMD subtract of the packed signed integers of the source operand (second operand) from the packed
+signed integers of the destination operand (first operand), and stores the packed integer results in the destination
+operand. See Figure 9-4 in the Intel® 64 and IA-32 Architectures Software Developer’s Manual, Volume 1, for an
+illustration of a SIMD operation. Overflow is handled with signed saturation, as described in the following para-
+graphs.
+The (V)PSUBSB instruction subtracts packed signed byte integers. When an individual byte result is beyond the
+range of a signed byte integer (that is, greater than 7FH or less than 80H), the saturated value of 7FH or 80H,
+respectively, is written to the destination operand.
+The (V)PSUBSW instruction subtracts packed signed word integers. When an individual word result is beyond the
+range of a signed word integer (that is, greater than 7FFFH or less than 8000H), the saturated value of 7FFFH or
+8000H, respectively, is written to the destination operand.
+---------------------------------------------------------------------
