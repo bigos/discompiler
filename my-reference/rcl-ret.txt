@@ -1,0 +1,1148 @@
+RCL/RCR/ROL/ROR-—Rotate
+
+Opcode Instruction Op/ 64-Bit Compat/ Description
+                     En Mode Leg Mode
+
+D0 /2 
+RCL r/m8, 1 
+M1 Valid Valid
+Rotate 9 bits (CF, r/m8) left once.
+
+REX + D0 /2 
+RCL r/m8, 1 
+M1 Valid N.E. 
+Rotate 9 bits (CF, r/m8) left once.
+
+D2 /2 
+RCL r/m8, CL 
+MC Valid Valid 
+Rotate 9 bits (CF, r/m8) left CL times.
+
+REX + D2 /2 
+RCL r/m8, CL 
+MC Valid N.E. 
+Rotate 9 bits (CF, r/m8) left CL times.
+
+C0 /2 ib 
+RCL r/m8, imm8 
+MI Valid Valid 
+Rotate 9 bits (CF, r/m8) left imm8 times.
+
+REX + C0 /2 ib 
+RCL r/m8, imm8 
+MI Valid N.E. 
+Rotate 9 bits (CF, r/m8) left imm8 times.
+
+D1 /2 
+RCL r/m16, 1 
+M1 Valid Valid 
+Rotate 17 bits (CF, r/m16) left once.
+
+D3 /2 
+RCL r/m16, CL 
+MC Valid Valid 
+Rotate 17 bits (CF, r/m16) left CL times.
+
+C1 /2 ib 
+RCL r/m16, imm8 
+MI Valid Valid 
+Rotate 17 bits (CF, r/m16) left imm8 times.
+
+D1 /2 
+RCL r/m32, 1 
+M1 Valid Valid 
+Rotate 33 bits (CF, r/m32) left once.
+
+REX.W + D1 /2 
+RCL r/m64, 1 
+M1 Valid N.E. 
+Rotate 65 bits (CF, r/m64) left once. Uses a 6
+ bit count.
+
+D3 /2 
+RCL r/m32, CL 
+MC Valid Valid 
+Rotate 33 bits (CF, r/m32) left CL times.
+
+REX.W + D3 /2 
+RCL r/m64, CL 
+MC Valid N.E. 
+Rotate 65 bits (CF, r/m64) left CL times. Uses a
+ 6 bit count.
+
+C1 /2 ib 
+RCL r/m32, imm8 
+MI Valid Valid 
+Rotate 33 bits (CF, r/m32) left imm8 times.
+
+REX.W + C1 /2 ib 
+RCL r/m64, imm8 
+MI Valid N.E. 
+Rotate 65 bits (CF, r/m64) left imm8 times.
+ Uses a 6 bit count.
+
+D0 /3 
+RCR r/m8, 1 
+M1 Valid Valid 
+Rotate 9 bits (CF, r/m8) right once.
+
+REX + D0 /3 
+RCR r/m8, 1 
+M1 Valid N.E. 
+Rotate 9 bits (CF, r/m8) right once.
+
+D2 /3 
+RCR r/m8, CL 
+MC Valid Valid 
+Rotate 9 bits (CF, r/m8) right CL times.
+
+REX + D2 /3 
+RCR r/m8, CL 
+MC Valid N.E. 
+Rotate 9 bits (CF, r/m8) right CL times.
+
+C0 /3 ib 
+RCR r/m8, imm8 
+MI Valid Valid 
+Rotate 9 bits (CF, r/m8) right imm8 times.
+
+REX + C0 /3 ib 
+RCR r/m8, imm8 
+MI Valid N.E. 
+Rotate 9 bits (CF, r/m8) right imm8 times.
+
+D1 /3 
+RCR r/m16, 1 
+M1 Valid Valid 
+Rotate 17 bits (CF, r/m16) right once.
+
+D3 /3 
+RCR r/m16, CL 
+MC Valid Valid 
+Rotate 17 bits (CF, r/m16) right CL times.
+
+C1 /3 ib 
+RCR r/m16, imm8 
+MI Valid Valid 
+Rotate 17 bits (CF, r/m16) right imm8 times.
+
+D1 /3 
+RCR r/m32, 1 
+M1 Valid Valid 
+Rotate 33 bits (CF, r/m32) right once. Uses a 6
+ bit count.
+
+REX.W + D1 /3 
+RCR r/m64, 1 
+M1 Valid N.E. 
+Rotate 65 bits (CF, r/m64) right once. Uses a 6
+ bit count.
+
+D3 /3 
+RCR r/m32, CL 
+MC Valid Valid 
+Rotate 33 bits (CF, r/m32) right CL times.
+
+REX.W + D3 /3 
+RCR r/m64, CL 
+MC Valid N.E. 
+Rotate 65 bits (CF, r/m64) right CL times. Uses
+ a 6 bit count.
+
+C1 /3 ib 
+RCR r/m32, imm8 
+MI Valid Valid 
+Rotate 33 bits (CF, r/m32) right imm8 times.
+
+REX.W + C1 /3 ib 
+RCR r/m64, imm8 
+MI Valid N.E. 
+Rotate 65 bits (CF, r/m64) right imm8 times.
+ Uses a 6 bit count.
+
+D0 /0 
+ROL r/m8, 1 
+M1 Valid Valid 
+Rotate 8 bits r/m8 left once.
+
+REX + D0 /0 
+ROL r/m8, 1 
+M1 Valid N.E. 
+Rotate 8 bits r/m8 left once
+
+D2 /0 
+ROL r/m8, CL 
+MC Valid Valid 
+Rotate 8 bits r/m8 left CL times.
+
+REX + D2 /0 
+ROL r/m8, CL 
+MC Valid N.E. 
+Rotate 8 bits r/m8 left CL times.
+
+C0 /0 ib 
+ROL r/m8, imm8 
+MI Valid Valid 
+Rotate 8 bits r/m8 left imm8 times.
+
+REX + C0 /0 ib 
+ROL r/m8, imm8 
+MI Valid N.E. 
+Rotate 8 bits r/m8 left imm8 times.
+
+D1 /0 
+ROL r/m16, 1 
+M1 Valid Valid 
+Rotate 16 bits r/m16 left once.
+
+D3 /0 
+ROL r/m16, CL 
+MC Valid Valid 
+Rotate 16 bits r/m16 left CL times.
+
+C1 /0 ib 
+ROL r/m16, imm8 
+MI Valid Valid 
+Rotate 16 bits r/m16 left imm8 times.
+
+D1 /0 
+ROL r/m32, 1 
+M1 Valid Valid 
+Rotate 32 bits r/m32 left once.
+
+REX.W + D1 /0 
+ROL r/m64, 1 
+M1 Valid N.E. 
+Rotate 64 bits r/m64 left once. Uses a 6 bit
+ count.
+
+D3 /0 
+ROL r/m32, CL 
+MC Valid Valid 
+Rotate 32 bits r/m32 left CL times.
+
+REX.W + D3 /0 
+ROL r/m64, CL 
+MC Valid N.E. 
+Rotate 64 bits r/m64 left CL times. Uses a 6
+ bit count.
+
+C1 /0 ib 
+ROL r/m32, imm8 
+MI Valid Valid 
+Rotate 32 bits r/m32 left imm8 times.
+
+REX.W + C1 /0 ib 
+ROL r/m64, imm8 
+MI Valid N.E. 
+Rotate 64 bits r/m64 left imm8 times. Uses a
+ 6 bit count.
+
+D0 /1 
+ROR r/m8, 1 
+M1 Valid Valid 
+Rotate 8 bits r/m8 right once.
+
+REX + D0 /1 
+ROR r/m8, 1 
+M1 Valid N.E. 
+Rotate 8 bits r/m8 right once.
+
+D2 /1 
+ROR r/m8, CL 
+MC Valid Valid 
+Rotate 8 bits r/m8 right CL times.
+
+REX + D2 /1 
+ROR r/m8, CL 
+MC Valid N.E. 
+Rotate 8 bits r/m8 right CL times.
+
+C0 /1 ib 
+ROR r/m8, imm8 
+MI Valid Valid 
+Rotate 8 bits r/m16 right imm8 times.
+
+REX + C0 /1 ib 
+ROR r/m8*, imm8 
+MI Valid N.E. 
+Rotate 8 bits r/m16 right imm8 times.
+
+D1 /1 
+ROR r/m16, 1 
+M1 Valid Valid 
+Rotate 16 bits r/m16 right once.
+
+D3 /1 
+ROR r/m16, CL 
+MC Valid Valid 
+Rotate 16 bits r/m16 right CL times.
+
+C1 /1 ib 
+ROR r/m16, imm8 
+MI Valid Valid 
+Rotate 16 bits r/m16 right imm8 times.
+
+D1 /1 
+ROR r/m32, 1 
+M1 Valid Valid 
+Rotate 32 bits r/m32 right once.
+
+REX.W + D1 /1 
+ROR r/m64, 1 
+M1 Valid N.E. 
+Rotate 64 bits r/m64 right once. Uses a 6 bit
+ count.
+
+D3 /1 
+ROR r/m32, CL 
+MC Valid Valid 
+Rotate 32 bits r/m32 right CL times.
+
+REX.W + D3 /1 
+ROR r/m64, CL 
+MC Valid N.E. 
+Rotate 64 bits r/m64 right CL times. Uses a 6
+ bit count.
+
+C1 /1 ib 
+ROR r/m32, imm8 
+MI Valid Valid 
+Rotate 32 bits r/m32 right imm8 times.
+
+REX.W + C1 /1 ib 
+ROR r/m64, imm8 
+MI Valid N.E. 
+Rotate 64 bits r/m64 right imm8 times. Uses a
+ 6 bit count.
+
+NOTES:
+* In 64-bit mode, r/m8 can not be encoded to access the following byte registers if a REX prefix is used: AH, BH, CH, DH.
+** See IA-32 Architecture Compatibility section below.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+M1 ModRM:r/m (w) 1 NA NA
+MC ModRM:r/m (w) CL NA NA
+MI ModRM:r/m (w) imm8 NA NA
+
+Description
+Shifts (rotates) the bits of the first operand (destination operand) the number of bit positions specified in the
+second operand (count operand) and stores the result in the destination operand. The destination operand can be
+a register or a memory location; the count operand is an unsigned integer that can be an immediate or a value in
+the CL register. In legacy and compatibility mode, the processor restricts the count to a number between 0 and 31
+by masking all the bits in the count operand except the 5 least-significant bits.
+The rotate left (ROL) and rotate through carry left (RCL) instructions shift all the bits toward more-significant bit
+positions, except for the most-significant bit, which is rotated to the least-significant bit location. The rotate right
+(ROR) and rotate through carry right (RCR) instructions shift all the bits toward less significant bit positions, except
+for the least-significant bit, which is rotated to the most-significant bit location.
+The RCL and RCR instructions include the CF flag in the rotation. The RCL instruction shifts the CF flag into the
+least-significant bit and shifts the most-significant bit into the CF flag. The RCR instruction shifts the CF flag into
+the most-significant bit and shifts the least-significant bit into the CF flag. For the ROL and ROR instructions, the
+original value of the CF flag is not a part of the result, but the CF flag receives a copy of the bit that was shifted from
+one end to the other.
+The OF flag is defined only for the 1-bit rotates; it is undefined in all other cases (except RCL and RCR instructions
+only: a zero-bit rotate does nothing, that is affects no flags). For left rotates, the OF flag is set to the exclusive OR
+of the CF bit (after the rotate) and the most-significant bit of the result. For right rotates, the OF flag is set to the
+exclusive OR of the two most-significant bits of the result.
+In 64-bit mode, using a REX prefix in the form of REX.R permits access to additional registers (R8-R15). Use of
+REX.W promotes the first operand to 64 bits and causes the count operand to become a 6-bit counter.
+
+IA-32 Architecture Compatibility
+The 8086 does not mask the rotation count. However, all other IA-32 processors (starting with the Intel 286
+processor) do mask the rotation count to 5 bits, resulting in a maximum count of 31. This masking is done in all
+operating modes (including the virtual-8086 mode) to reduce the maximum execution time of the instructions.
+
+Operation
+(* RCL and RCR instructions *)
+SIZE ← OperandSize;
+CASE (determine count) OF
+SIZE ← 8:
+tempCOUNT ← (COUNT AND 1FH) MOD 9;
+SIZE ← 16: tempCOUNT ← (COUNT AND 1FH) MOD 17;
+SIZE ← 32: tempCOUNT ← COUNT AND 1FH;
+SIZE ← 64: tempCOUNT ← COUNT AND 3FH;
+ESAC;
+(* RCL instruction operation *)
+WHILE (tempCOUNT ≠ 0)
+DO
+tempCF ← MSB(DEST);
+DEST ← (DEST ∗ 2) + CF;
+CF ← tempCF;
+tempCOUNT ← tempCOUNT – 1;
+OD;
+ELIHW;
+IF COUNT = 1
+THEN OF ← MSB(DEST) XOR CF;
+ELSE OF is undefined;
+FI;
+(* RCR instruction operation *)
+IF COUNT = 1
+THEN OF ← MSB(DEST) XOR CF;
+ELSE OF is undefined;
+FI;
+WHILE (tempCOUNT ≠ 0)
+DO
+tempCF ← LSB(SRC);
+DEST ← (DEST / 2) + (CF * 2SIZE);
+CF ← tempCF;
+tempCOUNT ← tempCOUNT – 1;
+OD;
+(* ROL and ROR instructions *)
+IF OperandSize = 64
+THEN COUNTMASK = 3FH;
+ELSE COUNTMASK = 1FH;
+FI;
+(* ROL instruction operation *)
+tempCOUNT ← (COUNT & COUNTMASK) MOD SIZE
+WHILE (tempCOUNT ≠ 0)
+DO
+tempCF ← MSB(DEST);
+DEST ← (DEST ∗ 2) + tempCF;
+tempCOUNT ← tempCOUNT – 1;
+OD;
+ELIHW;
+CF ← LSB(DEST);
+IF (COUNT & COUNTMASK) = 1
+THEN OF ← MSB(DEST) XOR CF;
+ELSE OF is undefined;
+FI;
+(* ROR instruction operation *)
+tempCOUNT ← (COUNT & COUNTMASK) MOD SIZE
+WHILE (tempCOUNT ≠ 0)
+DO
+tempCF ← LSB(SRC);
+DEST ← (DEST / 2) + (tempCF ∗ 2SIZE);
+tempCOUNT ← tempCOUNT – 1;
+OD;
+ELIHW;
+CF ← MSB(DEST);
+IF (COUNT & COUNTMASK) = 1
+THEN OF ← MSB(DEST) XOR MSB − 1(DEST);
+ELSE OF is undefined;
+FI;
+
+Flags Affected
+The CF flag contains the value of the bit shifted into it. The OF flag is affected only for single-bit rotates (see
+“Description” above); it is undefined for multi-bit rotates. The SF, ZF, AF, and PF flags are not affected.
+---------------------------------------------------------------------
+
+RCPPS—Compute Reciprocals of Packed Single-Precision Floating-Point Values
+
+Opcode/ Op/ 64/32 bit CPUID Description
+Instruction En Mode Feature 
+               Support Flag 
+
+0F 53 /r 
+RCPPS xmm1, xmm2/m128
+RM V/V SSE 
+Computes the approximate reciprocals of the
+ packed single-precision floating-point values
+ in xmm2/m128 and stores the results in
+ xmm1.
+
+VEX.128.0F.WIG 53 /r
+VRCPPS xmm1, xmm2/m128
+RM V/V AVX 
+Computes the approximate reciprocals of
+ packed single-precision values in xmm2/mem
+ and stores the results in xmm1.
+
+VEX.256.0F.WIG 53 /r
+VRCPPS ymm1, ymm2/m256
+RM V/V AVX 
+Computes the approximate reciprocals of
+ packed single-precision values in ymm2/mem
+ and stores the results in ymm1.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RM ModRM:reg (w) ModRM:r/m (r) NA NA
+
+Description
+Performs a SIMD computation of the approximate reciprocals of the four packed single-precision floating-point
+values in the source operand (second operand) stores the packed single-precision floating-point results in the
+destination operand. The source operand can be an XMM register or a 128-bit memory location. The destination
+operand is an XMM register. See Figure 10-5 in the Intel® 64 and IA-32 Architectures Software Developer’s
+Manual, Volume 1, for an illustration of a SIMD single-precision floating-point operation.
+The relative error for this approximation is:
+|Relative Error| ≤ 1.5 ∗ 2−12
+The RCPPS instruction is not affected by the rounding control bits in the MXCSR register. When a source value is a
+0.0, an ∞ of the sign of the source value is returned. A denormal source value is treated as a 0.0 (of the same sign).
+Tiny results are always flushed to 0.0, with the sign of the operand. (Input values greater than or equal to
+|1.11111111110100000000000B∗2125| are guaranteed to not produce tiny results; input values less than or equal
+to |1.00000000000110000000001B*2126| are guaranteed to produce tiny results, which are in turn flushed to 0.0;
+and input values in between this range may or may not produce tiny results, depending on the implementation.)
+When a source value is an SNaN or QNaN, the SNaN is converted to a QNaN or the source QNaN is returned.
+In 64-bit mode, using a REX prefix in the form of REX.R permits this instruction to access additional registers
+(XMM8-XMM15).
+128-bit Legacy SSE version: The second source can be an XMM register or an 128-bit memory location. The desti-
+nation is not distinct from the first source XMM register and the upper bits (VLMAX-1:128) of the corresponding
+YMM register destination are unmodified.
+VEX.128 encoded version: the first source operand is an XMM register or 128-bit memory location. The destination
+operand is an XMM register. The upper bits (VLMAX-1:128) of the corresponding YMM register destination are
+zeroed.
+VEX.256 encoded version: The first source operand is a YMM register. The second source operand can be a YMM
+register or a 256-bit memory location. The destination operand is a YMM register.
+Note: In VEX-encoded versions, VEX.vvvv is reserved and must be 1111b, otherwise instructions will #UD.
+---------------------------------------------------------------------
+
+RCPSS—Compute Reciprocal of Scalar Single-Precision Floating-Point Values
+
+Opcode/ Op/ 64/32 bit CPUID Description
+Instruction En Mode Feature 
+               Support Flag 
+
+F3 0F 53 /r 
+RCPSS xmm1, xmm2/m32
+RM V/V SSE 
+Computes the approximate reciprocal of the
+ scalar single-precision floating-point value in
+ xmm2/m32 and stores the result in xmm1.
+
+VEX.NDS.LIG.F3.0F.WIG 53 /r
+VRCPSS xmm1, xmm2, xmm3/m32
+RVM V/V AVX 
+Computes the approximate reciprocal of the
+ scalar single-precision floating-point value in
+ xmm3/m32 and stores the result in xmm1.
+ Also, upper single precision floating-point
+ values (bits[127:32]) from xmm2 are copied to
+ xmm1[127:32].
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RM ModRM:reg (w) ModRM:r/m (r) NA NA
+RVM ModRM:reg (w) VEX.vvvv (r) ModRM:r/m (r) NA
+
+Description
+Computes of an approximate reciprocal of the low single-precision floating-point value in the source operand
+(second operand) and stores the single-precision floating-point result in the destination operand. The source
+operand can be an XMM register or a 32-bit memory location. The destination operand is an XMM register. The
+three high-order doublewords of the destination operand remain unchanged. See Figure 10-6 in the Intel® 64 and
+IA-32 Architectures Software Developer’s Manual, Volume 1, for an illustration of a scalar single-precision floating-
+point operation.
+The relative error for this approximation is:
+|Relative Error| ≤ 1.5 ∗ 2−12
+The RCPSS instruction is not affected by the rounding control bits in the MXCSR register. When a source value is a
+0.0, an ∞ of the sign of the source value is returned. A denormal source value is treated as a 0.0 (of the same sign).
+Tiny results are always flushed to 0.0, with the sign of the operand. (Input values greater than or equal to
+|1.11111111110100000000000B∗2125| are guaranteed to not produce tiny results; input values less than or equal
+to |1.00000000000110000000001B*2126| are guaranteed to produce tiny results, which are in turn flushed to 0.0;
+and input values in between this range may or may not produce tiny results, depending on the implementation.)
+When a source value is an SNaN or QNaN, the SNaN is converted to a QNaN or the source QNaN is returned.
+In 64-bit mode, using a REX prefix in the form of REX.R permits this instruction to access additional registers
+(XMM8-XMM15).
+128-bit Legacy SSE version: The first source operand and the destination operand are the same. Bits (VLMAX-
+1:32) of the corresponding YMM destination register remain unchanged.
+VEX.128 encoded version: Bits (VLMAX-1:128) of the destination YMM register are zeroed.
+---------------------------------------------------------------------
+
+RDFSBASE/RDGSBASE—Read FS/GS Segment Base
+Opcode/ Op/ 64/32- CPUID Fea- Description
+Instruction En bit ture Flag 
+               Mode 
+
+F3 0F AE /0 
+RDFSBASE r32 
+M V/I FSGSBASE 
+Load the 32-bit destination register with the FS
+base address.
+
+REX.W + F3 0F AE /0 
+RDFSBASE r64 
+M V/I FSGSBASE 
+Load the 64-bit destination register with the FS
+base address.
+
+F3 0F AE /1 
+RDGSBASE r32 
+M V/I FSGSBASE 
+Load the 32-bit destination register with the GS
+base address.
+
+REX.W + F3 0F AE /1 
+RDGSBASE r64 
+M V/I FSGSBASE 
+Load the 64-bit destination register with the GS
+base address.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+M ModRM:r/m (w) NA NA NA
+
+Description
+Loads the general-purpose register indicated by the modR/M:r/m field with the FS or GS segment base address.
+The destination operand may be either a 32-bit or a 64-bit general-purpose register. The REX.W prefix indicates the
+operand size is 64 bits. If no REX.W prefix is used, the operand size is 32 bits; the upper 32 bits of the source base
+address (for FS or GS) are ignored and upper 32 bits of the destination register are cleared.
+This instruction is supported only in 64-bit mode.
+
+Operation
+DEST ← FS/GS segment base address;
+
+Flags Affected
+None
+---------------------------------------------------------------------
+
+RDMSR—Read from Model Specific Register
+
+Opcode Instruction Op/ 64-Bit Compat/ Description
+                    En Mode Leg Mode
+
+0F 32 
+RDMSR 
+NP Valid Valid
+Read MSR specified by ECX into EDX:EAX.
+
+NOTES:
+* See IA-32 Architecture Compatibility section below.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+NP NA NA NA NA
+
+Description
+Reads the contents of a 64-bit model specific register (MSR) specified in the ECX register into registers EDX:EAX.
+(On processors that support the Intel 64 architecture, the high-order 32 bits of RCX are ignored.) The EDX register
+is loaded with the high-order 32 bits of the MSR and the EAX register is loaded with the low-order 32 bits. (On
+processors that support the Intel 64 architecture, the high-order 32 bits of each of RAX and RDX are cleared.) If
+fewer than 64 bits are implemented in the MSR being read, the values returned to EDX:EAX in unimplemented bit
+locations are undefined.
+This instruction must be executed at privilege level 0 or in real-address mode; otherwise, a general protection
+exception #GP(0) will be generated. Specifying a reserved or unimplemented MSR address in ECX will also cause a
+general protection exception.
+The MSRs control functions for testability, execution tracing, performance-monitoring, and machine check errors.
+Chapter 35, “Model-Specific Registers (MSRs),” in the Intel® 64 and IA-32 Architectures Software Developer’s
+Manual, Volume 3C, lists all the MSRs that can be read with this instruction and their addresses. Note that each
+processor family has its own set of MSRs.
+The CPUID instruction should be used to determine whether MSRs are supported (CPUID.01H:EDX[5] = 1) before
+using this instruction.
+
+IA-32 Architecture Compatibility
+The MSRs and the ability to read them with the RDMSR instruction were introduced into the IA-32 Architecture with
+the Pentium processor. Execution of this instruction by an IA-32 processor earlier than the Pentium processor
+results in an invalid opcode exception #UD.
+See “Changes to Instruction Behavior in VMX Non-Root Operation” in Chapter 25 of the Intel® 64 and IA-32 Archi-
+tectures Software Developer’s Manual, Volume 3C, for more information about the behavior of this instruction in
+VMX non-root operation.
+
+Operation
+EDX:EAX ← MSR[ECX];
+
+Flags Affected
+None.
+---------------------------------------------------------------------
+
+RDPMC—Read Performance-Monitoring Counters
+
+Opcode Instruction Op/ 64-Bit Compat/ Description
+                    En Mode Leg Mode
+
+0F 33 
+RDPMC 
+NP Valid Valid
+Read performance-monitoring counter
+specified by ECX into EDX:EAX.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+NP NA NA NA NA
+
+Description
+The EAX register is loaded with the low-order 32 bits. The EDX register is loaded with the supported high-order bits
+of the counter. The number of high-order bits loaded into EDX is implementation specific on processors that do no
+support architectural performance monitoring. The width of fixed-function and general-purpose performance
+counters on processors supporting architectural performance monitoring are reported by CPUID 0AH leaf. See
+below for the treatment of the EDX register for “fast” reads.
+The ECX register selects one of two type of performance counters, specifies the index relative to the base of each
+counter type, and selects “fast” read mode if supported. The two counter types are :
+• General-purpose or special-purpose performance counters: The number of general-purpose counters is model
+   specific if the processor does not support architectural performance monitoring, see Chapter 30 of Intel® 64
+   and IA-32 Architectures Software Developer’s Manual, Volume 3B. Special-purpose counters are available only
+    in selected processor members, see Section 30.13, 30.14 of Intel® 64 and IA-32 Architectures Software
+    Developer’s Manual, Volume 3B. This counter type is selected if ECX[30] is clear.
+• Fixed-function performance counter. The number fixed-function performance counters is enumerated by CPUID
+   0AH leaf. See Chapter 30 of Intel® 64 and IA-32 Architectures Software Developer’s Manual, Volume 3B. This
+     counter type is selected if ECX[30] is set.
+ECX[29:0] specifies the index. The width of general-purpose performance counters are 40-bits for processors that
+do not support architectural performance monitoring counters.The width of special-purpose performance counters
+are implementation specific. The width of fixed-function performance counters and general-purpose performance
+counters on processor supporting architectural performance monitoring are reported by CPUID 0AH leaf.
+Table 4-12 lists valid indices of the general-purpose and special-purpose performance counters according to the
+derived DisplayFamily_DisplayModel values of CPUID encoding for each processor family (see CPUID instruction in
+Chapter 3, “Instruction Set Reference, A-M” in the Intel® 64 and IA-32 Architectures Software Developer’s Manual,
+Volume 2A).
+Table 4-12. Valid General and Special Purpose Performance Counter Index Range for RDPMC
+---------------------------------------------------------------------
+
+RDRAND—Read Random Number
+
+Opcode/ Op/ 64/32 bit CPUID Description
+Instruction En Mode Feature 
+               Support Flag 
+
+0F C7 /6 
+RDRAND r16
+M V/V RDRAND 
+Read a 16-bit random number and store in the
+ destination register.
+
+0F C7 /6
+RDRAND r32
+M V/V RDRAND 
+Read a 32-bit random number and store in the
+ destination register.
+
+REX.W + 0F C7 /6
+RDRAND r64
+M V/I RDRAND 
+Read a 64-bit random number and store in the
+ destination register.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+M ModRM:r/m (w) NA NA NA
+
+Description
+Loads a hardware generated random value and store it in the destination register. The size of the random value is
+determined by the destination register size and operating mode. The Carry Flag indicates whether a random value
+is available at the time the instruction is executed. CF=1 indicates that the data in the destination is valid. Other-
+wise CF=0 and the data in the destination operand will be returned as zeros for the specified width. All other flags
+are forced to 0 in either situation. Software must check the state of CF=1 for determining if a valid random value
+has been returned, otherwise it is expected to loop and retry execution of RDRAND (see Intel® 64 and IA-32 Archi-
+tectures Software Developer’s Manual, Volume 1, Section 7.3.17, “Random Number Generator Instruction”).
+This instruction is available at all privilege levels.
+In 64-bit mode, the instruction's default operation size is 32 bits. Using a REX prefix in the form of REX.B permits
+access to additional registers (R8-R15). Using a REX prefix in the form of REX.W promotes operation to 64 bit oper-
+ands. See the summary chart at the beginning of this section for encoding data and limits.
+---------------------------------------------------------------------
+
+RDTSC—Read Time-Stamp Counter
+
+Opcode Instruction Op/ 64-Bit Compat/ Description
+                    En Mode Leg Mode
+
+0F 31 
+RDTSC 
+NP Valid Valid
+Read time-stamp counter into EDX:EAX.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+NP NA NA NA NA
+
+Description
+Loads the current value of the processor’s time-stamp counter (a 64-bit MSR) into the EDX:EAX registers. The EDX
+register is loaded with the high-order 32 bits of the MSR and the EAX register is loaded with the low-order 32 bits.
+(On processors that support the Intel 64 architecture, the high-order 32 bits of each of RAX and RDX are cleared.)
+The processor monotonically increments the time-stamp counter MSR every clock cycle and resets it to 0 whenever
+the processor is reset. See “Time Stamp Counter” in Chapter 17 of the Intel® 64 and IA-32 Architectures Software
+Developer’s Manual, Volume 3B, for specific details of the time stamp counter behavior.
+When in protected or virtual 8086 mode, the time stamp disable (TSD) flag in register CR4 restricts the use of the
+RDTSC instruction as follows. When the TSD flag is clear, the RDTSC instruction can be executed at any privilege
+level; when the flag is set, the instruction can only be executed at privilege level 0. (When in real-address mode,
+the RDTSC instruction is always enabled.)
+The time-stamp counter can also be read with the RDMSR instruction, when executing at privilege level 0.
+The RDTSC instruction is not a serializing instruction. It does not necessarily wait until all previous instructions
+have been executed before reading the counter. Similarly, subsequent instructions may begin execution before the
+read operation is performed. If software requires RDTSC to be executed only after all previous instructions have
+completed locally, it can either use RDTSCP (if the processor supports that instruction) or execute the sequence
+LFENCE;RDTSC.
+This instruction was introduced by the Pentium processor.
+See “Changes to Instruction Behavior in VMX Non-Root Operation” in Chapter 25 of the Intel® 64 and IA-32 Archi-
+tectures Software Developer’s Manual, Volume 3C, for more information about the behavior of this instruction in
+VMX non-root operation.
+
+Operation
+IF (CR4.TSD = 0) or (CPL = 0) or (CR0.PE = 0)
+THEN EDX:EAX ← TimeStampCounter;
+ELSE (* CR4.TSD = 1 and (CPL = 1, 2, or 3) and CR0.PE = 1 *)
+#GP(0);
+FI;
+
+Flags Affected
+None.
+---------------------------------------------------------------------
+
+RDTSCP—Read Time-Stamp Counter and Processor ID
+
+Opcode Instruction Op/ 64-Bit Compat/ Description
+                    En Mode Leg Mode
+
+0F 01 F9 
+RDTSCP 
+NP Valid Valid
+Read 64-bit time-stamp counter and 32-bit
+IA32_TSC_AUX value into EDX:EAX and ECX.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+NP NA NA NA NA
+
+Description
+Loads the current value of the processor’s time-stamp counter (a 64-bit MSR) into the EDX:EAX registers and also
+loads the IA32_TSC_AUX MSR (address C000_0103H) into the ECX register. The EDX register is loaded with the
+high-order 32 bits of the IA32_TSC MSR; the EAX register is loaded with the low-order 32 bits of the IA32_TSC
+MSR; and the ECX register is loaded with the low-order 32-bits of IA32_TSC_AUX MSR. On processors that support
+the Intel 64 architecture, the high-order 32 bits of each of RAX, RDX, and RCX are cleared.
+The processor monotonically increments the time-stamp counter MSR every clock cycle and resets it to 0 whenever
+the processor is reset. See “Time Stamp Counter” in Chapter 17 of the Intel® 64 and IA-32 Architectures Software
+Developer’s Manual, Volume 3B, for specific details of the time stamp counter behavior.
+When in protected or virtual 8086 mode, the time stamp disable (TSD) flag in register CR4 restricts the use of the
+RDTSCP instruction as follows. When the TSD flag is clear, the RDTSCP instruction can be executed at any privilege
+level; when the flag is set, the instruction can only be executed at privilege level 0. (When in real-address mode,
+the RDTSCP instruction is always enabled.)
+The RDTSCP instruction waits until all previous instructions have been executed before reading the counter.
+However, subsequent instructions may begin execution before the read operation is performed.
+The presence of the RDTSCP instruction is indicated by CPUID leaf 80000001H, EDX bit 27. If the bit is set to 1 then
+RDTSCP is present on the processor.
+See “Changes to Instruction Behavior in VMX Non-Root Operation” in Chapter 25 of the Intel® 64 and IA-32 Archi-
+tectures Software Developer’s Manual, Volume 3C, for more information about the behavior of this instruction in
+VMX non-root operation.
+
+Operation
+IF (CR4.TSD = 0) or (CPL = 0) or (CR0.PE = 0)
+THEN
+EDX:EAX ← TimeStampCounter;
+ECX ← IA32_TSC_AUX[31:0];
+ELSE (* CR4.TSD = 1 and (CPL = 1, 2, or 3) and CR0.PE = 1 *)
+#GP(0);
+FI;
+
+Flags Affected
+None.
+---------------------------------------------------------------------
+
+REP/REPE/REPZ/REPNE/REPNZ—Repeat String Operation Prefix
+
+Opcode Instruction 
+Op/
+En
+64-Bit
+Mode
+Compat/ Description
+Leg Mode
+
+F3 6C 
+REP INS m8, DX 
+NP Valid Valid 
+Input (E)CX bytes from port DX into ES:[(E)DI].
+
+F3 6C 
+REP INS m8, DX 
+NP Valid N.E. 
+Input RCX bytes from port DX into [RDI].
+
+F3 6D 
+REP INS m16, DX 
+NP Valid Valid 
+Input (E)CX words from port DX into ES:[(E)DI.]
+
+F3 6D 
+REP INS m32, DX 
+NP Valid Valid 
+Input (E)CX doublewords from port DX into
+ ES:[(E)DI].
+
+F3 6D 
+REP INS r/m32, DX 
+NP Valid N.E. 
+Input RCX default size from port DX into [RDI].
+
+F3 A4 
+REP MOVS m8, m8 
+NP Valid Valid 
+Move (E)CX bytes from DS:[(E)SI] to ES:[(E)DI].
+
+F3 REX.W A4 
+REP MOVS m8, m8 
+NP Valid N.E. 
+Move RCX bytes from [RSI] to [RDI].
+
+F3 A5 
+REP MOVS m16, m16 
+NP Valid Valid 
+Move (E)CX words from DS:[(E)SI] to ES:[(E)DI].
+
+F3 A5 
+REP MOVS m32, m32 
+NP Valid Valid 
+Move (E)CX doublewords from DS:[(E)SI] to
+ ES:[(E)DI].
+
+F3 REX.W A5 
+REP MOVS m64, m64 
+NP Valid N.E. 
+Move RCX quadwords from [RSI] to [RDI].
+
+F3 6E 
+REP OUTS DX, r/m8 
+NP Valid Valid 
+Output (E)CX bytes from DS:[(E)SI] to port DX.
+
+F3 REX.W 6E 
+REP OUTS DX, r/m8* 
+NP Valid N.E. 
+Output RCX bytes from [RSI] to port DX.
+
+F3 6F 
+REP OUTS DX, r/m16 
+NP Valid Valid 
+Output (E)CX words from DS:[(E)SI] to port DX.
+
+F3 6F 
+REP OUTS DX, r/m32 
+NP Valid Valid 
+Output (E)CX doublewords from DS:[(E)SI] to
+ port DX.
+
+F3 REX.W 6F 
+REP OUTS DX, r/m32 
+NP Valid N.E. 
+Output RCX default size from [RSI] to port DX.
+
+F3 AC 
+REP LODS AL 
+NP Valid Valid 
+Load (E)CX bytes from DS:[(E)SI] to AL.
+
+F3 REX.W AC 
+REP LODS AL 
+NP Valid N.E. 
+Load RCX bytes from [RSI] to AL.
+
+F3 AD 
+REP LODS AX 
+NP Valid Valid 
+Load (E)CX words from DS:[(E)SI] to AX.
+
+F3 AD 
+REP LODS EAX 
+NP Valid Valid 
+Load (E)CX doublewords from DS:[(E)SI] to
+ EAX.
+
+F3 REX.W AD 
+REP LODS RAX 
+NP Valid N.E. 
+Load RCX quadwords from [RSI] to RAX.
+
+F3 AA 
+REP STOS m8 
+NP Valid Valid 
+Fill (E)CX bytes at ES:[(E)DI] with AL.
+
+F3 
+REX.W AA REP STOS m8 
+NP Valid N.E. 
+Fill RCX bytes at [RDI] with AL.
+
+F3 AB 
+REP STOS m16 
+NP Valid Valid 
+Fill (E)CX words at ES:[(E)DI] with AX.
+
+F3 AB 
+REP STOS m32 
+NP Valid Valid 
+Fill (E)CX doublewords at ES:[(E)DI] with EAX.
+
+F3 
+REX.W AB REP STOS m64 
+NP Valid N.E. 
+Fill RCX quadwords at [RDI] with RAX.
+
+F3 A6 
+REPE CMPS m8, m8 
+NP Valid Valid 
+Find nonmatching bytes in ES:[(E)DI] and
+ DS:[(E)SI].
+
+F3 REX.W A6 
+REPE CMPS m8, m8 
+NP Valid N.E. 
+Find non-matching bytes in [RDI] and [RSI].
+
+F3 A7 
+REPE CMPS m16, m16 
+NP Valid Valid 
+Find nonmatching words in ES:[(E)DI] and
+ DS:[(E)SI].
+
+F3 A7 
+REPE CMPS m32, m32 
+NP Valid Valid 
+Find nonmatching doublewords in ES:[(E)DI]
+ and DS:[(E)SI].
+
+F3 REX.W A7 
+REPE CMPS m64, m64 
+NP Valid N.E. 
+Find non-matching quadwords in [RDI] and
+ [RSI].
+
+F3 AE 
+REPE SCAS m8 
+NP Valid Valid 
+Find non-AL byte starting at ES:[(E)DI].
+
+F3 REX.W AE 
+REPE SCAS m8 
+NP Valid N.E. 
+Find non-AL byte starting at [RDI].
+
+F3 AF 
+REPE SCAS m16 
+NP Valid Valid 
+Find non-AX word starting at ES:[(E)DI].
+
+F3 AF 
+REPE SCAS m32 
+NP Valid Valid 
+Find non-EAX doubleword starting at
+ ES:[(E)DI].
+
+F3 REX.W AF 
+REPE SCAS m64 
+NP Valid N.E. 
+Find non-RAX quadword starting at [RDI].
+
+F2 A6 
+REPNE CMPS m8, m8 
+NP Valid Valid 
+Find matching bytes in ES:[(E)DI] and DS:[(E)SI].
+
+F2 REX.W A6 
+REPNE CMPS m8, m8 
+NP Valid N.E. 
+Find matching bytes in [RDI] and [RSI].
+
+F2 A7 
+REPNE CMPS m16, m16 
+NP Valid Valid 
+Find matching words in ES:[(E)DI] and
+ DS:[(E)SI].
+
+F2 A7 
+REPNE CMPS m32, m32 
+NP Valid Valid 
+Find matching doublewords in ES:[(E)DI] and
+ DS:[(E)SI].
+
+F2 REX.W A7 
+REPNE CMPS m64, m64 
+NP Valid N.E. 
+Find matching doublewords in [RDI] and [RSI].
+
+F2 AE 
+REPNE SCAS m8 
+NP Valid Valid 
+Find AL, starting at ES:[(E)DI].
+
+F2 REX.W AE 
+REPNE SCAS m8 
+NP Valid N.E. 
+Find AL, starting at [RDI].
+
+F2 AF 
+REPNE SCAS m16 
+NP Valid Valid 
+Find AX, starting at ES:[(E)DI].
+
+F2 AF 
+REPNE SCAS m32 
+NP Valid Valid 
+Find EAX, starting at ES:[(E)DI].
+
+F2 REX.W AF 
+REPNE SCAS m64 
+NP Valid N.E. 
+Find RAX, starting at [RDI].
+
+NOTES:
+* In 64-bit mode, r/m8 can not be encoded to access the following byte registers if a REX prefix is used: AH, BH, CH, DH.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+NP NA NA NA NA
+
+Description
+Repeats a string instruction the number of times specified in the count register or until the indicated condition of
+the ZF flag is no longer met. The REP (repeat), REPE (repeat while equal), REPNE (repeat while not equal), REPZ
+(repeat while zero), and REPNZ (repeat while not zero) mnemonics are prefixes that can be added to one of the
+string instructions. The REP prefix can be added to the INS, OUTS, MOVS, LODS, and STOS instructions, and the
+REPE, REPNE, REPZ, and REPNZ prefixes can be added to the CMPS and SCAS instructions. (The REPZ and REPNZ
+prefixes are synonymous forms of the REPE and REPNE prefixes, respectively.) The behavior of the REP prefix is
+undefined when used with non-string instructions.
+The REP prefixes apply only to one string instruction at a time. To repeat a block of instructions, use the LOOP
+instruction or another looping construct. All of these repeat prefixes cause the associated instruction to be
+repeated until the count in register is decremented to 0. See Table 4-13.
+Table 4-13. Repeat Prefixes
+---------------------------------------------------------------------
+RET—Return from Procedure
+
+Opcode Instruction Op/ 64-Bit Compat/ Description
+                    En Mode Leg Mode
+
+C3 
+RET 
+NP Valid Valid 
+Near return to calling procedure.
+
+CB 
+RET 
+NP Valid Valid 
+Far return to calling procedure.
+
+C2 iw 
+RET imm16 
+I Valid Valid 
+Near return to calling procedure and pop
+ imm16 bytes from stack.
+
+CA iw 
+RET imm16 
+I Valid Valid 
+Far return to calling procedure and pop imm16
+ bytes from stack.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+NP NA NA NA NA
+I imm16 NA NA NA
+
+Description
+Transfers program control to a return address located on the top of the stack. The address is usually placed on the
+stack by a CALL instruction, and the return is made to the instruction that follows the CALL instruction.
+The optional source operand specifies the number of stack bytes to be released after the return address is popped;
+the default is none. This operand can be used to release parameters from the stack that were passed to the called
+procedure and are no longer needed. It must be used when the CALL instruction used to switch to a new procedure
+uses a call gate with a non-zero word count to access the new procedure. Here, the source operand for the RET
+instruction must specify the same number of bytes as is specified in the word count field of the call gate.
+The RET instruction can be used to execute three different types of returns:
+• Near return — A return to a calling procedure within the current code segment (the segment currently pointed
+     to by the CS register), sometimes referred to as an intrasegment return.
+• Far return — A return to a calling procedure located in a different segment than the current code segment,
+     sometimes referred to as an intersegment return.
+• Inter-privilege-level far return — A far return to a different privilege level than that of the currently
+     executing program or procedure.
+The inter-privilege-level return type can only be executed in protected mode. See the section titled “Calling Proce-
+dures Using Call and RET” in Chapter 6 of the Intel® 64 and IA-32 Architectures Software Developer’s Manual,
+Volume 1, for detailed information on near, far, and inter-privilege-level returns.
+When executing a near return, the processor pops the return instruction pointer (offset) from the top of the stack
+into the EIP register and begins program execution at the new instruction pointer. The CS register is unchanged.
+When executing a far return, the processor pops the return instruction pointer from the top of the stack into the EIP
+register, then pops the segment selector from the top of the stack into the CS register. The processor then begins
+program execution in the new code segment at the new instruction pointer.
+The mechanics of an inter-privilege-level far return are similar to an intersegment return, except that the
+processor examines the privilege levels and access rights of the code and stack segments being returned to deter-
+mine if the control transfer is allowed to be made. The DS, ES, FS, and GS segment registers are cleared by the RET
+instruction during an inter-privilege-level return if they refer to segments that are not allowed to be accessed at the
+new privilege level. Since a stack switch also occurs on an inter-privilege level return, the ESP and SS registers are
+loaded from the stack.
+If parameters are passed to the called procedure during an inter-privilege level call, the optional source operand
+must be used with the RET instruction to release the parameters on the return. Here, the parameters are released
+both from the called procedure’s stack and the calling procedure’s stack (that is, the stack being returned to).
+In 64-bit mode, the default operation size of this instruction is the stack-address size, i.e. 64 bits.
+---------------------------------------------------------------------
