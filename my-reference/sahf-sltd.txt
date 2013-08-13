@@ -1,0 +1,1475 @@
+SAHF—Store AH into Flags
+
+Opcode Instruction Op/ 64-Bit Compat/ Description
+                    En Mode Leg Mode
+
+9E 
+SAHF 
+NP Invalid Valid
+Loads SF, ZF, AF, PF, and CF from AH into
+ EFLAGS register.
+
+NOTES:
+* Valid in specific steppings. See Description section.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+NP NA NA NA NA
+
+Description
+Loads the SF, ZF, AF, PF, and CF flags of the EFLAGS register with values from the corresponding bits in the AH
+register (bits 7, 6, 4, 2, and 0, respectively). Bits 1, 3, and 5 of register AH are ignored; the corresponding reserved
+bits (1, 3, and 5) in the EFLAGS register remain as shown in the “Operation” section below.
+This instruction executes as described above in compatibility mode and legacy mode. It is valid in 64-bit mode only
+if CPUID.80000001H:ECX.LAHF-SAHF[bit 0] = 1.
+
+Operation
+IF IA-64 Mode
+THEN
+IF CPUID.80000001H.ECX[0] = 1;
+THEN
+RFLAGS(SF:ZF:0:AF:0:PF:1:CF) ← AH;
+ELSE
+#UD;
+FI
+ELSE
+EFLAGS(SF:ZF:0:AF:0:PF:1:CF) ← AH;
+FI;
+
+Flags Affected
+The SF, ZF, AF, PF, and CF flags are loaded with values from the AH register. Bits 1, 3, and 5 of the EFLAGS register
+are unaffected, with the values remaining 1, 0, and 0, respectively.
+---------------------------------------------------------------------
+
+SAL/SAR/SHL/SHR—Shift
+
+Opcode
+Instruction
+Op/
+En
+64-Bit Compat/ Description
+Mode Leg Mode
+
+D0 /4 
+SAL r/m8, 1 
+M1 Valid Valid 
+Multiply r/m8 by 2, once.
+
+REX + D0 /4 
+SAL r/m8, 1 
+M1 Valid N.E. 
+Multiply r/m8 by 2, once.
+
+D2 /4 
+SAL r/m8, CL 
+MC Valid Valid 
+Multiply r/m8 by 2, CL times.
+
+REX + D2 /4 
+SAL r/m8, CL 
+MC Valid N.E. 
+Multiply r/m8 by 2, CL times.
+
+C0 /4 ib 
+SAL r/m8, imm8 
+MI Valid Valid 
+Multiply r/m8 by 2, imm8 times.
+
+REX + C0 /4 ib 
+SAL r/m8, imm8 
+MI Valid N.E. 
+Multiply r/m8 by 2, imm8 times.
+
+D1 /4 
+SAL r/m16, 1 
+M1 Valid Valid 
+Multiply r/m16 by 2, once.
+
+D3 /4 
+SAL r/m16, CL 
+MC Valid Valid 
+Multiply r/m16 by 2, CL times.
+
+C1 /4 ib 
+SAL r/m16, imm8 
+MI Valid Valid 
+Multiply r/m16 by 2, imm8 times.
+
+D1 /4 
+SAL r/m32, 1 
+M1 Valid Valid 
+Multiply r/m32 by 2, once.
+
+REX.W + D1 /4 
+SAL r/m64, 1 
+M1 Valid N.E. 
+Multiply r/m64 by 2, once.
+
+D3 /4 
+SAL r/m32, CL 
+MC Valid Valid 
+Multiply r/m32 by 2, CL times.
+
+REX.W + D3 /4 
+SAL r/m64, CL 
+MC Valid N.E. 
+Multiply r/m64 by 2, CL times.
+
+C1 /4 ib 
+SAL r/m32, imm8 
+MI Valid Valid 
+Multiply r/m32 by 2, imm8 times.
+
+REX.W + C1 /4 ib 
+SAL r/m64, imm8 
+MI Valid N.E. 
+Multiply r/m64 by 2, imm8 times.
+
+D0 /7 
+SAR r/m8, 1 
+M1 Valid Valid 
+Signed divide* r/m8 by 2, once.
+
+REX + D0 /7 
+SAR r/m8, 1 
+M1 Valid N.E. 
+Signed divide* r/m8 by 2, once.
+
+D2 /7 
+SAR r/m8, CL 
+MC Valid Valid 
+Signed divide* r/m8 by 2, CL times.
+
+REX + D2 /7 
+SAR r/m8, CL 
+MC Valid N.E. 
+Signed divide* r/m8 by 2, CL times.
+
+C0 /7 ib 
+SAR r/m8, imm8 
+MI Valid Valid 
+Signed divide* r/m8 by 2, imm8 time.
+
+REX + C0 /7 ib 
+SAR r/m8, imm8 
+MI Valid N.E. 
+Signed divide* r/m8 by 2, imm8 times.
+
+D1 /7 
+SAR r/m16,1 
+M1 Valid Valid 
+Signed divide* r/m16 by 2, once.
+
+D3 /7 
+SAR r/m16, CL 
+MC Valid Valid 
+Signed divide* r/m16 by 2, CL times.
+
+C1 /7 ib 
+SAR r/m16, imm8 
+MI Valid Valid 
+Signed divide* r/m16 by 2, imm8 times.
+
+D1 /7 
+SAR r/m32, 1 
+M1 Valid Valid 
+Signed divide* r/m32 by 2, once.
+
+REX.W + D1 /7 
+SAR r/m64, 1 
+M1 Valid N.E. 
+Signed divide* r/m64 by 2, once.
+
+D3 /7 
+SAR r/m32, CL 
+MC Valid Valid 
+Signed divide* r/m32 by 2, CL times.
+
+REX.W + D3 /7 
+SAR r/m64, CL 
+MC Valid N.E. 
+Signed divide* r/m64 by 2, CL times.
+
+C1 /7 ib 
+SAR r/m32, imm8 
+MI Valid Valid 
+Signed divide* r/m32 by 2, imm8 times.
+
+REX.W + C1 /7 ib 
+SAR r/m64, imm8 
+MI Valid N.E. 
+Signed divide* r/m64 by 2, imm8 times
+
+D0 /4 
+SHL r/m8, 1 
+M1 Valid Valid 
+Multiply r/m8 by 2, once.
+
+REX + D0 /4 
+SHL r/m8, 1 
+M1 Valid N.E. 
+Multiply r/m8 by 2, once.
+
+D2 /4 
+SHL r/m8, CL 
+MC Valid Valid 
+Multiply r/m8 by 2, CL times.
+
+REX + D2 /4 
+SHL r/m8, CL 
+MC Valid N.E. 
+Multiply r/m8 by 2, CL times.
+
+C0 /4 ib 
+SHL r/m8, imm8 
+MI Valid Valid 
+Multiply r/m8 by 2, imm8 times.
+
+REX + C0 /4 ib 
+SHL r/m8, imm8 
+MI Valid N.E. 
+Multiply r/m8 by 2, imm8 times.
+
+D1 /4 
+SHL r/m16,1 
+M1 Valid Valid 
+Multiply r/m16 by 2, once.
+
+D3 /4 
+SHL r/m16, CL 
+MC Valid Valid 
+Multiply r/m16 by 2, CL times.
+
+C1 /4 ib 
+SHL r/m16, imm8 
+MI Valid Valid 
+Multiply r/m16 by 2, imm8 times.
+
+D1 /4 
+SHL r/m32,1 
+M1 Valid Valid 
+Multiply r/m32 by 2, once.
+
+REX.W + D1 /4 
+SHL r/m64,1 
+M1 Valid N.E. 
+Multiply r/m64 by 2, once.
+
+D3 /4 
+SHL r/m32, CL 
+MC Valid Valid 
+Multiply r/m32 by 2, CL times.
+
+REX.W + D3 /4 
+SHL r/m64, CL 
+MC Valid N.E. 
+Multiply r/m64 by 2, CL times.
+
+C1 /4 ib 
+SHL r/m32, imm8 
+MI Valid Valid 
+Multiply r/m32 by 2, imm8 times.
+
+REX.W + C1 /4 ib 
+SHL r/m64, imm8 
+MI Valid N.E. 
+Multiply r/m64 by 2, imm8 times.
+
+D0 /5 
+SHR r/m8,1 
+M1 Valid Valid 
+Unsigned divide r/m8 by 2, once.
+
+REX + D0 /5 
+SHR r/m8, 1 
+M1 Valid N.E. 
+Unsigned divide r/m8 by 2, once.
+
+D2 /5 
+SHR r/m8, CL 
+MC Valid Valid 
+Unsigned divide r/m8 by 2, CL times.
+
+REX + D2 /5 
+SHR r/m8, CL 
+MC Valid N.E. 
+Unsigned divide r/m8 by 2, CL times.
+
+C0 /5 ib 
+SHR r/m8, imm8 
+MI Valid Valid 
+Unsigned divide r/m8 by 2, imm8 times.
+
+REX + C0 /5 ib 
+SHR r/m8, imm8 
+MI Valid N.E. 
+Unsigned divide r/m8 by 2, imm8 times.
+
+D1 /5 
+SHR r/m16, 1 
+M1 Valid Valid 
+Unsigned divide r/m16 by 2, once.
+
+D3 /5 
+SHR r/m16, CL 
+MC Valid Valid 
+Unsigned divide r/m16 by 2, CL times
+
+C1 /5 ib 
+SHR r/m16, imm8 
+MI Valid Valid 
+Unsigned divide r/m16 by 2, imm8 times.
+
+D1 /5 
+SHR r/m32, 1 
+M1 Valid Valid 
+Unsigned divide r/m32 by 2, once.
+
+REX.W + D1 /5 
+SHR r/m64, 1 
+M1 Valid N.E. 
+Unsigned divide r/m64 by 2, once.
+
+D3 /5 
+SHR r/m32, CL 
+MC Valid Valid 
+Unsigned divide r/m32 by 2, CL times.
+
+REX.W + D3 /5 
+SHR r/m64, CL 
+MC Valid N.E. 
+Unsigned divide r/m64 by 2, CL times.
+
+C1 /5 ib 
+SHR r/m32, imm8 
+MI Valid Valid 
+Unsigned divide r/m32 by 2, imm8 times.
+
+REX.W + C1 /5 ib 
+SHR r/m64, imm8 
+MI Valid N.E. 
+Unsigned divide r/m64 by 2, imm8 times.
+
+NOTES:
+* Not the same form of division as IDIV; rounding is toward negative infinity.
+** In 64-bit mode, r/m8 can not be encoded to access the following byte registers if a REX prefix is used: AH, BH, CH, DH.
+***See IA-32 Architecture Compatibility section below.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+M1 ModRM:r/m (r, w) 1 NA NA
+MC ModRM:r/m (r, w) CL NA NA
+MI ModRM:r/m (r, w) imm8 NA NA
+
+Description
+Shifts the bits in the first operand (destination operand) to the left or right by the number of bits specified in the
+second operand (count operand). Bits shifted beyond the destination operand boundary are first shifted into the CF
+flag, then discarded. At the end of the shift operation, the CF flag contains the last bit shifted out of the destination
+operand.
+The destination operand can be a register or a memory location. The count operand can be an immediate value or
+the CL register. The count is masked to 5 bits (or 6 bits if in 64-bit mode and REX.W is used). The count range is
+limited to 0 to 31 (or 63 if 64-bit mode and REX.W is used). A special opcode encoding is provided for a count of 1.
+The shift arithmetic left (SAL) and shift logical left (SHL) instructions perform the same operation; they shift the
+bits in the destination operand to the left (toward more significant bit locations). For each shift count, the most
+significant bit of the destination operand is shifted into the CF flag, and the least significant bit is cleared (see
+Figure 7-7 in the Intel® 64 and IA-32 Architectures Software Developer’s Manual, Volume 1).
+The shift arithmetic right (SAR) and shift logical right (SHR) instructions shift the bits of the destination operand to
+the right (toward less significant bit locations). For each shift count, the least significant bit of the destination
+operand is shifted into the CF flag, and the most significant bit is either set or cleared depending on the instruction
+type. The SHR instruction clears the most significant bit (see Figure 7-8 in the Intel® 64 and IA-32 Architectures
+Software Developer’s Manual, Volume 1); the SAR instruction sets or clears the most significant bit to correspond
+to the sign (most significant bit) of the original value in the destination operand. In effect, the SAR instruction fills
+the empty bit position’s shifted value with the sign of the unshifted value (see Figure 7-9 in the Intel® 64 and IA-32
+Architectures Software Developer’s Manual, Volume 1).
+The SAR and SHR instructions can be used to perform signed or unsigned division, respectively, of the destination
+operand by powers of 2. For example, using the SAR instruction to shift a signed integer 1 bit to the right divides
+the value by 2.
+Using the SAR instruction to perform a division operation does not produce the same result as the IDIV instruction.
+The quotient from the IDIV instruction is rounded toward zero, whereas the “quotient” of the SAR instruction is
+rounded toward negative infinity. This difference is apparent only for negative numbers. For example, when the
+IDIV instruction is used to divide -9 by 4, the result is -2 with a remainder of -1. If the SAR instruction is used to
+shift -9 right by two bits, the result is -3 and the “remainder” is +3; however, the SAR instruction stores only the
+most significant bit of the remainder (in the CF flag).
+The OF flag is affected only on 1-bit shifts. For left shifts, the OF flag is set to 0 if the most-significant bit of the
+result is the same as the CF flag (that is, the top two bits of the original operand were the same); otherwise, it is
+set to 1. For the SAR instruction, the OF flag is cleared for all 1-bit shifts. For the SHR instruction, the OF flag is set
+to the most-significant bit of the original operand.
+In 64-bit mode, the instruction’s default operation size is 32 bits and the mask width for CL is 5 bits. Using a REX
+prefix in the form of REX.R permits access to additional registers (R8-R15). Using a REX prefix in the form of REX.W
+promotes operation to 64-bits and sets the mask width for CL to 6 bits. See the summary chart at the beginning of
+this section for encoding data and limits.
+
+IA-32 Architecture Compatibility
+The 8086 does not mask the shift count. However, all other IA-32 processors (starting with the Intel 286 processor)
+do mask the shift count to 5 bits, resulting in a maximum count of 31. This masking is done in all operating modes
+(including the virtual-8086 mode) to reduce the maximum execution time of the instructions.
+---------------------------------------------------------------------
+
+SARX/SHLX/SHRX — Shift Without Affecting Flags
+
+Opcode/ Op/
+Instruction En
+64/32 CPUID 
+    -bit Feature 
+    Mode Flag 
+    Description
+
+VEX.NDS.LZ.F3.0F38.W0 F7 /r 
+SARX r32a, r/m32, r32b 
+RMV V/V BMI2 
+Shift r/m32 arithmetically right with count specified in r32b.
+
+VEX.NDS.LZ.66.0F38.W0 F7 /r 
+SHLX r32a, r/m32, r32b 
+RMV V/V BMI2 
+Shift r/m32 logically left with count specified in r32b.
+
+VEX.NDS.LZ.F2.0F38.W0 F7 /r 
+SHRX r32a, r/m32, r32b 
+RMV V/V BMI2 
+Shift r/m32 logically right with count specified in r32b.
+
+VEX.NDS.LZ.F3.0F38.W1 F7 /r 
+SARX r64a, r/m64, r64b 
+RMV V/N.E. BMI2 
+Shift r/m64 arithmetically right with count specified in r64b.
+
+VEX.NDS.LZ.66.0F38.W1 F7 /r 
+SHLX r64a, r/m64, r64b 
+RMV V/N.E. BMI2 
+Shift r/m64 logically left with count specified in r64b.
+
+VEX.NDS.LZ.F2.0F38.W1 F7 /r 
+SHRX r64a, r/m64, r64b 
+RMV V/N.E. BMI2 
+Shift r/m64 logically right with count specified in r64b.
+
+NOTES:
+1. ModRM:r/m is used to encode the first source operand (second operand) and VEX.vvvv encodes the second source operand (third oper-
+and).
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RMV ModRM:reg (w) ModRM:r/m (r) VEX.vvvv (r) NA
+
+Description
+Shifts the bits of the first source operand (the second operand) to the left or right by a COUNT value specified in
+the second source operand (the third operand). The result is written to the destination operand (the first operand).
+The shift arithmetic right (SARX) and shift logical right (SHRX) instructions shift the bits of the destination operand
+to the right (toward less significant bit locations), SARX keeps and propagates the most significant bit (sign bit)
+while shifting.
+The logical shift left (SHLX) shifts the bits of the destination operand to the left (toward more significant bit loca-
+tions).
+This instruction is not supported in real mode and virtual-8086 mode. The operand size is always 32 bits if not in
+64-bit mode. In 64-bit mode operand size 64 requires VEX.W1. VEX.W1 is ignored in non-64-bit modes. An
+attempt to execute this instruction with VEX.L not equal to 0 will cause #UD.
+If the value specified in the first source operand exceeds OperandSize -1, the COUNT value is masked.
+SARX,SHRX, and SHLX instructions do not update flags.
+---------------------------------------------------------------------
+
+SBB—Integer Subtraction with Borrow
+
+Opcode Instruction Op/ 64-Bit Compat/ Description
+                   En Mode Leg Mode
+
+1C ib 
+SBB AL, imm8 
+I Valid Valid 
+Subtract with borrow imm8 from AL.
+
+1D iw 
+SBB AX, imm16 
+I Valid Valid 
+Subtract with borrow imm16 from AX.
+
+1D id 
+SBB EAX, imm32 
+I Valid Valid 
+Subtract with borrow imm32 from EAX.
+
+REX.W + 1D id 
+SBB RAX, imm32 
+I Valid N.E. 
+Subtract with borrow sign-extended imm.32
+ to 64-bits from RAX.
+
+80 /3 ib 
+SBB r/m8, imm8 
+MI Valid Valid 
+Subtract with borrow imm8 from r/m8.
+
+REX + 80 /3 ib 
+SBB r/m8, imm8 
+MI Valid N.E. 
+Subtract with borrow imm8 from r/m8.
+
+81 /3 iw 
+SBB r/m16, imm16 
+MI Valid Valid 
+Subtract with borrow imm16 from r/m16.
+
+81 /3 id 
+SBB r/m32, imm32 
+MI Valid Valid
+Subtract with borrow imm32 from r/m32.
+
+REX.W + 81 /3 id 
+SBB r/m64, imm32 
+MI Valid N.E.
+Subtract with borrow sign-extended imm32 to
+ 64-bits from r/m64.
+
+83 /3 ib 
+SBB r/m16, imm8 
+MI Valid Valid 
+Subtract with borrow sign-extended imm8
+ from r/m16.
+
+83 /3 ib 
+SBB r/m32, imm8 
+MI Valid Valid 
+Subtract with borrow sign-extended imm8
+ from r/m32.
+
+REX.W + 83 /3 ib 
+SBB r/m64, imm8 
+MI Valid N.E.
+Subtract with borrow sign-extended imm8
+ from r/m64.
+
+18 /r 
+SBB r/m8, r8 
+MR Valid Valid 
+Subtract with borrow r8 from r/m8.
+
+REX + 18 /r 
+SBB r/m8, r8 
+MR Valid N.E.
+Subtract with borrow r8 from r/m8.
+
+19 /r 
+SBB r/m16, r16 
+MR Valid Valid
+Subtract with borrow r16 from r/m16.
+
+19 /r 
+SBB r/m32, r32 
+MR Valid Valid 
+Subtract with borrow r32 from r/m32.
+
+REX.W + 19 /r 
+SBB r/m64, r64 
+MR Valid N.E. 
+Subtract with borrow r64 from r/m64.
+
+1A /r 
+SBB r8, r/m8 
+RM Valid Valid 
+Subtract with borrow r/m8 from r8.
+
+REX + 1A /r 
+SBB r8, r/m8 
+RM Valid N.E. 
+Subtract with borrow r/m8 from r8.
+
+1B /r 
+SBB r16, r/m16 
+RM Valid Valid 
+Subtract with borrow r/m16 from r16.
+
+1B /r 
+SBB r32, r/m32 
+RM Valid Valid 
+Subtract with borrow r/m32 from r32.
+
+REX.W + 1B /r 
+SBB r64, r/m64 
+RM Valid N.E. 
+Subtract with borrow r/m64 from r64.
+
+NOTES:
+* In 64-bit mode, r/m8 can not be encoded to access the following byte registers if a REX prefix is used: AH, BH, CH, DH.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+I AL/AX/EAX/RAX imm8/16/32 NA NA
+MI ModRM:r/m (w) imm8/16/32 NA NA
+MR ModRM:r/m (w) ModRM:reg (r) NA NA
+RM ModRM:reg (w) ModRM:r/m (r) NA NA
+
+Description
+Adds the source operand (second operand) and the carry (CF) flag, and subtracts the result from the destination
+operand (first operand). The result of the subtraction is stored in the destination operand. The destination operand
+can be a register or a memory location; the source operand can be an immediate, a register, or a memory location.
+(However, two memory operands cannot be used in one instruction.) The state of the CF flag represents a borrow
+from a previous subtraction.
+When an immediate value is used as an operand, it is sign-extended to the length of the destination operand
+format.
+The SBB instruction does not distinguish between signed or unsigned operands. Instead, the processor evaluates
+the result for both data types and sets the OF and CF flags to indicate a borrow in the signed or unsigned result,
+respectively. The SF flag indicates the sign of the signed result.
+The SBB instruction is usually executed as part of a multibyte or multiword subtraction in which a SUB instruction
+is followed by a SBB instruction.
+This instruction can be used with a LOCK prefix to allow the instruction to be executed atomically.
+In 64-bit mode, the instruction’s default operation size is 32 bits. Using a REX prefix in the form of REX.R permits
+access to additional registers (R8-R15). Using a REX prefix in the form of REX.W promotes operation to 64 bits. See
+the summary chart at the beginning of this section for encoding data and limits.
+
+Operation
+DEST ← (DEST – (SRC + CF));
+---------------------------------------------------------------------
+
+SCAS/SCASB/SCASW/SCASD—Scan String
+
+Opcode Instruction Op/ 64-Bit Compat/ Description
+                   En Mode Leg Mode
+
+AE 
+SCAS m8 
+NP Valid Valid 
+Compare AL with byte at ES:(E)DI or RDI, then
+ set status flags.*
+
+AF 
+SCAS m16 
+NP Valid Valid 
+Compare AX with word at ES:(E)DI or RDI, then
+ set status flags.*
+
+AF 
+SCAS m32 
+NP Valid Valid 
+Compare EAX with doubleword at ES(E)DI or
+ RDI then set status flags.*
+
+REX.W + AF 
+SCAS m64 
+NP Valid N.E. 
+Compare RAX with quadword at RDI or EDI
+ then set status flags.
+
+AE 
+SCASB 
+NP Valid Valid 
+Compare AL with byte at ES:(E)DI or RDI then
+ set status flags.*
+
+AF 
+SCASW 
+NP Valid Valid 
+Compare AX with word at ES:(E)DI or RDI then
+ set status flags.*
+
+AF 
+SCASD 
+NP Valid Valid 
+Compare EAX with doubleword at ES:(E)DI or
+ RDI then set status flags.*
+
+REX.W + AF 
+SCASQ 
+NP Valid N.E. 
+Compare RAX with quadword at RDI or EDI
+ then set status flags.
+
+NOTES:
+* In 64-bit mode, only 64-bit (RDI) and 32-bit (EDI) address sizes are supported. In non-64-bit mode, only 32-bit (EDI) and 16-bit (DI)
+address sizes are supported.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+NP NA NA NA NA
+
+Description
+In non-64-bit modes and in default 64-bit mode: this instruction compares a byte, word, doubleword or quadword
+specified using a memory operand with the value in AL, AX, or EAX. It then sets status flags in EFLAGS recording
+the results. The memory operand address is read from ES:(E)DI register (depending on the address-size attribute
+of the instruction and the current operational mode). Note that ES cannot be overridden with a segment override
+prefix.
+At the assembly-code level, two forms of this instruction are allowed. The explicit-operand form and the no-oper-
+ands form. The explicit-operand form (specified using the SCAS mnemonic) allows a memory operand to be speci-
+fied explicitly. The memory operand must be a symbol that indicates the size and location of the operand value. The
+register operand is then automatically selected to match the size of the memory operand (AL register for byte
+comparisons, AX for word comparisons, EAX for doubleword comparisons). The explicit-operand form is provided
+to allow documentation. Note that the documentation provided by this form can be misleading. That is, the
+memory operand symbol must specify the correct type (size) of the operand (byte, word, or doubleword) but it
+does not have to specify the correct location. The location is always specified by ES:(E)DI.
+The no-operands form of the instruction uses a short form of SCAS. Again, ES:(E)DI is assumed to be the memory
+operand and AL, AX, or EAX is assumed to be the register operand. The size of operands is selected by the
+mnemonic: SCASB (byte comparison), SCASW (word comparison), or SCASD (doubleword comparison).
+After the comparison, the (E)DI register is incremented or decremented automatically according to the setting of
+the DF flag in the EFLAGS register. If the DF flag is 0, the (E)DI register is incremented; if the DF flag is 1, the (E)DI
+register is decremented. The register is incremented or decremented by 1 for byte operations, by 2 for word oper-
+ations, and by 4 for doubleword operations.
+SCAS, SCASB, SCASW, SCASD, and SCASQ can be preceded by the REP prefix for block comparisons of ECX bytes,
+words, doublewords, or quadwords. Often, however, these instructions will be used in a LOOP construct that takes
+some action based on the setting of status flags. See “REP/REPE/REPZ /REPNE/REPNZ—Repeat String Operation
+Prefix” in this chapter for a description of the REP prefix.
+In 64-bit mode, the instruction’s default address size is 64-bits, 32-bit address size is supported using the prefix
+67H. Using a REX prefix in the form of REX.W promotes operation on doubleword operand to 64 bits. The 64-bit no-
+operand mnemonic is SCASQ. Address of the memory operand is specified in either RDI or EDI, and
+AL/AX/EAX/RAX may be used as the register operand. After a comparison, the destination register is incremented
+or decremented by the current operand size (depending on the value of the DF flag). See the summary chart at the
+beginning of this section for encoding data and limits.
+---------------------------------------------------------------------
+
+SETcc—Set Byte on Condition
+
+Opcode Instruction Op/ 64-Bit Compat/ Description
+                   En Mode Leg Mode
+
+0F 97 
+SETA r/m8 
+M Valid Valid 
+Set byte if above (CF=0 and ZF=0).
+
+REX + 0F 97 
+SETA r/m8 
+M Valid N.E. 
+Set byte if above (CF=0 and ZF=0).
+
+0F 93 
+SETAE r/m8 
+M Valid Valid 
+Set byte if above or equal (CF=0).
+
+REX + 0F 93 
+SETAE r/m8 
+M Valid N.E. 
+Set byte if above or equal (CF=0).
+
+0F 92 
+SETB r/m8 
+M Valid Valid 
+Set byte if below (CF=1).
+
+REX + 0F 92 
+SETB r/m8 
+M Valid N.E. 
+Set byte if below (CF=1).
+
+0F 96 
+SETBE r/m8 
+M Valid Valid 
+Set byte if below or equal (CF=1 or ZF=1).
+
+REX + 0F 96 
+SETBE r/m8 
+M Valid N.E. 
+Set byte if below or equal (CF=1 or ZF=1).
+
+0F 92 
+SETC r/m8 
+M Valid Valid 
+Set byte if carry (CF=1).
+
+REX + 0F 92 
+SETC r/m8 
+M Valid N.E. 
+Set byte if carry (CF=1).
+
+0F 94 
+SETE r/m8 
+M Valid Valid 
+Set byte if equal (ZF=1).
+
+REX + 0F 94 
+SETE r/m8 
+M Valid N.E. 
+Set byte if equal (ZF=1).
+
+0F 9F 
+SETG r/m8 
+M Valid Valid 
+Set byte if greater (ZF=0 and SF=OF).
+
+REX + 0F 9F 
+SETG r/m8 
+M Valid N.E. 
+Set byte if greater (ZF=0 and SF=OF).
+
+0F 9D 
+SETGE r/m8 
+M Valid Valid 
+Set byte if greater or equal (SF=OF).
+
+REX + 0F 9D 
+SETGE r/m8 
+M Valid N.E. 
+Set byte if greater or equal (SF=OF).
+
+0F 9C 
+SETL r/m8 
+M Valid Valid 
+Set byte if less (SF≠ OF).
+
+REX + 0F 9C 
+SETL r/m8 
+M Valid N.E. 
+Set byte if less (SF≠ OF).
+
+0F 9E 
+SETLE r/m8 
+M Valid Valid 
+Set byte if less or equal (ZF=1 or SF≠ OF).
+
+REX + 0F 9E 
+SETLE r/m8 
+M Valid N.E. 
+Set byte if less or equal (ZF=1 or SF≠ OF).
+
+0F 96 
+SETNA r/m8 
+M Valid Valid 
+Set byte if not above (CF=1 or ZF=1).
+
+REX + 0F 96 
+SETNA r/m8 
+M Valid N.E. 
+Set byte if not above (CF=1 or ZF=1).
+
+0F 92 
+SETNAE r/m8 
+M Valid Valid 
+Set byte if not above or equal (CF=1).
+
+REX + 0F 92 
+SETNAE r/m8 
+M Valid N.E. 
+Set byte if not above or equal (CF=1).
+
+0F 93 
+SETNB r/m8 
+M Valid Valid 
+Set byte if not below (CF=0).
+
+REX + 0F 93 
+SETNB r/m8 
+M Valid N.E. 
+Set byte if not below (CF=0).
+
+0F 97 
+SETNBE r/m8 
+M Valid Valid 
+Set byte if not below or equal (CF=0 and
+ ZF=0).
+
+REX + 0F 97 
+SETNBE r/m8 
+M Valid N.E. 
+Set byte if not below or equal (CF=0 and
+ ZF=0).
+
+0F 93 
+SETNC r/m8 
+M Valid Valid 
+Set byte if not carry (CF=0).
+
+REX + 0F 93 
+SETNC r/m8 
+M Valid N.E. 
+Set byte if not carry (CF=0).
+
+0F 95 
+SETNE r/m8 
+M Valid Valid 
+Set byte if not equal (ZF=0).
+
+REX + 0F 95 
+SETNE r/m8 
+M Valid N.E. 
+Set byte if not equal (ZF=0).
+
+0F 9E 
+SETNG r/m8 
+M Valid Valid 
+Set byte if not greater (ZF=1 or SF≠ OF)
+
+REX + 0F 9E 
+SETNG r/m8 
+M Valid N.E. 
+Set byte if not greater (ZF=1 or SF≠ OF).
+
+0F 9C 
+SETNGE r/m8 
+M Valid Valid 
+Set byte if not greater or equal (SF≠ OF).
+
+REX + 0F 9C 
+SETNGE r/m8 
+M Valid N.E. 
+Set byte if not greater or equal (SF≠ OF).
+
+0F 9D 
+SETNL r/m8 
+M Valid Valid 
+Set byte if not less (SF=OF).
+
+REX + 0F 9D 
+SETNL r/m8 
+M Valid N.E. 
+Set byte if not less (SF=OF).
+
+0F 9F 
+SETNLE r/m8 
+M Valid Valid 
+Set byte if not less or equal (ZF=0 and SF=OF).
+
+REX + 0F 9F 
+SETNLE r/m8 
+M Valid N.E. 
+Set byte if not less or equal (ZF=0 and SF=OF).
+
+0F 91 
+SETNO r/m8 
+M Valid Valid 
+Set byte if not overflow (OF=0).
+
+REX + 0F 91 
+SETNO r/m8 
+M Valid N.E. 
+Set byte if not overflow (OF=0).
+
+0F 9B 
+SETNP r/m8 
+M Valid Valid 
+Set byte if not parity (PF=0).
+
+REX + 0F 9B 
+SETNP r/m8 
+M Valid N.E. 
+Set byte if not parity (PF=0).
+
+0F 99 
+SETNS r/m8 
+M Valid Valid 
+Set byte if not sign (SF=0).
+
+REX + 0F 99 
+SETNS r/m8 
+M Valid N.E. 
+Set byte if not sign (SF=0).
+
+0F 95 
+SETNZ r/m8 
+M Valid Valid 
+Set byte if not zero (ZF=0).
+
+REX + 0F 95 
+SETNZ r/m8 
+M Valid N.E. 
+Set byte if not zero (ZF=0).
+
+0F 90 
+SETO r/m8 
+M Valid Valid 
+Set byte if overflow (OF=1)
+
+REX + 0F 90 
+SETO r/m8 
+M Valid N.E. 
+Set byte if overflow (OF=1).
+
+0F 9A 
+SETP r/m8 
+M Valid Valid 
+Set byte if parity (PF=1).
+
+REX + 0F 9A 
+SETP r/m8 
+M Valid N.E. 
+Set byte if parity (PF=1).
+
+0F 9A 
+SETPE r/m8 
+M Valid Valid 
+Set byte if parity even (PF=1).
+
+REX + 0F 9A 
+SETPE r/m8 
+M Valid N.E. 
+Set byte if parity even (PF=1).
+
+0F 9B 
+SETPO r/m8 
+M Valid Valid 
+Set byte if parity odd (PF=0).
+
+REX + 0F 9B 
+SETPO r/m8 
+M Valid N.E. 
+Set byte if parity odd (PF=0).
+
+0F 98 
+SETS r/m8 
+M Valid Valid 
+Set byte if sign (SF=1).
+
+REX + 0F 98 
+SETS r/m8 
+M Valid N.E. 
+Set byte if sign (SF=1).
+
+0F 94 
+SETZ r/m8 
+M Valid Valid 
+Set byte if zero (ZF=1).
+
+REX + 0F 94 
+SETZ r/m8 
+M Valid N.E. 
+Set byte if zero (ZF=1).
+
+NOTES:
+* In 64-bit mode, r/m8 can not be encoded to access the following byte registers if a REX prefix is used: AH, BH, CH, DH.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+M ModRM:r/m (r) NA NA NA
+
+Description
+Sets the destination operand to 0 or 1 depending on the settings of the status flags (CF, SF, OF, ZF, and PF) in the
+EFLAGS register. The destination operand points to a byte register or a byte in memory. The condition code suffix
+(cc) indicates the condition being tested for.
+The terms “above” and “below” are associated with the CF flag and refer to the relationship between two unsigned
+integer values. The terms “greater” and “less” are associated with the SF and OF flags and refer to the relationship
+between two signed integer values.
+Many of the SETcc instruction opcodes have alternate mnemonics. For example, SETG (set byte if greater) and
+SETNLE (set if not less or equal) have the same opcode and test for the same condition: ZF equals 0 and SF equals
+OF. These alternate mnemonics are provided to make code more intelligible. Appendix B, “EFLAGS Condition
+Codes,” in the Intel® 64 and IA-32 Architectures Software Developer’s Manual, Volume 1, shows the alternate
+mnemonics for various test conditions.
+Some languages represent a logical one as an integer with all bits set. This representation can be obtained by
+choosing the logically opposite condition for the SETcc instruction, then decrementing the result. For example, to
+test for overflow, use the SETNO instruction, then decrement the result.
+SETcc—Set Byte on Condition
+Vol. 2B 4-345INSTRUCTION SET REFERENCE, N-Z
+In IA-64 mode, the operand size is fixed at 8 bits. Use of REX prefix enable uniform addressing to additional byte
+registers. Otherwise, this instruction’s operation is the same as in legacy mode and compatibility mode.
+
+Operation
+IF condition
+THEN DEST ← 1;
+ELSE DEST ← 0;
+FI;
+
+Flags Affected
+None.
+---------------------------------------------------------------------
+
+SFENCE—Store Fence
+
+Opcode Instruction Op/ 64-Bit Compat/ Description
+                    En Mode Leg Mode
+
+0F AE /7 
+SFENCE 
+NP Valid Valid
+Serializes store operations.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+NP NA NA NA NA
+
+Description
+Performs a serializing operation on all store-to-memory instructions that were issued prior the SFENCE instruction.
+This serializing operation guarantees that every store instruction that precedes the SFENCE instruction in program
+order becomes globally visible before any store instruction that follows the SFENCE instruction. The SFENCE
+instruction is ordered with respect to store instructions, other SFENCE instructions, any LFENCE and MFENCE
+instructions, and any serializing instructions (such as the CPUID instruction). It is not ordered with respect to load
+instructions.
+Weakly ordered memory types can be used to achieve higher processor performance through such techniques as
+out-of-order issue, write-combining, and write-collapsing. The degree to which a consumer of data recognizes or
+knows that the data is weakly ordered varies among applications and may be unknown to the producer of this data.
+The SFENCE instruction provides a performance-efficient way of ensuring store ordering between routines that
+produce weakly-ordered results and routines that consume this data.
+This instruction’s operation is the same in non-64-bit modes and 64-bit mode.
+Operation
+Wait_On_Following_Stores_Until(preceding_stores_globally_visible);
+---------------------------------------------------------------------
+
+SGDT—Store Global Descriptor Table Register
+
+Opcode Instruction Op/ 64-Bit Compat/ Description
+                    En Mode Leg Mode
+
+0F 01 /0 
+SGDT m 
+M Valid Valid
+Store GDTR to m.
+
+NOTES:
+* See IA-32 Architecture Compatibility section below.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+M ModRM:r/m (w) NA NA NA
+
+Description
+Stores the content of the global descriptor table register (GDTR) in the destination operand. The destination
+operand specifies a memory location.
+In legacy or compatibility mode, the destination operand is a 6-byte memory location. If the operand-size attribute
+is 16 bits, the limit is stored in the low 2 bytes and the 24-bit base address is stored in bytes 3-5, and byte 6 is zero-
+filled. If the operand-size attribute is 32 bits, the 16-bit limit field of the register is stored in the low 2 bytes of the
+memory location and the 32-bit base address is stored in the high 4 bytes.
+In IA-32e mode, the operand size is fixed at 8+2 bytes. The instruction stores an 8-byte base and a 2-byte limit.
+SGDT is useful only by operating-system software. However, it can be used in application programs without causing
+an exception to be generated. See “LGDT/LIDT—Load Global/Interrupt Descriptor Table Register” in Chapter 3,
+Intel® 64 and IA-32 Architectures Software Developer’s Manual, Volume 2A, for information on loading the GDTR
+and IDTR.
+
+IA-32 Architecture Compatibility
+The 16-bit form of the SGDT is compatible with the Intel 286 processor if the upper 8 bits are not referenced. The
+Intel 286 processor fills these bits with 1s; the Pentium 4, Intel Xeon, P6 processor family, Pentium, Intel486, and
+Intel386TM processors fill these bits with 0s.
+
+Operation
+IF instruction is SGDT
+IF OperandSize = 16
+THEN
+DEST[0:15] ← GDTR(Limit);
+DEST[16:39] ← GDTR(Base); (* 24 bits of base address stored *)
+DEST[40:47] ← 0;
+ELSE IF (32-bit Operand Size)
+DEST[0:15] ← GDTR(Limit);
+DEST[16:47] ← GDTR(Base); (* Full 32-bit base address stored *)
+FI;
+ELSE (* 64-bit Operand Size *)
+DEST[0:15] ← GDTR(Limit);
+DEST[16:79] ← GDTR(Base); (* Full 64-bit base address stored *)
+FI;
+FI;
+
+Flags Affected
+None.
+---------------------------------------------------------------------
+
+SHLD—Double Precision Shift Left
+
+Opcode Instruction Op/ 64-Bit Compat/ Description
+                    En Mode Leg Mode
+
+0F A4 /r ib 
+SHLD r/m16, r16, imm8 
+MRI Valid Valid 
+Shift r/m16 to left imm8 places while shifting
+ bits from r16 in from the right.
+
+0F A5 /r 
+SHLD r/m16, r16, CL 
+MRC Valid Valid 
+Shift r/m16 to left CL places while shifting bits
+ from r16 in from the right.
+
+0F A4 /r ib 
+SHLD r/m32, r32, imm8 
+MRI Valid Valid 
+Shift r/m32 to left imm8 places while shifting
+ bits from r32 in from the right.
+
+REX.W + 0F A4 /r ib 
+SHLD r/m64, r64, imm8 
+MRI Valid N.E. 
+Shift r/m64 to left imm8 places while shifting
+ bits from r64 in from the right.
+
+0F A5 /r 
+SHLD r/m32, r32, CL 
+MRC Valid Valid 
+Shift r/m32 to left CL places while shifting bits
+ from r32 in from the right.
+
+REX.W + 0F A5 /r 
+SHLD r/m64, r64, CL 
+MRC Valid N.E. 
+Shift r/m64 to left CL places while shifting
+ bits from r64 in from the right.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+MRI ModRM:r/m (w) ModRM:reg (r) imm8 NA
+MRC ModRM:r/m (w) ModRM:reg (r) CL NA
+
+Description
+The SHLD instruction is used for multi-precision shifts of 64 bits or more.
+The instruction shifts the first operand (destination operand) to the left the number of bits specified by the third
+operand (count operand). The second operand (source operand) provides bits to shift in from the right (starting
+with bit 0 of the destination operand).
+The destination operand can be a register or a memory location; the source operand is a register. The count
+operand is an unsigned integer that can be stored in an immediate byte or in the CL register. If the count operand
+is CL, the shift count is the logical AND of CL and a count mask. In non-64-bit modes and default 64-bit mode; only
+bits 0 through 4 of the count are used. This masks the count to a value between 0 and 31. If a count is greater than
+the operand size, the result is undefined.
+If the count is 1 or greater, the CF flag is filled with the last bit shifted out of the destination operand. For a 1-bit
+shift, the OF flag is set if a sign change occurred; otherwise, it is cleared. If the count operand is 0, flags are not
+affected.
+In 64-bit mode, the instruction’s default operation size is 32 bits. Using a REX prefix in the form of REX.R permits
+access to additional registers (R8-R15). Using a REX prefix in the form of REX.W promotes operation to 64 bits
+(upgrading the count mask to 6 bits). See the summary chart at the beginning of this section for encoding data and
+limits.
+---------------------------------------------------------------------
+
+SHRD—Double Precision Shift Right
+
+Opcode* Instruction Op/ 64-Bit Compat/ Description
+                    En Mode Leg Mode
+
+0F AC /r ib 
+SHRD r/m16, r16, imm8 
+MRI Valid Valid 
+Shift r/m16 to right imm8 places while
+ shifting bits from r16 in from the left.
+
+0F AD /r 
+SHRD r/m16, r16, CL 
+MRC Valid Valid 
+Shift r/m16 to right CL places while shifting
+ bits from r16 in from the left.
+
+0F AC /r ib 
+SHRD r/m32, r32, imm8 
+MRI Valid Valid 
+Shift r/m32 to right imm8 places while
+ shifting bits from r32 in from the left.
+
+REX.W + 0F AC /r ib 
+SHRD r/m64, r64, imm8 
+MRI Valid N.E. 
+Shift r/m64 to right imm8 places while
+ shifting bits from r64 in from the left.
+
+0F AD /r 
+SHRD r/m32, r32, CL 
+MRC Valid Valid 
+Shift r/m32 to right CL places while shifting
+ bits from r32 in from the left.
+
+REX.W + 0F AD /r 
+SHRD r/m64, r64, CL 
+MRC Valid N.E. 
+Shift r/m64 to right CL places while shifting
+ bits from r64 in from the left.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+MRI ModRM:r/m (w) ModRM:reg (r) imm8 NA
+MRC ModRM:r/m (w) ModRM:reg (r) CL NA
+
+Description
+The SHRD instruction is useful for multi-precision shifts of 64 bits or more.
+The instruction shifts the first operand (destination operand) to the right the number of bits specified by the third
+operand (count operand). The second operand (source operand) provides bits to shift in from the left (starting with
+the most significant bit of the destination operand).
+The destination operand can be a register or a memory location; the source operand is a register. The count
+operand is an unsigned integer that can be stored in an immediate byte or the CL register. If the count operand is
+CL, the shift count is the logical AND of CL and a count mask. In non-64-bit modes and default 64-bit mode, the
+width of the count mask is 5 bits. Only bits 0 through 4 of the count register are used (masking the count to a value
+between 0 and 31). If the count is greater than the operand size, the result is undefined.
+If the count is 1 or greater, the CF flag is filled with the last bit shifted out of the destination operand. For a 1-bit
+shift, the OF flag is set if a sign change occurred; otherwise, it is cleared. If the count operand is 0, flags are not
+affected.
+In 64-bit mode, the instruction’s default operation size is 32 bits. Using a REX prefix in the form of REX.R permits
+access to additional registers (R8-R15). Using a REX prefix in the form of REX.W promotes operation to 64 bits
+(upgrading the count mask to 6 bits). See the summary chart at the beginning of this section for encoding data and
+limits.
+---------------------------------------------------------------------
+
+SHUFPD—Shuffle Packed Double-Precision Floating-Point Values
+
+Opcode/ Op/ 64/32 bit CPUID Description
+Instruction En Mode Feature 
+               Support Flag 
+
+66 0F C6 /r ib 
+SHUFPD xmm1, xmm2/m128, imm8
+RMI V/V SSE2 
+Shuffle packed double-precision floating-
+ point values selected by imm8 from xmm1
+ and xmm2/m128 to xmm1.
+
+VEX.NDS.128.66.0F.WIG C6 /r ib
+VSHUFPD xmm1, xmm2, xmm3/m128, imm8
+RVMI V/V AVX 
+Shuffle Packed double-precision floating-
+ point values selected by imm8 from xmm2
+ and xmm3/mem.
+
+VEX.NDS.256.66.0F.WIG C6 /r ib
+VSHUFPD ymm1, ymm2, ymm3/m256, imm8
+RVMI V/V AVX 
+Shuffle Packed double-precision floating-
+ point values selected by imm8 from ymm2
+ and ymm3/mem.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RMI ModRM:reg (r, w) ModRM:r/m (r) imm8 NA
+RVMI ModRM:reg (w) VEX.vvvv (r) ModRM:r/m (r) imm8
+
+Description
+Moves either of the two packed double-precision floating-point values from destination operand (first operand) into
+the low quadword of the destination operand; moves either of the two packed double-precision floating-point
+values from the source operand into to the high quadword of the destination operand (see Figure 4-21). The select
+operand (third operand) determines which values are moved to the destination operand.
+In 64-bit mode, using a REX prefix in the form of REX.R permits this instruction to access additional registers
+(XMM8-XMM15).
+128-bit Legacy SSE version: The source can be an XMM register or an 128-bit memory location. The destination is
+not distinct from the first source XMM register and the upper bits (VLMAX-1:128) of the corresponding YMM
+register destination are unmodified.
+VEX.128 encoded version: the first source operand is an XMM register or 128-bit memory location. The destination
+operand is an XMM register. The upper bits (VLMAX-1:128) of the corresponding YMM register destination are
+zeroed.
+VEX.256 encoded version: The first source operand is a YMM register. The second source operand can be a YMM
+register or a 256-bit memory location. The destination operand is a YMM register.
+---------------------------------------------------------------------
+
+SHUFPS—Shuffle Packed Single-Precision Floating-Point Values
+
+Opcode/ Op/ 64/32 bit CPUID Description
+Instruction En Mode Feature 
+               Support Flag 
+
+0F C6 /r ib 
+SHUFPS xmm1, xmm2/m128, imm8
+RMI V/V SSE 
+Shuffle packed single-precision floating-point
+ values selected by imm8 from xmm1 and
+ xmm1/m128 to xmm1.
+
+VEX.NDS.128.0F.WIG C6 /r ib
+VSHUFPS xmm1, xmm2, xmm3/m128, imm8
+RVMI V/V AVX 
+Shuffle Packed single-precision floating-point
+ values selected by imm8 from xmm2 and
+ xmm3/mem.
+
+VEX.NDS.256.0F.WIG C6 /r ib
+VSHUFPS ymm1, ymm2, ymm3/m256, imm8
+RVMI V/V AVX 
+Shuffle Packed single-precision floating-point
+ values selected by imm8 from ymm2 and
+ ymm3/mem.
+
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RMI ModRM:reg (r, w) ModRM:r/m (r) imm8 NA
+RVMI ModRM:reg (w) VEX.vvvv (r) ModRM:r/m (r) imm8
+
+Description
+Moves two of the four packed single-precision floating-point values from the destination operand (first operand)
+into the low quadword of the destination operand; moves two of the four packed single-precision floating-point
+values from the source operand (second operand) into to the high quadword of the destination operand (see
+Figure 4-22). The select operand (third operand) determines which values are moved to the destination operand.
+In 64-bit mode, using a REX prefix in the form of REX.R permits this instruction to access additional registers
+(XMM8-XMM15).
+128-bit Legacy SSE version: The source can be an XMM register or an 128-bit memory location. The destination is
+not distinct from the first source XMM register and the upper bits (VLMAX-1:128) of the corresponding YMM
+register destination are unmodified.
+VEX.128 encoded version: the first source operand is an XMM register or 128-bit memory location. The destination
+operand is an XMM register. The upper bits (VLMAX-1:128) of the corresponding YMM register destination are
+zeroed.
+determines which values are moved to the destination operand.
+VEX.256 encoded version: The first source operand is a YMM register. The second source operand can be a YMM
+register or a 256-bit memory location. The destination operand is a YMM register.
+---------------------------------------------------------------------
+
+SIDT—Store Interrupt Descriptor Table Register
+
+Opcode Instruction Op/ 64-Bit Compat/ Description
+                    En Mode Leg Mode
+
+0F 01 /1 
+SIDT m 
+M Valid Valid
+Store IDTR to m.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+M ModRM:r/m (w) NA NA NA
+
+Description
+Stores the content the interrupt descriptor table register (IDTR) in the destination operand. The destination
+operand specifies a 6-byte memory location.
+In non-64-bit modes, if the operand-size attribute is 32 bits, the 16-bit limit field of the register is stored in the low
+2 bytes of the memory location and the 32-bit base address is stored in the high 4 bytes. If the operand-size
+attribute is 16 bits, the limit is stored in the low 2 bytes and the 24-bit base address is stored in the third, fourth,
+and fifth byte, with the sixth byte filled with 0s.
+In 64-bit mode, the operand size fixed at 8+2 bytes. The instruction stores 8-byte base and 2-byte limit values.
+SIDT is only useful in operating-system software; however, it can be used in application programs without causing
+an exception to be generated. See “LGDT/LIDT—Load Global/Interrupt Descriptor Table Register” in Chapter 3,
+Intel® 64 and IA-32 Architectures Software Developer’s Manual, Volume 2A, for information on loading the GDTR
+and IDTR.
+
+IA-32 Architecture Compatibility
+The 16-bit form of SIDT is compatible with the Intel 286 processor if the upper 8 bits are not referenced. The Intel
+286 processor fills these bits with 1s; the Pentium 4, Intel Xeon, P6 processor family, Pentium, Intel486, and
+Intel386 processors fill these bits with 0s.
+
+Operation
+IF instruction is SIDT
+THEN
+IF OperandSize = 16
+THEN
+DEST[0:15] ← IDTR(Limit);
+DEST[16:39] ← IDTR(Base); (* 24 bits of base address stored; *)
+DEST[40:47] ← 0;
+ELSE IF (32-bit Operand Size)
+DEST[0:15] ← IDTR(Limit);
+DEST[16:47] ← IDTR(Base); FI; (* Full 32-bit base address stored *)
+ELSE (* 64-bit Operand Size *)
+DEST[0:15] ← IDTR(Limit);
+DEST[16:79] ← IDTR(Base); (* Full 64-bit base address stored *)
+FI;
+FI;
+
+Flags Affected
+None.
+---------------------------------------------------------------------
+
+SLDT—Store Local Descriptor Table Register
+
+Opcode Instruction Op/ 64-Bit Compat/ Description
+                    En Mode Leg Mode
+
+0F 00 /0 
+SLDT r/m16 
+M Valid Valid 
+Stores segment selector from LDTR in r/m16.
+
+REX.W + 0F 00 /0 
+SLDT r64/m16 
+M Valid Valid 
+Stores segment selector from LDTR in
+ r64/m16.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+M ModRM:r/m (w) NA NA NA
+
+Description
+Stores the segment selector from the local descriptor table register (LDTR) in the destination operand. The desti-
+nation operand can be a general-purpose register or a memory location. The segment selector stored with this
+instruction points to the segment descriptor (located in the GDT) for the current LDT. This instruction can only be
+executed in protected mode.
+Outside IA-32e mode, when the destination operand is a 32-bit register, the 16-bit segment selector is copied into
+the low-order 16 bits of the register. The high-order 16 bits of the register are cleared for the Pentium 4, Intel Xeon,
+and P6 family processors. They are undefined for Pentium, Intel486, and Intel386 processors. When the destina-
+tion operand is a memory location, the segment selector is written to memory as a 16-bit quantity, regardless of
+the operand size.
+In compatibility mode, when the destination operand is a 32-bit register, the 16-bit segment selector is copied into
+the low-order 16 bits of the register. The high-order 16 bits of the register are cleared. When the destination
+operand is a memory location, the segment selector is written to memory as a 16-bit quantity, regardless of the
+operand size.
+In 64-bit mode, using a REX prefix in the form of REX.R permits access to additional registers (R8-R15). The
+behavior of SLDT with a 64-bit register is to zero-extend the 16-bit selector and store it in the register. If the desti-
+nation is memory and operand size is 64, SLDT will write the 16-bit selector to memory as a 16-bit quantity,
+regardless of the operand size
+
+Operation
+DEST ← LDTR(SegmentSelector);
+
+Flags Affected
+None.
+---------------------------------------------------------------------
+
