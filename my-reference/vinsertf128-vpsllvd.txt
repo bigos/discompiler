@@ -1,0 +1,418 @@
+VINSERTF128 — Insert Packed Floating-Point Values
+
+Opcode/ Op/
+Instruction En
+64/32-bit CPUID
+Mode
+Feature
+Flag
+Description
+
+VEX.NDS.256.66.0F3A.W0 18 /r ib 
+VINSERTF128 ymm1, ymm2, xmm3/m128, imm8
+RVM V/V AVX
+Insert a single precision floating-point value
+selected by imm8 from xmm3/m128 into
+ymm2 at the specified destination element
+specified by imm8 and zero out destination
+elements in ymm1 as indicated in imm8.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RVM ModRM:reg (w) VEX.vvvv (r) ModRM:r/m (r) NA
+
+Description
+Performs an insertion of 128-bits of packed floating-point values from the second source operand (third operand)
+into an the destination operand (first operand) at an 128-bit offset from imm8[0]. The remaining portions of the
+destination are written by the corresponding fields of the first source operand (second operand). The second source
+operand can be either an XMM register or a 128-bit memory location.
+The high 7 bits of the immediate are ignored.
+
+Operation
+TEMP[255:0]  SRC1[255:0]
+CASE (imm8[0]) OF
+0: TEMP[127:0]  SRC2[127:0]
+1: TEMP[255:128]  SRC2[127:0]
+ESAC
+DEST TEMP
+---------------------------------------------------------------------
+
+VINSERTI128 — Insert Packed Integer Values
+
+Opcode/ Op/
+Instruction En
+64/32
+-bit
+Mode
+CPUID
+Feature
+Flag
+Description
+
+VEX.NDS.256.66.0F3A.W0 38 /r ib 
+VINSERTI128 ymm1, ymm2, xmm3/m128, imm8 
+RVMI V/V AVX2
+Insert 128-bits of integer data from xmm3/mem
+and the remaining values from ymm2 into
+ymm1.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RVMI ModRM:reg (w) VEX.vvvv ModRM:r/m (r) Imm8
+
+Description
+Performs an insertion of 128-bits of packed integer data from the second source operand (third operand) into an
+the destination operand (first operand) at a 128-bit offset from imm8[0]. The remaining portions of the destination
+are written by the corresponding fields of the first source operand (second operand). The second source operand
+can be either an XMM register or a 128-bit memory location.
+The high 7 bits of the immediate are ignored.
+VEX.L must be 1; an attempt to execute this instruction with VEX.L=0 will cause #UD.
+
+Operation
+VINSERTI128
+TEMP[255:0]  SRC1[255:0]
+CASE (imm8[0]) OF
+0: TEMP[127:0] SRC2[127:0]
+1: TEMP[255:128]  SRC2[127:0]
+ESAC
+DEST TEMP
+---------------------------------------------------------------------
+
+VMASKMOV—Conditional SIMD Packed Loads and Stores
+
+Opcode/ Op/ 
+Instruction En 
+64/32-bit CPUID
+Mode
+Feature
+Flag
+Description
+
+VEX.NDS.128.66.0F38.W0 2C /r 
+VMASKMOVPS xmm1, xmm2, m128
+RVM V/V AVX 
+Conditionally load packed single-precision values from
+ m128 using mask in xmm2 and store in xmm1.
+
+VEX.NDS.256.66.0F38.W0 2C /r
+VMASKMOVPS ymm1, ymm2, m256
+RVM V/V AVX 
+Conditionally load packed single-precision values from
+ m256 using mask in ymm2 and store in ymm1.
+
+VEX.NDS.128.66.0F38.W0 2D /r
+VMASKMOVPD xmm1, xmm2, m128
+RVM V/V AVX 
+Conditionally load packed double-precision values from
+ m128 using mask in xmm2 and store in xmm1.
+
+VEX.NDS.256.66.0F38.W0 2D /r
+VMASKMOVPD ymm1, ymm2, m256
+RVM V/V AVX 
+Conditionally load packed double-precision values from
+ m256 using mask in ymm2 and store in ymm1.
+
+VEX.NDS.128.66.0F38.W0 2E /r
+VMASKMOVPS m128, xmm1, xmm2
+MVR V/V AVX 
+Conditionally store packed single-precision values from
+ xmm2 using mask in xmm1.
+
+VEX.NDS.256.66.0F38.W0 2E /r
+VMASKMOVPS m256, ymm1, ymm2
+MVR V/V AVX 
+Conditionally store packed single-precision values from
+ ymm2 using mask in ymm1.
+
+VEX.NDS.128.66.0F38.W0 2F /r
+VMASKMOVPD m128, xmm1, xmm2
+MVR V/V AVX 
+Conditionally store packed double-precision values from
+ xmm2 using mask in xmm1.
+
+VEX.NDS.256.66.0F38.W0 2F /r
+VMASKMOVPD m256, ymm1, ymm2
+MVR V/V AVX 
+Conditionally store packed double-precision values from
+ ymm2 using mask in ymm1.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RVM ModRM:reg (w) VEX.vvvv (r) ModRM:r/m (r) NA
+MVR ModRM:r/m (w) VEX.vvvv (r) ModRM:reg (r) NA
+
+Description
+Conditionally moves packed data elements from the second source operand into the corresponding data element of
+the destination operand, depending on the mask bits associated with each data element. The mask bits are speci-
+fied in the first source operand.
+The mask bit for each data element is the most significant bit of that element in the first source operand. If a mask
+is 1, the corresponding data element is copied from the second source operand to the destination operand. If the
+mask is 0, the corresponding data element is set to zero in the load form of these instructions, and unmodified in
+the store form.
+The second source operand is a memory address for the load form of these instruction. The destination operand is
+a memory address for the store form of these instructions. The other operands are both XMM registers (for
+VEX.128 version) or YMM registers (for VEX.256 version).
+Faults occur only due to mask-bit required memory accesses that caused the faults. Faults will not occur due to
+referencing any memory location if the corresponding mask bit for that memory location is 0. For example, no
+faults will be detected if the mask bits are all zero.
+Unlike previous MASKMOV instructions (MASKMOVQ and MASKMOVDQU), a nontemporal hint is not applied to
+these instructions.
+Instruction behavior on alignment check reporting with mask bits of less than all 1s are the same as with mask bits
+of all 1s.
+VMASKMOV should not be used to access memory mapped I/O and un-cached memory as the access and the
+ordering of the individual loads or stores it does is implementation specific.
+In cases where mask bits indicate data should not be loaded or stored paging A and D bits will be set in an imple-
+mentation dependent way. However, A and D bits are always set for pages where data is actually loaded/stored.
+Note: for load forms, the first source (the mask) is encoded in VEX.vvvv; the second source is encoded in rm_field,
+and the destination register is encoded in reg_field.
+Note: for store forms, the first source (the mask) is encoded in VEX.vvvv; the second source register is encoded in
+reg_field, and the destination memory location is encoded in rm_field.
+---------------------------------------------------------------------
+
+VPBLENDD — Blend Packed Dwords
+
+Opcode/ Op/
+Instruction En
+64/32 
+     -bit 
+     Mode
+CPUID Description
+Feature 
+Flag 
+
+VEX.NDS.128.66.0F3A.W0 02 /r ib 
+VPBLENDD xmm1, xmm2, xmm3/m128, imm8 
+RVMI V/V AVX2 
+Select dwords from xmm2 and xmm3/m128 from
+ mask specified in imm8 and store the values into
+ xmm1.
+
+VEX.NDS.256.66.0F3A.W0 02 /r ib 
+VPBLENDD ymm1, ymm2, ymm3/m256, imm8 
+RVMI V/V AVX2 
+Select dwords from ymm2 and ymm3/m256 from
+ mask specified in imm8 and store the values into
+ ymm1.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RVMI ModRM:reg (w) VEX.vvvv ModRM:r/m (r) Imm8
+
+Description
+Dword elements from the source operand (second operand) are conditionally written to the destination operand
+(first operand) depending on bits in the immediate operand (third operand). The immediate bits (bits 7:0) form a
+mask that determines whether the corresponding word in the destination is copied from the source. If a bit in the
+mask, corresponding to a word, is “1", then the word is copied, else the word is unchanged.
+VEX.128 encoded version: The second source operand can be an XMM register or a 128-bit memory location. The
+first source and destination operands are XMM registers. Bits (VLMAX-1:128) of the corresponding YMM register
+are zeroed.
+VEX.256 encoded version: The first source operand is a YMM register. The second source operand is a YMM register
+or a 256-bit memory location. The destination operand is a YMM register.
+---------------------------------------------------------------------
+
+VPBROADCAST—Broadcast Integer Data
+
+Opcode/ Op/
+Instruction En
+CPUID 
+64/32 
+   -bit 
+   Mode 
+Feature 
+Flag 
+Description
+
+VEX.128.66.0F38.W0 78 /r 
+VPBROADCASTB xmm1, xmm2/m8 
+RM V/V AVX2 
+Broadcast a byte integer in the source operand to six-
+teen locations in xmm1.
+
+
+VEX.256.66.0F38.W0 78 /r 
+VPBROADCASTB ymm1, xmm2/m8 
+RM V/V AVX2 
+Broadcast a byte integer in the source operand to thirty-
+two locations in ymm1.
+
+VEX.128.66.0F38.W0 79 /r 
+VPBROADCASTW xmm1, xmm2/m16 
+RM V/V AVX2 
+Broadcast a word integer in the source operand to eight
+locations in xmm1.
+
+VEX.256.66.0F38.W0 79 /r 
+VPBROADCASTW ymm1, xmm2/m16 
+RM V/V AVX2 
+Broadcast a word integer in the source operand to six-
+teen locations in ymm1.
+
+VEX.128.66.0F38.W0 58 /r 
+VPBROADCASTD xmm1, xmm2/m32 
+RM V/V AVX2 
+Broadcast a dword integer in the source operand to four
+locations in xmm1.
+
+VEX.256.66.0F38.W0 58 /r 
+VPBROADCASTD ymm1, xmm2/m32 
+RM V/V AVX2 
+Broadcast a dword integer in the source operand to eight
+locations in ymm1.
+
+VEX.128.66.0F38.W0 59 /r 
+VPBROADCASTQ xmm1, xmm2/m64 
+RM V/V AVX2 
+Broadcast a qword element in mem to two locations in
+xmm1.
+
+VEX.256.66.0F38.W0 59 /r 
+VPBROADCASTQ ymm1, xmm2/m64 
+RM V/V AVX2 
+Broadcast a qword element in mem to four locations in
+ymm1.
+
+VEX.256.66.0F38.W0 5A /r 
+VBROADCASTI128 ymm1, m128
+RM V/V AVX2 
+Broadcast 128 bits of integer data in mem to low and
+ high 128-bits in ymm1.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RM ModRM:reg (w) ModRM:r/m (r) NA NA
+
+Description
+Load integer data from the source operand (second operand) and broadcast to all elements of the destination
+operand (first operand).
+The destination operand is a YMM register. The source operand is 8-bit, 16-bit 32-bit, 64-bit memory location or the
+low 8-bit, 16-bit 32-bit, 64-bit data in an XMM register. VPBROADCASTB/D/W/Q also support XMM register as the
+source operand.
+VBROADCASTI128: The destination operand is a YMM register. The source operand is 128-bit memory location.
+Register source encodings for VBROADCASTI128 are reserved and will #UD.
+VPBROADCASTB/W/D/Q is supported in both 128-bit and 256-bit wide versions.
+VBROADCASTI128 is only supported as a 256-bit wide version.
+Note: In VEX-encoded versions, VEX.vvvv is reserved and must be 1111b otherwise instructions will #UD.
+Attempts to execute any VPBROADCAST* instruction with VEX.W = 1 will cause #UD. If VBROADCASTI128 is
+encoded with VEX.L= 0, an attempt to execute the instruction encoded with VEX.L= 0 will cause an #UD exception.
+---------------------------------------------------------------------
+
+VPERMD — Full Doublewords Element Permutation
+
+Opcode/ Op/
+Instruction En
+64/32
+-bit
+Mode
+CPUID
+Feature
+Flag
+Description
+
+VEX.NDS.256.66.0F38.W0 36 /r 
+VPERMD ymm1, ymm2, ymm3/m256 
+RVM V/V AVX2
+Permute doublewords in ymm3/m256 using indexes in
+ymm2 and store the result in ymm1.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RVM ModRM:reg (w) VEX.vvvv ModRM:r/m (r) NA
+
+Description
+Use the index values in each dword element of the first source operand (the second operand) to select a dword
+element in the second source operand (the third operand), the resultant dword value from the second source
+operand is copied to the destination operand (the first operand) in the corresponding position of the index element.
+Note that this instruction permits a doubleword in the source operand to be copied to more than one doubleword
+location in the destination operand.
+An attempt to execute VPERMD encoded with VEX.L= 0 will cause an #UD exception.
+---------------------------------------------------------------------
+
+VPERMPD — Permute Double-Precision Floating-Point Elements
+
+Opcode/ Op/
+Instruction En
+64/32
+-bit
+Mode
+CPUID
+Feature
+Flag
+Description
+
+VEX.256.66.0F3A.W1 01 /r ib 
+VPERMPD ymm1, ymm2/m256, imm8 
+RMI V/V AVX2
+Permute double-precision floating-point elements in
+ymm2/m256 using indexes in imm8 and store the
+result in ymm1.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RMI ModRM:reg (w) ModRM:r/m (r) Imm8 NA
+
+Description
+Use two-bit index values in the immediate byte to select a double-precision floating-point element in the source
+operand; the resultant data from the source operand is copied to the corresponding element of the destination
+operand in the order of the index field. Note that this instruction permits a qword in the source operand to be copied
+to multiple location in the destination operand.
+An attempt to execute VPERMPD encoded with VEX.L= 0 will cause an #UD exception.
+---------------------------------------------------------------------
+
+VPERMPS — Permute Single-Precision Floating-Point Elements
+Opcode/ Op/
+Instruction En
+64/32
+-bit
+Mode
+CPUID Description
+Feature 
+Flag 
+
+VEX.NDS.256.66.0F38.W0 16 /r 
+VPERMPS ymm1, ymm2, ymm3/m256 
+RVM V/V AVX2 
+Permute single-precision floating-point elements in
+ ymm3/m256 using indexes in ymm2 and store the
+ result in ymm1.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RVM ModRM:reg (w) VEX.vvvv ModRM:r/m (r) NA
+
+Description
+Use the index values in each dword element of the first source operand (the second operand) to select a single-
+precision floating-point element in the second source operand (the third operand), the resultant data from the
+second source operand is copied to the destination operand (the first operand) in the corresponding position of the
+index element. Note that this instruction permits a doubleword in the source operand to be copied to more than
+one doubleword location in the destination operand.
+An attempt to execute VPERMPS encoded with VEX.L= 0 will cause an #UD exception.
+---------------------------------------------------------------------
+
+VPERMQ — Qwords Element Permutation
+Opcode/ Op/
+Instruction En
+64/32
+-bit
+Mode
+CPUID
+Feature
+Flag
+Description
+
+VEX.256.66.0F3A.W1 00 /r ib 
+VPERMQ ymm1, ymm2/m256, imm8 
+RMI V/V AVX2
+Permute qwords in ymm2/m256 using indexes in
+imm8 and store the result in ymm1.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RMI ModRM:reg (w) ModRM:r/m (r) Imm8 NA
+
+Description
+Use two-bit index values in the immediate byte to select a qword element in the source operand, the resultant
+qword value from the source operand is copied to the corresponding element of the destination operand in the
+order of the index field. Note that this instruction permits a qword in the source operand to be copied to multiple
+locations in the destination operand.
+An attempt to execute VPERMQ encoded with VEX.L= 0 will cause an #UD exception.
+---------------------------------------------------------------------
