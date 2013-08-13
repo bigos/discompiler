@@ -1,0 +1,400 @@
+RORX — Rotate Right Logical Without Affecting Flags
+
+Opcode/ Op/
+Instruction En
+CPUID Description
+Feature 
+Flag 
+64/32 
+-bit Mode 
+
+VEX.LZ.F2.0F3A.W0 F0 /r ib 
+RORX r32, r/m32, imm8 
+RMI V/V BMI2 
+Rotate 32-bit r/m32 right imm8 times without affecting arithmetic flags.
+
+VEX.LZ.F2.0F3A.W1 F0 /r ib 
+RORX r64, r/m64, imm8 
+RMI V/N.E. BMI2 
+Rotate 64-bit r/m64 right imm8 times without affecting arithmetic flags.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RMI ModRM:reg (w) ModRM:r/m (r) Imm8 NA
+
+Description
+Rotates the bits of second operand right by the count value specified in imm8 without affecting arithmetic flags.
+The RORX instruction does not read or write the arithmetic flags.
+This instruction is not supported in real mode and virtual-8086 mode. The operand size is always 32 bits if not in
+64-bit mode. In 64-bit mode operand size 64 requires VEX.W1. VEX.W1 is ignored in non-64-bit modes. An
+attempt to execute this instruction with VEX.L not equal to 0 will cause #UD.
+
+Operation
+IF (OperandSize = 32)
+y ← imm8 AND 1FH;
+DEST ← (SRC >> y) | (SRC << (32-y));
+ELSEIF (OperandSize = 64 )
+y ← imm8 AND 3FH;
+DEST ← (SRC >> y) | (SRC << (64-y));
+ENDIF
+
+Flags Affected
+None
+---------------------------------------------------------------------
+
+ROUNDPD — Round Packed Double Precision Floating-Point Values
+
+Opcode/ Op/ 64/32 bit CPUID Description
+Instruction En Mode Feature 
+               Support Flag 
+
+66 0F 3A 09 /r ib 
+ROUNDPD xmm1, xmm2/m128, imm8 
+RMI V/V SSE4_1 
+Round packed double precision floating-point
+ values in xmm2/m128 and place the result in
+ xmm1. The rounding mode is determined by
+ imm8.
+
+VEX.128.66.0F3A.WIG 09 /r ib 
+VROUNDPD xmm1, xmm2/m128, imm8 
+RMI V/V AVX 
+Round packed double-precision floating-point
+ values in xmm2/m128 and place the result in
+ xmm1. The rounding mode is determined by
+ imm8.
+
+VEX.256.66.0F3A.WIG 09 /r ib 
+VROUNDPD ymm1, ymm2/m256, imm8 
+RMI V/V AVX 
+Round packed double-precision floating-point
+ values in ymm2/m256 and place the result in
+ ymm1. The rounding mode is determined by
+ imm8.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RMI ModRM:reg (w) ModRM:r/m (r) imm8 NA
+
+Description
+Round the 2 double-precision floating-point values in the source operand (second operand) using the rounding
+mode specified in the immediate operand (third operand) and place the results in the destination operand (first
+operand). The rounding process rounds each input floating-point value to an integer value and returns the integer
+result as a single-precision floating-point value.
+The immediate operand specifies control fields for the rounding operation, three bit fields are defined and shown in
+Figure 4-20. Bit 3 of the immediate byte controls processor behavior for a precision exception, bit 2 selects the
+source of rounding mode control. Bits 1:0 specify a non-sticky rounding-mode value (Table 4-14 lists the encoded
+values for rounding-mode field).
+The Precision Floating-Point Exception is signaled according to the immediate operand. If any source operand is an
+SNaN then it will be converted to a QNaN. If DAZ is set to ‘1 then denormals will be converted to zero before
+rounding.
+128-bit Legacy SSE version: The second source can be an XMM register or 128-bit memory location. The destina-
+tion is not distinct from the first source XMM register and the upper bits (VLMAX-1:128) of the corresponding YMM
+register destination are unmodified.
+VEX.128 encoded version: the source operand second source operand or a 128-bit memory location. The destina-
+tion operand is an XMM register. The upper bits (VLMAX-1:128) of the corresponding YMM register destination are
+zeroed.
+VEX.256 encoded version: The source operand is a YMM register or a 256-bit memory location. The destination
+operand is a YMM register.
+Note: In VEX-encoded versions, VEX.vvvv is reserved and must be 1111b, otherwise instructions will #UD.
+---------------------------------------------------------------------
+
+ROUNDPS — Round Packed Single Precision Floating-Point Values
+
+Opcode/ Op/ 64/32 bit CPUID Description
+Instruction En Mode Feature 
+               Support Flag 
+
+66 0F 3A 08 /r ib 
+ROUNDPS xmm1, xmm2/m128, imm8 
+RMI V/V SSE4_1 
+Round packed single precision floating-point
+ values in xmm2/m128 and place the result in
+ xmm1. The rounding mode is determined by
+ imm8.
+
+VEX.128.66.0F3A.WIG 08 /r ib 
+VROUNDPS xmm1, xmm2/m128, imm8 
+RMI V/V AVX 
+Round packed single-precision floating-point
+ values in xmm2/m128 and place the result in
+ xmm1. The rounding mode is determined by
+ imm8.
+
+VEX.256.66.0F3A.WIG 08 /r ib 
+VROUNDPS ymm1, ymm2/m256, imm8 
+RMI V/V AVX 
+Round packed single-precision floating-point
+ values in ymm2/m256 and place the result in
+ ymm1. The rounding mode is determined by
+ imm8.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RMI ModRM:reg (w) ModRM:r/m (r) imm8 NA
+
+Description
+Round the 4 single-precision floating-point values in the source operand (second operand) using the rounding
+mode specified in the immediate operand (third operand) and place the results in the destination operand (first
+operand). The rounding process rounds each input floating-point value to an integer value and returns the integer
+result as a single-precision floating-point value.
+The immediate operand specifies control fields for the rounding operation, three bit fields are defined and shown in
+Figure 4-20. Bit 3 of the immediate byte controls processor behavior for a precision exception, bit 2 selects the
+source of rounding mode control. Bits 1:0 specify a non-sticky rounding-mode value (Table 4-14 lists the encoded
+values for rounding-mode field).
+The Precision Floating-Point Exception is signaled according to the immediate operand. If any source operand is an
+SNaN then it will be converted to a QNaN. If DAZ is set to ‘1 then denormals will be converted to zero before
+rounding.
+128-bit Legacy SSE version: The second source can be an XMM register or 128-bit memory location. The destina-
+tion is not distinct from the first source XMM register and the upper bits (VLMAX-1:128) of the corresponding YMM
+register destination are unmodified.
+VEX.128 encoded version: the source operand second source operand or a 128-bit memory location. The destina-
+tion operand is an XMM register. The upper bits (VLMAX-1:128) of the corresponding YMM register destination are
+zeroed.
+VEX.256 encoded version: The source operand is a YMM register or a 256-bit memory location. The destination
+operand is a YMM register.
+Note: In VEX-encoded versions, VEX.vvvv is reserved and must be 1111b otherwise instructions will #UD.
+---------------------------------------------------------------------
+
+ROUNDSD — Round Scalar Double Precision Floating-Point Values
+
+Opcode/ Op/ 64/32 bit CPUID Description
+Instruction En Mode Feature 
+               Support Flag 
+
+66 0F 3A 0B /r ib 
+ROUNDSD xmm1, xmm2/m64, imm8 
+RMI V/V SSE4_1 
+Round the low packed double precision
+ floating-point value in xmm2/m64 and place
+ the result in xmm1. The rounding mode is
+ determined by imm8.
+
+VEX.NDS.LIG.66.0F3A.WIG 0B /r ib 
+VROUNDSD xmm1, xmm2, xmm3/m64, imm8 
+RVMI V/V AVX 
+Round the low packed double precision
+ floating-point value in xmm3/m64 and place
+ the result in xmm1. The rounding mode is
+ determined by imm8. Upper packed double
+ precision floating-point value (bits[127:64])
+ from xmm2 is copied to xmm1[127:64].
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RMI ModRM:reg (w) ModRM:r/m (r) imm8 NA
+RVMI ModRM:reg (w) VEX.vvvv (r) ModRM:r/m (r) imm8
+
+Description
+Round the DP FP value in the lower qword of the source operand (second operand) using the rounding mode spec-
+ified in the immediate operand (third operand) and place the result in the destination operand (first operand). The
+rounding process rounds a double-precision floating-point input to an integer value and returns the integer result
+as a double precision floating-point value in the lowest position. The upper double precision floating-point value in
+the destination is retained.
+The immediate operand specifies control fields for the rounding operation, three bit fields are defined and shown in
+Figure 4-20. Bit 3 of the immediate byte controls processor behavior for a precision exception, bit 2 selects the
+source of rounding mode control. Bits 1:0 specify a non-sticky rounding-mode value (Table 4-14 lists the encoded
+values for rounding-mode field).
+The Precision Floating-Point Exception is signaled according to the immediate operand. If any source operand is an
+SNaN then it will be converted to a QNaN. If DAZ is set to ‘1 then denormals will be converted to zero before
+rounding.
+128-bit Legacy SSE version: The first source operand and the destination operand are the same. Bits (VLMAX-
+1:64) of the corresponding YMM destination register remain unchanged.
+VEX.128 encoded version: Bits (VLMAX-1:128) of the destination YMM register are zeroed.
+---------------------------------------------------------------------
+
+ROUNDSS — Round Scalar Single Precision Floating-Point Values
+
+Opcode/ Op/ 64/32 bit CPUID Description
+Instruction En Mode Feature 
+               Support Flag 
+
+66 0F 3A 0A /r ib 
+ROUNDSS xmm1, xmm2/m32, imm8 
+RMI V/V SSE4_1 
+Round the low packed single precision
+ floating-point value in xmm2/m32 and place
+ the result in xmm1. The rounding mode is
+ determined by imm8.
+
+VEX.NDS.LIG.66.0F3A.WIG 0A /r ib 
+VROUNDSS xmm1, xmm2, xmm3/m32, imm8
+RVMI V/V AVX 
+Round the low packed single precision
+ floating-point value in xmm3/m32 and place
+ the result in xmm1. The rounding mode is
+ determined by imm8. Also, upper packed
+ single precision floating-point values
+ (bits[127:32]) from xmm2 are copied to
+ xmm1[127:32].
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RMI ModRM:reg (w) ModRM:r/m (r) imm8 NA
+RVMI ModRM:reg (w) VEX.vvvv (r) ModRM:r/m (r) imm8
+
+Description
+Round the single-precision floating-point value in the lowest dword of the source operand (second operand) using
+the rounding mode specified in the immediate operand (third operand) and place the result in the destination
+operand (first operand). The rounding process rounds a single-precision floating-point input to an integer value and
+returns the result as a single-precision floating-point value in the lowest position. The upper three single-precision
+floating-point values in the destination are retained.
+The immediate operand specifies control fields for the rounding operation, three bit fields are defined and shown in
+Figure 4-20. Bit 3 of the immediate byte controls processor behavior for a precision exception, bit 2 selects the
+source of rounding mode control. Bits 1:0 specify a non-sticky rounding-mode value (Table 4-14 lists the encoded
+values for rounding-mode field).
+The Precision Floating-Point Exception is signaled according to the immediate operand. If any source operand is an
+SNaN then it will be converted to a QNaN. If DAZ is set to ‘1 then denormals will be converted to zero before
+rounding.
+128-bit Legacy SSE version: The first source operand and the destination operand are the same. Bits (VLMAX-
+1:32) of the corresponding YMM destination register remain unchanged.
+VEX.128 encoded version: Bits (VLMAX-1:128) of the destination YMM register are zeroed.
+---------------------------------------------------------------------
+
+RSM—Resume from System Management Mode
+
+Opcode Instruction Op/ 64-Bit Compat/ Description
+                    En Mode Leg Mode
+
+0F AA 
+RSM 
+NP Invalid Valid
+Resume operation of interrupted program.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+NP NA NA NA NA
+
+Description
+Returns program control from system management mode (SMM) to the application program or operating-system
+procedure that was interrupted when the processor received an SMM interrupt. The processor’s state is restored
+from the dump created upon entering SMM. If the processor detects invalid state information during state restora-
+tion, it enters the shutdown state. The following invalid information can cause a shutdown:
+Any reserved bit of CR4 is set to 1.
+Any illegal combination of bits in CR0, such as (PG=1 and PE=0) or (NW=1 and CD=0).
+(Intel Pentium and Intel486TM processors only.) The value stored in the state dump base field is not a 32-KByte
+aligned address.
+The contents of the model-specific registers are not affected by a return from SMM.
+The SMM state map used by RSM supports resuming processor context for non-64-bit modes and 64-bit mode.
+See Chapter 34, “System Management Mode,” in the Intel® 64 and IA-32 Architectures Software Developer’s
+Manual, Volume 3C, for more information about SMM and the behavior of the RSM instruction.
+
+Operation
+ReturnFromSMM;
+IF (IA-32e mode supported) or (CPUID DisplayFamily_DisplayModel = 06H_0CH )
+THEN
+ProcessorState ← Restore(SMMDump(IA-32e SMM STATE MAP));
+Else
+ProcessorState ← Restore(SMMDump(Non-32-Bit-Mode SMM STATE MAP));
+FI
+
+Flags Affected
+All.
+---------------------------------------------------------------------
+
+RSQRTPS—Compute Reciprocals of Square Roots of Packed Single-Precision Floating-Point Values
+
+Opcode/ Op/ 64/32 bit CPUID Description
+Instruction En Mode Feature 
+               Support Flag 
+
+0F 52 /r 
+RSQRTPS xmm1, xmm2/m128
+RM V/V SSE 
+Computes the approximate reciprocals of the
+ square roots of the packed single-precision
+ floating-point values in xmm2/m128 and
+ stores the results in xmm1.
+
+VEX.128.0F.WIG 52 /r
+VRSQRTPS xmm1, xmm2/m128
+RM V/V AVX 
+Computes the approximate reciprocals of the
+ square roots of packed single-precision values
+ in xmm2/mem and stores the results in xmm1.
+
+VEX.256.0F.WIG 52 /r
+VRSQRTPS ymm1, ymm2/m256
+RM V/V AVX 
+Computes the approximate reciprocals of the
+ square roots of packed single-precision values
+ in ymm2/mem and stores the results in ymm1.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RM ModRM:reg (w) ModRM:r/m (r) NA NA
+
+Description
+Performs a SIMD computation of the approximate reciprocals of the square roots of the four packed single-preci-
+sion floating-point values in the source operand (second operand) and stores the packed single-precision floating-
+point results in the destination operand. The source operand can be an XMM register or a 128-bit memory location.
+The destination operand is an XMM register. See Figure 10-5 in the Intel® 64 and IA-32 Architectures Software
+Developer’s Manual, Volume 1, for an illustration of a SIMD single-precision floating-point operation.
+The relative error for this approximation is:
+|Relative Error| ≤ 1.5 ∗ 2−12
+The RSQRTPS instruction is not affected by the rounding control bits in the MXCSR register. When a source value is
+a 0.0, an ∞ of the sign of the source value is returned. A denormal source value is treated as a 0.0 (of the same
+sign). When a source value is a negative value (other than −0.0), a floating-point indefinite is returned. When a
+source value is an SNaN or QNaN, the SNaN is converted to a QNaN or the source QNaN is returned.
+In 64-bit mode, using a REX prefix in the form of REX.R permits this instruction to access additional registers
+(XMM8-XMM15).
+128-bit Legacy SSE version: The second source can be an XMM register or an 128-bit memory location. The desti-
+nation is not distinct from the first source XMM register and the upper bits (VLMAX-1:128) of the corresponding
+YMM register destination are unmodified.
+VEX.128 encoded version: the first source operand is an XMM register or 128-bit memory location. The destination
+operand is an XMM register. The upper bits (VLMAX-1:128) of the corresponding YMM register destination are
+zeroed.
+VEX.256 encoded version: The first source operand is a YMM register. The second source operand can be a YMM
+register or a 256-bit memory location. The destination operand is a YMM register.
+Note: In VEX-encoded versions, VEX.vvvv is reserved and must be 1111b, otherwise instructions will #UD.
+---------------------------------------------------------------------
+
+RSQRTSS—Compute Reciprocal of Square Root of Scalar Single-Precision Floating-Point Value
+
+Opcode/ Op/ 64/32 bit CPUID Description
+Instruction En Mode Feature 
+               Support Flag 
+
+F3 0F 52 /r 
+RSQRTSS xmm1, xmm2/m32
+RM V/V SSE 
+Computes the approximate reciprocal of the
+ square root of the low single-precision
+ floating-point value in xmm2/m32 and stores
+ the results in xmm1.
+
+VEX.NDS.LIG.F3.0F.WIG 52 /r
+VRSQRTSS xmm1, xmm2, xmm3/m32
+RVM V/V AVX 
+Computes the approximate reciprocal of the
+ square root of the low single precision
+ floating-point value in xmm3/m32 and stores
+ the results in xmm1. Also, upper single
+ precision floating-point values (bits[127:32])
+ from xmm2 are copied to xmm1[127:32].
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RM ModRM:reg (w) ModRM:r/m (r) NA NA
+RVM ModRM:reg (w) VEX.vvvv (r) ModRM:r/m (r) NA
+
+Description
+Computes an approximate reciprocal of the square root of the low single-precision floating-point value in the
+source operand (second operand) stores the single-precision floating-point result in the destination operand. The
+source operand can be an XMM register or a 32-bit memory location. The destination operand is an XMM register.
+The three high-order doublewords of the destination operand remain unchanged. See Figure 10-6 in the Intel® 64
+and IA-32 Architectures Software Developer’s Manual, Volume 1, for an illustration of a scalar single-precision
+floating-point operation.
+The relative error for this approximation is:
+|Relative Error| ≤ 1.5 ∗ 2−12
+The RSQRTSS instruction is not affected by the rounding control bits in the MXCSR register. When a source value is
+a 0.0, an ∞ of the sign of the source value is returned. A denormal source value is treated as a 0.0 (of the same
+sign). When a source value is a negative value (other than −0.0), a floating-point indefinite is returned. When a
+source value is an SNaN or QNaN, the SNaN is converted to a QNaN or the source QNaN is returned.
+In 64-bit mode, using a REX prefix in the form of REX.R permits this instruction to access additional registers
+(XMM8-XMM15).
+128-bit Legacy SSE version: The first source operand and the destination operand are the same. Bits (VLMAX-
+1:32) of the corresponding YMM destination register remain unchanged.
+VEX.128 encoded version: Bits (VLMAX-1:128) of the destination YMM register are zeroed.
+---------------------------------------------------------------------
+
