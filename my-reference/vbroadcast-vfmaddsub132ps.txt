@@ -1,0 +1,217 @@
+
+VBROADCAST—Broadcast Floating-Point Data
+
+Opcode/ Op/ 64/32-bit CPUID Description
+Instruction En Mode 
+               Feature 
+               Flag 
+
+VEX.128.66.0F38.W0 18 /r 
+VBROADCASTSS xmm1, m32
+RM V/V AVX 
+Broadcast single-precision floating-point
+ element in mem to four locations in xmm1.
+ 
+VEX.256.66.0F38.W0 18 /r
+VBROADCASTSS ymm1, m32
+RM V/V AVX 
+Broadcast single-precision floating-point
+ element in mem to eight locations in ymm1.
+ 
+VEX.256.66.0F38.W0 19 /r
+VBROADCASTSD ymm1, m64
+RM V/V AVX 
+Broadcast double-precision floating-point
+ element in mem to four locations in ymm1.
+ 
+VEX.256.66.0F38.W0 1A /r
+VBROADCASTF128 ymm1, m128
+RM V/V AVX 
+Broadcast 128 bits of floating-point data in
+ mem to low and high 128-bits in ymm1.
+ 
+VEX.128.66.0F38.W0 18/r
+VBROADCASTSS xmm1, xmm2
+RM V/V AVX2 
+Broadcast the low single-precision floating-
+ point element in the source operand to four
+ locations in xmm1.
+
+VEX.256.66.0F38.W0 18 /r
+VBROADCASTSS ymm1, xmm2
+RM V/V AVX2 
+Broadcast low single-precision floating-point
+ element in the source operand to eight
+ locations in ymm1.
+
+VEX.256.66.0F38.W0 19 /r
+VBROADCASTSD ymm1, xmm2
+RM V/V AVX2 
+Broadcast low double-precision floating-point
+ element in the source operand to four
+ locations in ymm1.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RM ModRM:reg (w) ModRM:r/m (r) NA NA
+
+Description
+Load floating point values from the source operand (second operand) and broadcast to all elements of the destina-
+tion operand (first operand).
+VBROADCASTSD and VBROADCASTF128 are only supported as 256-bit wide versions. VBROADCASTSS is
+supported in both 128-bit and 256-bit wide versions.
+If CPUID.1:ECX.AVX[bit 28] =1, the destination operand is a YMM register. The source operand is either a 32-bit,
+64-bit, or 128-bit memory location. Register source encodings are reserved and will #UD.
+If CPUID.(EAX=07H, ECX=0H):EBX.AVX2[bit 5]=1, the destination operand is a YMM register. The source operand
+is an XMM register, only the low 32-bit or 64-bit data element is used.
+Note: In VEX-encoded versions, VEX.vvvv is reserved and must be 1111b otherwise instructions will #UD. An
+attempt to execute VBROADCASTSD or VBROADCASTF128 encoded with VEX.L= 0 will cause an #UD exception.
+Attempts to execute any VBROADCAST* instruction with VEX.W = 1 will cause #UD.
+---------------------------------------------------------------------
+
+VCVTPH2PS—Convert 16-bit FP Values to Single-Precision FP Values
+
+Opcode/ Op/ 64/32- CPUID Description
+Instruction En bit Feature 
+               Mode Flag 
+
+VEX.256.66.0F38.W0 13 /r 
+VCVTPH2PS ymm1, xmm2/m128
+RM V/V F16C 
+Convert eight packed half precision (16-bit)
+ floating-point values in xmm2/m128 to packed
+ single-precision floating-point value in ymm1.
+
+VEX.128.66.0F38.W0 13 /r
+VCVTPH2PS xmm1, xmm2/m64
+RM V/V F16C 
+Convert four packed half precision (16-bit)
+ floating-point values in xmm2/m64 to packed
+ single-precision floating-point value in xmm1.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RM ModRM:reg (w) ModRM:r/m (r) NA NA
+
+Description
+Converts four/eight packed half precision (16-bits) floating-point values in the low-order 64/128 bits of an
+XMM/YMM register or 64/128-bit memory location to four/eight packed single-precision floating-point values and
+writes the converted values into the destination XMM/YMM register.
+If case of a denormal operand, the correct normal result is returned. MXCSR.DAZ is ignored and is treated as if it
+0. No denormal exception is reported on MXCSR.
+128-bit version: The source operand is a XMM register or 64-bit memory location. The destination operand is a
+XMM register. The upper bits (VLMAX-1:128) of the corresponding destination YMM register are zeroed.
+256-bit version: The source operand is a XMM register or 128-bit memory location. The destination operand is a
+YMM register.
+The diagram below illustrates how data is converted from four packed half precision (in 64 bits) to four single
+precision (in 128 bits) FP values.
+Note: VEX.vvvv is reserved (must be 1111b).
+---------------------------------------------------------------------
+
+VCVTPS2PH—Convert Single-Precision FP value to 16-bit FP value
+
+Opcode/ Op/ 64/32- CPUID Description
+Instruction En bit Feature 
+               Mode Flag 
+
+VEX.256.66.0F3A.W0 1D /r ib 
+VCVTPS2PH xmm1/m128, ymm2, imm8
+MR V/V F16C 
+Convert eight packed single-precision
+ floating-point value in ymm2 to packed
+ half-precision (16-bit) floating-point value
+ in xmm1/mem. Imm8 provides rounding
+ controls.
+
+VEX.128.66.0F3A.W0.1D /r ib
+VCVTPS2PH xmm1/m64, xmm2, imm8
+MR V/V F16C 
+Convert four packed single-precision float-
+ ing-point value in xmm2 to packed half-
+ precision (16-bit) floating-point value in
+ xmm1/mem. Imm8 provides rounding con-
+ trols.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+MR ModRM:r/m (w) ModRM:reg (r) NA NA
+
+Description
+Convert four or eight packed single-precision floating values in first source operand to four or eight packed half-
+precision (16-bit) floating-point values. The rounding mode is specified using the immediate field (imm8).
+Underflow results (i.e. tiny results) are converted to denormals. MXCSR.FTZ is ignored. If a source element is
+denormal relative to input format with MXCSR.DAZ not set, DM masked and at least one of PM or UM unmasked; a
+SIMD exception will be raised with DE, UE and PE set.
+128-bit version: The source operand is a XMM register. The destination operand is a XMM register or 64-bit memory
+location. The upper-bits vector register zeroing behavior of VEX prefix encoding still applies if the destination
+operand is a xmm register. So the upper bits (255:64) of corresponding YMM register are zeroed.
+256-bit version: The source operand is a YMM register. The destination operand is a XMM register or 128-bit
+memory location. The upper-bits vector register zeroing behavior of VEX prefix encoding still applies if the destina-
+tion operand is a xmm register. So the upper bits (255:128) of the corresponding YMM register are zeroed.
+Note: VEX.vvvv is reserved (must be 1111b).
+The diagram below illustrates how data is converted from four packed single precision (in 128 bits) to four half
+precision (in 64 bits) FP values.
+---------------------------------------------------------------------
+
+VERR/VERW—Verify a Segment for Reading or Writing
+
+Opcode Instruction Op/ 64-Bit Compat/ Description
+                   En Mode Leg Mode
+
+0F 00 /4 
+VERR r/m16 
+M Valid Valid 
+Set ZF=1 if segment specified with r/m16 can
+ be read.
+
+0F 00 /5 
+VERW r/m16 
+M Valid Valid 
+Set ZF=1 if segment specified with r/m16 can
+ be written.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+M ModRM:r/m (r) NA NA NA
+
+Description
+Verifies whether the code or data segment specified with the source operand is readable (VERR) or writable (VERW)
+from the current privilege level (CPL). The source operand is a 16-bit register or a memory location that contains
+the segment selector for the segment to be verified. If the segment is accessible and readable (VERR) or writable
+(VERW), the ZF flag is set; otherwise, the ZF flag is cleared. Code segments are never verified as writable. This
+check cannot be performed on system segments.
+To set the ZF flag, the following conditions must be met:
+The segment selector is not NULL.
+The selector must denote a descriptor within the bounds of the descriptor table (GDT or LDT).
+The selector must denote the descriptor of a code or data segment (not that of a system segment or gate).
+For the VERR instruction, the segment must be readable.
+For the VERW instruction, the segment must be a writable data segment.
+If the segment is not a conforming code segment, the segment’s DPL must be greater than or equal to (have
+less or the same privilege as) both the CPL and the segment selector's RPL.
+The validation performed is the same as is performed when a segment selector is loaded into the DS, ES, FS, or GS
+register, and the indicated access (read or write) is performed. The segment selector's value cannot result in a
+protection exception, enabling the software to anticipate possible segment access problems.
+This instruction’s operation is the same in non-64-bit modes and 64-bit mode. The operand size is fixed at 16 bits.
+
+Operation
+IF SRC(Offset) > (GDTR(Limit) or (LDTR(Limit))
+THEN ZF ← 0; FI;
+Read segment descriptor;
+IF SegmentDescriptor(DescriptorType) = 0 (* System segment *)
+or (SegmentDescriptor(Type) ≠ conforming code segment)
+and (CPL > DPL) or (RPL > DPL)
+THEN
+ZF ← 0;
+ELSE
+IF ((Instruction = VERR) and (Segment readable))
+or ((Instruction = VERW) and (Segment writable))
+THEN
+ZF ← 1;
+FI;
+FI;
+
+Flags Affected
+The ZF flag is set to 1 if the segment is accessible and readable (VERR) or writable (VERW); otherwise, it is set to 0.
+---------------------------------------------------------------------
+
+
