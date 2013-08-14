@@ -1,0 +1,489 @@
+XOR—Logical Exclusive OR
+
+Opcode Instruction Op/ 64-Bit Compat/ Description
+                   En Mode Leg Mode
+
+34 ib 
+XOR AL, imm8 
+I Valid Valid 
+AL XOR imm8.
+
+35 iw 
+XOR AX, imm16 
+I Valid Valid 
+AX XOR imm16.
+
+35 id 
+XOR EAX, imm32 
+I Valid Valid 
+EAX XOR imm32.
+
+REX.W + 35 id 
+XOR RAX, imm32 
+I Valid N.E. 
+RAX XOR imm32 (sign-extended).
+
+80 /6 ib 
+XOR r/m8, imm8 
+MI Valid Valid 
+r/m8 XOR imm8.
+
+REX + 80 /6 ib 
+XOR r/m8, imm8 
+MI Valid N.E. 
+r/m8 XOR imm8.
+
+81 /6 iw 
+XOR r/m16, imm16 
+MI Valid Valid 
+r/m16 XOR imm16.
+ 
+81 /6 id 
+XOR r/m32, imm32 
+MI Valid Valid 
+r/m32 XOR imm32.
+
+REX.W + 81 /6 id 
+XOR r/m64, imm32 
+MI Valid N.E. 
+r/m64 XOR imm32 (sign-extended).
+
+83 /6 ib 
+XOR r/m16, imm8 
+MI Valid Valid 
+r/m16 XOR imm8 (sign-extended).
+
+83 /6 ib 
+XOR r/m32, imm8 
+MI Valid Valid 
+r/m32 XOR imm8 (sign-extended).
+
+REX.W + 83 /6 ib 
+XOR r/m64, imm8 
+MI Valid N.E. 
+r/m64 XOR imm8 (sign-extended).
+
+30 /r 
+XOR r/m8, r8 
+MR Valid Valid 
+r/m8 XOR r8.
+
+REX + 30 /r 
+XOR r/m8, r8 
+MR Valid N.E. 
+r/m8 XOR r8.
+
+31 /r 
+XOR r/m16, r16 
+MR Valid Valid 
+r/m16 XOR r16.
+
+31 /r 
+XOR r/m32, r32 
+MR Valid Valid 
+r/m32 XOR r32.
+
+REX.W + 31 /r 
+XOR r/m64, r64 
+MR Valid N.E. 
+r/m64 XOR r64.
+
+32 /r 
+XOR r8, r/m8 
+RM Valid Valid 
+r8 XOR r/m8.
+
+REX + 32 /r 
+XOR r8, r/m8 
+RM Valid N.E. 
+r8 XOR r/m8.
+
+33 /r 
+XOR r16, r/m16 
+RM Valid Valid 
+r16 XOR r/m16.
+
+33 /r 
+XOR r32, r/m32 
+RM Valid Valid 
+r32 XOR r/m32.
+
+REX.W + 33 /r 
+XOR r64, r/m64 
+RM Valid N.E. 
+r64 XOR r/m64.
+
+NOTES:
+* In 64-bit mode, r/m8 can not be encoded to access the following byte registers if a REX prefix is used: AH, BH, CH, DH.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+I AL/AX/EAX/RAX imm8/16/32 NA NA
+MI ModRM:r/m (r, w) imm8/16/32 NA NA
+MR ModRM:r/m (r, w) ModRM:reg (r) NA NA
+RM ModRM:reg (r, w) ModRM:r/m (r) NA NA
+
+Description
+Performs a bitwise exclusive OR (XOR) operation on the destination (first) and source (second) operands and
+stores the result in the destination operand location. The source operand can be an immediate, a register, or a
+memory location; the destination operand can be a register or a memory location. (However, two memory oper-
+ands cannot be used in one instruction.) Each bit of the result is 1 if the corresponding bits of the operands are
+different; each bit is 0 if the corresponding bits are the same.
+This instruction can be used with a LOCK prefix to allow the instruction to be executed atomically.
+In 64-bit mode, using a REX prefix in the form of REX.R permits access to additional registers (R8-R15). Using a
+REX prefix in the form of REX.W promotes operation to 64 bits. See the summary chart at the beginning of this
+section for encoding data and limits.
+
+Operation
+DEST ← DEST XOR SRC;
+
+Flags Affected
+The OF and CF flags are cleared; the SF, ZF, and PF flags are set according to the result. The state of the AF flag is
+undefined.
+---------------------------------------------------------------------
+
+XORPD—Bitwise Logical XOR for Double-Precision Floating-Point Values
+
+Opcode/ Op/ 64/32 bit CPUID Description
+Instruction En Mode Feature 
+               Support Flag 
+
+66 0F 57 /r 
+XORPD xmm1, xmm2/m128
+RM V/V SSE2 
+Bitwise exclusive-OR of xmm2/m128 and
+ xmm1.
+
+VEX.NDS.128.66.0F.WIG 57 /r
+VXORPD xmm1,xmm2, xmm3/m128
+RVM V/V AVX 
+Return the bitwise logical XOR of packed
+ double-precision floating-point values in xmm2
+ and xmm3/mem.
+
+VEX.NDS.256.66.0F.WIG 57 /r
+VXORPD ymm1, ymm2, ymm3/m256
+RVM V/V AVX 
+Return the bitwise logical XOR of packed
+ double-precision floating-point values in ymm2
+ and ymm3/mem.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RM ModRM:reg (r, w) ModRM:r/m (r) NA NA
+RVM ModRM:reg (w) VEX.vvvv (r) ModRM:r/m (r) NA
+
+Description
+Performs a bitwise logical exclusive-OR of the two packed double-precision floating-point values from the source
+operand (second operand) and the destination operand (first operand), and stores the result in the destination
+operand. The source operand can be an XMM register or a 128-bit memory location. The destination operand is an
+XMM register.
+In 64-bit mode, using a REX prefix in the form of REX.R permits this instruction to access additional registers
+(XMM8-XMM15).
+128-bit Legacy SSE version: The second source can be an XMM register or an 128-bit memory location. The desti-
+nation is not distinct from the first source XMM register and the upper bits (VLMAX-1:128) of the corresponding
+YMM register destination are unmodified.
+VEX.128 encoded version: the first source operand is an XMM register or 128-bit memory location. The destination
+operand is an XMM register. The upper bits (VLMAX-1:128) of the corresponding YMM register destination are
+zeroed.
+VEX.256 encoded version: The first source operand is a YMM register. The second source operand can be a YMM
+register or a 256-bit memory location. The destination operand is a YMM register.
+---------------------------------------------------------------------
+
+XORPS—Bitwise Logical XOR for Single-Precision Floating-Point Values
+
+Opcode/ Op/ 64/32 bit CPUID Description
+Instruction En Mode Feature 
+               Support Flag 
+
+0F 57 /r 
+XORPS xmm1, xmm2/m128
+RM V/V SSE 
+Bitwise exclusive-OR of xmm2/m128 and xmm1.
+
+VEX.NDS.128.0F.WIG 57 /r
+VXORPS xmm1,xmm2, xmm3/m128
+RVM V/V AVX 
+Return the bitwise logical XOR of packed single-
+ precision floating-point values in xmm2 and
+ xmm3/mem.
+
+VEX.NDS.256.0F.WIG 57 /r
+VXORPS ymm1, ymm2, ymm3/m256
+RVM V/V AVX 
+Return the bitwise logical XOR of packed single-
+ precision floating-point values in ymm2 and
+ ymm3/mem.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RM ModRM:reg (r, w) ModRM:r/m (r) NA NA
+RVM ModRM:reg (w) VEX.vvvv (r) ModRM:r/m (r) NA
+
+Description
+Performs a bitwise logical exclusive-OR of the four packed single-precision floating-point values from the source
+operand (second operand) and the destination operand (first operand), and stores the result in the destination
+operand. The source operand can be an XMM register or a 128-bit memory location. The destination operand is an
+XMM register.
+In 64-bit mode, using a REX prefix in the form of REX.R permits this instruction to access additional registers
+(XMM8-XMM15).
+128-bit Legacy SSE version: The second source can be an XMM register or an 128-bit memory location. The desti-
+nation is not distinct from the first source XMM register and the upper bits (VLMAX-1:128) of the corresponding
+YMM register destination are unmodified.
+VEX.128 encoded version: the first source operand is an XMM register or 128-bit memory location. The destination
+operand is an XMM register. The upper bits (VLMAX-1:128) of the corresponding YMM register destination are
+zeroed.
+VEX.256 encoded version: The first source operand is a YMM register. The second source operand can be a YMM
+register or a 256-bit memory location. The destination operand is a YMM register.
+---------------------------------------------------------------------
+
+XRSTOR—Restore Processor Extended States
+
+Opcode Instruction Op/ 64-Bit Compat/ Description
+                   En Mode Leg Mode
+
+0F AE /5 
+XRSTOR mem 
+M Valid Valid 
+Restore processor extended states from
+ memory. The states are specified by EDX:EAX
+
+REX.W+ 0F AE /5 
+XRSTOR64 mem 
+M Valid N.E. 
+Restore processor extended states from
+ memory. The states are specified by EDX:EAX
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+M ModRM:r/m (r) NA NA NA
+
+Description
+Performs a full or partial restore of the enabled processor states using the state information stored in the memory
+address specified by the source operand. The implicit EDX:EAX register pair specifies a 64-bit restore mask.
+The format of the XSAVE/XRSTOR area is shown in Table 4-17. The memory layout of the XSAVE/XRSTOR area may
+have holes between save areas written by the processor as a result of the processor not supporting certain
+processor extended states or system software not supporting certain processor extended states. There is no rela-
+tionship between the order of XCR0 bits and the order of the state layout. States corresponding to higher and lower
+XCR0 bits may be intermingled in the layout.
+Table 4-17. General Layout of XSAVE/XRSTOR Save Area
+---------------------------------------------------------------------
+XSAVE—Save Processor Extended States
+Opcode Instruction Op/ 64-Bit Compat/ Description
+                   En Mode Leg Mode
+
+0F AE /4 
+XSAVE mem 
+M Valid Valid 
+Save processor extended states to memory.
+ The states are specified by EDX:EAX
+
+REX.W+ 0F AE /4 
+XSAVE64 mem 
+M Valid N.E. 
+Save processor extended states to memory.
+ The states are specified by EDX:EAX
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+M ModRM:r/m (w) NA NA NA
+
+Description
+Performs a full or partial save of the enabled processor state components to a memory address specified in the
+destination operand. A full or partial save of the processor states is specified by an implicit mask operand via the
+register pair, EDX:EAX. The destination operand is a memory location that must be 64-byte aligned.
+The implicit 64-bit mask operand in EDX:EAX specifies the subset of enabled processor state components to save
+into the XSAVE/XRSTOR save area. The XSAVE/XRSTOR save area comprises of individual save area for each
+processor state components and a header section, see Table 4-17. Each component save area is written if both the
+corresponding bits in the save mask operand and in XCR0 (the XFEATURE_ENABLED_MASK register) are 1. A
+processor state component save area is not updated if either one of the corresponding bits in the mask operand or
+in XCR0 is 0. If the mask operand (EDX:EAX) contains all 1's, all enabled processor state components in XCR0 are
+written to the respective component save area.
+The bit assignment used for the EDX:EAX register pair matches XCR0 (see chapter 2 of Vol. 3B). For the XSAVE
+instruction, software can specify "1" in any bit position of EDX:EAX, irrespective of whether the corresponding bit
+position in XCR0 is valid for the processor. The bit vector in EDX:EAX is "anded" with XCR0 to determine which save
+area will be written. While it's legal to set any bit in the EDX:EAX mask to 1, it is strongly recommended to set only
+the bits that are required to save/restore specific states. When specifying 1 in any bit position of EDX:EAX mask,
+software is required to determine the total size of the XSAVE/XRSTOR save area (specified as destination operand)
+to fit all enabled processor states by using the value enumerated in CPUID.(EAX=0D, ECX=0):EBX.
+The content layout of the XSAVE/XRSTOR save area is architecturally defined to be extendable and enumerated via
+the sub-leaves of CPUID.0DH leaf. The extendable framework of the XSAVE/XRSTOR layout is depicted by Table
+4-17. The layout of the XSAVE/XRSTOR save area is fixed and may contain non-contiguous individual save areas.
+The XSAVE/XRSTOR save area is not compacted if some features are not saved or are not supported by the
+processor and/or by system software.
+The layout of the register fields of first 512 bytes of the XSAVE/XRSTOR is the same as the FXSAVE/FXRSTOR area
+(refer to “FXSAVE—Save x87 FPU, MMX Technology, and SSE State” on page 356). But XSAVE/XRSTOR organizes
+the 512 byte area as x87 FPU states (including FPU operation states, x87/MMX data registers), MXCSR (including
+MXCSR_MASK), and XMM registers.
+Bytes 464:511 are available for software use. The processor does not write to bytes 464:511 when executing
+XSAVE.
+The processor writes 1 or 0 to each HEADER.XSTATE_BV[i] bit field of an enabled processor state component in a
+manner that is consistent to XRSTOR's interaction with HEADER.XSTATE_BV (see the operation section of XRSTOR
+instruction). If a processor implementation discern that a processor state component is in its initialized state
+(according to Table 4-19) it may modify the corresponding bit in the HEADER.XSTATE_BV as ‘0’.
+A destination operand not aligned to 64-byte boundary (in either 64-bit or 32-bit modes) will result in a general-
+protection (#GP) exception being generated. In 64-bit mode, the upper 32 bits of RDX and RAX are ignored.
+
+Operation
+TMP_MASK[62:0] ← ( (EDX[30:0] << 32 ) OR EAX[31:0] ) AND XCR0[62:0];
+FOR i = 0, 62 STEP 1
+IF ( TMP_MASK[i] = 1) THEN
+THEN
+CASE ( i ) of
+0: DEST.FPUSSESAVE_Area[x87 FPU] ← processor state[x87 FPU];
+1: DEST.FPUSSESAVE_Area[SSE] ← processor state[SSE];
+// SSE state include MXCSR
+DEFAULT: // i corresponds to a valid sub-leaf index of CPUID leaf 0DH
+DEST.Ext_Save_Area[ i ] ← processor state[i] ;
+ESAC:
+DEST.HEADER.XSTATE_BV[i] ← INIT_FUNCTION[i];
+FI;
+NEXT;
+
+
+Flags Affected
+None.
+---------------------------------------------------------------------
+
+XSAVEOPT—Save Processor Extended States Optimized
+
+Opcode/ Op/ 64/32 bit CPUID
+Instruction En Mode Feature
+               Support Flag
+               Description
+
+0F AE /6 
+XSAVEOPT mem
+M V/V XSAVEOPT 
+Save processor extended states specified in
+ EDX:EAX to memory, optimizing the state save
+ operation if possible.
+
+REX.W + 0F AE /6
+XSAVEOPT64 mem
+M V/V XSAVEOPT Save processor extended states specified in
+ EDX:EAX to memory, optimizing the state save
+ operation if possible.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+M ModRM:r/m (w) NA NA NA
+
+Description
+XSAVEOPT performs a full or partial save of the enabled processor state components to a memory address speci-
+fied in the destination operand. A full or partial save of the processor states is specified by an implicit mask operand
+via the register pair, EDX:EAX. The destination operand is a memory location that must be 64-byte aligned. The
+hardware may optimize the manner in which data is saved. The performance of this instruction will be equal or
+better than using the XSAVE instruction.
+The implicit 64-bit mask operand in EDX:EAX specifies the subset of enabled processor state components to save
+into the XSAVE/XRSTOR save area. The XSAVE/XRSTOR save area comprises of individual save area for each
+processor state components and a header section, see Table 4-17.
+The bit assignment used for the EDX:EAX register pair matches XCR0 (the XFEATURE_ENABLED_MASK register).
+For the XSAVEOPT instruction, software can specify "1" in any bit position of EDX:EAX, irrespective of whether the
+corresponding bit position in XCR0 is valid for the processor. The bit vector in EDX:EAX is "anded" with XCR0 to
+determine which save area will be written. While it's legal to set any bit in the EDX:EAX mask to 1, it is strongly
+recommended to set only the bits that are required to save/restore specific states. When specifying 1 in any bit
+position of EDX:EAX mask, software is required to determine the total size of the XSAVE/XRSTOR save area (spec-
+ified as destination operand) to fit all enabled processor states by using the value enumerated in CPUID.(EAX=0D,
+ECX=0):EBX.
+The content layout of the XSAVE/XRSTOR save area is architecturally defined to be extendable and enumerated via
+the sub-leaves of CPUID.0DH leaf. The extendable framework of the XSAVE/XRSTOR layout is depicted by Table
+4-17. The layout of the XSAVE/XRSTOR save area is fixed and may contain non-contiguous individual save areas.
+The XSAVE/XRSTOR save area is not compacted if some features are not saved or are not supported by the
+processor and/or by system software.
+The layout of the register fields of first 512 bytes of the XSAVE/XRSTOR is the same as the FXSAVE/FXRSTOR area.
+But XSAVE/XRSTOR organizes the 512 byte area as x87 FPU states (including FPU operation states, x87/MMX data
+registers), MXCSR (including MXCSR_MASK), and XMM registers.
+The processor writes 1 or 0 to each.HEADER.XSTATE_BV[i] bit field of an enabled processor state component in a
+manner that is consistent to XRSTOR's interaction with HEADER.XSTATE_BV.
+The state updated to the XSAVE/XRSTOR area may be optimized as follows:
+If the state is in its initialized form, the corresponding XSTATE_BV bit may be set to 0, and the corresponding
+processor state component that is indicated as initialized will not be saved to memory.
+A processor state component save area is not updated if either one of the corresponding bits in the mask operand
+or in XCR0 is 0. The processor state component that is updated to the save area is computed by bit-wise AND of
+the mask operand (EDX:EAX) with XCR0.
+HEADER.XSTATE_BV is updated to reflect the data that is actually written to the save area. A "1" bit in the header
+indicates the contents of the save area corresponding to that bit are valid. A "0" bit in the header indicates that the
+state corresponding to that bit is in its initialized form. The memory image corresponding to a "0" bit may or may
+XSAVEOPT—Save Processor Extended States Optimized
+Vol. 2B 4-583INSTRUCTION SET REFERENCE, N-Z
+not contain the correct (initialized) value since only the header bit (and not the save area contents) is updated
+when the header bit value is 0. XRSTOR will ensure the correct value is placed in the register state regardless of the
+value of the save area when the header bit is zero.
+---------------------------------------------------------------------
+
+XSETBV—Set Extended Control Register
+
+Opcode Instruction Op/ 64-Bit Compat/ Description
+                   En Mode Leg Mode
+
+0F 01 D1 
+XSETBV 
+NP Valid Valid
+Write the value in EDX:EAX to the XCR
+specified by ECX.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+NP NA NA NA NA
+
+Description
+Writes the contents of registers EDX:EAX into the 64-bit extended control register (XCR) specified in the ECX
+register. (On processors that support the Intel 64 architecture, the high-order 32 bits of RCX are ignored.) The
+contents of the EDX register are copied to high-order 32 bits of the selected XCR and the contents of the EAX
+register are copied to low-order 32 bits of the XCR. (On processors that support the Intel 64 architecture, the high-
+order 32 bits of each of RAX and RDX are ignored.) Undefined or reserved bits in an XCR should be set to values
+previously read.
+This instruction must be executed at privilege level 0 or in real-address mode; otherwise, a general protection
+exception #GP(0) is generated. Specifying a reserved or unimplemented XCR in ECX will also cause a general
+protection exception. The processor will also generate a general protection exception if software attempts to write
+to reserved bits in an XCR.
+Currently, only XCR0 (the XFEATURE_ENABLED_MASK register) is supported. Thus, all other values of ECX are
+reserved and will cause a #GP(0). Note that bit 0 of XCR0 (corresponding to x87 state) must be set to 1; the
+instruction will cause a #GP(0) if an attempt is made to clear this bit. Additionally, bit 1 of XCR0 (corresponding to
+AVX state) and bit 2 of XCR0 (corresponding to SSE state) must be set to 1 when using AVX registers; the instruc-
+tion will cause a #GP(0) if an attempt is made to set XCR0[2:1] = 10.
+
+Operation
+XCR[ECX] ← EDX:EAX;
+
+Flags Affected
+None.
+---------------------------------------------------------------------
+
+XTEST — Test If In Transactional Execution
+Opcode/Instruction Op/En
+64/32bit
+Mode
+Support
+CPUID
+Feature
+Flag
+Description
+
+0F 01 D6 
+XTEST 
+A V/V HLE or RTM
+Test if executing in a transactional region
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand2 Operand3 Operand4
+A NA NA NA NA
+
+Description
+The XTEST instruction queries the transactional execution status. If the instruction executes inside a transaction-
+ally executing RTM region or a transactionally executing HLE region, then the ZF flag is cleared, else it is set.
+
+Operation
+XTEST
+IF (RTM_ACTIVE = 1 OR HLE_ACTIVE = 1)
+THEN
+ZF ← 0
+ELSE
+ZF ← 1
+FI;
+
+Flags Affected
+The ZF flag is cleared if the instruction is executed transactionally; otherwise it is set to 1. The CF, OF, SF, PF, and
+AF, flags are cleared.
+---------------------------------------------------------------------
