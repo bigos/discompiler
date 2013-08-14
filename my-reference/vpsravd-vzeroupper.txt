@@ -1,0 +1,197 @@
+VPSRAVD — Variable Bit Shift Right Arithmetic
+
+Opcode/ Op/
+Instruction En
+64/32 CPUID
+    -bit Feature
+    Mode Flag
+    Description
+
+VEX.NDS.128.66.0F38.W0 46 /r 
+VPSRAVD xmm1, xmm2, xmm3/m128 
+RVM V/V AVX2
+Shift bits in doublewords in xmm2 right by amount speci-
+fied in the corresponding element of xmm3/m128 while
+shifting in the sign bits.
+
+VEX.NDS.256.66.0F38.W0 46 /r 
+VPSRAVD ymm1, ymm2, ymm3/m256 
+RVM V/V AVX2
+Shift bits in doublewords in ymm2 right by amount speci-
+fied in the corresponding element of ymm3/m256 while
+shifting in the sign bits.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RVM ModRM:reg (w) VEX.vvvv ModRM:r/m (r) NA
+
+Description
+Shifts the bits in the individual doubleword data elements in the first source operand to the right by the count value
+of respective data elements in the second source operand. As the bits in each data element are shifted right, the
+empty high-order bits are filled with the sign bit of the source element.
+The count values are specified individually in each data element of the second source operand. If the unsigned
+integer value specified in the respective data element of the second source operand is greater than 31, then the
+destination data element are filled with the corresponding sign bit of the source element.
+VEX.128 encoded version: The destination and first source operands are XMM registers. The count operand can be
+either an XMM register or a 128-bit memory location. Bits (VLMAX-1:128) of the corresponding YMM register are
+zeroed.
+VEX.256 encoded version: The destination and first source operands are YMM registers. The count operand can be
+either an YMM register or a 256-bit memory location.
+---------------------------------------------------------------------
+
+VPSRLVD/VPSRLVQ — Variable Bit Shift Right Logical
+
+Opcode/ Op/
+Instruction EN
+64/32 -bit Mode
+CPUID 
+Feature 
+Flag 
+Description
+
+VEX.NDS.128.66.0F38.W0 45 /r 
+VPSRLVD xmm1, xmm2, xmm3/m128 
+RVM AVX2 V/V 
+Shift bits in doublewords in xmm2 right by amount spec-
+ified in the corresponding element of xmm3/m128 while
+shifting in 0s.
+
+VEX.NDS.128.66.0F38.W1 45 /r 
+VPSRLVQ xmm1, xmm2, xmm3/m128
+RVM V/V AVX2 
+Shift bits in quadwords in xmm2 right by amount speci-
+ fied in the corresponding element of xmm3/m128 while
+ shifting in 0s.
+
+VEX.NDS.256.66.0F38.W0 45 /r 
+VPSRLVD ymm1, ymm2, ymm3/m256
+RVM V/V AVX2 
+Shift bits in doublewords in ymm2 right by amount spec-
+ ified in the corresponding element of ymm3/m256 while
+ shifting in 0s.
+
+VEX.NDS.256.66.0F38.W1 45 /r 
+VPSRLVQ ymm1, ymm2, ymm3/m256
+RVM V/V AVX2 
+Shift bits in quadwords in ymm2 right by amount speci-
+ fied in the corresponding element of ymm3/m256 while
+ shifting in 0s.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RVM ModRM:reg (w) VEX.vvvv ModRM:r/m (r) NA
+
+Description
+Shifts the bits in the individual data elements (doublewords, or quadword) in the first source operand to the right
+by the count value of respective data elements in the second source operand. As the bits in the data elements are
+shifted right, the empty high-order bits are cleared (set to 0).
+The count values are specified individually in each data element of the second source operand. If the unsigned
+integer value specified in the respective data element of the second source operand is greater than 31 (for double-
+words), or 63 (for a quadword), then the destination data element are written with 0.
+VEX.128 encoded version: The destination and first source operands are XMM registers. The count operand can be
+either an XMM register or a 128-bit memory location. Bits (VLMAX-1:128) of the corresponding YMM register are
+zeroed.
+VEX.256 encoded version: The destination and first source operands are YMM registers. The count operand can be
+either an YMM register or a 256-bit memory location.
+---------------------------------------------------------------------
+
+VTESTPD/VTESTPS—Packed Bit Test
+
+Opcode/ Op/ 64/32 bit CPUID Description
+Instruction En Mode Feature 
+               Support Flag 
+
+VEX.128.66.0F38.W0 0E /r 
+VTESTPS xmm1, xmm2/m128
+RM V/V AVX 
+Set ZF and CF depending on sign bit AND and
+ ANDN of packed single-precision floating-point
+ sources.
+
+VEX.256.66.0F38.W0 0E /r 
+VTESTPS ymm1, ymm2/m256
+RM V/V AVX 
+Set ZF and CF depending on sign bit AND and
+ ANDN of packed single-precision floating-point
+ sources.
+
+VEX.128.66.0F38.W0 0F /r 
+VTESTPD xmm1, xmm2/m128
+RM V/V AVX 
+Set ZF and CF depending on sign bit AND and
+ ANDN of packed double-precision floating-point
+ sources.
+
+VEX.256.66.0F38.W0 0F /r 
+VTESTPD ymm1, ymm2/m256
+RM V/V AVX 
+Set ZF and CF depending on sign bit AND and
+ ANDN of packed double-precision floating-point
+ sources.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+RM ModRM:reg (r) ModRM:r/m (r) NA NA
+
+Description
+VTESTPS performs a bitwise comparison of all the sign bits of the packed single-precision elements in the first
+source operation and corresponding sign bits in the second source operand. If the AND of the source sign bits with
+the dest sign bits produces all zeros, the ZF is set else the ZF is clear. If the AND of the source sign bits with the
+inverted dest sign bits produces all zeros the CF is set else the CF is clear. An attempt to execute VTESTPS with
+VEX.W=1 will cause #UD.
+VTESTPD performs a bitwise comparison of all the sign bits of the double-precision elements in the first source
+operation and corresponding sign bits in the second source operand. If the AND of the source sign bits with the dest
+sign bits produces all zeros, the ZF is set else the ZF is clear. If the AND the source sign bits with the inverted dest
+sign bits produces all zeros the CF is set else the CF is clear. An attempt to execute VTESTPS with VEX.W=1 will
+cause #UD.
+The first source register is specified by the ModR/M reg field.
+128-bit version: The first source register is an XMM register. The second source register can be an XMM register or
+a 128-bit memory location. The destination register is not modified.
+VEX.256 encoded version: The first source register is a YMM register. The second source register can be a YMM
+register or a 256-bit memory location. The destination register is not modified.
+Note: In VEX-encoded versions, VEX.vvvv is reserved and must be 1111b, otherwise instructions will #UD.
+---------------------------------------------------------------------
+
+VZEROALL—Zero All YMM Registers
+
+Opcode/ Op/ 64/32 bit CPUID Description
+Instruction En Mode Feature 
+               Support Flag 
+
+VEX.256.0F.WIG 77 
+VZEROALL
+NP V/V AVX 
+Zero all YMM registers.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+NP NA NA NA NA
+
+Description
+The instruction zeros contents of all XMM or YMM registers.
+Note: VEX.vvvv is reserved and must be 1111b, otherwise instructions will #UD. In Compatibility and legacy 32-
+bit mode only the lower 8 registers are modified.
+---------------------------------------------------------------------
+
+VZEROUPPER—Zero Upper Bits of YMM Registers
+Opcode/ Op/ 64/32 bit CPUID Description
+Instruction En Mode Feature 
+               Support Flag 
+
+VEX.128.0F.WIG 77 
+VZEROUPPER
+NP V/V AVX 
+Zero upper 128 bits of all YMM registers.
+
+Instruction Operand Encoding
+Op/En Operand 1 Operand 2 Operand 3 Operand 4
+NP NA NA NA NA
+
+Description
+The instruction zeros the bits in position 128 and higher of all YMM registers. The lower 128-bits of the registers
+(the corresponding XMM registers) are unmodified.
+This instruction is recommended when transitioning between AVX and legacy SSE code - it will eliminate perfor-
+mance penalties caused by false dependencies.
+Note: VEX.vvvv is reserved and must be 1111b otherwise instructions will #UD. In Compatibility and legacy 32-bit
+mode only the lower 8 registers are modified.
+---------------------------------------------------------------------
