@@ -16,8 +16,12 @@
         (setf (aref *lines* xl) line)
         (incf xl)
         (process line)))
-    (format t "~&~s ~s" *lines*  xl)))
+    (format t "~&~s ~s" *lines*  xl)
+   
+    (check-lines *lines*)))
   
+(defun check-lines (lines)
+  (format t " ~a" (aref lines 0)))
 
 (defun process (line)
   (cond ((cl-ppcre:scan-to-strings "\\A\\z" line) 
