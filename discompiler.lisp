@@ -28,7 +28,16 @@
         (setf (aref lines xl) line)
         (incf xl)))
     (check-lines file lines xl)))
-  
+
+(defun file-to-lines (file)
+  (let ((lines))
+    (with-open-file (stream file)
+      (do ((line (read-line stream nil)
+                 (read-line stream nil)))
+          ((null line))
+        (setq lines (nconc lines (list line)))))
+    lines))  
+
 (defun check-lines (file lines xl)
   (let ((separators 0))
     (dotimes (x xl) 
