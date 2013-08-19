@@ -9,7 +9,7 @@
   (defparameter *reference-files* (cl-fad:list-directory "my-reference"))
   ;;(process-file (car *reference-files*))
   (dolist (file (subseq *reference-files* 0 2)) ;remove subseq to check every file
-    (process-file file))
+    (format t "~s~%" (process-file file)))
   (format t "~&no separator in following files ~S~%" *problem-files*))
 
 (defun process-file (file)
