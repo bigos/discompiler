@@ -10,7 +10,7 @@
   ;;(process-file (car *reference-files*))
   (dolist (file *reference-files*)
     (process-file file))
-  (format t "~&no first blank line in following files ~S~%" *problem-files*))
+  (format t "~&no separator in following files ~S~%" *problem-files*))
 
 (defun process-file (file)
   (let ((xl 0) (lines))
@@ -26,19 +26,23 @@
             (if (equalp line "")
                 (push file *problem-files*)))
         (setf (aref lines xl) line)
-        (incf xl))
-      (check-lines lines xl))))
+        (incf xl)))
+    (check-lines file lines xl)))
   
-(defun check-lines (lines xl)
-  (dotimes (x xl) 
-    ;;(format t "~&~s~%" (aref lines x))
+(defun check-lines (file lines xl)
+  (let ((separators 0))
+    (dotimes (x xl) 
+      (if (cl-ppcre:scan-to-strings "-{10,}" (aref lines x))
+          (incf separators)))
+    (if (zerop separators)
+        (push file *problem-files*))
     ))
 
 (defun process (line)
   (cond ((cl-ppcre:scan-to-strings "\\A\\z" line) 
          (print line))
         ((cl-ppcre:scan-to-strings "-{10,}" line)
-         (print line))
+         (format t "~&~s ~D~%" line (length line)))
         (t (format t "."))))
       
 

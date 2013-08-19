@@ -1,4 +1,3 @@
-
 VBROADCAST—Broadcast Floating-Point Data
 
 Opcode/ Op/ 64/32-bit CPUID Description
