@@ -8,7 +8,7 @@
   (defparameter *problem-files* '())
   (defparameter *reference-files* (cl-fad:list-directory "my-reference"))
   ;;(process-file (car *reference-files*))
-  (dolist (file *reference-files*)
+  (dolist (file (subseq *reference-files* 0 2)) ;remove subseq to check every file
     (process-file file))
   (format t "~&no separator in following files ~S~%" *problem-files*))
 
@@ -32,20 +32,26 @@
 (defun check-lines (file lines xl)
   (let ((separators 0))
     (dotimes (x xl) 
-      (if (cl-ppcre:scan-to-strings "-{10,}" (aref lines x))
+      (if (separatorp (aref lines x))
           (incf separators)))
     (if (zerop separators)
         (push file *problem-files*))
     ))
 
 (defun process (line)
-  (cond ((cl-ppcre:scan-to-strings "\\A\\z" line) 
+  (cond ((blankp line) 
          (print line))
-        ((cl-ppcre:scan-to-strings "-{10,}" line)
+        ((separatorp line)
          (format t "~&~s ~D~%" line (length line)))
         (t (format t "."))))
-      
 
+(defun blankp (line)
+  (cl-ppcre:scan-to-strings "\\A\\z" line))
+
+(defun separatorp (line)
+  (cl-ppcre:scan-to-strings "-{10,}" line))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun int-to-bin (int) 
   (format nil "~8,'0B" int))
 
