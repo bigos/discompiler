@@ -13,11 +13,13 @@
   (format t "~&no separator in following files ~S~%" *problem-files*))
 
 (defun process-file (file)
-  (let ((xl 0) (lines) (lines-arr))
-    (setq lines (file-to-lines file))
-    (setq lines-arr (make-array (list-length lines) :element-type 'string))   
-    (dotimes (x (list-length lines))
-      (setf (aref lines-arr x) (nth x lines)))
+  (let ((lines (file-to-lines file)) (previous-line) 
+        (instruction) (columns) (opcodes) (instruction-encoding) (other-sections))   
+    (dolist (line lines)
+      (cond ((blankp line) then)
+            ((separatorp line) then) 
+            (t else))
+      (setq previous-line line))
     ;; find unstruction header
     ;; find column descriptions
     ;; find encodings
