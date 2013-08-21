@@ -145,6 +145,7 @@ DEST[255:0]  SRC[255:0]
 ---------------------------------------------------------------------
 
 MOVDQU—Move Unaligned Double Quadword
+
 Opcode/ Op/ 64/32-bit CPUID Description
 Instruction En Mode 
                Feature 

@@ -28,7 +28,6 @@ DEST[127:64] ← 00000000000000000H;
 
 MOVS/MOVSB/MOVSW/MOVSD/MOVSQ—Move Data from String to String
 
-\
 Opcode Instruction Op/ 64-Bit Compat/ Description
                    En Mode Leg Mode
 

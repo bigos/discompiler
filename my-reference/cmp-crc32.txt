@@ -260,6 +260,7 @@ ELSE DEST[255:192]  0000000000000000H; FI;
 ---------------------------------------------------------------------
 
 CMPPS—Compare Packed Single-Precision Floating-Point Values
+
 Opcode/     Op/ 64/32-   CPUID Description
 Instruction En  bit Mode Feature 
                          Flag 
@@ -423,6 +424,7 @@ ELSE DEST[255:224]  000000000H; FI;
 ---------------------------------------------------------------------
 
 CMPS/CMPSB/CMPSW/CMPSD/CMPSQ—Compare String Operands
+
 Opcode Instruction Op/ 64-Bit Compat/ Description
                    En  Mode   Leg Mode
 

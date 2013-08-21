@@ -53,6 +53,7 @@ C0, C2, C3 Undefined.
 ---------------------------------------------------------------------
 
 FADD/FADDP/FIADD—Add
+
 Opcode Instruction 64-Bit Compat/ Description
                    Mode Leg Mode 
 
@@ -238,6 +239,7 @@ C0, C2, C3 Undefined.
 ---------------------------------------------------------------------
 
 FCLEX/FNCLEX—Clear Exceptions
+
 Opcode Instruction 64-Bit Compat/ Description
                     Mode Leg Mode 
 
@@ -361,6 +363,7 @@ C0, C2, C3 Undefined.
 ---------------------------------------------------------------------
 
 FCOM/FCOMP/FCOMPP—Compare Floating Point Values
+
 Opcode Instruction 64-Bit Compat/ Description
             Mode Leg Mode 
 

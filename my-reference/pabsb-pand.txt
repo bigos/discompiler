@@ -791,7 +791,9 @@ source operand is a YMM register or a 256-bit memory location containing two 16-
 operand is a YMM register and contain two 16-byte results. The imm8[7:0] is the common shift count used for the
 two lower 16-byte block sources and the two upper 16-byte block sources. The low 16-byte block of the two source
 ---------------------------------------------------------------------
+
 PAND—Logical AND
+
 Opcode/ Op/ 64/32 bit CPUID Description
 Instruction En Mode Feature 
                Support Flag 

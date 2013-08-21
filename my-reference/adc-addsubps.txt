@@ -3,116 +3,116 @@ ADC—Add with Carry
 Opcode Instruction Op/ 64-bit Compat/ Description
                    En  Mode   Leg Mode
 
-14 ib 
-ADC AL, imm8 
-I Valid Valid 
+14 ib
+ADC AL, imm8
+I Valid Valid
 Add with carry imm8 to AL.
 
-15 iw 
-ADC AX, imm16 
-I Valid Valid 
+15 iw
+ADC AX, imm16
+I Valid Valid
 Add with carry imm16 to AX.
 
-15 id 
-ADC EAX, imm32 
-I Valid Valid 
+15 id
+ADC EAX, imm32
+I Valid Valid
 Add with carry imm32 to EAX.
 
-REX.W + 15 id 
-ADC RAX, imm32 
-I Valid N.E. 
+REX.W + 15 id
+ADC RAX, imm32
+I Valid N.E.
 Add with carry imm32 sign extended to 64-
  bits to RAX.
 
-80 /2 ib 
-ADC r/m8, imm8 
-MI Valid Valid 
+80 /2 ib
+ADC r/m8, imm8
+MI Valid Valid
 Add with carry imm8 to r/m8.
 
-REX + 80 /2 ib 
-ADC r/m8 , imm8 
-MI Valid N.E. 
+REX + 80 /2 ib
+ADC r/m8 , imm8
+MI Valid N.E.
 Add with carry imm8 to r/m8.
 
-81 /2 iw 
-ADC r/m16, imm16 
-MI Valid Valid 
+81 /2 iw
+ADC r/m16, imm16
+MI Valid Valid
 Add with carry imm16 to r/m16.
 
-81 /2 id 
-ADC r/m32, imm32 
-MI Valid Valid 
+81 /2 id
+ADC r/m32, imm32
+MI Valid Valid
 Add with CF imm32 to r/m32.
 
-REX.W + 81 /2 id 
-ADC r/m64, imm32 
-MI Valid N.E. 
+REX.W + 81 /2 id
+ADC r/m64, imm32
+MI Valid N.E.
 Add with CF imm32 sign extended to 64-bits
  to r/m64.
 
-83 /2 ib 
-ADC r/m16, imm8 
-MI Valid Valid 
+83 /2 ib
+ADC r/m16, imm8
+MI Valid Valid
 Add with CF sign-extended imm8 to r/m16.
 
-83 /2 ib 
-ADC r/m32, imm8 
-MI Valid Valid 
+83 /2 ib
+ADC r/m32, imm8
+MI Valid Valid
 Add with CF sign-extended imm8 into r/m32.
 
-REX.W + 83 /2 ib 
-ADC r/m64, imm8 
-MI Valid N.E. 
+REX.W + 83 /2 ib
+ADC r/m64, imm8
+MI Valid N.E.
 Add with CF sign-extended imm8 into r/m64.
 
-10 /r 
-ADC r/m8, r8 
-MR Valid Valid 
+10 /r
+ADC r/m8, r8
+MR Valid Valid
 Add with carry byte register to r/m8.
 
-REX + 10 /r 
-ADC r/m8*, r8* 
-MR Valid N.E. 
+REX + 10 /r
+ADC r/m8*, r8*
+MR Valid N.E.
 Add with carry byte register to r/m64.
 
-11 /r 
-ADC r/m16, r16 
-MR Valid Valid 
+11 /r
+ADC r/m16, r16
+MR Valid Valid
 Add with carry r16 to r/m16.
 
-11 /r 
-ADC r/m32, r32 
-MR Valid Valid 
+11 /r
+ADC r/m32, r32
+MR Valid Valid
 Add with CF r32 to r/m32.
 
-REX.W + 11 /r 
-ADC r/m64, r64 
-MR Valid N.E. 
+REX.W + 11 /r
+ADC r/m64, r64
+MR Valid N.E.
 Add with CF r64 to r/m64.
 
-12 /r 
-ADC r8, r/m8 
-RM Valid Valid 
+12 /r
+ADC r8, r/m8
+RM Valid Valid
 Add with carry r/m8 to byte register.
 
-REX + 12 /r 
-ADC r8*, r/m8* 
-RM Valid N.E. 
+REX + 12 /r
+ADC r8*, r/m8*
+RM Valid N.E.
 Add with carry r/m64 to byte register.
 
-13 /r 
-ADC r16, r/m16 
-RM Valid Valid 
+13 /r
+ADC r16, r/m16
+RM Valid Valid
 Add with carry r/m16 to r16.
 
-13 /r 
-ADC r32, r/m32 
-RM Valid Valid 
+13 /r
+ADC r32, r/m32
+RM Valid Valid
 Add with CF r/m32 to r32.
 
-REX.W + 13 /r 
-ADC r64, r/m64 
-RM Valid N.E. 
+REX.W + 13 /r
+ADC r64, r/m64
+RM Valid N.E.
 Add with CF r/m64 to r64.
 
 NOTES:
@@ -151,118 +151,119 @@ The OF, SF, ZF, AF, CF, and PF flags are set according to the result.
 ---------------------------------------------------------------------
 
 ADD—Add
+
 Opcode Instruction Op/ 64-bit Compat/ Description
                    En  Mode   Leg Mode
 
-04 ib 
-ADD AL, imm8 
-I Valid Valid 
+04 ib
+ADD AL, imm8
+I Valid Valid
 Add imm8 to AL.
 
-05 iw 
-ADD AX, imm16 
-I Valid Valid 
+05 iw
+ADD AX, imm16
+I Valid Valid
 Add imm16 to AX.
 
-05 id 
-ADD EAX, imm32 
-I Valid Valid 
+05 id
+ADD EAX, imm32
+I Valid Valid
 Add imm32 to EAX.
 
-REX.W + 05 id 
-ADD RAX, imm32 
-I Valid N.E. 
+REX.W + 05 id
+ADD RAX, imm32
+I Valid N.E.
 Add imm32 sign-extended to 64-bits to RAX.
 
-80 /0 ib 
-ADD r/m8, imm8 
-MI Valid Valid 
+80 /0 ib
+ADD r/m8, imm8
+MI Valid Valid
 Add imm8 to r/m8.
 
-REX + 80 /0 ib 
-ADD r/m8*, imm8 
-MI Valid N.E. 
+REX + 80 /0 ib
+ADD r/m8*, imm8
+MI Valid N.E.
 Add sign-extended imm8 to r/m64.
 
-81 /0 iw 
-ADD r/m16, imm16 
-MI Valid Valid 
+81 /0 iw
+ADD r/m16, imm16
+MI Valid Valid
 Add imm16 to r/m16.
 
-81 /0 id 
-ADD r/m32, imm32 
-MI Valid Valid 
+81 /0 id
+ADD r/m32, imm32
+MI Valid Valid
 Add imm32 to r/m32.
 
-REX.W + 81 /0 id 
-ADD r/m64, imm32 
-MI Valid N.E. 
+REX.W + 81 /0 id
+ADD r/m64, imm32
+MI Valid N.E.
 Add imm32 sign-extended to 64-bits to
  r/m64.
 
-83 /0 ib 
-ADD r/m16, imm8 
-MI Valid Valid 
+83 /0 ib
+ADD r/m16, imm8
+MI Valid Valid
 Add sign-extended imm8 to r/m16.
 
-83 /0 ib 
-ADD r/m32, imm8 
-MI Valid Valid 
+83 /0 ib
+ADD r/m32, imm8
+MI Valid Valid
 Add sign-extended imm8 to r/m32.
 
-REX.W + 83 /0 ib 
-ADD r/m64, imm8 
-MI Valid N.E. 
+REX.W + 83 /0 ib
+ADD r/m64, imm8
+MI Valid N.E.
 Add sign-extended imm8 to r/m64.
 
-00 /r 
-ADD r/m8, r8 
-MR Valid Valid 
+00 /r
+ADD r/m8, r8
+MR Valid Valid
 Add r8 to r/m8.
 
-REX + 00 /r 
-ADD r/m8 , r8 
-MR Valid N.E. 
+REX + 00 /r
+ADD r/m8 , r8
+MR Valid N.E.
 Add r8 to r/m8.
 
-01 /r 
+01 /r
 ADD r/m16, r16
-MR Valid Valid 
+MR Valid Valid
 Add r16 to r/m16.
 
-01 /r 
-ADD r/m32, r32 
-MR Valid Valid 
+01 /r
+ADD r/m32, r32
+MR Valid Valid
 Add r32 to r/m32.
 
-REX.W + 01 /r 
-ADD r/m64, r64 
-MR Valid N.E. 
+REX.W + 01 /r
+ADD r/m64, r64
+MR Valid N.E.
 Add r64 to r/m64.
 
-02 /r 
-ADD r8, r/m8 
-RM Valid Valid 
+02 /r
+ADD r8, r/m8
+RM Valid Valid
 Add r/m8 to r8.
 
 REX + 02 /r
 ADD r8 , r/m8
-RM Valid N.E. 
+RM Valid N.E.
 Add r/m8 to r8.
 
-03 /r 
-ADD r16, r/m16 
-RM Valid Valid 
+03 /r
+ADD r16, r/m16
+RM Valid Valid
 Add r/m16 to r16.
 
-03 /r 
-ADD r32, r/m32 
-RM Valid Valid 
+03 /r
+ADD r32, r/m32
+RM Valid Valid
 Add r/m32 to r32.
 
-REX.W + 03 /r 
-ADD r64, r/m64 
-RM Valid N.E. 
+REX.W + 03 /r
+ADD r64, r/m64
+RM Valid N.E.
 Add r/m64 to r64.
 
 NOTES:
@@ -299,25 +300,25 @@ The OF, SF, ZF, AF, CF, and PF flags are set according to the result.
 ADDPD—Add Packed Double-Precision Floating-Point Values
 
 Opcode/     Op/ 64/32-bit CPUID Description
-Instruction En  Mode 
-                          Feature 
-                          Flag 
-66 0F 58 /r 
+Instruction En  Mode
+                          Feature
+                          Flag
+66 0F 58 /r
 ADDPD xmm1, xmm2/m128
-RM V/V SSE2 
+RM V/V SSE2
 Add packed double-precision floating-point
  values from xmm2/m128 to xmm1.
 
 VEX.NDS.128.66.0F.WIG 58 /r
 VADDPD xmm1,xmm2, xmm3/m128
-RVM V/V AVX 
+RVM V/V AVX
 Add packed double-precision floating-point
  values from xmm3/mem to xmm2 and stores
  result in xmm1.
 
 VEX.NDS.256.66.0F.WIG 58 /r
 VADDPD ymm1, ymm2, ymm3/m256
-RVM V/V AVX 
+RVM V/V AVX
 Add packed double-precision floating-point
  values from ymm3/mem to ymm2 and stores
  result in ymm1.
@@ -362,27 +363,27 @@ DEST[255:192]  SRC1[255:192] + SRC2[255:192]
 ADDPS—Add Packed Single-Precision Floating-Point Values
 
 Opcode/     Op/ 64/32-bit CPUID Description
-Instruction En Mode 
-                          Feature 
-                          Flag 
+Instruction En Mode
+                          Feature
+                          Flag
 
-0F 58 /r 
+0F 58 /r
 ADDPS xmm1, xmm2/m128
-RM V/V SSE 
+RM V/V SSE
 Add packed single-precision floating-point
  values from xmm2/m128 to xmm1 and stores
  result in xmm1.
 
 VEX.NDS.128.0F.WIG 58 /r
 VADDPS xmm1,xmm2, xmm3/m128
-RVM V/V AVX 
+RVM V/V AVX
 Add packed single-precision floating-point
  values from xmm3/mem to xmm2 and stores
  result in xmm1.
 
 VEX.NDS.256.0F.WIG 58 /r
 VADDPS ymm1, ymm2, ymm3/m256
-RVM V/V AVX 
+RVM V/V AVX
 Add packed single-precision floating-point
  values from ymm3/mem to ymm2 and stores
  result in ymm1.
@@ -433,20 +434,21 @@ DEST[255:224]  SRC1[255:224] + SRC2[255:224]
 ---------------------------------------------------------------------
 
 ADDSD—Add Scalar Double-Precision Floating-Point Values
-Opcode/     Op/ 64/32-bit CPUID Description
-Instruction En  Mode 
-                          Feature 
-                          Flag 
 
-F2 0F 58 /r 
+Opcode/     Op/ 64/32-bit CPUID Description
+Instruction En  Mode
+                          Feature
+                          Flag
+
+F2 0F 58 /r
 ADDSD xmm1, xmm2/m64
-RM V/V SSE2 
+RM V/V SSE2
 Add the low double-precision floating-point
  value from xmm2/m64 to xmm1.
 
 VEX.NDS.LIG.F2.0F.WIG 58 /r
 VADDSD xmm1, xmm2, xmm3/m64
-RVM V/V AVX 
+RVM V/V AVX
 Add the low double-precision floating-point
  value from xmm3/mem to xmm2 and store
  the result in xmm1.
@@ -479,20 +481,21 @@ DEST[VLMAX-1:128]  0
 ---------------------------------------------------------------------
 
 ADDSS—Add Scalar Single-Precision Floating-Point Values
-Opcode/     Op/ 64/32-bit CPUID Description
-Instruction En  Mode 
-                          Feature 
-                          Flag 
 
-F3 0F 58 /r 
+Opcode/     Op/ 64/32-bit CPUID Description
+Instruction En  Mode
+                          Feature
+                          Flag
+
+F3 0F 58 /r
 ADDSS xmm1, xmm2/m32
-RM V/V SSE 
+RM V/V SSE
 Add the low single-precision floating-point
  value from xmm2/m32 to xmm1.
 
 VEX.NDS.LIG.F3.0F.WIG 58 /r
 VADDSS xmm1,xmm2, xmm3/m32
-RVM V/V AVX 
+RVM V/V AVX
 Add the low single-precision floating-point
  value from xmm3/mem to xmm2 and store
  the result in xmm1.
@@ -525,27 +528,28 @@ DEST[VLMAX-1:128]  0
 ---------------------------------------------------------------------
 
 ADDSUBPD—Packed Double-FP Add/Subtract
-Opcode/ Op/ 64/32-bit CPUID Description
-Instruction En Mode 
-               Feature 
-               Flag 
 
-66 0F D0 /r 
+Opcode/ Op/ 64/32-bit CPUID Description
+Instruction En Mode
+               Feature
+               Flag
+
+66 0F D0 /r
 ADDSUBPD xmm1, xmm2/m128
-RM V/V SSE3 
+RM V/V SSE3
 Add/subtract double-precision floating-point
  values from xmm2/m128 to xmm1.
 
 VEX.NDS.128.66.0F.WIG D0 /r
 VADDSUBPD xmm1, xmm2, xmm3/m128
-RVM V/V AVX 
+RVM V/V AVX
 Add/subtract packed double-precision
  floating-point values from xmm3/mem to
  xmm2 and stores result in xmm1.
 
 VEX.NDS.256.66.0F.WIG D0 /r
 VADDSUBPD ymm1, ymm2, ymm3/m256
-RVM V/V AVX 
+RVM V/V AVX
 Add / subtract packed double-precision
  floating-point values from ymm3/mem to
  ymm2 and stores result in ymm1.
@@ -594,26 +598,26 @@ DEST[255:192]  SRC1[255:192] + SRC2[255:192]
 ADDSUBPS—Packed Single-FP Add/Subtract
 
 Opcode/     Op/ 64/32-bit CPUID Description
-Instruction En  Mode 
-                          Feature 
-                          Flag 
+Instruction En  Mode
+                          Feature
+                          Flag
 
-F2 0F D0 /r 
+F2 0F D0 /r
 ADDSUBPS xmm1, xmm2/m128
-RM V/V SSE3 
+RM V/V SSE3
 Add/subtract single-precision floating-point
  values from xmm2/m128 to xmm1.
 
 VEX.NDS.128.F2.0F.WIG D0 /r
 VADDSUBPS xmm1, xmm2, xmm3/m128
-RVM V/V AVX 
+RVM V/V AVX
 Add/subtract single-precision floating-point
  values from xmm3/mem to xmm2 and stores
  result in xmm1.
 
 VEX.NDS.256.F2.0F.WIG D0 /r
 VADDSUBPS ymm1, ymm2, ymm3/m256
-RVM V/V AVX 
+RVM V/V AVX
 Add / subtract single-precision floating-point
  values from ymm3/mem to ymm2 and stores
  result in ymm1.
@@ -665,5 +669,3 @@ DEST[191:160] SRC1[191:160] + SRC2[191:160]
 DEST[223:192]  SRC1[223:192] - SRC2[223:192]
 DEST[255:224]  SRC1[255:224] + SRC2[255:224]
 ---------------------------------------------------------------------
-
-

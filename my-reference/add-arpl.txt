@@ -3,114 +3,114 @@ AND—Logical AND
 Opcode Instruction Op/ 64-bit Compat/ Description
                    En  Mode   Leg Mode
 
-24 ib 
-AND AL, imm8 
-I Valid Valid 
+24 ib
+AND AL, imm8
+I Valid Valid
 AL AND imm8.
 
-25 iw 
-AND AX, imm16 
-I Valid Valid 
+25 iw
+AND AX, imm16
+I Valid Valid
 AX AND imm16.
 
-25 id 
-AND EAX, imm32 
-I Valid Valid 
+25 id
+AND EAX, imm32
+I Valid Valid
 EAX AND imm32.
 
-REX.W + 25 id 
-AND RAX, imm32 
-I Valid N.E. 
+REX.W + 25 id
+AND RAX, imm32
+I Valid N.E.
 RAX AND imm32 sign-extended to 64-bits.
 
-80 /4 ib 
-AND r/m8, imm8 
-MI Valid Valid 
+80 /4 ib
+AND r/m8, imm8
+MI Valid Valid
 r/m8 AND imm8.
 
-REX + 80 /4 ib 
-AND r/m8, imm8 
-MI Valid N.E. 
+REX + 80 /4 ib
+AND r/m8, imm8
+MI Valid N.E.
 r/m8 AND imm8.
 
-81 /4 iw 
-AND r/m16, imm16 
-MI Valid Valid 
+81 /4 iw
+AND r/m16, imm16
+MI Valid Valid
 r/m16 AND imm16.
 
-81 /4 id 
-AND r/m32, imm32 
-MI Valid Valid 
+81 /4 id
+AND r/m32, imm32
+MI Valid Valid
 r/m32 AND imm32.
 
-REX.W + 81 /4 id 
-AND r/m64, imm32 
-MI Valid N.E. 
+REX.W + 81 /4 id
+AND r/m64, imm32
+MI Valid N.E.
 r/m64 AND imm32 sign extended to 64-bits.
 
-83 /4 ib 
-AND r/m16, imm8 
-MI Valid Valid 
+83 /4 ib
+AND r/m16, imm8
+MI Valid Valid
 r/m16 AND imm8 (sign-extended).
 
-83 /4 ib 
-AND r/m32, imm8 
-MI Valid Valid 
+83 /4 ib
+AND r/m32, imm8
+MI Valid Valid
 r/m32 AND imm8 (sign-extended).
 
-REX.W + 83 /4 ib 
-AND r/m64, imm8 
-MI Valid N.E. 
+REX.W + 83 /4 ib
+AND r/m64, imm8
+MI Valid N.E.
 r/m64 AND imm8 (sign-extended).
 
-20 /r 
-AND r/m8, r8 
-MR Valid Valid 
+20 /r
+AND r/m8, r8
+MR Valid Valid
 r/m8 AND r8.
 
-REX + 20 /r 
-AND r/m8, r8 
-MR Valid N.E. 
+REX + 20 /r
+AND r/m8, r8
+MR Valid N.E.
 r/m64 AND r8 (sign-extended).
 
-21 /r 
-AND r/m16, r16 
-MR Valid Valid 
+21 /r
+AND r/m16, r16
+MR Valid Valid
 r/m16 AND r16.
 
-21 /r 
-AND r/m32, r32 
-MR Valid Valid 
+21 /r
+AND r/m32, r32
+MR Valid Valid
 r/m32 AND r32.
 
-REX.W + 21 /r 
-AND r/m64, r64 
-MR Valid N.E. 
+REX.W + 21 /r
+AND r/m64, r64
+MR Valid N.E.
 r/m64 AND r32.
 
-22 /r 
-AND r8, r/m8 
-RM Valid Valid 
+22 /r
+AND r8, r/m8
+RM Valid Valid
 r8 AND r/m8.
 
-REX + 22 /r 
-AND r8, r/m8 
-RM Valid N.E. 
+REX + 22 /r
+AND r8, r/m8
+RM Valid N.E.
 r/m64 AND r8 (sign-extended).
 
-23 /r 
-AND r16, r/m16 
-RM Valid Valid 
+23 /r
+AND r16, r/m16
+RM Valid Valid
 r16 AND r/m16.
 
-23 /r 
-AND r32, r/m32 
-RM Valid Valid 
+23 /r
+AND r32, r/m32
+RM Valid Valid
 r32 AND r/m32.
 
-REX.W + 23 /r 
-AND r64, r/m64 
-RM Valid N.E. 
+REX.W + 23 /r
+AND r64, r/m64
+RM Valid N.E.
 r64 AND r/m64.
 
 NOTES:
@@ -143,20 +143,21 @@ undefined.
 ---------------------------------------------------------------------
 
 ANDN — Logical AND NOT
+
 Opcode/     Op/ 64/32  CPUID Description
 Instruction En  -bit
-                Mode   
-                       Feature 
+                Mode
+                       Feature
                        Flag
 
-VEX.NDS.LZ.0F38.W0 F2 /r 
-ANDN r32a, r32b, r/m32 
+VEX.NDS.LZ.0F38.W0 F2 /r
+ANDN r32a, r32b, r/m32
 RVM V/V BMI1
 Bitwise AND of inverted r32b with r/m32, store result in r32a.
 
-VEX.NDS.LZ. 0F38.W1 F2 /r 
-ANDN r64a, r64b, r/m64 
-RVM V/NE BMI1 
+VEX.NDS.LZ. 0F38.W1 F2 /r
+ANDN r64a, r64b, r/m64
+RVM V/NE BMI1
 Bitwise AND of inverted r64b with r/m64, store result in r64a.
 
 Instruction Operand Encoding
@@ -182,27 +183,27 @@ SF and ZF are updated based on result. OF and CF flags are cleared. AF and PF fl
 ANDPD—Bitwise Logical AND of Packed Double-Precision Floating-Point Values
 
 Opcode/     Op/ 64/32-bit CPUID Description
-Instruction En  Mode 
-                          Feature 
-                          Flag 
+Instruction En  Mode
+                          Feature
+                          Flag
 
-66 0F 54 /r 
+66 0F 54 /r
 ANDPD xmm1, xmm2/m128
-RM V/V SSE2 
+RM V/V SSE2
 Return the bitwise logical AND of packed
  double-precision floating-point values in
  xmm1 and xmm2/m128.
 
 VEX.NDS.128.66.0F.WIG 54 /r
 VANDPD xmm1, xmm2, xmm3/m128
-RVM V/V AVX 
+RVM V/V AVX
 Return the bitwise logical AND of packed
  double-precision floating-point values in
  xmm2 and xmm3/mem.
 
 VEX.NDS.256.66.0F.WIG 54 /r
 VANDPD ymm1, ymm2, ymm3/m256
-RVM V/V AVX 
+RVM V/V AVX
 Return the bitwise logical AND of packed
  double-precision floating-point values in
  ymm2 and ymm3/mem.
@@ -245,26 +246,26 @@ DEST[255:192]  SRC1[255:192] BITWISE AND SRC2[255:192]
 ANDPS—Bitwise Logical AND of Packed Single-Precision Floating-Point Values
 
 Opcode/     Op/ 64/32-bit CPUID Description
-Instruction En  Mode 
-                          Feature 
-                          Flag 
+Instruction En  Mode
+                          Feature
+                          Flag
 
-0F 54 /r 
+0F 54 /r
 ANDPS xmm1, xmm2/m128
-RM V/V SSE 
+RM V/V SSE
 Bitwise logical AND of xmm2/m128 and
  xmm1.
 
 VEX.NDS.128.0F.WIG 54 /r
 VANDPS xmm1,xmm2, xmm3/m128
-RVM V/V AVX 
+RVM V/V AVX
 Return the bitwise logical AND of packed
  single-precision floating-point values in xmm2
  and xmm3/mem.
 
 VEX.NDS.256.0F.WIG 54 /r
 VANDPS ymm1, ymm2, ymm3/m256
-RVM V/V AVX 
+RVM V/V AVX
 Return the bitwise logical AND of packed
  single-precision floating-point values in ymm2
  and ymm3/mem.
@@ -316,26 +317,26 @@ Intel C/C++ Compiler Intrinsic Equivalent
 ANDNPD—Bitwise Logical AND NOT of Packed Double-Precision Floating-Point Values
 
 Opcode/     Op/ 64/32-bit CPUID Description
-Instruction En  Mode 
-                          Feature 
-                          Flag 
+Instruction En  Mode
+                          Feature
+                          Flag
 
-66 0F 55 /r 
+66 0F 55 /r
 ANDNPD xmm1, xmm2/m128
-RM V/V SSE2 
+RM V/V SSE2
 Bitwise logical AND NOT of xmm2/m128 and
  xmm1.
 
 VEX.NDS.128.66.0F.WIG 55 /r
 VANDNPD xmm1, xmm2, xmm3/m128
-RVM V/V AVX 
+RVM V/V AVX
 Return the bitwise logical AND NOT of packed
  double-precision floating-point values in
  xmm2 and xmm3/mem.
 
 VEX.NDS.256.66.0F.WIG 55/r
 VANDNPD ymm1, ymm2, ymm3/m256
-RVM V/V AVX 
+RVM V/V AVX
 Return the bitwise logical AND NOT of packed
  double-precision floating-point values in
  ymm2 and ymm3/mem.
@@ -378,26 +379,26 @@ DEST[255:192]  (NOT(SRC1[255:192])) BITWISE AND SRC2[255:192]
 ANDNPS—Bitwise Logical AND NOT of Packed Single-Precision Floating-Point Values
 
 Opcode/     Op/ 64/32-bit CPUID Description
-Instruction En  Mode 
-                          Feature 
-                          Flag 
+Instruction En  Mode
+                          Feature
+                          Flag
 
-0F 55 /r 
+0F 55 /r
 ANDNPS xmm1, xmm2/m128
-RM V/V SSE 
+RM V/V SSE
 Bitwise logical AND NOT of xmm2/m128 and
  xmm1.
 
 VEX.NDS.128.0F.WIG 55 /r
 VANDNPS xmm1, xmm2, xmm3/m128
-RVM V/V AVX 
+RVM V/V AVX
 Return the bitwise logical AND NOT of packed
  single-precision floating-point values in xmm2
  and xmm3/mem.
 
 VEX.NDS.256.0F.WIG 55 /r
 VANDNPS ymm1, ymm2, ymm3/m256
-RVM V/V AVX 
+RVM V/V AVX
 Return the bitwise logical AND NOT of packed
  single-precision floating-point values in ymm2
  and ymm3/mem.
@@ -451,8 +452,8 @@ ARPL—Adjust RPL Field of Segment Selector
 Opcode Instruction Op/ 64-bit Compat/ Description
                    En  Mode   Leg Mode
 
-63 /r 
-ARPL r/m16, r16 
+63 /r
+ARPL r/m16, r16
 NP N. E. Valid
 
 Adjust RPL of r/m16 to not less than RPL of

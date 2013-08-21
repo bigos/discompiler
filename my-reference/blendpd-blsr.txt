@@ -124,6 +124,7 @@ ZF is updated based on the result. AF, SF, and PF are undefined. All other flags
 ---------------------------------------------------------------------
 
 BLENDPS — Blend Packed Single Precision Floating-Point Values
+
 Opcode/ Op/ 64/32-bit CPUID Description
 Instruction En Mode 
                       Feature 
@@ -492,6 +493,7 @@ undefined.
 ---------------------------------------------------------------------
 
 BLSR — Reset Lowest Set Bit
+
 Opcode/     Op/ 64/32 CPUID Description
 Instruction En  -bit Feature
                 Mode Flag

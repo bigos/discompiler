@@ -1,20 +1,20 @@
 CVTSD2SS—Convert Scalar Double-Precision FP Value to Scalar Single-Precision FP Value
 
 Opcode/     Op/ 64/32-bit CPUID Description
-Instruction En  Mode 
-                          Feature 
-                          Flag 
+Instruction En  Mode
+                          Feature
+                          Flag
 
-F2 0F 5A /r 
+F2 0F 5A /r
 CVTSD2SS xmm1, xmm2/m64
-RM V/V SSE2 
+RM V/V SSE2
 Convert one double-precision floating-point
  value in xmm2/m64 to one single-precision
  floating-point value in xmm1.
 
 VEX.NDS.LIG.F2.0F.WIG 5A /r
 VCVTSD2SS xmm1,xmm2, xmm3/m64
-RVM V/V AVX 
+RVM V/V AVX
 Convert one double-precision floating-point
  value in xmm3/m64 to one single-precision
  floating-point value and merge with high bits
@@ -52,34 +52,34 @@ DEST[VLMAX-1:128]  0
 CVTSI2SD—Convert Dword Integer to Scalar Double-Precision FP Value
 
 Opcode/     Op/ 64/32-bit CPUID Description
-Instruction En  Mode 
-                          Feature 
-                          Flag 
+Instruction En  Mode
+                          Feature
+                          Flag
 
-F2 0F 2A /r 
+F2 0F 2A /r
 CVTSI2SD xmm, r/m32
-RM V/V SSE2 
+RM V/V SSE2
 Convert one signed doubleword integer from
  r/m32 to one double-precision floating-point
  value in xmm.
 
 F2 REX.W 0F 2A /r
 CVTSI2SD xmm, r/m64
-RM V/N.E. SSE2 
+RM V/N.E. SSE2
 Convert one signed quadword integer from
  r/m64 to one double-precision floating-point
  value in xmm.
 
 VEX.NDS.LIG.F2.0F.W0 2A /r
 VCVTSI2SD xmm1, xmm2, r/m32
-RVM V/V AVX 
+RVM V/V AVX
 Convert one signed doubleword integer from
  r/m32 to one double-precision floating-point
  value in xmm1.
 
 VEX.NDS.LIG.F2.0F.W1 2A /r
 VCVTSI2SD xmm1, xmm2, r/m64
-RVM V/N.E. AVX 
+RVM V/N.E. AVX
 Convert one signed quadword integer from
  r/m64 to one double-precision floating-point
  value in xmm1.
@@ -129,34 +129,34 @@ DEST[VLMAX-1:128]  0
 CVTSI2SS—Convert Dword Integer to Scalar Single-Precision FP Value
 
 Opcode/     Op/ 64/32-bit CPUID Description
-Instruction En  Mode 
-                          Feature 
-                          Flag 
+Instruction En  Mode
+                          Feature
+                          Flag
 
-F3 0F 2A /r 
+F3 0F 2A /r
 CVTSI2SS xmm, r/m32
-RM V/V SSE 
+RM V/V SSE
 Convert one signed doubleword integer from
  r/m32 to one single-precision floating-point
  value in xmm.
 
 F3 REX.W 0F 2A /r
 CVTSI2SS xmm, r/m64
-RM V/N.E. SSE 
+RM V/N.E. SSE
 Convert one signed quadword integer from
  r/m64 to one single-precision floating-point
  value in xmm.
 
 VEX.NDS.LIG.F3.0F.W0 2A /r
 VCVTSI2SS xmm1, xmm2, r/m32
-RVM V/V AVX 
+RVM V/V AVX
 Convert one signed doubleword integer from
  r/m32 to one single-precision floating-point
  value in xmm1.
 
 VEX.NDS.LIG.F3.0F.W1 2A /r
 VCVTSI2SS xmm1, xmm2, r/m64
-RVM V/N.E.1 AVX 
+RVM V/N.E.1 AVX
 Convert one signed quadword integer from
  r/m64 to one single-precision floating-point
  value in xmm1.
@@ -209,20 +209,20 @@ DEST[VLMAX-1:128]  0
 CVTSS2SD—Convert Scalar Single-Precision FP Value to Scalar Double-Precision FP Value
 
 Opcode/     Op/ 64/32-bit CPUID Description
-Instruction En  Mode 
-                          Feature 
-                          Flag 
+Instruction En  Mode
+                          Feature
+                          Flag
 
-F3 0F 5A /r 
+F3 0F 5A /r
 CVTSS2SD xmm1, xmm2/m32
-RM V/V SSE2 
+RM V/V SSE2
 Convert one single-precision floating-point
  value in xmm2/m32 to one double-precision
  floating-point value in xmm1.
 
 VEX.NDS.LIG.F3.0F.WIG 5A /r
 VCVTSS2SD xmm1, xmm2, xmm3/m32
-RVM V/V AVX 
+RVM V/V AVX
 Convert one single-precision floating-point
  value in xmm3/m32 to one double-precision
  floating-point value and merge with high bits
@@ -258,34 +258,34 @@ DEST[VLMAX-1:128]  0
 CVTSS2SI—Convert Scalar Single-Precision FP Value to Dword Integer
 
 Opcode/     Op/ 64/32-bit CPUID Description
-Instruction En  Mode 
-                          Feature 
-                          Flag 
+Instruction En  Mode
+                          Feature
+                          Flag
 
-F3 0F 2D /r 
+F3 0F 2D /r
 CVTSS2SI r32, xmm/m32
-RM V/V SSE 
+RM V/V SSE
 Convert one single-precision floating-point
  value from xmm/m32 to one signed
  doubleword integer in r32.
 
 F3 REX.W 0F 2D /r
 CVTSS2SI r64, xmm/m32
-RM V/N.E. SSE 
+RM V/N.E. SSE
 Convert one single-precision floating-point
  value from xmm/m32 to one signed
  quadword integer in r64.
 
 VEX.LIG.F3.0F.W0 2D /r
 VCVTSS2SI r32, xmm1/m32
-RM V/V AVX 
+RM V/V AVX
 Convert one single-precision floating-point
  value from xmm1/m32 to one signed
  doubleword integer in r32.
 
 VEX.LIG.F3.0F.W1 2D /r
 VCVTSS2SI r64, xmm1/m32
-RM V/N.E. AVX 
+RM V/N.E. AVX
 Convert one single-precision floating-point
  value from xmm1/m32 to one signed
  quadword integer in r64.
@@ -324,14 +324,15 @@ FI;
 
 CVTTPD2DQ—Convert with Truncation Packed Double-Precision FP Values to Packed Dword
 Integers
-Opcode/ Op/ 64/32-bit CPUID Description
-Instruction En Mode 
-               Feature 
-               Flag 
 
-66 0F E6 /r 
+Opcode/ Op/ 64/32-bit CPUID Description
+Instruction En Mode
+               Feature
+               Flag
+
+66 0F E6 /r
 CVTTPD2DQ xmm1, xmm2/m128
-RM V/V SSE2 
+RM V/V SSE2
 Convert two packed double-precision floating-
  point values from xmm2/m128 to two packed
  signed doubleword integers in xmm1 using
@@ -339,7 +340,7 @@ Convert two packed double-precision floating-
 
 VEX.128.66.0F.WIG E6 /r
 VCVTTPD2DQ xmm1, xmm2/m128
-RM V/V AVX 
+RM V/V AVX
 Convert two packed double-precision floating-
  point values in xmm2/mem to two signed
  doubleword integers in xmm1 using
@@ -347,7 +348,7 @@ Convert two packed double-precision floating-
 
 VEX.256.66.0F.WIG E6 /r
 VCVTTPD2DQ xmm1, ymm2/m256
-RM V/V AVX 
+RM V/V AVX
 Convert four packed double-precision floating-
  point values in ymm2/mem to four signed
  doubleword integers in xmm1 using
@@ -397,7 +398,7 @@ CVTTPD2PI—Convert with Truncation Packed Double-Precision FP Values to Packed 
 Opcode/     Op/ 64-Bit Compat/ Description
 Instruction En  Mode   Leg Mode
 
-66 0F 2C /r 
+66 0F 2C /r
 CVTTPD2PI mm, xmm/m128
 RM Valid Valid
 Convert two packer double-precision floating-
@@ -430,13 +431,13 @@ Truncate(SRC[127:64]);
 CVTTPS2DQ—Convert with Truncation Packed Single-Precision FP Values to Packed Dword Integers
 
 Opcode/     Op/ 64/32-bit CPUID Description
-Instruction En  Mode 
-                          Feature 
-                          Flag 
+Instruction En  Mode
+                          Feature
+                          Flag
 
-F3 0F 5B /r 
+F3 0F 5B /r
 CVTTPS2DQ xmm1, xmm2/m128
-RM V/V SSE2 
+RM V/V SSE2
 Convert four single-precision floating-point
  values from xmm2/m128 to four signed
  doubleword integers in xmm1 using
@@ -444,7 +445,7 @@ Convert four single-precision floating-point
 
 VEX.128.F3.0F.WIG 5B /r
 VCVTTPS2DQ xmm1, xmm2/m128
-RM V/V AVX 
+RM V/V AVX
 Convert four packed single precision floating-
  point values from xmm2/mem to four packed
  signed doubleword values in xmm1 using
@@ -452,7 +453,7 @@ Convert four packed single precision floating-
 
 VEX.256.F3.0F.WIG 5B /r
 VCVTTPS2DQ ymm1, ymm2/m256
-RM V/V AVX 
+RM V/V AVX
 Convert eight packed single precision floating-
  point values from ymm2/mem to eight packed
  signed doubleword values in ymm1 using
@@ -508,7 +509,7 @@ CVTTPS2PI—Convert with Truncation Packed Single-Precision FP Values to Packed 
 Opcode/    Op/ 64-Bit Compat/ Description
 Instruction En Mode   Leg Mode
 
-0F 2C /r 
+0F 2C /r
 CVTTPS2PI mm, xmm/m64
 RM Valid Valid
 Convert two single-precision floating-point
@@ -541,34 +542,34 @@ DEST[63:32] ← Convert_Single_Precision_Floating_Point_To_Integer_Truncate(SRC[
 CVTTSD2SI—Convert with Truncation Scalar Double-Precision FP Value to Signed Integer
 
 Opcode/     Op/ 64/32-bit CPUID Description
-Instruction En  Mode 
-                          Feature 
-                          Flag 
+Instruction En  Mode
+                          Feature
+                          Flag
 
-F2 0F 2C /r 
+F2 0F 2C /r
 CVTTSD2SI r32, xmm/m64
-RM V/V SSE2 
+RM V/V SSE2
 Convert one double-precision floating-point
  value from xmm/m64 to one signed
  doubleword integer in r32 using truncation.
 
 F2 REX.W 0F 2C /r
 CVTTSD2SI r64, xmm/m64
-RM V/N.E. SSE2 
+RM V/N.E. SSE2
 Convert one double precision floating-point
  value from xmm/m64 to one signedquadword
  integer in r64 using truncation.
 
 VEX.LIG.F2.0F.W0 2C /r
 VCVTTSD2SI r32, xmm1/m64
-RM V/V AVX 
+RM V/V AVX
 Convert one double-precision floating-point
  value from xmm1/m64 to one signed
  doubleword integer in r32 using truncation.
 
 VEX.LIG.F2.0F.W1 2C /r
 VCVTTSD2SI r64, xmm1/m64
-RM V/N.E. AVX 
+RM V/N.E. AVX
 Convert one double precision floating-point
  value from xmm1/m64 to one signed
  quadword integer in r64 using truncation.
@@ -607,32 +608,32 @@ FI;
 CVTTSS2SI—Convert with Truncation Scalar Single-Precision FP Value to Dword Integer
 
 Opcode/     Op/ En 64/32-bit CPUID Description
-Instruction        Mode      Feature Flag 
+Instruction        Mode      Feature Flag
 
-F3 0F 2C /r 
+F3 0F 2C /r
 CVTTSS2SI r32, xmm/m32
-RM V/V SSE 
+RM V/V SSE
 Convert one single-precision floating-point
  value from xmm/m32 to one signed
  doubleword integer in r32 using truncation.
 
 F3 REX.W 0F 2C /r
 CVTTSS2SI r64, xmm/m32
-RM V/N.E. SSE 
+RM V/N.E. SSE
 Convert one single-precision floating-point
  value from xmm/m32 to one signed quadword
  integer in r64 using truncation.
 
 VEX.LIG.F3.0F.W0 2C /r
 VCVTTSS2SI r32, xmm1/m32
-RM V/V AVX 
+RM V/V AVX
 Convert one single-precision floating-point
  value from xmm1/m32 to one signed
  doubleword integer in r32 using truncation.
 
 VEX.LIG.F3.0F.W1 2C /r
 VCVTTSS2SI r64, xmm1/m32
-RM V/N.E.1 AVX 
+RM V/N.E.1 AVX
 Convert one single-precision floating-point
  value from xmm1/m32 to one signed
  quadword integer in r64 using truncation.
@@ -670,23 +671,23 @@ FI;
 ---------------------------------------------------------------------
 
 CWD/CDQ/CQO—Convert Word to Doubleword/Convert Doubleword to Quadword
-       
-Opcode Instruction Op/ 64-Bit Compat/ Description 
-                   En Mode Leg Mode 
 
-99 
-CWD 
-NP Valid Valid 
+Opcode Instruction Op/ 64-Bit Compat/ Description
+                   En Mode Leg Mode
+
+99
+CWD
+NP Valid Valid
 DX:AX ← sign-extend of AX.
 
-99 
-CDQ 
-NP Valid Valid 
+99
+CDQ
+NP Valid Valid
 EDX:EAX ← sign-extend of EAX.
 
-REX.W + 99 
-CQO 
-NP Valid N.E. 
+REX.W + 99
+CQO
+NP Valid N.E.
 RDX:RAX← sign-extend of RAX.
 
 Instruction Operand Encoding
@@ -724,4 +725,3 @@ FI;
 Flags Affected
 None.
 ---------------------------------------------------------------------
-

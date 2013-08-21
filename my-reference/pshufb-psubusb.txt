@@ -244,6 +244,7 @@ In 64-bit mode, using a REX prefix in the form of REX.R permits this instruction
 ---------------------------------------------------------------------
 
 PSIGNB/PSIGNW/PSIGND — Packed SIGN
+
 Opcode/ Op/ 64/32 bit CPUID Description
 Instruction En Mode Feature 
                Support Flag 
@@ -746,6 +747,7 @@ be 0, otherwise instructions will #UD.
 
 
 PSRLW/PSRLD/PSRLQ—Shift Packed Data Right Logical
+
 Opcode/ Op/ 64/32 bit CPUID Description
 Instruction En Mode Feature 
                Support Flag 
@@ -1163,6 +1165,7 @@ range of a signed word integer (that is, greater than 7FFFH or less than 8000H),
 ---------------------------------------------------------------------
 
 PSUBUSB/PSUBUSW—Subtract Packed Unsigned Integers with Unsigned Saturation
+
 Opcode/ Op/ 64/32 bit CPUID Description
 Instruction En Mode Feature 
                Support Flag 
