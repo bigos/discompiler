@@ -7,10 +7,15 @@
   ;; (run-tests :all)
   (defparameter *problem-files* '())
   (defparameter *reference-files* (cl-fad:list-directory "my-reference"))
+  ;; (car (nth 469 *instructions*))
+  ;; ("XTEST — Test If In Transactional Execution" "Opcode/Instruction Op/En"
+  ;; "64/32bit" "Mode" "Support" "CPUID" "Feature" "Flag" "Description")
+  ;; wow!!!
+  (defparameter *instructions* nil)
   ;;(process-file (car *reference-files*))
   ;;remove subseq to check every file
-  (dolist (file (subseq *reference-files* 0 2))
-    (format t "~s~%" (process-file file)))
+  (dolist (file  *reference-files*)
+    (setf *instructions* (nconc *instructions* (process-file file))))
   (format t "~&no separator in following files ~S~%" *problem-files*))
 
 (defun process-file (file)
@@ -42,8 +47,7 @@
     lines))
 
 (defun get-file-instruction (file-no instruction-no)
-  (nth instruction-no (process-file (nth file-no *reference-files*)))
-)
+  (nth instruction-no (process-file (nth file-no *reference-files*))))
 
 (defun process (line)
   (cond ((blankp line)
