@@ -8,14 +8,16 @@
   (defparameter *problem-files* '())
   (defparameter *reference-files* (cl-fad:list-directory "my-reference"))
   ;;(process-file (car *reference-files*))
-  (dolist (file (subseq *reference-files* 0 2)) ;remove subseq to check every file
+  ;;remove subseq to check every file
+  (dolist (file (subseq *reference-files* 0 2))
     (format t "~s~%" (process-file file)))
   (format t "~&no separator in following files ~S~%" *problem-files*))
 
 (defun process-file (file)
   (declare (optimize (speed 0) (space 1) (compilation-speed 0) (debug 3)))
-  ;; use -> (step (process-file (car *reference-files*))) to step through the function
-  (let ((lines (file-to-lines file)) (previous-line) (section) (sections) (instructions))
+  ;; use -> (step (process-file (car *reference-files*)))
+  ;; to step through the function
+  (let ((lines (file-to-lines file)) (section) (sections) (instructions))
     (dolist (line lines)
       (cond ((blankp line)
              (progn
@@ -24,11 +26,11 @@
             ((separatorp line)
              (progn
                (setf sections (nconc sections (list :section section)))
-               (setf instructions (nconc instructions (list :instruction (list sections)))))
+               (setf instructions (nconc instructions
+                                    (list :instruction (list sections)))))
              (setf sections nil section nil))
             (t
-             (setf section (nconc section (list line)))))
-      (setq previous-line line))
+             (setf section (nconc section (list line))))))
     instructions
     ))
 
