@@ -20,17 +20,17 @@
   (let ((lines (file-to-lines file)) (section) (sections) (instructions))
     (dolist (line lines)
       (cond ((blankp line)
-             (setf sections (nconc sections (list section))
-                   section nil))
+             (unless (eq section nil) 
+                 (setf sections (nconc sections (list section))))
+             (setf section nil))
             ((separatorp line)
              (setf sections (nconc sections (list section))
-                   instructions (nconc instructions (list (list sections)))
+                   instructions (nconc instructions (list sections))
                    sections nil
                    section nil))
             (t
-             (setf section (nconc section (list line)))))
-      instructions)
-    ))
+             (setf section (nconc section (list line))))))
+    instructions))
 
 (defun file-to-lines (file)
   (let ((lines))
@@ -40,6 +40,9 @@
           ((null line))
         (setq lines (nconc lines (list line)))))
     lines))
+
+(defun get-file-instruction (file-no instruction-no)
+  (format t "~S" (process-file (nth file-no *reference-files*))))
 
 (defun process (line)
   (cond ((blankp line)
