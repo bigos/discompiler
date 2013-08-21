@@ -539,6 +539,7 @@ VEX.128 encoded version: Bits (VLMAX-1:128) of the destination YMM register are 
 ---------------------------------------------------------------------
 
 RDFSBASE/RDGSBASE—Read FS/GS Segment Base
+
 Opcode/ Op/ 64/32- CPUID Fea- Description
 Instruction En bit ture Flag 
                Mode 

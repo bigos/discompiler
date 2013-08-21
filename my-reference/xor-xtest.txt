@@ -269,6 +269,7 @@ XCR0 bits may be intermingled in the layout.
 Table 4-17. General Layout of XSAVE/XRSTOR Save Area
 ---------------------------------------------------------------------
 XSAVE—Save Processor Extended States
+
 Opcode Instruction Op/ 64-Bit Compat/ Description
                    En Mode Leg Mode
 
@@ -452,6 +453,7 @@ None.
 ---------------------------------------------------------------------
 
 XTEST — Test If In Transactional Execution
+
 Opcode/Instruction Op/En
 64/32bit
 Mode

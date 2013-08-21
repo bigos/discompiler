@@ -50,8 +50,6 @@ Multiply packed double-precision floating-point
  values from ymm1 and ymm2/mem, subtract/add
  elements in ymm0 and put result in ymm0.
 
-
-
 Instruction Operand Encoding
 Op/En Operand 1 Operand 2 Operand 3 Operand 4
 A ModRM:reg (r, w) VEX.vvvv (r) ModRM:r/m (r) NA
@@ -670,6 +668,7 @@ column. See also Section 2.3.1, “FMA Instruction Operand Order and Arithmetic 
 
 VFNMADD132SD/VFNMADD213SD/VFNMADD231SD — Fused Negative Multiply-Add of Scalar
 Double-Precision Floating-Point Values
+
 Opcode/ Op/
 Instruction En
 64/32 CPUID
@@ -1197,6 +1196,7 @@ elements an indeterminate number of times.
 ---------------------------------------------------------------------
 
 VGATHERDPS/VGATHERQPS — Gather Packed SP FP values Using Signed Dword/Qword Indices
+
 Opcode/ Op/
 Instruction En
 64/32 CPUID 
@@ -1268,6 +1268,7 @@ before gathering any elements.
 ---------------------------------------------------------------------
 
 VPGATHERDD/VPGATHERQD — Gather Packed Dword Values Using Signed Dword/Qword
+
 Indices
 Opcode/ Op/
 Instruction En
@@ -1364,6 +1365,7 @@ elements an indeterminate number of times.
 ---------------------------------------------------------------------
 
 VPGATHERDQ/VPGATHERQQ — Gather Packed Qword Values Using Signed Dword/Qword
+
 Indices
 Opcode/ Op/
 Instruction En
