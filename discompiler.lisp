@@ -18,6 +18,13 @@
     (setf *instructions* (nconc *instructions* (process-file file))))
   (format t "~&no separator in following files ~S~%" *problem-files*))
 
+(defun show-suspected () 
+  (let ((ci))
+    (dolist (inst *instructions*)
+      (setf ci (car inst)) 
+      (if (> (list-length ci) 2) 
+          (format t "~&~a ~s~%" (list-length ci) ci)))))
+
 (defun process-file (file)
   (declare (optimize (speed 0) (space 1) (compilation-speed 0) (debug 3)))
   ;; use -> (step (process-file (car *reference-files*)))
