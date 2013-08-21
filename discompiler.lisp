@@ -13,21 +13,21 @@
   (format t "~&no separator in following files ~S~%" *problem-files*))
 
 (defun process-file (file)
-  (let ((lines (file-to-lines file)) (previous-line) 
-        (instruction) (columns) (opcodes) (instruction-encoding) (other-sections))   
+  (declare (optimize (speed 0) (space 1) (compilation-speed 0) (debug 3)))
+  ;; use -> (step (process-file (car *reference-files*))) to step through the function
+  (let ((lines (file-to-lines file)) (previous-line) (section) (sections) (instructions))   
     (dolist (line lines)
-      (cond ((blankp line) then)
-            ((separatorp line) then) 
-            (t else))
+      (cond ((blankp line) 
+             (setf sections (nconc sections (list :section section)))
+             (setf section nil))
+            ((separatorp line) 
+             (setf sections (nconc sections (list :section section)))
+             (setf instructions (nconc instructions (list :instruction (list sections))))
+             (setf sections nil section nil)) 
+            (t 
+             (setf section (nconc section (list line)))))
       (setq previous-line line))
-    ;; find unstruction header
-    ;; find column descriptions
-    ;; find encodings
-    ;; find instruction operand encoding
-    ;; find description
-    ;; find other sections
-    ;; find separator
-    lines-arr
+    instructions
     ))
 
 (defun file-to-lines (file)
