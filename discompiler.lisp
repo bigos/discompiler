@@ -18,11 +18,13 @@
   (let ((lines (file-to-lines file)) (previous-line) (section) (sections) (instructions))   
     (dolist (line lines)
       (cond ((blankp line) 
-             (setf sections (nconc sections (list :section section)))
-             (setf section nil))
+             (progn
+               (setf sections (nconc sections (list :section section)))
+               (setf section nil)))
             ((separatorp line) 
-             (setf sections (nconc sections (list :section section)))
-             (setf instructions (nconc instructions (list :instruction (list sections))))
+             (progn
+               (setf sections (nconc sections (list :section section)))
+               (setf instructions (nconc instructions (list :instruction (list sections)))))
              (setf sections nil section nil)) 
             (t 
              (setf section (nconc section (list line)))))

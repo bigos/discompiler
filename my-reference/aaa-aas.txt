@@ -2,6 +2,7 @@ AAA—ASCII Adjust After Addition
 
 Opcode Instruction Op/ 64-bit Compat/  Description
                    En  Mode   Leg Mode
+
 37 
 AAA 
 NP Invalid Valid
@@ -46,8 +47,10 @@ SF, ZF, and PF flags are undefined.
 --------------------------------------------------------------------------------------------------------------------
 
 AAD—ASCII Adjust AX Before Division
+
 Opcode Instruction Op/ 64-bit Compat/ Description
                    En Mode Leg Mode
+
 D5 0A 
 AAD 
 NP Invalid Valid 
@@ -97,6 +100,7 @@ are undefined.
 --------------------------------------------------------------------------------------------------------------------
 
 AAM—ASCII Adjust AX After Multiply
+
 Opcode Instruction Op/ 64-bit Compat/ Description
                    En  Mode   Leg Mode
 
@@ -145,6 +149,7 @@ are undefined.
 --------------------------------------------------------------------------------------------------------------------
 
 AAS—ASCII Adjust AL After Subtraction
+
 Opcode Instruction Op/ 64-bit Compat/ Description
                    En  Mode   Leg Mode
 
