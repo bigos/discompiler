@@ -20,7 +20,7 @@
   (let ((lines (file-to-lines file)) (section) (sections) (instructions))
     (dolist (line lines)
       (cond ((blankp line)
-             (unless (eq section nil) 
+             (unless (eq section nil)
                  (setf sections (nconc sections (list section))))
              (setf section nil))
             ((separatorp line)
@@ -42,7 +42,8 @@
     lines))
 
 (defun get-file-instruction (file-no instruction-no)
-  (format t "~S" (process-file (nth file-no *reference-files*))))
+  (nth instruction-no (process-file (nth file-no *reference-files*)))
+)
 
 (defun process (line)
   (cond ((blankp line)
