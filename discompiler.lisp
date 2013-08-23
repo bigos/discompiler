@@ -25,7 +25,7 @@
 
 (defun column-keywords (instruction)
   (let ((column-data (instruction-columns instruction)))
-    (remove-if 'emptystrp (cl-utilities:split-sequence #\space (list-to-string column-data)))))
+    (sort (remove-if 'emptystrp (cl-utilities:split-sequence #\space (list-to-string column-data))) #'string-lessp)))
 
 (defun emptystrp (string)
   (if (equal string "") 
