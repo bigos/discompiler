@@ -23,6 +23,21 @@
 (defun instruction-columns (instruction)
   (cadr instruction))
 
+(defun column-keywords (instruction)
+  (let ((column-data (instruction-columns instruction)))
+    (remove-if 'emptystrp (cl-utilities:split-sequence #\space (list-to-string column-data)))))
+
+(defun emptystrp (string)
+  (if (equal string "") 
+      T 
+      nil))
+
+(defun list-to-string (my-list &optional (pad " ")) 
+  (let ((result))
+    (dolist (item my-list)
+      (setf result (concatenate 'string result (format nil "~A~a" item pad))))
+    result))
+
 (defun show-suspected () 
   (let ((ci))
     (dolist (inst *instructions*)
