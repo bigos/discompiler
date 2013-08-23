@@ -28,7 +28,7 @@
     (dolist (inst *instructions*)
       (setf ci (cadr inst)) 
       (if (> (list-length ci) 5) 
-          (format t "~&~a ~s ~S~%" (length  ci)  ci (car inst))))))
+          (format t "~&~a ~s ~%" (length  ci)  ci )))))
 
 (defun process-file (file)
   (declare (optimize (speed 0) (space 1) (compilation-speed 0) (debug 3)))
