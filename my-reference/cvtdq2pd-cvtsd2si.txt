@@ -1,10 +1,10 @@
 CVTDQ2PD—Convert Packed Dword Integers to Packed Double-Precision FP Values
 
 Opcode/ Op/ 64/32-bit CPUID Description
-Instruction En Mode 
-                      Feature 
+Instruction En Mode
+                      Feature
                       Flag
-               
+
 F3 0F E6
 CVTDQ2PD xmm1, xmm2/m64
 RM V/V SSE2
@@ -66,27 +66,27 @@ DEST[255:192]  Convert_Integer_To_Double_Precision_Floating_Point(SRC[127:96)
 CVTDQ2PS—Convert Packed Dword Integers to Packed Single-Precision FP Values
 
 Opcode/     Op/ 64/32-bit CPUID Description
-Instruction En  Mode 
-                          Feature 
-                          Flag 
+Instruction En  Mode
+                          Feature
+                          Flag
 
-0F 5B /r 
+0F 5B /r
 CVTDQ2PS xmm1, xmm2/m128
-RM V/V SSE2 
+RM V/V SSE2
 Convert four packed signed doubleword
  integers from xmm2/m128 to four packed
  single-precision floating-point values in xmm1.
 
 VEX.128.0F.WIG 5B /r
 VCVTDQ2PS xmm1, xmm2/m128
-RM V/V AVX 
+RM V/V AVX
 Convert four packed signed doubleword
  integers from xmm2/mem to four packed
  single-precision floating-point values in xmm1.
 
 VEX.256.0F.WIG 5B /r
 VCVTDQ2PS ymm1, ymm2/m256
-RM V/V AVX 
+RM V/V AVX
 Convert eight packed signed doubleword
  integers from ymm2/mem to eight packed
  single-precision floating-point values in ymm1.
@@ -136,27 +136,27 @@ DEST[255:224]  Convert_Integer_To_Single_Precision_Floating_Point(SRC[255:224
 CVTPD2DQ—Convert Packed Double-Precision FP Values to Packed Dword Integers
 
 Opcode/     Op/ 64/32-bit CPUID Description
-Instruction En  Mode 
-                          Feature 
-                          Flag 
+Instruction En  Mode
+                          Feature
+                          Flag
 
-F2 0F E6 /r 
+F2 0F E6 /r
 CVTPD2DQ xmm1, xmm2/m128
-RM V/V SSE2 
+RM V/V SSE2
 Convert two packed double-precision floating-
  point values from xmm2/m128 to two packed
  signed doubleword integers in xmm1.
 
 VEX.128.F2.0F.WIG E6 /r
 VCVTPD2DQ xmm1, xmm2/m128
-RM V/V AVX 
+RM V/V AVX
 Convert two packed double-precision floating-
  point values in xmm2/mem to two signed
  doubleword integers in xmm1.
 
 VEX.256.F2.0F.WIG E6 /r
 VCVTPD2DQ xmm1, ymm2/m256
-RM V/V AVX 
+RM V/V AVX
 Convert four packed double-precision floating-
  point values in ymm2/mem to four signed
  doubleword integers in xmm1.
@@ -208,7 +208,7 @@ CVTPD2PI—Convert Packed Double-Precision FP Values to Packed Dword Integers
 Opcode/     Op/ 64-Bit Compat/ Description
 Instruction En  Mode   Leg Mode
 
-66 0F 2D /r 
+66 0F 2D /r
 CVTPD2PI mm, xmm/m128
 RM Valid Valid
 Convert two packed double-precision floating-
@@ -240,13 +240,13 @@ DEST[63:32] ← Convert_Double_Precision_Floating_Point_To_Integer32(SRC[127:64]
 CVTPD2PS—Convert Packed Double-Precision FP Values to Packed Single-Precision FP Values
 
 Opcode/     Op/ 64/32-bit CPUID Description
-Instruction En  Mode 
-                          Feature 
-                          Flag 
+Instruction En  Mode
+                          Feature
+                          Flag
 
-66 0F 5A /r 
+66 0F 5A /r
 CVTPD2PS xmm1, xmm2/m128
-RM V/V SSE2 
+RM V/V SSE2
 Convert two packed double-precision floating-
  point values in xmm2/m128 to two packed
  single-precision floating-point values in
@@ -254,14 +254,14 @@ Convert two packed double-precision floating-
 
 VEX.128.66.0F.WIG 5A /r
 VCVTPD2PS xmm1, xmm2/m128
-RM V/V AVX 
+RM V/V AVX
 Convert two packed double-precision floating-
  point values in xmm2/mem to two single-
  precision floating-point values in xmm1.
 
 VEX.256.66.0F.WIG 5A /r
 VCVTPD2PS xmm1, ymm2/m256
-RM V/V AVX 
+RM V/V AVX
 Convert four packed double-precision floating-
  point values in ymm2/mem to four single-
  precision floating-point values in xmm1.
@@ -309,7 +309,7 @@ CVTPI2PD—Convert Packed Dword Integers to Packed Double-Precision FP Values
 Opcode/     Op/ 64-Bit Compat/ Description
 Instruction En  Mode   Leg Mode
 
-66 0F 2A /r 
+66 0F 2A /r
 CVTPI2PD xmm, mm/m64*
 RM Valid Valid
 Convert two packed signed doubleword
@@ -346,7 +346,7 @@ CVTPI2PS—Convert Packed Dword Integers to Packed Single-Precision FP Values
 Opcode/     Op/ 64-Bit Compat/ Description
 Instruction En  Mode   Leg Mode
 
-0F 2A /r 
+0F 2A /r
 CVTPI2PS xmm, mm/m64
 RM Valid Valid
 Convert two signed doubleword integers
@@ -378,27 +378,27 @@ DEST[63:32] ← Convert_Integer_To_Single_Precision_Floating_Point(SRC[63:32]);
 CVTPS2DQ—Convert Packed Single-Precision FP Values to Packed Dword Integers
 
 Opcode/     Op/ 64/32-bit CPUID Description
-Instruction En  Mode 
-                          Feature 
-                          Flag 
+Instruction En  Mode
+                          Feature
+                          Flag
 
-66 0F 5B /r 
+66 0F 5B /r
 CVTPS2DQ xmm1, xmm2/m128
-RM V/V SSE2 
+RM V/V SSE2
 Convert four packed single-precision floating-
  point values from xmm2/m128 to four packed
  signed doubleword integers in xmm1.
 
 VEX.128.66.0F.WIG 5B /r
 VCVTPS2DQ xmm1, xmm2/m128
-RM V/V AVX 
+RM V/V AVX
 Convert four packed single precision floating-
  point values from xmm2/mem to four packed
  signed doubleword values in xmm1.
 
 VEX.256.66.0F.WIG 5B /r
 VCVTPS2DQ ymm1, ymm2/m256
-RM V/V AVX 
+RM V/V AVX
 Convert eight packed single precision floating-
  point values from ymm2/mem to eight packed
  signed doubleword values in ymm1.
@@ -451,13 +451,13 @@ DEST[255:224]  Convert_Single_Precision_Floating_Point_To_Integer(SRC[255:224
 CVTPS2PD—Convert Packed Single-Precision FP Values to Packed Double-Precision FP Values
 
 Opcode/     Op/ 64/32-bit CPUID Description
-Instruction En  Mode 
-                          Feature 
-                          Flag 
+Instruction En  Mode
+                          Feature
+                          Flag
 
-0F 5A /r 
+0F 5A /r
 CVTPS2PD xmm1, xmm2/m64
-RM V/V SSE2 
+RM V/V SSE2
 Convert two packed single-precision floating-
  point values in xmm2/m64 to two packed
  double-precision floating-point values in
@@ -465,7 +465,7 @@ Convert two packed single-precision floating-
 
 VEX.128.0F.WIG 5A /r
 VCVTPS2PD xmm1, xmm2/m64
-RM V/V AVX 
+RM V/V AVX
 Convert two packed single-precision floating-
  point values in xmm2/mem to two packed
  double-precision floating-point values in
@@ -473,7 +473,7 @@ Convert two packed single-precision floating-
 
 VEX.256.0F.WIG 5A /r
 VCVTPS2PD ymm1, xmm2/m128
-RM V/V AVX 
+RM V/V AVX
 Convert four packed single-precision floating-
  point values in xmm2/mem to four packed
  double-precision floating-point values in
@@ -518,7 +518,7 @@ CVTPS2PI—Convert Packed Single-Precision FP Values to Packed Dword Integers
 Opcode/     Op/ 64-Bit Compat/ Description
 Instruction En  Mode   Leg Mode
 
-0F 2D /r 
+0F 2D /r
 CVTPS2PI mm, xmm/m64
 RM Valid Valid
 Convert two packed single-precision floating-
@@ -551,34 +551,34 @@ DEST[63:32] ← Convert_Single_Precision_Floating_Point_To_Integer(SRC[63:32]);
 CVTSD2SI—Convert Scalar Double-Precision FP Value to Integer
 
 Opcode/     Op/ 64/32-bit CPUID Description
-Instruction En  Mode 
-                          Feature 
-                          Flag 
+Instruction En  Mode
+                          Feature
+                          Flag
 
-F2 0F 2D /r 
+F2 0F 2D /r
 CVTSD2SI r32, xmm/m64
-RM V/V SSE2 
+RM V/V SSE2
 Convert one double-precision floating-point
  value from xmm/m64 to one signed
  doubleword integer r32.
 
 F2 REX.W 0F 2D /r
 CVTSD2SI r64, xmm/m64
-RM V/N.E. SSE2 
+RM V/N.E. SSE2
 Convert one double-precision floating-point
  value from xmm/m64 to one signed quadword
  integer sign-extended into r64.
 
 VEX.LIG.F2.0F.W0 2D /r
 VCVTSD2SI r32, xmm1/m64
-RM V/V AVX 
+RM V/V AVX
 Convert one double precision floating-point
  value from xmm1/m64 to one signed
  doubleword integer r32.
 
 VEX.LIG.F2.0F.W1 2D /r
 VCVTSD2SI r64, xmm1/m64
-RM V/N.E.1 AVX 
+RM V/N.E.1 AVX
 Convert one double precision floating-point
  value from xmm1/m64 to one signed
  quadword integer sign-extended into r64.

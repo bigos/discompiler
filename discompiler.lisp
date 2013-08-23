@@ -18,12 +18,17 @@
     (setf *instructions* (nconc *instructions* (process-file file))))
   (format t "~&no separator in following files ~S~%" *problem-files*))
 
+(defun column-info ()
+  (let ((z))
+    (dolist (inst *instructions*)
+      (format t "~&~s ~s~%~%" (subseq (caar inst) 0 7 ) (cadr inst)))))
+
 (defun show-suspected () 
   (let ((ci))
     (dolist (inst *instructions*)
-      (setf ci (car inst)) 
-      (if (> (list-length ci) 2) 
-          (format t "~&~a ~s~%" (list-length ci) ci)))))
+      (setf ci (cadr inst)) 
+      (if (> (list-length ci) 5) 
+          (format t "~&~a ~s ~S~%" (length  ci)  ci (car inst))))))
 
 (defun process-file (file)
   (declare (optimize (speed 0) (space 1) (compilation-speed 0) (debug 3)))

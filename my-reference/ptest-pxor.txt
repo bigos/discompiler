@@ -1,25 +1,25 @@
 PTEST- Logical Compare
 
 Opcode/ Op/ 64/32 bit CPUID Description
-Instruction En Mode Feature 
-               Support Flag 
+Instruction En Mode Feature
+               Support Flag
 
-66 0F 38 17 /r 
-PTEST xmm1, xmm2/m128 
-RM V/V SSE4_1 
+66 0F 38 17 /r
+PTEST xmm1, xmm2/m128
+RM V/V SSE4_1
 Set ZF if xmm2/m128 AND xmm1 result is all
  0s. Set CF if xmm2/m128 AND NOT xmm1
  result is all 0s.
 
-VEX.128.66.0F38.WIG 17 /r 
-VPTEST xmm1, xmm2/m128 
-RM V/V AVX 
+VEX.128.66.0F38.WIG 17 /r
+VPTEST xmm1, xmm2/m128
+RM V/V AVX
 Set ZF and CF depending on bitwise AND and
  ANDN of sources.
 
-VEX.256.66.0F38.WIG 17 /r 
-VPTEST ymm1, ymm2/m256 
-RM V/V AVX 
+VEX.256.66.0F38.WIG 17 /r
+VPTEST ymm1, ymm2/m256
+RM V/V AVX
 Set ZF and CF depending on bitwise AND and
  ANDN of sources.
 
@@ -42,97 +42,97 @@ Note: In VEX-encoded versions, VEX.vvvv is reserved and must be 1111b, otherwise
 PUNPCKHBW/PUNPCKHWD/PUNPCKHDQ/PUNPCKHQDQ— Unpack High Data
 
 Opcode/ Op/ 64/32 bit CPUID Description
-Instruction En Mode Feature 
-               Support Flag 
+Instruction En Mode Feature
+               Support Flag
 
-0F 68 /r 
+0F 68 /r
 PUNPCKHBW mm, mm/m64
-RM V/V MMX 
+RM V/V MMX
 Unpack and interleave high-order bytes from
  mm and mm/m64 into mm.
 
 66 0F 68 /r
 PUNPCKHBW xmm1, xmm2/m128
-RM V/V SSE2 
+RM V/V SSE2
 Unpack and interleave high-order bytes from
  xmm1 and xmm2/m128 into xmm1.
 
 0F 69 /r
 PUNPCKHWD mm, mm/m64
-RM V/V MMX 
+RM V/V MMX
 Unpack and interleave high-order words from
  mm and mm/m64 into mm.
 
 66 0F 69 /r
 PUNPCKHWD xmm1, xmm2/m128
-RM V/V SSE2 
+RM V/V SSE2
 Unpack and interleave high-order words from
  xmm1 and xmm2/m128 into xmm1.
 
 0F 6A /r1
 PUNPCKHDQ mm, mm/m64
-RM V/V MMX 
+RM V/V MMX
 Unpack and interleave high-order
  doublewords from mm and mm/m64 into mm.
 
 66 0F 6A /r
 PUNPCKHDQ xmm1, xmm2/m128
-RM V/V SSE2 
+RM V/V SSE2
 Unpack and interleave high-order
  doublewords from xmm1 and xmm2/m128
  into xmm1.
 
 66 0F 6D /r
 PUNPCKHQDQ xmm1, xmm2/m128
-RM V/V SSE2 
+RM V/V SSE2
 Unpack and interleave high-order quadwords
  from xmm1 and xmm2/m128 into xmm1.
 
 VEX.NDS.128.66.0F.WIG 68/r
 VPUNPCKHBW xmm1,xmm2, xmm3/m128
-RVM V/V AVX 
+RVM V/V AVX
 Interleave high-order bytes from xmm2 and
  xmm3/m128 into xmm1.
 
 VEX.NDS.128.66.0F.WIG 69/r
 VPUNPCKHWD xmm1,xmm2, xmm3/m128
-RVM V/V AVX 
+RVM V/V AVX
 Interleave high-order words from xmm2 and
  xmm3/m128 into xmm1.
 
 VEX.NDS.128.66.0F.WIG 6A/r
 VPUNPCKHDQ xmm1, xmm2, xmm3/m128
-RVM V/V AVX 
+RVM V/V AVX
 Interleave high-order doublewords from
  xmm2 and xmm3/m128 into xmm1.
 
-VEX.NDS.128.66.0F.WIG 6D/r 
+VEX.NDS.128.66.0F.WIG 6D/r
 VPUNPCKHQDQ xmm1, xmm2, xmm3/m128
-RVM V/V AVX 
+RVM V/V AVX
 Interleave high-order quadword from xmm2
 and xmm3/m128 into xmm1 register.
 
-VEX.NDS.256.66.0F.WIG 68 /r 
-VPUNPCKHBW ymm1, ymm2, ymm3/m256 
-RVM V/V AVX2 
+VEX.NDS.256.66.0F.WIG 68 /r
+VPUNPCKHBW ymm1, ymm2, ymm3/m256
+RVM V/V AVX2
 Interleave high-order bytes from ymm2 and
  ymm3/m256 into ymm1 register.
 
-VEX.NDS.256.66.0F.WIG 69 /r 
-VPUNPCKHWD ymm1, ymm2, ymm3/m256 
-RVM V/V AVX2 
+VEX.NDS.256.66.0F.WIG 69 /r
+VPUNPCKHWD ymm1, ymm2, ymm3/m256
+RVM V/V AVX2
 Interleave high-order words from ymm2 and
  ymm3/m256 into ymm1 register.
 
-VEX.NDS.256.66.0F.WIG 6A /r 
-VPUNPCKHDQ ymm1, ymm2, ymm3/m256 
-RVM V/V AVX2 
+VEX.NDS.256.66.0F.WIG 6A /r
+VPUNPCKHDQ ymm1, ymm2, ymm3/m256
+RVM V/V AVX2
 Interleave high-order doublewords from
  ymm2 and ymm3/m256 into ymm1 register.
 
-VEX.NDS.256.66.0F.WIG 6D /r 
-VPUNPCKHQDQ ymm1, ymm2, ymm3/m256 
-RVM V/V AVX2 
+VEX.NDS.256.66.0F.WIG 6D /r
+VPUNPCKHQDQ ymm1, ymm2, ymm3/m256
+RVM V/V AVX2
 Interleave high-order quadword from ymm2
  and ymm3/m256 into ymm1 register.
 
@@ -155,95 +155,96 @@ the unpack operation for bytes in 64-bit operands. The low-order data elements a
 PUNPCKLBW/PUNPCKLWD/PUNPCKLDQ/PUNPCKLQDQ—Unpack Low Data
 
 Opcode/ Op/ 64/32 bit CPUID Description
-Instruction En Mode Feature 
-               Support Flag 
-0F 60 /r 
+Instruction En Mode Feature
+               Support Flag
+
+0F 60 /r
 PUNPCKLBW mm, mm/m32
-RM V/V MMX 
+RM V/V MMX
 Interleave low-order bytes from mm and
  mm/m32 into mm.
 
 66 0F 60 /r
 PUNPCKLBW xmm1, xmm2/m128
-RM V/V SSE2 
+RM V/V SSE2
 Interleave low-order bytes from xmm1 and
  xmm2/m128 into xmm1.
 
 0F 61 /r
 PUNPCKLWD mm, mm/m32
-RM V/V MMX 
+RM V/V MMX
 Interleave low-order words from mm and
  mm/m32 into mm.
 
 66 0F 61 /r
 PUNPCKLWD xmm1, xmm2/m128
-RM V/V SSE2 
+RM V/V SSE2
 Interleave low-order words from xmm1 and
  xmm2/m128 into xmm1.
 
 0F 62 /r1
 PUNPCKLDQ mm, mm/m32
-RM V/V MMX 
+RM V/V MMX
 Interleave low-order doublewords from mm
  and mm/m32 into mm.
 
 66 0F 62 /r
 PUNPCKLDQ xmm1, xmm2/m128
-RM V/V SSE2 
+RM V/V SSE2
 Interleave low-order doublewords from xmm1
  and xmm2/m128 into xmm1.
 
 66 0F 6C /r
 PUNPCKLQDQ xmm1, xmm2/m128
-RM V/V SSE2 
+RM V/V SSE2
 Interleave low-order quadword from xmm1
  and xmm2/m128 into xmm1 register.
 
 VEX.NDS.128.66.0F.WIG 60/r
 VPUNPCKLBW xmm1,xmm2, xmm3/m128
-RVM V/V AVX 
+RVM V/V AVX
 Interleave low-order bytes from xmm2 and
  xmm3/m128 into xmm1.
 
 VEX.NDS.128.66.0F.WIG 61/r
 VPUNPCKLWD xmm1,xmm2, xmm3/m128
-RVM V/V AVX 
+RVM V/V AVX
 Interleave low-order words from xmm2 and
  xmm3/m128 into xmm1.
 
 VEX.NDS.128.66.0F.WIG 62/r
 VPUNPCKLDQ xmm1, xmm2, xmm3/m128
-RVM V/V AVX 
+RVM V/V AVX
 Interleave low-order doublewords from xmm2
  and xmm3/m128 into xmm1.
 
 VEX.NDS.128.66.0F.WIG 6C/r
 VPUNPCKLQDQ xmm1, xmm2, xmm3/m128
-RVM V/V AVX 
+RVM V/V AVX
 Interleave low-order quadword from xmm2
  and xmm3/m128 into xmm1 register.
 
 VEX.NDS.256.66.0F.WIG 60 /r
 VPUNPCKLBW ymm1, ymm2, ymm3/m256
-RVM V/V AVX2 
+RVM V/V AVX2
 Interleave low-order bytes from ymm2 and
  ymm3/m256 into ymm1 register.
 
 VEX.NDS.256.66.0F.WIG 61 /r
 VPUNPCKLWD ymm1, ymm2, ymm3/m256
-RVM V/V AVX2 
+RVM V/V AVX2
 Interleave low-order words from ymm2 and
  ymm3/m256 into ymm1 register.
 
 VEX.NDS.256.66.0F.WIG 62 /r
 VPUNPCKLDQ ymm1, ymm2, ymm3/m256
-RVM V/V AVX2 
+RVM V/V AVX2
 Interleave low-order doublewords from ymm2
  and ymm3/m256 into ymm1 register.
 
 VEX.NDS.256.66.0F.WIG 6C /r
 VPUNPCKLQDQ ymm1, ymm2, ymm3/m256
-RVM V/V AVX2 
+RVM V/V AVX2
 Interleave low-order quadword from ymm2
  and ymm3/m256 into ymm1 register.
 
@@ -268,79 +269,79 @@ PUSH—Push Word, Doubleword or Quadword Onto the Stack
 Opcode* Instruction Op/ 64-Bit Compat/ Description
                     En Mode Leg Mode
 
-FF /6 
-PUSH r/m16 
-M Valid Valid 
+FF /6
+PUSH r/m16
+M Valid Valid
 Push r/m16.
 
-FF /6 
-PUSH r/m32 
-M N.E. Valid 
+FF /6
+PUSH r/m32
+M N.E. Valid
 Push r/m32.
 
-FF /6 
-PUSH r/m64 
-M Valid N.E. 
+FF /6
+PUSH r/m64
+M Valid N.E.
 Push r/m64.
 
-50+rw 
-PUSH r16 
-O Valid Valid 
+50+rw
+PUSH r16
+O Valid Valid
 Push r16.
 
-50+rd 
-PUSH r32 
-O N.E. Valid 
+50+rd
+PUSH r32
+O N.E. Valid
 Push r32.
 
-50+rd 
-PUSH r64 
-O Valid N.E. 
+50+rd
+PUSH r64
+O Valid N.E.
 Push r64.
 
-6A ib 
-PUSH imm8 
-I Valid Valid 
+6A ib
+PUSH imm8
+I Valid Valid
 Push imm8.
 
-68 iw 
-PUSH imm16 
-I Valid Valid 
+68 iw
+PUSH imm16
+I Valid Valid
 Push imm16.
 
-68 id 
-PUSH imm32 
-I Valid Valid 
+68 id
+PUSH imm32
+I Valid Valid
 Push imm32.
 
-0E 
-PUSH CS 
-NP Invalid Valid 
+0E
+PUSH CS
+NP Invalid Valid
 Push CS.
 
-16 
-PUSH SS 
-NP Invalid Valid 
+16
+PUSH SS
+NP Invalid Valid
 Push SS.
 
-1E 
-PUSH DS 
-NP Invalid Valid 
+1E
+PUSH DS
+NP Invalid Valid
 Push DS.
 
-06 
-PUSH ES 
-NP Invalid Valid 
+06
+PUSH ES
+NP Invalid Valid
 Push ES.
 
-0F A0 
-PUSH FS 
-NP Valid Valid 
+0F A0
+PUSH FS
+NP Valid Valid
 Push FS.
 
-0F A8 
-PUSH GS 
-NP Valid Valid 
+0F A8
+PUSH GS
+NP Valid Valid
 Push GS.
 
 NOTES:
@@ -398,14 +399,14 @@ PUSHA/PUSHAD—Push All General-Purpose Registers
 Opcode Instruction Op/ 64-Bit Compat/ Description
                    En Mode Leg Mode
 
-60 
-PUSHA 
-NP Invalid Valid 
+60
+PUSHA
+NP Invalid Valid
 Push AX, CX, DX, BX, original SP, BP, SI, and DI.
 
-60 
-PUSHAD 
-NP Invalid Valid 
+60
+PUSHAD
+NP Invalid Valid
 Push EAX, ECX, EDX, EBX, original ESP, EBP,
  ESI, and EDI.
 
@@ -467,19 +468,19 @@ PUSHF/PUSHFD—Push EFLAGS Register onto the Stack
 Opcode Instruction Op/ 64-Bit Compat/ Description
                     En Mode Leg Mode
 
-9C 
-PUSHF 
-NP Valid Valid 
+9C
+PUSHF
+NP Valid Valid
 Push lower 16 bits of EFLAGS.
 
-9C 
-PUSHFD 
-NP N.E. Valid 
+9C
+PUSHFD
+NP N.E. Valid
 Push EFLAGS.
 
-9C 
-PUSHFQ 
-NP Valid N.E. 
+9C
+PUSHFQ
+NP Valid N.E.
 Push RFLAGS.
 
 Instruction Operand Encoding
@@ -540,27 +541,27 @@ None.
 PXOR—Logical Exclusive OR
 
 Opcode/ Op/ 64/32 bit CPUID Description
-Instruction En Mode Feature 
-               Support Flag 
+Instruction En Mode Feature
+               Support Flag
 
-0F EF /r 
+0F EF /r
 PXOR mm, mm/m64
-RM V/V MMX 
+RM V/V MMX
 Bitwise XOR of mm/m64 and mm.
 
 66 0F EF /r
 PXOR xmm1, xmm2/m128
-RM V/V SSE2 
+RM V/V SSE2
 Bitwise XOR of xmm2/m128 and xmm1.
 
-VEX.NDS.128.66.0F.WIG EF /r 
-VPXOR xmm1, xmm2, xmm3/m128 
-RVM V/V AVX 
+VEX.NDS.128.66.0F.WIG EF /r
+VPXOR xmm1, xmm2, xmm3/m128
+RVM V/V AVX
 Bitwise XOR of xmm3/m128 and xmm2.
 
-VEX.NDS.256.66.0F.WIG EF /r 
-VPXOR ymm1, ymm2, ymm3/m256 
-RVM V/V AVX2 
+VEX.NDS.256.66.0F.WIG EF /r
+VPXOR ymm1, ymm2, ymm3/m256
+RVM V/V AVX2
 Bitwise XOR of ymm3/m256 and ymm2.
 
 NOTES:
@@ -604,4 +605,3 @@ DEST[VLMAX-1:128]  0
 VPXOR (VEX.256 encoded version)
 DEST  SRC1 XOR SRC2
 ---------------------------------------------------------------------
-

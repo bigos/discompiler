@@ -3,15 +3,15 @@ BOUND—Check Array Index Against Bounds
 Opcode/Instruction Op/ 64-bit Compat/ Description
                    En  Mode   Leg Mode
 
-62 /r 
-BOUND r16, m16&16 
-RM Invalid Valid 
+62 /r
+BOUND r16, m16&16
+RM Invalid Valid
 Check if r16 (array index) is within bounds
  specified by m16&16.
 
-62 /r 
-BOUND r32, m32&32 
-RM Invalid Valid 
+62 /r
+BOUND r32, m32&32
+RM Invalid Valid
 Check if r32 (array index) is within bounds
  specified by m16&16.
 
@@ -53,19 +53,19 @@ BSF—Bit Scan Forward
 Opcode Instruction Op/ 64-bit Compat/ Description
                    En  Mode   Leg Mode
 
-0F BC /r 
-BSF r16, r/m16 
-RM Valid Valid 
+0F BC /r
+BSF r16, r/m16
+RM Valid Valid
 Bit scan forward on r/m16.
 
-0F BC /r 
-BSF r32, r/m32 
-RM Valid Valid 
+0F BC /r
+BSF r32, r/m32
+RM Valid Valid
 Bit scan forward on r/m32.
 
-REX.W + 0F BC /r 
-BSF r64, r/m64 
-RM Valid N.E. 
+REX.W + 0F BC /r
+BSF r64, r/m64
+RM Valid N.E.
 Bit scan forward on r/m64.
 
 Instruction Operand Encoding
@@ -104,19 +104,20 @@ BSR—Bit Scan Reverse
 
 Opcode Instruction Op/ 64-bit Compat/ Description
                    En  Mode   Leg Mode
-0F BD /r 
-BSR r16, r/m16 
-RM Valid Valid 
+
+0F BD /r
+BSR r16, r/m16
+RM Valid Valid
 Bit scan reverse on r/m16.
 
-0F BD /r 
-BSR r32, r/m32 
-RM Valid Valid 
+0F BD /r
+BSR r32, r/m32
+RM Valid Valid
 Bit scan reverse on r/m32.
 
-REX.W + 0F BD /r 
-BSR r64, r/m64 
-RM Valid N.E. 
+REX.W + 0F BD /r
+BSR r64, r/m64
+RM Valid N.E.
 Bit scan reverse on r/m64.
 
 Instruction Operand Encoding
@@ -156,14 +157,14 @@ BSWAP—Byte Swap
 Opcode Instruction Op/ 64-bit Compat/ Description
                    En  Mode   Leg Mode
 
-0F C8+rd 
-BSWAP r32 
-O Valid Valid 
+0F C8+rd
+BSWAP r32
+O Valid Valid
 Reverses the byte order of a 32-bit register.
 
-REX.W + 0F C8+rd 
-BSWAP r64 
-O Valid N.E. 
+REX.W + 0F C8+rd
+BSWAP r64
+O Valid N.E.
 Reverses the byte order of a 64-bit register.
 
 NOTES:
@@ -213,34 +214,34 @@ BT—Bit Test
 Opcode Instruction Op/ 64-bit Compat/ Description
                    En  Mode   Leg Mode
 
-0F A3 /r 
-BT r/m16, r16 
-MR Valid Valid 
+0F A3 /r
+BT r/m16, r16
+MR Valid Valid
 Store selected bit in CF flag.
 
-0F A3 /r 
-BT r/m32, r32 
-MR Valid Valid 
+0F A3 /r
+BT r/m32, r32
+MR Valid Valid
 Store selected bit in CF flag.
 
-REX.W + 0F A3 /r 
-BT r/m64, r64 
-MR Valid N.E. 
+REX.W + 0F A3 /r
+BT r/m64, r64
+MR Valid N.E.
 Store selected bit in CF flag.
 
-0F BA /4 ib 
-BT r/m16, imm8 
-MI Valid Valid 
+0F BA /4 ib
+BT r/m16, imm8
+MI Valid Valid
 Store selected bit in CF flag.
 
-0F BA /4 ib 
-BT r/m32, imm8 
-MI Valid Valid 
+0F BA /4 ib
+BT r/m32, imm8
+MI Valid Valid
 Store selected bit in CF flag.
 
-REX.W + 0F BA /4 ib 
-BT r/m64, imm8 
-MI Valid N.E. 
+REX.W + 0F BA /4 ib
+BT r/m64, imm8
+MI Valid N.E.
 Store selected bit in CF flag.
 
 Instruction Operand Encoding
@@ -291,34 +292,34 @@ BTC—Bit Test and Complement
 Opcode Instruction Op/ 64-bit Compat/ Description
                    En  Mode   Leg Mode
 
-0F BB /r 
-BTC r/m16, r16 
-MR Valid Valid 
+0F BB /r
+BTC r/m16, r16
+MR Valid Valid
 Store selected bit in CF flag and complement.
 
-0F BB /r 
-BTC r/m32, r32 
-MR Valid Valid 
+0F BB /r
+BTC r/m32, r32
+MR Valid Valid
 Store selected bit in CF flag and complement.
 
-REX.W + 0F BB /r 
-BTC r/m64, r64 
-MR Valid N.E. 
+REX.W + 0F BB /r
+BTC r/m64, r64
+MR Valid N.E.
 Store selected bit in CF flag and complement.
 
-0F BA /7 ib 
-BTC r/m16, imm8 
-MI Valid Valid 
+0F BA /7 ib
+BTC r/m16, imm8
+MI Valid Valid
 Store selected bit in CF flag and complement.
 
-0F BA /7 ib 
-BTC r/m32, imm8 
-MI Valid Valid 
+0F BA /7 ib
+BTC r/m32, imm8
+MI Valid Valid
 Store selected bit in CF flag and complement.
 
-REX.W + 0F BA /7 ib 
-BTC r/m64, imm8 
-MI Valid N.E. 
+REX.W + 0F BA /7 ib
+BTC r/m64, imm8
+MI Valid N.E.
 Store selected bit in CF flag and complement.
 
 Instruction Operand Encoding
@@ -360,34 +361,34 @@ BTR—Bit Test and Reset
 Opcode Instruction Op/ 64-bit Compat/ Description
                    En  Mode   Leg Mode
 
-0F B3 /r 
-BTR r/m16, r16 
-MR Valid Valid 
+0F B3 /r
+BTR r/m16, r16
+MR Valid Valid
 Store selected bit in CF flag and clear.
 
-0F B3 /r 
-BTR r/m32, r32 
-MR Valid Valid 
+0F B3 /r
+BTR r/m32, r32
+MR Valid Valid
 Store selected bit in CF flag and clear.
 
-REX.W + 0F B3 /r 
-BTR r/m64, r64 
-MR Valid N.E. 
+REX.W + 0F B3 /r
+BTR r/m64, r64
+MR Valid N.E.
 Store selected bit in CF flag and clear.
 
-0F BA /6 ib 
-BTR r/m16, imm8 
-MI Valid Valid 
+0F BA /6 ib
+BTR r/m16, imm8
+MI Valid Valid
 Store selected bit in CF flag and clear.
 
-0F BA /6 ib 
-BTR r/m32, imm8 
-MI Valid Valid 
+0F BA /6 ib
+BTR r/m32, imm8
+MI Valid Valid
 Store selected bit in CF flag and clear.
 
-REX.W + 0F BA /6 ib 
-BTR r/m64, imm8 
-MI Valid N.E. 
+REX.W + 0F BA /6 ib
+BTR r/m64, imm8
+MI Valid N.E.
 Store selected bit in CF flag and clear.
 
 Instruction Operand Encoding
@@ -429,34 +430,34 @@ BTS—Bit Test and Set
 Opcode Instruction Op/ 64-bit Compat/ Description
                    En  Mode   Leg Mode
 
-0F AB /r 
-BTS r/m16, r16 
-MR Valid Valid 
+0F AB /r
+BTS r/m16, r16
+MR Valid Valid
 Store selected bit in CF flag and set.
 
-0F AB /r 
-BTS r/m32, r32 
-MR Valid Valid 
+0F AB /r
+BTS r/m32, r32
+MR Valid Valid
 Store selected bit in CF flag and set.
 
-REX.W + 0F AB /r 
-BTS r/m64, r64 
-MR Valid N.E. 
+REX.W + 0F AB /r
+BTS r/m64, r64
+MR Valid N.E.
 Store selected bit in CF flag and set.
 
-0F BA /5 ib 
-BTS r/m16, imm8 
-MI Valid Valid 
+0F BA /5 ib
+BTS r/m16, imm8
+MI Valid Valid
 Store selected bit in CF flag and set.
 
-0F BA /5 ib 
-BTS r/m32, imm8 
-MI Valid Valid 
+0F BA /5 ib
+BTS r/m32, imm8
+MI Valid Valid
 Store selected bit in CF flag and set.
 
-REX.W + 0F BA /5 ib 
-BTS r/m64, imm8 
-MI Valid N.E. 
+REX.W + 0F BA /5 ib
+BTS r/m64, imm8
+MI Valid N.E.
 Store selected bit in CF flag and set.
 
 Instruction Operand Encoding
@@ -499,13 +500,13 @@ Opcode/     Op/ 64/32      CPUID         Description
 Instruction En  -bit Mode  Feature Flag
 
 
-VEX.NDS1.LZ.0F38.W0 F5 /r 
-BZHI r32a, r/m32, r32b 
+VEX.NDS1.LZ.0F38.W0 F5 /r
+BZHI r32a, r/m32, r32b
 RMV V/V BMI2
 Zero bits in r/m32 starting with the position in r32b, write result to r32a.
 
-VEX.NDS1.LZ.0F38.W1 F5 /r 
-BZHI r64a, r/m64, r64b 
+VEX.NDS1.LZ.0F38.W1 F5 /r
+BZHI r64a, r/m64, r64b
 RMV V/N.E. BMI2
 Zero bits in r/m64 starting with the position in r64b, write result to r64a.
 
@@ -542,4 +543,3 @@ FI
 Flags Affected
 ZF, CF and SF flags are updated based on the result. OF flag is cleared. AF and PF flags are undefined.
 ---------------------------------------------------------------------
-

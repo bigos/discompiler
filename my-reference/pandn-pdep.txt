@@ -2,27 +2,27 @@ PANDN—Logical AND NOT
 
 Opcode/ Op/ 64/32 bit CPUID Description
 
-Instruction En Mode Feature 
-               Support Flag 
+Instruction En Mode Feature
+               Support Flag
 
-0F DF /r 
+0F DF /r
 PANDN mm, mm/m64
-RM V/V MMX 
+RM V/V MMX
 Bitwise AND NOT of mm/m64 and mm.
 
 66 0F DF /r
 PANDN xmm1, xmm2/m128
-RM V/V SSE2 
+RM V/V SSE2
 Bitwise AND NOT of xmm2/m128 and xmm1.
 
 VEX.NDS.128.66.0F.WIG DF /r
 VPANDN xmm1, xmm2, xmm3/m128
-RVM V/V AVX 
+RVM V/V AVX
 Bitwise AND NOT of xmm3/m128 and xmm2.
 
 VEX.NDS.256.66.0F.WIG DF /r
 VPANDN ymm1, ymm2, ymm3/m256
-RVM V/V AVX2 
+RVM V/V AVX2
 Bitwise AND NOT of ymm2, and ymm3/m256
  and store result in ymm1.
 
@@ -71,7 +71,7 @@ Opcode Instruction Op/ 64-Bit Compat/ Description
                    En Mode Leg Mode
 
 F3 90
-PAUSE 
+PAUSE
 NP Valid Valid
 Gives hint to processor that improves
 performance of spin-wait loops.
@@ -104,55 +104,55 @@ Execute_Next_Instruction(DELAY);
 PAVGB/PAVGW—Average Packed Integers
 
 Opcode/ Op/ 64/32 bit CPUID Description
-Instruction En Mode Feature 
-               Support Flag 
+Instruction En Mode Feature
+               Support Flag
 
-0F E0 /r 
+0F E0 /r
 PAVGB mm1, mm2/m64
-RM V/V SSE 
+RM V/V SSE
 Average packed unsigned byte integers from
  mm2/m64 and mm1 with rounding.
 
 66 0F E0, /r
 PAVGB xmm1, xmm2/m128
-RM V/V SSE2 
+RM V/V SSE2
 Average packed unsigned byte integers from
  xmm2/m128 and xmm1 with rounding.
 
 0F E3 /r
 PAVGW mm1, mm2/m64
-RM V/V SSE 
+RM V/V SSE
 Average packed unsigned word integers from
  mm2/m64 and mm1 with rounding.
 
 66 0F E3 /r
 PAVGW xmm1, xmm2/m128
-RM V/V SSE2 
+RM V/V SSE2
 Average packed unsigned word integers from
  xmm2/m128 and xmm1 with rounding.
 
 VEX.NDS.128.66.0F.WIG E0 /r
 VPAVGB xmm1, xmm2, xmm3/m128
-RVM V/V AVX 
+RVM V/V AVX
 Average packed unsigned byte integers from
  xmm3/m128 and xmm2 with rounding.
 
 VEX.NDS.128.66.0F.WIG E3 /r
 VPAVGW xmm1, xmm2, xmm3/m128
-RVM V/V AVX 
+RVM V/V AVX
 Average packed unsigned word integers from
  xmm3/m128 and xmm2 with rounding.
 
 VEX.NDS.256.66.0F.WIG E0 /r
 VPAVGB ymm1, ymm2, ymm3/m256
-RVM V/V AVX2 
+RVM V/V AVX2
 Average packed unsigned byte integers from
  ymm2, and ymm3/m256 with rounding and
  store to ymm1.
 
 VEX.NDS.256.66.0F.WIG E3 /r
 VPAVGW ymm1, ymm2, ymm3/m256
-RVM V/V AVX2 
+RVM V/V AVX2
 Average packed unsigned word integers from
  ymm2, ymm3/m256 with rounding to ymm1.
 
@@ -226,28 +226,28 @@ DEST[255:14])  (SRC1[255:240] + SRC2[255:240] + 1) >> 1;
 PBLENDVB — Variable Blend Packed Bytes
 
 Opcode/ Op/ 64/32 bit CPUID Description
-Instruction En Mode Feature 
-               Support Flag 
+Instruction En Mode Feature
+               Support Flag
 
-66 0F 38 10 /r 
-PBLENDVB xmm1, xmm2/m128, <XMM0> 
-RM V/V SSE4_1 
+66 0F 38 10 /r
+PBLENDVB xmm1, xmm2/m128, <XMM0>
+RM V/V SSE4_1
 Select byte values from xmm1 and
  xmm2/m128 from mask specified in the high
  bit of each byte in XMM0 and store the
  values into xmm1.
 
-VEX.NDS.128.66.0F3A.W0 4C /r /is4 
-VPBLENDVB xmm1, xmm2, xmm3/m128, xmm4 
-RVMR V/V AVX 
+VEX.NDS.128.66.0F3A.W0 4C /r /is4
+VPBLENDVB xmm1, xmm2, xmm3/m128, xmm4
+RVMR V/V AVX
 Select byte values from xmm2 and
  xmm3/m128 using mask bits in the specified
  mask register, xmm4, and store the values
  into xmm1.
 
-VEX.NDS.256.66.0F3A.W0 4C /r /is4 
-VPBLENDVB ymm1, ymm2, ymm3/m256, ymm4 
-RVMR V/V AVX2 
+VEX.NDS.256.66.0F3A.W0 4C /r /is4
+VPBLENDVB ymm1, ymm2, ymm3/m256, ymm4
+RVMR V/V AVX2
 Select byte values from ymm2 and
  ymm3/m256 from mask specified in the high
  bit of each byte in ymm4 and store the
@@ -285,26 +285,26 @@ VEX prefix will cause a #UD exception.
 PBLENDW — Blend Packed Words
 
 Opcode/ Op/ 64/32 bit CPUID Description
-Instruction En Mode Feature 
-               Support Flag 
+Instruction En Mode Feature
+               Support Flag
 
-66 0F 3A 0E /r ib 
-PBLENDW xmm1, xmm2/m128, imm8 
-RMI V/V SSE4_1 
+66 0F 3A 0E /r ib
+PBLENDW xmm1, xmm2/m128, imm8
+RMI V/V SSE4_1
 Select words from xmm1 and xmm2/m128
  from mask specified in imm8 and store the
  values into xmm1.
 
-VEX.NDS.128.66.0F3A.WIG 0E /r ib 
-VPBLENDW xmm1, xmm2, xmm3/m128, imm8 
-RVMI V/V AVX 
+VEX.NDS.128.66.0F3A.WIG 0E /r ib
+VPBLENDW xmm1, xmm2, xmm3/m128, imm8
+RVMI V/V AVX
 Select words from xmm2 and xmm3/m128
  from mask specified in imm8 and store the
  values into xmm1.
 
-VEX.NDS.256.66.0F3A.WIG 0E /r ib 
-VPBLENDW ymm1, ymm2, ymm3/m256, imm8 
-RVMI V/V AVX2 
+VEX.NDS.256.66.0F3A.WIG 0E /r ib
+VPBLENDW ymm1, ymm2, ymm3/m256, imm8
+RVMI V/V AVX2
 Select words from ymm2 and ymm3/m256
  from mask specified in imm8 and store the
  values into ymm1.
@@ -333,20 +333,20 @@ or a 256-bit memory location. The destination operand is a YMM register.
 PCLMULQDQ - Carry-Less Multiplication Quadword
 
 Opcode/ Op/ 64/32 bit CPUID Description
-Instruction En Mode Feature 
-               Support Flag 
+Instruction En Mode Feature
+               Support Flag
 
-66 0F 3A 44 /r ib 
-PCLMULQDQ xmm1, xmm2/m128, imm8 
-RMI V/V CLMUL 
+66 0F 3A 44 /r ib
+PCLMULQDQ xmm1, xmm2/m128, imm8
+RMI V/V CLMUL
 Carry-less multiplication of one quadword of
  xmm1 by one quadword of xmm2/m128,
  stores the 128-bit result in xmm1. The imme-
  diate is used to determine which quadwords
  of xmm1 and xmm2/m128 should be used.
 
-VEX.NDS.128.66.0F3A.WIG 44 /r ib 
-VPCLMULQDQ xmm1, xmm2, xmm3/m128, imm8 
+VEX.NDS.128.66.0F3A.WIG 44 /r ib
+VPCLMULQDQ xmm1, xmm2, xmm3/m128, imm8
 RVMI V/V Both CLMUL and AVX flags
 Carry-less multiplication of one quadword of
  xmm2 by one quadword of xmm3/m128,
@@ -368,78 +368,78 @@ use according to Table 4-10, other bits of the immediate byte are ignored.
 PCMPEQB/PCMPEQW/PCMPEQD— Compare Packed Data for Equal
 
 Opcode/ Op/ 64/32 bit CPUID Description
-Instruction En Mode Feature 
-               Support Flag 
+Instruction En Mode Feature
+               Support Flag
 
-0F 74 /r 
+0F 74 /r
 PCMPEQB mm, mm/m64
-RM V/V MMX 
+RM V/V MMX
 Compare packed bytes in mm/m64 and mm
  for equality.
 
 66 0F 74 /r
 PCMPEQB xmm1, xmm2/m128
-RM V/V SSE2 
+RM V/V SSE2
 Compare packed bytes in xmm2/m128 and
  xmm1 for equality.
 
 0F 75 /r
 PCMPEQW mm, mm/m64
-RM V/V MMX 
+RM V/V MMX
 Compare packed words in mm/m64 and mm
  for equality.
 
 66 0F 75 /r
 PCMPEQW xmm1, xmm2/m128
-RM V/V SSE2 
+RM V/V SSE2
 Compare packed words in xmm2/m128 and
  xmm1 for equality.
 
 0F 76 /r
 PCMPEQD mm, mm/m64
-RM V/V MMX 
+RM V/V MMX
 Compare packed doublewords in mm/m64 and
  mm for equality.
 
 66 0F 76 /r
 PCMPEQD xmm1, xmm2/m128
-RM V/V SSE2 
+RM V/V SSE2
 Compare packed doublewords in xmm2/m128
  and xmm1 for equality.
 
 VEX.NDS.128.66.0F.WIG 74 /r
 VPCMPEQB xmm1, xmm2, xmm3/m128
-RVM V/V AVX 
+RVM V/V AVX
 Compare packed bytes in xmm3/m128 and
  xmm2 for equality.
 
 VEX.NDS.128.66.0F.WIG 75 /r
 VPCMPEQW xmm1, xmm2, xmm3/m128
-RVM V/V AVX 
+RVM V/V AVX
 Compare packed words in xmm3/m128 and
  xmm2 for equality.
 
 VEX.NDS.128.66.0F.WIG 76 /r
 VPCMPEQD xmm1, xmm2, xmm3/m128
-RVM V/V AVX 
+RVM V/V AVX
 Compare packed doublewords in xmm3/m128
  and xmm2 for equality.
 
 VEX.NDS.256.66.0F.WIG 75 /r
 VPCMPEQW ymm1, ymm2, ymm3 /m256
-RVM V/V AVX2 
+RVM V/V AVX2
 Compare packed words in ymm3/m256 and
  ymm2 for equality.
 
 VEX.NDS.256.66.0F.WIG 76 /r
 VPCMPEQD ymm1, ymm2, ymm3 /m256
-RVM V/V AVX2 
+RVM V/V AVX2
 Compare packed doublewords in ymm3/m256
  and ymm2 for equality.
 
 VEX.NDS.256.66.0F38.WIG 29 /r
 VPCMPEQQ ymm1, ymm2, ymm3 /m256
-RVM V/V AVX2 
+RVM V/V AVX2
 Compare packed quadwords in ymm3/m256
  and ymm2 for equality.
 
@@ -465,24 +465,24 @@ The (V)PCMPEQB instruction compares the corresponding bytes in the destination a
 PCMPEQQ — Compare Packed Qword Data for Equal
 
 Opcode/ Op/ 64/32 bit CPUID Description
-Instruction En Mode Feature 
-               Support Flag 
+Instruction En Mode Feature
+               Support Flag
 
-66 0F 38 29 /r 
-PCMPEQQ xmm1, xmm2/m128 
-RM V/V SSE4_1 
+66 0F 38 29 /r
+PCMPEQQ xmm1, xmm2/m128
+RM V/V SSE4_1
 Compare packed qwords in xmm2/m128 and
  xmm1 for equality.
 
-VEX.NDS.128.66.0F38.WIG 29 /r 
-VPCMPEQQ xmm1, xmm2, xmm3/m128 
-RVM V/V AVX 
+VEX.NDS.128.66.0F38.WIG 29 /r
+VPCMPEQQ xmm1, xmm2, xmm3/m128
+RVM V/V AVX
 Compare packed quadwords in xmm3/m128
  and xmm2 for equality.
 
-VEX.NDS.256.66.0F38.WIG 29 /r 
-VPCMPEQQ ymm1, ymm2, ymm3 /m256 
-RVM V/V AVX2 
+VEX.NDS.256.66.0F38.WIG 29 /r
+VPCMPEQQ ymm1, ymm2, ymm3 /m256
+RVM V/V AVX2
 Compare packed quadwords in ymm3/m256
  and ymm2 for equality.
 
@@ -523,19 +523,19 @@ DEST[255:128] COMPARE_QWORDS_EQUAL(SRC1[255:128],SRC2[255:128])
 PCMPESTRI — Packed Compare Explicit Length Strings, Return Index
 
 Opcode/ Op/ 64/32 bit CPUID Description
-Instruction En Mode Feature 
-               Support Flag 
+Instruction En Mode Feature
+               Support Flag
 
-66 0F 3A 61 /r imm8 
-PCMPESTRI xmm1, xmm2/m128, imm8 
-RMI V/V SSE4_2 
+66 0F 3A 61 /r imm8
+PCMPESTRI xmm1, xmm2/m128, imm8
+RMI V/V SSE4_2
 Perform a packed comparison of string data
  with explicit lengths, generating an index, and
  storing the result in ECX.
 
-VEX.128.66.0F3A.WIG 61 /r ib 
-VPCMPESTRI xmm1, xmm2/m128, imm8 
-RMI V/V AVX 
+VEX.128.66.0F3A.WIG 61 /r ib
+VPCMPESTRI xmm1, xmm2/m128, imm8
+RMI V/V AVX
 Perform a packed comparison of string data
  with explicit lengths, generating an index, and
  storing the result in ECX.
@@ -563,19 +563,19 @@ in ECX. If no bits are set in IntRes2, ECX is set to 16 (8).
 PCMPESTRM — Packed Compare Explicit Length Strings, Return Mask
 
 Opcode/ Op/ 64/32 bit CPUID Description
-Instruction En Mode Feature 
-               Support Flag 
+Instruction En Mode Feature
+               Support Flag
 
-66 0F 3A 60 /r imm8 
-PCMPESTRM xmm1, xmm2/m128, imm8 
-RMI V/V SSE4_2 
+66 0F 3A 60 /r imm8
+PCMPESTRM xmm1, xmm2/m128, imm8
+RMI V/V SSE4_2
 Perform a packed comparison of string data
  with explicit lengths, generating a mask, and
  storing the result in XMM0
 
-VEX.128.66.0F3A.WIG 60 /r ib 
-VPCMPESTRM xmm1, xmm2/m128, imm8 
-RMI V/V AVX 
+VEX.128.66.0F3A.WIG 60 /r ib
+VPCMPESTRM xmm1, xmm2/m128, imm8
+RMI V/V AVX
 Perform a packed comparison of string data
  with explicit lengths, generating a mask, and
  storing the result in XMM0.
@@ -603,78 +603,78 @@ extended to 128 bits) or expanded into a byte/word-mask and then stored to XMM0.
 PCMPGTB/PCMPGTW/PCMPGTD—Compare Packed Signed Integers for Greater Than
 
 Opcode/ Op/ 64/32 bit CPUID Description
-Instruction En Mode Feature 
-               Support Flag 
+Instruction En Mode Feature
+               Support Flag
 
-0F 64 /r 
+0F 64 /r
 PCMPGTB mm, mm/m64
-RM V/V MMX 
+RM V/V MMX
 Compare packed signed byte integers in mm
  and mm/m64 for greater than.
 
 66 0F 64 /r
 PCMPGTB xmm1, xmm2/m128
-RM V/V SSE2 
+RM V/V SSE2
 Compare packed signed byte integers in xmm1
  and xmm2/m128 for greater than.
 
 0F 65 /r
 PCMPGTW mm, mm/m64
-RM V/V MMX 
+RM V/V MMX
 Compare packed signed word integers in mm
  and mm/m64 for greater than.
 
 66 0F 65 /r
 PCMPGTW xmm1, xmm2/m128
-RM V/V SSE2 
+RM V/V SSE2
 Compare packed signed word integers in
  xmm1 and xmm2/m128 for greater than.
 
 0F 66 /r
 PCMPGTD mm, mm/m64
-RM V/V MMX 
+RM V/V MMX
 Compare packed signed doubleword integers in
  mm and mm/m64 for greater than.
 
 66 0F 66 /r
 PCMPGTD xmm1, xmm2/m128
-RM V/V SSE2 
+RM V/V SSE2
 Compare packed signed doubleword integers in
  xmm1 and xmm2/m128 for greater than.
 
 VEX.NDS.128.66.0F.WIG 64 /r
 VPCMPGTB xmm1, xmm2, xmm3/m128
-RVM V/V AVX 
+RVM V/V AVX
 Compare packed signed byte integers in xmm2
  and xmm3/m128 for greater than.
 
 VEX.NDS.128.66.0F.WIG 65 /r
 VPCMPGTW xmm1, xmm2, xmm3/m128
-RVM V/V AVX 
+RVM V/V AVX
 Compare packed signed word integers in
  xmm2 and xmm3/m128 for greater than.
 
 VEX.NDS.128.66.0F.WIG 66 /r
 VPCMPGTD xmm1, xmm2, xmm3/m128
-RVM V/V AVX 
+RVM V/V AVX
 Compare packed signed doubleword integers in
  xmm2 and xmm3/m128 for greater than.
 
 VEX.NDS.256.66.0F.WIG 64 /r
 VPCMPGTB ymm1, ymm2, ymm3/m256
-RVM V/V AVX2 
+RVM V/V AVX2
 Compare packed signed byte integers in ymm2
  and ymm3/m256 for greater than.
 
 VEX.NDS.256.66.0F.WIG 65 /r
 VPCMPGTW ymm1, ymm2, ymm3/m256
-RVM V/V AVX2 
+RVM V/V AVX2
 Compare packed signed word integers in ymm2
  and ymm3/m256 for greater than.
 
 VEX.NDS.256.66.0F.WIG 66 /r
 VPCMPGTD ymm1, ymm2, ymm3/m256
-RVM V/V AVX2 
+RVM V/V AVX2
 Compare packed signed doubleword integers in
  ymm2 and ymm3/m256 for greater than.
 
@@ -700,24 +700,24 @@ ands; the PCMPGTW instruction compares the corresponding signed word integers in
 PCMPGTQ — Compare Packed Data for Greater Than
 
 Opcode/ Op/ 64/32 bit CPUID Description
-Instruction En Mode Feature 
-               Support Flag 
+Instruction En Mode Feature
+               Support Flag
 
-66 0F 38 37 /r 
-PCMPGTQ xmm1,xmm2/m128 
-RM V/V SSE4_2 
+66 0F 38 37 /r
+PCMPGTQ xmm1,xmm2/m128
+RM V/V SSE4_2
 Compare packed signed qwords in
  xmm2/m128 and xmm1 for greater than.
 
-VEX.NDS.128.66.0F38.WIG 37 /r 
-VPCMPGTQ xmm1, xmm2, xmm3/m128 
-RVM V/V AVX 
+VEX.NDS.128.66.0F38.WIG 37 /r
+VPCMPGTQ xmm1, xmm2, xmm3/m128
+RVM V/V AVX
 Compare packed signed qwords in xmm2 and
  xmm3/m128 for greater than.
 
-VEX.NDS.256.66.0F38.WIG 37 /r 
-VPCMPGTQ ymm1, ymm2, ymm3/m256 
-RVM V/V AVX2 
+VEX.NDS.256.66.0F38.WIG 37 /r
+VPCMPGTQ ymm1, ymm2, ymm3/m256
+RVM V/V AVX2
 Compare packed signed qwords in ymm2 and
  ymm3/m256 for greater than.
 
@@ -760,19 +760,19 @@ PCMPGTQ — Compare Packed Data for Greater Than
 PCMPISTRI — Packed Compare Implicit Length Strings, Return Index
 
 Opcode/ Op/ 64/32 bit CPUID Description
-Instruction En Mode Feature 
-               Support Flag 
+Instruction En Mode Feature
+               Support Flag
 
-66 0F 3A 63 /r imm8 
-PCMPISTRI xmm1, xmm2/m128, imm8 
-RM V/V SSE4_2 
+66 0F 3A 63 /r imm8
+PCMPISTRI xmm1, xmm2/m128, imm8
+RM V/V SSE4_2
 Perform a packed comparison of string data
  with implicit lengths, generating an index, and
  storing the result in ECX.
 
-VEX.128.66.0F3A.WIG 63 /r ib 
-VPCMPISTRI xmm1, xmm2/m128, imm8 
-RM V/V AVX 
+VEX.128.66.0F3A.WIG 63 /r ib
+VPCMPISTRI xmm1, xmm2/m128, imm8
+RM V/V AVX
 Perform a packed comparison of string data
  with implicit lengths, generating an index, and
  storing the result in ECX.
@@ -797,19 +797,19 @@ are set in IntRes2, ECX is set to 16 (8).
 PCMPISTRM — Packed Compare Implicit Length Strings, Return Mask
 
 Opcode/ Op/ 64/32 bit CPUID Description
-Instruction En Mode Feature 
-               Support Flag 
+Instruction En Mode Feature
+               Support Flag
 
-66 0F 3A 62 /r imm8 
-PCMPISTRM xmm1, xmm2/m128, imm8 
-RM V/V SSE4_2 
+66 0F 3A 62 /r imm8
+PCMPISTRM xmm1, xmm2/m128, imm8
+RM V/V SSE4_2
 Perform a packed comparison of string data
  with implicit lengths, generating a mask, and
  storing the result in XMM0.
 
-VEX.128.66.0F3A.WIG 62 /r ib 
+VEX.128.66.0F3A.WIG 62 /r ib
 VPCMPISTRM xmm1, xmm2/m128, imm8
-RM V/V AVX 
+RM V/V AVX
 Perform a packed comparison of string data
  with implicit lengths, generating a Mask, and
  storing the result in XMM0.
@@ -839,14 +839,14 @@ Description
 64/32 CPUID
     -bit Feature
     Mode Flag
-    
-VEX.NDS.LZ.F2.0F38.W0 F5 /r 
-PDEP r32a, r32b, r/m32 
+
+VEX.NDS.LZ.F2.0F38.W0 F5 /r
+PDEP r32a, r32b, r/m32
 RVM V/V BMI2
 Parallel deposit of bits from r32b using mask in r/m32, result is written to r32a.
 
-VEX.NDS.LZ.F2.0F38.W1 F5 /r 
-PDEP r64a, r64b, r/m64 
+VEX.NDS.LZ.F2.0F38.W1 F5 /r
+PDEP r64a, r64b, r/m64
 RVM V/N.E. BMI2
 Parallel deposit of bits from r64b using mask in r/m64, result is writ-
 ten to r64a.
@@ -861,4 +861,3 @@ in the first source operand (the second operand) into the destination (the first
 from the first source operand and deposit them in the destination operand at the corresponding bit locations that
 are set in the second source operand (mask). All other bits (bits not set in mask) in destination are set to zero.
 ---------------------------------------------------------------------
-

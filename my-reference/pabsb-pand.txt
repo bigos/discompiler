@@ -1,88 +1,88 @@
 PABSB/PABSW/PABSD — Packed Absolute Value
 
 Opcode/ Op/ 64/32 bit CPUID Description
-Instruction En Mode Feature 
-               Support Flag 
+Instruction En Mode Feature
+               Support Flag
 
-0F 38 1C /r 
+0F 38 1C /r
 PABSB mm1, mm2/m64
-RM V/V SSSE3 
+RM V/V SSSE3
 Compute the absolute value of bytes in
  mm2/m64 and store UNSIGNED result in mm1.
 
 66 0F 38 1C /r
 PABSB xmm1, xmm2/m128
-RM V/V SSSE3 
+RM V/V SSSE3
 Compute the absolute value of bytes in
  xmm2/m128 and store UNSIGNED result in
  xmm1.
 
 0F 38 1D /r
 PABSW mm1, mm2/m64
-RM V/V SSSE3 
+RM V/V SSSE3
 Compute the absolute value of 16-bit integers
  in mm2/m64 and store UNSIGNED result in
  mm1.
 
 66 0F 38 1D /r
 PABSW xmm1, xmm2/m128
-RM V/V SSSE3 
+RM V/V SSSE3
 Compute the absolute value of 16-bit integers
  in xmm2/m128 and store UNSIGNED result in
  xmm1.
 
 0F 38 1E /r
 PABSD mm1, mm2/m64
-RM V/V SSSE3 
+RM V/V SSSE3
 Compute the absolute value of 32-bit integers
  in mm2/m64 and store UNSIGNED result in
  mm1.
 
 66 0F 38 1E /r
 PABSD xmm1, xmm2/m128
-RM V/V SSSE3 
+RM V/V SSSE3
 Compute the absolute value of 32-bit integers
  in xmm2/m128 and store UNSIGNED result in
  xmm1.
 
 VEX.128.66.0F38.WIG 1C /r
 VPABSB xmm1, xmm2/m128
-RM V/V AVX 
+RM V/V AVX
 Compute the absolute value of bytes in
  xmm2/m128 and store UNSIGNED result in
  xmm1.
 
 VEX.128.66.0F38.WIG 1D /r
 VPABSW xmm1, xmm2/m128
-RM V/V AVX 
+RM V/V AVX
 Compute the absolute value of 16- bit
  integers in xmm2/m128 and store UNSIGNED
  result in xmm1.
 
 VEX.128.66.0F38.WIG 1E /r
 VPABSD xmm1, xmm2/m128
-RM V/V AVX 
+RM V/V AVX
 Compute the absolute value of 32- bit
  integers in xmm2/m128 and store UNSIGNED
  result in xmm1.
 
-VEX.256.66.0F38.WIG 1C /r 
-VPABSB ymm1, ymm2/m256 ymm2/m256 
-RM V/V AVX2 
+VEX.256.66.0F38.WIG 1C /r
+VPABSB ymm1, ymm2/m256 ymm2/m256
+RM V/V AVX2
 Compute the absolute value of bytes in
  and store UNSIGNED result in
  ymm1.
 
-VEX.256.66.0F38.WIG 1D /r 
+VEX.256.66.0F38.WIG 1D /r
 VPABSW ymm1, ymm2/m256
-RM V/V AVX2 
+RM V/V AVX2
 Compute the absolute value of 16-bit integers
  in ymm2/m256 and store UNSIGNED result in
  ymm1.
 
 VEX.256.66.0F38.WIG 1E /r
 VPABSD ymm1, ymm2/m256
-RM V/V AVX2 
+RM V/V AVX2
 Compute the absolute value of 32-bit integers
  in ymm2/m256 and store UNSIGNED result in
  ymm1.
@@ -174,12 +174,12 @@ Unsigned DEST[255:224]  ABS(SRC[255:224])
 PACKSSWB/PACKSSDW—Pack with Signed Saturation
 
 Opcode/ Op/ 64/32 bit CPUID Description
-Instruction En Mode Feature 
-               Support Flag 
+Instruction En Mode Feature
+               Support Flag
 
-0F 63 /r 
+0F 63 /r
 PACKSSWB mm1, mm2/m64
-RM V/V MMX 
+RM V/V MMX
 Converts 4 packed signed word integers from
  mm1 and from mm2/m64 into 8 packed
  signed byte integers in mm1 using signed
@@ -187,7 +187,7 @@ Converts 4 packed signed word integers from
 
 66 0F 63 /r
 PACKSSWB xmm1, xmm2/m128
-RM V/V SSE2 
+RM V/V SSE2
 Converts 8 packed signed word integers from
  xmm1 and from xxm2/m128 into 16 packed
  signed byte integers in xxm1 using signed
@@ -195,7 +195,7 @@ Converts 8 packed signed word integers from
 
 0F 6B /r
 PACKSSDW mm1, mm2/m64
-RM V/V MMX 
+RM V/V MMX
 Converts 2 packed signed doubleword
  integers from mm1 and from mm2/m64 into 4
  packed signed word integers in mm1 using
@@ -203,7 +203,7 @@ Converts 2 packed signed doubleword
 
 66 0F 6B /r
 PACKSSDW xmm1, xmm2/m128
-RM V/V SSE2 
+RM V/V SSE2
 Converts 4 packed signed doubleword
  integers from xmm1 and from xxm2/m128
  into 8 packed signed word integers in xxm1
@@ -218,7 +218,7 @@ RVM V/V AVX Converts 8 packed signed word integers from
 
 VEX.NDS.128.66.0F.WIG 6B /r
 VPACKSSDW xmm1,xmm2, xmm3/m128
-RVM V/V AVX 
+RVM V/V AVX
 Converts 4 packed signed doubleword
  integers from xmm2 and from xmm3/m128
  into 8 packed signed word integers in xmm1
@@ -226,7 +226,7 @@ Converts 4 packed signed doubleword
 
 VEX.NDS.256.66.0F.WIG 63 /r
 VPACKSSWB ymm1, ymm2, ymm3/m256
-RVM V/V AVX2 
+RVM V/V AVX2
 Converts 16 packed signed word integers
  from ymm2 and from ymm3/m256 into 32
  packed signed byte integers in ymm1 using
@@ -259,30 +259,30 @@ tions. See Figure 4-2 for an example of the packing operation.
 PACKUSDW — Pack with Unsigned Saturation
 
 Opcode/ Op/ 64/32 bit CPUID Description
-Instruction En Mode Feature 
-               Support Flag 
+Instruction En Mode Feature
+               Support Flag
 
-66 0F 38 2B /r 
-PACKUSDW xmm1, xmm2/m128 
-RM V/V SSE4_1 
+66 0F 38 2B /r
+PACKUSDW xmm1, xmm2/m128
+RM V/V SSE4_1
 Convert 4 packed signed doubleword integers
  from xmm1 and 4 packed signed doubleword
  integers from xmm2/m128 into 8 packed
  unsigned word integers in xmm1 using
  unsigned saturation.
 
-VEX.NDS.128.66.0F38.WIG 2B /r 
-VPACKUSDW xmm1, xmm2, xmm3/m128 
-RVM V/V AVX 
+VEX.NDS.128.66.0F38.WIG 2B /r
+VPACKUSDW xmm1, xmm2, xmm3/m128
+RVM V/V AVX
 Convert 4 packed signed doubleword integers
  from xmm2 and 4 packed signed doubleword
  integers from xmm3/m128 into 8 packed
  unsigned word integers in xmm1 using
  unsigned saturation.
 
-VEX.NDS.256.66.0F38.WIG 2B /r 
-VPACKUSDW ymm1, ymm2, ymm3/m256 
-RVM V/V AVX2 
+VEX.NDS.256.66.0F38.WIG 2B /r
+VPACKUSDW ymm1, ymm2, ymm3/m256
+RVM V/V AVX2
 Convert 8 packed signed doubleword integers
  from ymm2 and 8 packed signed doubleword
  integers from ymm3/m128 into 16 packed
@@ -313,12 +313,12 @@ Note: VEX.L must be 0, otherwise the instruction will #UD.
 PACKUSWB—Pack with Unsigned Saturation
 
 Opcode/ Op/ 64/32 bit CPUID Description
-Instruction En Mode Feature 
-               Support Flag 
+Instruction En Mode Feature
+               Support Flag
 
-0F 67 /r 
+0F 67 /r
 PACKUSWB mm, mm/m64
-RM V/V MMX 
+RM V/V MMX
 Converts 4 signed word integers from mm and
  4 signed word integers from mm/m64 into 8
  unsigned byte integers in mm using unsigned
@@ -326,7 +326,7 @@ Converts 4 signed word integers from mm and
 
 66 0F 67 /r
 PACKUSWB xmm1, xmm2/m128
-RM V/V SSE2 
+RM V/V SSE2
 Converts 8 signed word integers from xmm1
  and 8 signed word integers from xmm2/m128
  into 16 unsigned byte integers in xmm1 using
@@ -334,7 +334,7 @@ Converts 8 signed word integers from xmm1
 
 VEX.NDS.128.66.0F.WIG 67 /r
 VPACKUSWB xmm1, xmm2, xmm3/m128
-RVM V/V AVX 
+RVM V/V AVX
 Converts 8 signed word integers from xmm2
  and 8 signed word integers from xmm3/m128
  into 16 unsigned byte integers in xmm1 using
@@ -342,7 +342,7 @@ Converts 8 signed word integers from xmm2
 
 VEX.NDS.256.66.0F.WIG 67 /r
 VPACKUSWB ymm1, ymm2, ymm3/m256
-RVM V/V AVX2 
+RVM V/V AVX2
 Converts 16 signed word integers from ymm2
  and 16signed word integers from
  ymm3/m256 into 32 unsigned byte integers
@@ -381,66 +381,66 @@ or a 256-bit memory location. The destination operand is a YMM register.
 PADDB/PADDW/PADDD—Add Packed Integers
 
 Opcode/ Op/ 64/32 bit CPUID Description
-Instruction En Mode Feature 
-               Support Flag 
+Instruction En Mode Feature
+               Support Flag
 
-0F FC /r 
+0F FC /r
 PADDB mm, mm/m64
-RM V/V MMX 
+RM V/V MMX
 Add packed byte integers from mm/m64 and
  mm.
 
 66 0F FC /r
 PADDB xmm1, xmm2/m128
-RM V/V SSE2 
+RM V/V SSE2
 Add packed byte integers from xmm2/m128
  and xmm1.
 
 0F FD /r
 PADDW mm, mm/m64
-RM V/V MMX 
+RM V/V MMX
 Add packed word integers from mm/m64 and
  mm.
 
 66 0F FD /r
 PADDW xmm1, xmm2/m128
-RM V/V SSE2 
+RM V/V SSE2
 Add packed word integers from xmm2/m128
  and xmm1.
 
 0F FE /r
 PADDD mm, mm/m64
-RM V/V MMX 
+RM V/V MMX
 Add packed doubleword integers from
  mm/m64 and mm.
- 
+
 66 0F FE /r
 PADDD xmm1, xmm2/m128
-RM V/V SSE2 
+RM V/V SSE2
 Add packed doubleword integers from
  xmm2/m128 and xmm1.
 
 VEX.NDS.128.66.0F.WIG FC /r
 VPADDB xmm1, xmm2, xmm3/m128
-RVM V/V AVX 
+RVM V/V AVX
 Add packed byte integers from xmm3/m128
  and xmm2.
 
 VEX.NDS.128.66.0F.WIG FD /r
 VPADDW xmm1, xmm2, xmm3/m128
-RVM V/V AVX 
+RVM V/V AVX
 Add packed word integers from xmm3/m128
  and xmm2.
 
 VEX.NDS.128.66.0F.WIG FE /r
 VPADDD xmm1, xmm2, xmm3/m128
-RVM V/V AVX 
+RVM V/V AVX
 Add packed doubleword integers from
  xmm3/m128 and xmm2.
 
 VEX.NDS.256.66.0F.WIG FC /r
 VPADDB ymm1, ymm2, ymm3/m256
-RVM V/V AVX2 
+RVM V/V AVX2
 Add packed byte integers from ymm2, and
  ymm3/m256 and store in ymm1.
 
@@ -452,7 +452,7 @@ Add packed word integers from ymm2,
 
 VEX.NDS.256.66.0F.WIG FE /r
 VPADDD ymm1, ymm2, ymm3/m256
-RVM V/V AVX2 
+RVM V/V AVX2
 Add packed doubleword integers from ymm2,
  ymm3/m256 and store in ymm1.
 
@@ -496,29 +496,29 @@ Note: VEX.L must be 0, otherwise the instruction will #UD.
 PADDQ—Add Packed Quadword Integers
 
 Opcode/ Op/ 64/32 bit CPUID Description
-Instruction En Mode Feature 
-               Support Flag 
+Instruction En Mode Feature
+               Support Flag
 
 0F D4 /r
 PADDQ mm1, mm2/m64
-RM V/V SSE2 
+RM V/V SSE2
 Add quadword integer mm2/m64 to mm1.
 
 66 0F D4 /r
 PADDQ xmm1, xmm2/m128
-RM V/V SSE2 
+RM V/V SSE2
 Add packed quadword integers xmm2/m128
  to xmm1.
 
 VEX.NDS.128.66.0F.WIG D4 /r
 VPADDQ xmm1, xmm2, xmm3/m128
-RVM V/V AVX 
+RVM V/V AVX
 Add packed quadword integers xmm3/m128
  and xmm2.
 
 VEX.NDS.256.66.0F.WIG D4 /r
 VPADDQ ymm1, ymm2, ymm3/m256
-RVM V/V AVX2 
+RVM V/V AVX2
 Add packed quadword integers from ymm2,
  ymm3/m256 and store in ymm1.
 
@@ -559,57 +559,57 @@ Note: VEX.L must be 0, otherwise the instruction will #UD.
 PADDSB/PADDSW—Add Packed Signed Integers with Signed Saturation
 
 Opcode/ Op/ 64/32 bit CPUID Description
-Instruction En Mode Feature 
-               Support Flag 
+Instruction En Mode Feature
+               Support Flag
 
-0F EC /r 
+0F EC /r
 PADDSB mm, mm/m64
-RM V/V MMX 
+RM V/V MMX
 Add packed signed byte integers from
  mm/m64 and mm and saturate the results.
 
 66 0F EC /r
 PADDSB xmm1, xmm2/m128
-RM V/V SSE2 
+RM V/V SSE2
 Add packed signed byte integers from
  xmm2/m128 and xmm1 saturate the results.
 
 0F ED /r1
 PADDSW mm, mm/m64
-RM V/V MMX 
+RM V/V MMX
 Add packed signed word integers from
  mm/m64 and mm and saturate the results.
 
 66 0F ED /r
 PADDSW xmm1, xmm2/m128
-RM V/V SSE2 
+RM V/V SSE2
 Add packed signed word integers from
  xmm2/m128 and xmm1 and saturate the
  results.
 
-VEX.NDS.128.66.0F.WIG EC /r 
-VPADDSB xmm1, xmm2, xmm3/m128 
-RVM V/V AVX 
+VEX.NDS.128.66.0F.WIG EC /r
+VPADDSB xmm1, xmm2, xmm3/m128
+RVM V/V AVX
 Add packed signed byte integers from
 xmm3/m128 and xmm2 saturate the results.
 
-VEX.NDS.128.66.0F.WIG ED /r 
+VEX.NDS.128.66.0F.WIG ED /r
 VPADDSW xmm1, xmm2, xmm3/m128
-RVM V/V AVX 
+RVM V/V AVX
 Add packed signed word integers from
  xmm3/m128 and xmm2 and saturate the
  results.
 
 VEX.NDS.256.66.0F.WIG EC /r
 VPADDSB ymm1, ymm2, ymm3/m256
-RVM V/V AVX2 
+RVM V/V AVX2
 Add packed signed byte integers from ymm2,
  and ymm3/m256 and store the saturated
  results in ymm1.
 
 VEX.NDS.256.66.0F.WIG ED /r
 VPADDSW ymm1, ymm2, ymm3/m256
-RVM V/V AVX2 
+RVM V/V AVX2
 Add packed signed word integers from ymm2,
  and ymm3/m256 and store the saturated
  results in ymm1.
@@ -644,58 +644,58 @@ instruction to access additional registers (XMM8-XMM15).
 PADDUSB/PADDUSW—Add Packed Unsigned Integers with Unsigned Saturation
 
 Opcode/ Op/ 64/32 bit CPUID Description
-Instruction En Mode Feature 
-               Support Flag 
+Instruction En Mode Feature
+               Support Flag
 
-0F DC /r1 
+0F DC /r1
 PADDUSB mm, mm/m64
-RM V/V MMX 
+RM V/V MMX
 Add packed unsigned byte integers from
  mm/m64 and mm and saturate the results.
 
 66 0F DC /r
 PADDUSB xmm1, xmm2/m128
-RM V/V SSE2 
+RM V/V SSE2
 Add packed unsigned byte integers from
  xmm2/m128 and xmm1 saturate the results.
 
 0F DD /r
 PADDUSW mm, mm/m64
-RM V/V MMX 
+RM V/V MMX
 Add packed unsigned word integers from
  mm/m64 and mm and saturate the results.
 
 66 0F DD /r
 PADDUSW xmm1, xmm2/m128
-RM V/V SSE2 
+RM V/V SSE2
 Add packed unsigned word integers from
  xmm2/m128 to xmm1 and saturate the
  results.
 
 VEX.NDS.128.660F.WIG DC /r
 VPADDUSB xmm1, xmm2, xmm3/m128
-RVM V/V AVX 
+RVM V/V AVX
 Add packed unsigned byte integers from
  xmm3/m128 to xmm2 and saturate the
  results.
 
 VEX.NDS.128.66.0F.WIG DD /r
 VPADDUSW xmm1, xmm2, xmm3/m128
-RVM V/V AVX 
+RVM V/V AVX
 Add packed unsigned word integers from
  xmm3/m128 to xmm2 and saturate the
  results.
 
-VEX.NDS.256.66.0F.WIG DC /r 
-VPADDUSB ymm1, ymm2, ymm3/m256 
-RVM V/V AVX2 
+VEX.NDS.256.66.0F.WIG DC /r
+VPADDUSB ymm1, ymm2, ymm3/m256
+RVM V/V AVX2
 Add packed unsigned byte integers from
  ymm2, and ymm3/m256 and store the
  saturated results in ymm1.
 
-VEX.NDS.256.66.0F.WIG DD /r 
-VPADDUSW ymm1, ymm2, ymm3/m256 
-RVM V/V AVX2 
+VEX.NDS.256.66.0F.WIG DD /r
+VPADDUSW ymm1, ymm2, ymm3/m256
+RVM V/V AVX2
 Add packed unsigned word integers from
  ymm2, and ymm3/m256 and store the
  saturated results in ymm1.
@@ -728,33 +728,33 @@ the destination operand must be an MMX technology register and the source operan
 PALIGNR — Packed Align Right
 
 Opcode/ Op/ 64/32 bit CPUID Description
-Instruction En Mode Feature 
-               Support Flag 
+Instruction En Mode Feature
+               Support Flag
 
-0F 3A 0F /r ib 
+0F 3A 0F /r ib
 PALIGNR mm1, mm2/m64, imm8
-RMI V/V SSSE3 
+RMI V/V SSSE3
 Concatenate destination and source
  operands, extract byte-aligned result shifted
  to the right by constant value in imm8 into mm1.
 
 66 0F 3A 0F /r ib
 PALIGNR xmm1, xmm2/m128, imm8
-RMI V/V SSSE3 
+RMI V/V SSSE3
 Concatenate destination and source
  operands, extract byte-aligned result shifted
  to the right by constant value in imm8 into xmm1.
 
 VEX.NDS.128.66.0F3A.WIG 0F /r ib
 VPALIGNR xmm1, xmm2, xmm3/m128, imm8
-RVMI V/V AVX 
+RVMI V/V AVX
 Concatenate xmm2 and xmm3/m128, extract
  byte aligned result shifted to the right by
  constant value in imm8 and result is stored in xmm1.
 
 VEX.NDS.256.66.0F3A.WIG 0F /r ib
 VPALIGNR ymm1, ymm2, ymm3/m256, imm8
-RVMI V/V AVX2 
+RVMI V/V AVX2
 Concatenate pairs of 16 bytes in ymm2 and
  ymm3/m256 into 32-byte intermediate
  result, extract byte-aligned, 16-byte result
@@ -795,26 +795,27 @@ two lower 16-byte block sources and the two upper 16-byte block sources. The low
 PAND—Logical AND
 
 Opcode/ Op/ 64/32 bit CPUID Description
-Instruction En Mode Feature 
-               Support Flag 
-0F DB /r 
+Instruction En Mode Feature
+               Support Flag
+
+0F DB /r
 PAND mm, mm/m64
-RM V/V MMX 
+RM V/V MMX
 Bitwise AND mm/m64 and mm.
 
 66 0F DB /r
 PAND xmm1, xmm2/m128
-RM V/V SSE2 
+RM V/V SSE2
 Bitwise AND of xmm2/m128 and xmm1.
 
 VEX.NDS.128.66.0F.WIG DB /r
 VPAND xmm1, xmm2, xmm3/m128
-RVM V/V AVX 
+RVM V/V AVX
 Bitwise AND of xmm3/m128 and xmm.
 
 VEX.NDS.256.66.0F.WIG DB /r
 VPAND ymm1, ymm2, ymm3/.m256
-RVM V/V AVX2 
+RVM V/V AVX2
 Bitwise AND of ymm2, and ymm3/m256 and
  store result in ymm1.
 

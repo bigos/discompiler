@@ -1,30 +1,30 @@
 PSHUFB — Packed Shuffle Bytes
 
 Opcode/ Op/ 64/32 bit CPUID Description
-Instruction En Mode Feature 
-               Support Flag 
+Instruction En Mode Feature
+               Support Flag
 
-0F 38 00 /r 
+0F 38 00 /r
 PSHUFB mm1, mm2/m64
-RM V/V SSSE3 
+RM V/V SSSE3
 Shuffle bytes in mm1 according to contents of
  mm2/m64.
 
 66 0F 38 00 /r
 PSHUFB xmm1, xmm2/m128
-RM V/V SSSE3 
+RM V/V SSSE3
 Shuffle bytes in xmm1 according to contents
  of xmm2/m128.
 
 VEX.NDS.128.66.0F38.WIG 00 /r
 VPSHUFB xmm1, xmm2, xmm3/m128
-RVM V/V AVX 
+RVM V/V AVX
 Shuffle bytes in xmm2 according to contents
  of xmm3/m128.
 
 VEX.NDS.256.66.0F38.WIG 00 /r
 VPSHUFB ymm1, ymm2, ymm3/m256
-RVM V/V AVX2 
+RVM V/V AVX2
 Shuffle bytes in ymm2 according to contents
  of ymm3/m256.
 
@@ -64,26 +64,26 @@ Note: VEX.L must be 0, otherwise the instruction will #UD.
 PSHUFD—Shuffle Packed Doublewords
 
 Opcode/ Op/ 64/32 bit CPUID Description
-Instruction En Mode Feature 
-               Support Flag 
+Instruction En Mode Feature
+               Support Flag
 
-66 0F 70 /r ib 
+66 0F 70 /r ib
 PSHUFD xmm1, xmm2/m128, imm8
-RMI V/V SSE2 
+RMI V/V SSE2
 Shuffle the doublewords in xmm2/m128
  based on the encoding in imm8 and store the
  result in xmm1.
 
 VEX.128.66.0F.WIG 70 /r ib
 VPSHUFD xmm1, xmm2/m128, imm8
-RMI V/V AVX 
+RMI V/V AVX
 Shuffle the doublewords in xmm2/m128
  based on the encoding in imm8 and store the
  result in xmm1.
 
 VEX.256.66.0F.WIG 70 /r ib
 VPSHUFD ymm1, ymm2/m256, imm8
-RMI V/V AVX2 
+RMI V/V AVX2
 Shuffle the doublewords in ymm2/m256
  based on the encoding in imm8 and store the
  result in ymm1.
@@ -110,26 +110,26 @@ location in the destination operand.
 PSHUFHW—Shuffle Packed High Words
 
 Opcode/ Op/ 64/32 bit CPUID Description
-Instruction En Mode Feature 
-               Support Flag 
+Instruction En Mode Feature
+               Support Flag
 
-F3 0F 70 /r ib 
+F3 0F 70 /r ib
 PSHUFHW xmm1, xmm2/m128, imm8
-RMI V/V SSE2 
+RMI V/V SSE2
 Shuffle the high words in xmm2/m128 based
  on the encoding in imm8 and store the result
  in xmm1.
 
 VEX.128.F3.0F.WIG 70 /r ib
 VPSHUFHW xmm1, xmm2/m128, imm8
-RMI V/V AVX 
+RMI V/V AVX
 Shuffle the high words in xmm2/m128 based
  on the encoding in imm8 and store the result
  in xmm1.
 
 VEX.256.F3.0F.WIG 70 /r ib
 VPSHUFHW ymm1, ymm2/m256, imm8
-RMI V/V AVX2 
+RMI V/V AVX2
 Shuffle the high words in ymm2/m256 based
  on the encoding in imm8 and store the result
  in ymm1.
@@ -164,26 +164,26 @@ Note: In VEX encoded versions VEX.vvvv is reserved and must be 1111b otherwise i
 PSHUFLW—Shuffle Packed Low Words
 
 Opcode/ Op/ 64/32 bit CPUID Description
-Instruction En Mode Feature 
-               Support Flag 
+Instruction En Mode Feature
+               Support Flag
 
-F2 0F 70 /r ib 
+F2 0F 70 /r ib
 PSHUFLW xmm1, xmm2/m128, imm8
-RMI V/V SSE2 
+RMI V/V SSE2
 Shuffle the low words in xmm2/m128 based
  on the encoding in imm8 and store the result
  in xmm1.
 
 VEX.128.F2.0F.WIG 70 /r ib
 VPSHUFLW xmm1, xmm2/m128, imm8
-RMI V/V AVX 
+RMI V/V AVX
 Shuffle the low words in xmm2/m128 based
  on the encoding in imm8 and store the result
  in xmm1.
 
 VEX.256.F2.0F.WIG 70 /r ib
 VPSHUFLW ymm1, ymm2/m256, imm8
-RMI V/V AVX2 
+RMI V/V AVX2
 Shuffle the low words in ymm2/m256 based
  on the encoding in imm8 and store the result
  in ymm1.
@@ -220,7 +220,7 @@ PSHUFW—Shuffle Packed Words
 Opcode/ Op/ 64-Bit Compat/ Description
 Instruction En Mode Leg Mode
 
-0F 70 /r ib 
+0F 70 /r ib
 PSHUFW mm1, mm2/m64, imm8
 RMI Valid Valid
 Shuffle the words in mm2/m64 based on the
@@ -246,88 +246,89 @@ In 64-bit mode, using a REX prefix in the form of REX.R permits this instruction
 PSIGNB/PSIGNW/PSIGND — Packed SIGN
 
 Opcode/ Op/ 64/32 bit CPUID Description
-Instruction En Mode Feature 
-               Support Flag 
-0F 38 08 /r 
+Instruction En Mode Feature
+               Support Flag
+
+0F 38 08 /r
 PSIGNB mm1, mm2/m64
-RM V/V SSSE3 
+RM V/V SSSE3
 Negate/zero/preserve packed byte integers in
  mm1 depending on the corresponding sign in
  mm2/m64.
 
 66 0F 38 08 /r
 PSIGNB xmm1, xmm2/m128
-RM V/V SSSE3 
+RM V/V SSSE3
 Negate/zero/preserve packed byte integers in
  xmm1 depending on the corresponding sign in
  xmm2/m128.
 
 0F 38 09 /r1
 PSIGNW mm1, mm2/m64
-RM V/V SSSE3 
+RM V/V SSSE3
 Negate/zero/preserve packed word integers
  in mm1 depending on the corresponding sign
  in mm2/m128.
 
 66 0F 38 09 /r
 PSIGNW xmm1, xmm2/m128
-RM V/V SSSE3 
+RM V/V SSSE3
 Negate/zero/preserve packed word integers
  in xmm1 depending on the corresponding sign
  in xmm2/m128.
 
 0F 38 0A /r1
 PSIGND mm1, mm2/m64
-RM V/V SSSE3 
+RM V/V SSSE3
 Negate/zero/preserve packed doubleword
  integers in mm1 depending on the
  corresponding sign in mm2/m128.
 
 66 0F 38 0A /r
 PSIGND xmm1, xmm2/m128
-RM V/V SSSE3 
+RM V/V SSSE3
 Negate/zero/preserve packed doubleword
  integers in xmm1 depending on the
  corresponding sign in xmm2/m128.
 
 VEX.NDS.128.66.0F38.WIG 08 /r
 VPSIGNB xmm1, xmm2, xmm3/m128
-RVM V/V AVX 
+RVM V/V AVX
 Negate/zero/preserve packed byte integers in
  xmm2 depending on the corresponding sign in
  xmm3/m128.
 
 VEX.NDS.128.66.0F38.WIG 09 /r
 VPSIGNW xmm1, xmm2, xmm3/m128
-RVM V/V AVX 
+RVM V/V AVX
 Negate/zero/preserve packed word integers
  in xmm2 depending on the corresponding sign
  in xmm3/m128.
 
 VEX.NDS.128.66.0F38.WIG 0A /r
 VPSIGND xmm1, xmm2, xmm3/m128
-RVM V/V AVX 
+RVM V/V AVX
 Negate/zero/preserve packed doubleword
  integers in xmm2 depending on the
  corresponding sign in xmm3/m128.
 
 VEX.NDS.256.66.0F38.WIG 08 /r
 VPSIGNB ymm1, ymm2, ymm3/m256
-RVM V/V AVX2 
+RVM V/V AVX2
 Negate packed byte integers in ymm2 if the
  corresponding sign in ymm3/m256 is less
  than zero.
 
 VEX.NDS.256.66.0F38.WIG 09 /r
 VPSIGNW ymm1, ymm2, ymm3/m256
-RVM V/V AVX2 
+RVM V/V AVX2
 Negate packed 16-bit integers in ymm2 if the
  corresponding sign in ymm3/m256 is less
  than zero.
 
 VEX.NDS.256.66.0F38.WIG 0A /r
 VPSIGND ymm1, ymm2, ymm3/m256
-RVM V/V AVX2 
+RVM V/V AVX2
 Negate packed doubleword integers in ymm2
  if the corresponding sign in ymm3/m256 is
  less than zero.
@@ -366,24 +367,24 @@ operand is an YMM register or a 256-bit memory location.
 PSLLDQ—Shift Double Quadword Left Logical
 
 Opcode/ Op/ 64/32 bit CPUID Description
-Instruction En Mode Feature 
-               Support Flag 
+Instruction En Mode Feature
+               Support Flag
 
-66 0F 73 /7 ib 
+66 0F 73 /7 ib
 PSLLDQ xmm1, imm8
-MI V/V SSE2 
+MI V/V SSE2
 Shift xmm1 left by imm8 bytes while shifting
  in 0s.
 
 VEX.NDD.128.66.0F.WIG 73 /7 ib
 VPSLLDQ xmm1, xmm2, imm8
-VMI V/V AVX 
+VMI V/V AVX
 Shift xmm2 left by imm8 bytes while shifting
  in 0s and store result in xmm1.
 
 VEX.NDD.256.66.0F.WIG 73 /7 ib
 VPSLLDQ ymm1, ymm2, imm8
-VMI V/V AVX2 
+VMI V/V AVX2
 Shift ymm2 left by imm8 bytes while shifting
  in 0s and store result in ymm1.
 
@@ -409,150 +410,150 @@ be 0, otherwise instructions will #UD.
 PSLLW/PSLLD/PSLLQ—Shift Packed Data Left Logical
 
 Opcode/ Op/ 64/32 bit CPUID Description
-Instruction En Mode Feature 
-               Support Flag 
+Instruction En Mode Feature
+               Support Flag
 
-0F F1 /r 
+0F F1 /r
 PSLLW mm, mm/m64
-RM V/V MMX 
+RM V/V MMX
 Shift words in mm left mm/m64 while shifting
  in 0s.
 
 66 0F F1 /r
 PSLLW xmm1, xmm2/m128
-RM V/V SSE2 
+RM V/V SSE2
 Shift words in xmm1 left by xmm2/m128
  while shifting in 0s.
 
 0F 71 /6 ib
 PSLLW mm1, imm8
-MI V/V MMX 
+MI V/V MMX
 Shift words in mm left by imm8 while shifting
  in 0s.
 
 66 0F 71 /6 ib
 PSLLW xmm1, imm8
-MI V/V SSE2 
+MI V/V SSE2
 Shift words in xmm1 left by imm8 while
  shifting in 0s.
 
 0F F2 /r1
 PSLLD mm, mm/m64
-RM V/V MMX 
+RM V/V MMX
 Shift doublewords in mm left by mm/m64
  while shifting in 0s.
 
 66 0F F2 /r
 PSLLD xmm1, xmm2/m128
-RM V/V SSE2 
+RM V/V SSE2
 Shift doublewords in xmm1 left by
  xmm2/m128 while shifting in 0s.
 
 0F 72 /6 ib1
 PSLLD mm, imm8
-MI V/V MMX 
+MI V/V MMX
 Shift doublewords in mm left by imm8 while
  shifting in 0s.
 
 66 0F 72 /6 ib
 PSLLD xmm1, imm8
-MI V/V SSE2 
+MI V/V SSE2
 Shift doublewords in xmm1 left by imm8 while
  shifting in 0s.
 
 0F F3 /r1
 PSLLQ mm, mm/m64
-RM V/V MMX 
+RM V/V MMX
 Shift quadword in mm left by mm/m64 while
  shifting in 0s.
 
 66 0F F3 /r
 PSLLQ xmm1, xmm2/m128
-RM V/V SSE2 
+RM V/V SSE2
 Shift quadwords in xmm1 left by xmm2/m128
  while shifting in 0s.
 
 0F 73 /6 ib1
 PSLLQ mm, imm8
-MI V/V MMX 
+MI V/V MMX
 Shift quadword in mm left by imm8 while
  shifting in 0s.
 
 66 0F 73 /6 ib
 PSLLQ xmm1, imm8
-MI V/V SSE2 
+MI V/V SSE2
 Shift quadwords in xmm1 left by imm8 while
  shifting in 0s.
 
 VEX.NDS.128.66.0F.WIG F1 /r
 VPSLLW xmm1, xmm2, xmm3/m128
-RVM V/V AVX 
+RVM V/V AVX
 Shift words in xmm2 left by amount specified
  in xmm3/m128 while shifting in 0s.
 
 VEX.NDD.128.66.0F.WIG 71 /6 ib
 VPSLLW xmm1, xmm2, imm8
-VMI V/V AVX 
+VMI V/V AVX
 Shift words in xmm2 left by imm8 while
  shifting in 0s.
 
 VEX.NDS.128.66.0F.WIG F2 /r
 VPSLLD xmm1, xmm2, xmm3/m128
-RVM V/V AVX 
+RVM V/V AVX
 Shift doublewords in xmm2 left by amount
  specified in xmm3/m128 while shifting in 0s.
 
 VEX.NDD.128.66.0F.WIG 72 /6 ib
 VPSLLD xmm1, xmm2, imm8
-VMI V/V AVX 
+VMI V/V AVX
 Shift doublewords in xmm2 left by imm8
  while shifting in 0s.
 
 VEX.NDS.128.66.0F.WIG F3 /r
 VPSLLQ xmm1, xmm2, xmm3/m128
-RVM V/V AVX 
+RVM V/V AVX
 Shift quadwords in xmm2 left by amount
  specified in xmm3/m128 while shifting in 0s.
 
 VEX.NDD.128.66.0F.WIG 73 /6 ib
 VPSLLQ xmm1, xmm2, imm8
-VMI V/V AVX 
+VMI V/V AVX
 Shift quadwords in xmm2 left by imm8 while
  shifting in 0s.
 
 VEX.NDS.256.66.0F.WIG F1 /r
 VPSLLW ymm1, ymm2, xmm3/m128
-RVM V/V AVX2 
+RVM V/V AVX2
 Shift words in ymm2 left by amount specified
  in xmm3/m128 while shifting in 0s.
 
 VEX.NDD.256.66.0F.WIG 71 /6 ib
 VPSLLW ymm1, ymm2, imm8
-VMI V/V AVX2 
+VMI V/V AVX2
 Shift words in ymm2 left by imm8 while
  shifting in 0s.
 
 VEX.NDS.256.66.0F.WIG F2 /r
 VPSLLD ymm1, ymm2, xmm3/m128
-RVM V/V AVX2 
+RVM V/V AVX2
 Shift doublewords in ymm2 left by amount
  specified in xmm3/m128 while shifting in 0s.
 
 VEX.NDD.256.66.0F.WIG 72 /6 ib
 VPSLLD ymm1, ymm2, imm8
-VMI V/V AVX2 
+VMI V/V AVX2
 Shift doublewords in ymm2 left by imm8 while
  shifting in 0s.
 
 VEX.NDS.256.66.0F.WIG F3 /r
 VPSLLQ ymm1, ymm2, xmm3/m128
-RVM V/V AVX2 
+RVM V/V AVX2
 Shift quadwords in ymm2 left by amount
  specified in xmm3/m128 while shifting in 0s.
 
 VEX.NDD.256.66.0F.WIG 73 /6 ib
 VPSLLQ ymm1, ymm2, imm8
-VMI V/V AVX2 
+VMI V/V AVX2
 Shift quadwords in ymm2 left by imm8 while
  shifting in 0s.
 
@@ -579,107 +580,107 @@ is set to all 0s. Figure 4-13 gives an example of shifting words in a 64-bit ope
 PSRAW/PSRAD—Shift Packed Data Right Arithmetic
 
 Opcode/ Op/ 64/32 bit CPUID Description
-Instruction En Mode Feature 
-               Support Flag 
+Instruction En Mode Feature
+               Support Flag
 
 0F E1 /r
-PSRAW mm, mm/m64 
-RM V/V MMX 
+PSRAW mm, mm/m64
+RM V/V MMX
 Shift words in mm right by mm/m64 while
  shifting in sign bits.
- 
+
 66 0F E1 /r
 PSRAW xmm1, xmm2/m128
-RM V/V SSE2 
+RM V/V SSE2
 Shift words in xmm1 right by xmm2/m128
  while shifting in sign bits.
- 
+
 0F 71 /4 ib
 PSRAW mm, imm8
-MI V/V MMX 
+MI V/V MMX
 Shift words in mm right by imm8 while shifting
  in sign bits
- 
+
 66 0F 71 /4 ib
 PSRAW xmm1, imm8
-MI V/V SSE2 
+MI V/V SSE2
 Shift words in xmm1 right by imm8 while
  shifting in sign bits
- 
+
 0F E2 /r
 PSRAD mm, mm/m64
-RM V/V MMX 
+RM V/V MMX
 Shift doublewords in mm right by mm/m64
  while shifting in sign bits.
- 
+
 66 0F E2 /r
 PSRAD xmm1, xmm2/m128
-RM V/V SSE2 
+RM V/V SSE2
 Shift doubleword in xmm1 right by xmm2
  /m128 while shifting in sign bits.
- 
+
 0F 72 /4 ib
 PSRAD mm, imm8
-MI V/V MMX 
+MI V/V MMX
 Shift doublewords in mm right by imm8 while
  shifting in sign bits.
- 
+
 66 0F 72 /4 ib
 PSRAD xmm1, imm8
-MI V/V SSE2 
+MI V/V SSE2
 Shift doublewords in xmm1 right by imm8
  while shifting in sign bits.
- 
+
 VEX.NDS.128.66.0F.WIG E1 /r
 VPSRAW xmm1, xmm2, xmm3/m128
-RVM V/V AVX 
+RVM V/V AVX
 Shift words in xmm2 right by amount specified
  in xmm3/m128 while shifting in sign bits.
- 
+
 VEX.NDD.128.66.0F.WIG 71 /4 ib
 VPSRAW xmm1, xmm2, imm8
-VMI V/V AVX 
+VMI V/V AVX
 Shift words in xmm2 right by imm8 while
  shifting in sign bits.
- 
+
 VEX.NDS.128.66.0F.WIG E2 /r
 VPSRAD xmm1, xmm2, xmm3/m128
-RVM V/V AVX 
+RVM V/V AVX
 Shift doublewords in xmm2 right by amount
  specified in xmm3/m128 while shifting in sign
  bits.
 
 VEX.NDD.128.66.0F.WIG 72 /4 ib
 VPSRAD xmm1, xmm2, imm8
-VMI V/V AVX 
+VMI V/V AVX
 Shift doublewords in xmm2 right by imm8
  while shifting in sign bits.
- 
+
 VEX.NDS.256.66.0F.WIG E1 /r
 VPSRAW ymm1, ymm2, xmm3/m128
-RVM V/V AVX2 
+RVM V/V AVX2
 Shift words in ymm2 right by amount specified
  in xmm3/m128 while shifting in sign bits.
- 
+
 VEX.NDD.256.66.0F.WIG 71 /4 ib
 VPSRAW ymm1, ymm2, imm8
-VMI V/V AVX2 
+VMI V/V AVX2
 Shift words in ymm2 right by imm8 while
  shifting in sign bits.
- 
+
 VEX.NDS.256.66.0F.WIG E2 /r
 VPSRAD ymm1, ymm2, xmm3/m128
-RVM V/V AVX2 
+RVM V/V AVX2
 Shift doublewords in ymm2 right by amount
  specified in xmm3/m128 while shifting in sign
  bits.
 
 VEX.NDD.256.66.0F.WIG 72 /4 ib
 VPSRAD ymm1, ymm2, imm8
-VMI V/V AVX2 
+VMI V/V AVX2
 Shift doublewords in ymm2 right by imm8
  while shifting in sign bits.
- 
+
 NOTES:
 1. See note in Section 2.4, “Instruction Exception Specification” in the Intel® 64 and IA-32 Architectures Software Developer’s Manual,
 Volume 2A and Section 22.25.3, “Exception Conditions of Legacy SIMD Instructions Operating on MMX Registers” in the Intel® 64 and
@@ -704,23 +705,23 @@ in a 64-bit operand.)
 PSRLDQ—Shift Double Quadword Right Logical
 
 Opcode/ Op/ 64/32 bit CPUID Description
-Instruction En Mode Feature 
-               Support Flag 
+Instruction En Mode Feature
+               Support Flag
 
-66 0F 73 /3 ib 
+66 0F 73 /3 ib
 PSRLDQ xmm1, imm8
-MI V/V SSE2 
+MI V/V SSE2
 Shift xmm1 right by imm8 while shifting in 0s.
 
 VEX.NDD.128.66.0F.WIG 73 /3 ib
 VPSRLDQ xmm1, xmm2, imm8
-VMI V/V AVX 
+VMI V/V AVX
 Shift xmm2 right by imm8 bytes while shifting
  in 0s.
 
 VEX.NDD.256.66.0F.WIG 73 /3 ib
 VPSRLDQ ymm1, ymm2, imm8
-VMI V/V AVX2 
+VMI V/V AVX2
 Shift ymm1 right by imm8 bytes while shifting
  in 0s.
 
@@ -749,148 +750,149 @@ be 0, otherwise instructions will #UD.
 PSRLW/PSRLD/PSRLQ—Shift Packed Data Right Logical
 
 Opcode/ Op/ 64/32 bit CPUID Description
-Instruction En Mode Feature 
-               Support Flag 
-0F D1 /r1 
+Instruction En Mode Feature
+               Support Flag
+
+0F D1 /r1
 PSRLW mm, mm/m64
-RM V/V MMX 
+RM V/V MMX
 Shift words in mm right by amount specified in
  mm/m64 while shifting in 0s.
 
 66 0F D1 /r
 PSRLW xmm1, xmm2/m128
-RM V/V SSE2 
+RM V/V SSE2
 Shift words in xmm1 right by amount
  specified in xmm2/m128 while shifting in 0s.
 
 0F 71 /2 ib1
 PSRLW mm, imm8
-MI V/V MMX 
+MI V/V MMX
 Shift words in mm right by imm8 while shifting
  in 0s.
 
 66 0F 71 /2 ib
 PSRLW xmm1, imm8
-MI V/V SSE2 
+MI V/V SSE2
 Shift words in xmm1 right by imm8 while
  shifting in 0s.
 
 0F D2 /r1
 PSRLD mm, mm/m64
-RM V/V MMX 
+RM V/V MMX
 Shift doublewords in mm right by amount
  specified in mm/m64 while shifting in 0s.
 
 66 0F D2 /r
 PSRLD xmm1, xmm2/m128
-RM V/V SSE2 
+RM V/V SSE2
 Shift doublewords in xmm1 right by amount
  specified in xmm2 /m128 while shifting in 0s.
 
 0F 72 /2 ib1
 PSRLD mm, imm8
-MI V/V MMX 
+MI V/V MMX
 Shift doublewords in mm right by imm8 while
  shifting in 0s.
 
 66 0F 72 /2 ib
 PSRLD xmm1, imm8
-MI V/V SSE2 
+MI V/V SSE2
 Shift doublewords in xmm1 right by imm8
  while shifting in 0s.
 
 0F D3 /r1
 PSRLQ mm, mm/m64
-RM V/V MMX 
+RM V/V MMX
 Shift mm right by amount specified in
  mm/m64 while shifting in 0s.
 
 66 0F D3 /r
 PSRLQ xmm1, xmm2/m128
-RM V/V SSE2 
+RM V/V SSE2
 Shift quadwords in xmm1 right by amount
  specified in xmm2/m128 while shifting in 0s.
 
 0F 73 /2 ib1
 PSRLQ mm, imm8
-MI V/V MMX 
+MI V/V MMX
 Shift mm right by imm8 while shifting in 0s.
- 
+
 66 0F 73 /2 ib
-PSRLQ xmm1, imm8MI 
-V/V SSE2 
+PSRLQ xmm1, imm8MI
+V/V SSE2
 Shift quadwords in xmm1 right by imm8 while
  shifting in 0s.
 
 VEX.NDS.128.66.0F.WIG D1 /r
 VPSRLW xmm1, xmm2, xmm3/m128
-RVM V/V AVX 
+RVM V/V AVX
 Shift words in xmm2 right by amount
  specified in xmm3/m128 while shifting in 0s.
 
 VEX.NDD.128.66.0F.WIG 71 /2 ib
 VPSRLW xmm1, xmm2, imm8
-VMI V/V AVX 
+VMI V/V AVX
 Shift words in xmm2 right by imm8 while
  shifting in 0s.
 
 VEX.NDS.128.66.0F.WIG D2 /r
 VPSRLD xmm1, xmm2, xmm3/m128
-RVM V/V AVX 
+RVM V/V AVX
 Shift doublewords in xmm2 right by amount
  specified in xmm3/m128 while shifting in 0s.
 
 VEX.NDD.128.66.0F.WIG 72 /2 ib
 VPSRLD xmm1, xmm2, imm8
-VMI V/V AVX 
+VMI V/V AVX
 Shift doublewords in xmm2 right by imm8
  while shifting in 0s.
 
 VEX.NDS.128.66.0F.WIG D3 /r
 VPSRLQ xmm1, xmm2, xmm3/m128
-RVM V/V AVX 
+RVM V/V AVX
 Shift quadwords in xmm2 right by amount
  specified in xmm3/m128 while shifting in 0s.
 
 VEX.NDD.128.66.0F.WIG 73 /2 ib
 VPSRLQ xmm1, xmm2, imm8
-VMI V/V AVX 
+VMI V/V AVX
 Shift quadwords in xmm2 right by imm8 while
  shifting in 0s.
 
 VEX.NDS.256.66.0F.WIG D1 /r
 VPSRLW ymm1, ymm2, xmm3/m128
-RVM V/V AVX2 
+RVM V/V AVX2
 Shift words in ymm2 right by amount specified
  in xmm3/m128 while shifting in 0s.
 
 VEX.NDD.256.66.0F.WIG 71 /2 ib
 VPSRLW ymm1, ymm2, imm8
-VMI V/V AVX2 
+VMI V/V AVX2
 Shift words in ymm2 right by imm8 while
  shifting in 0s.
 
 VEX.NDS.256.66.0F.WIG D2 /r
 VPSRLD ymm1, ymm2, xmm3/m128
-RVM V/V AVX2 
+RVM V/V AVX2
 Shift doublewords in ymm2 right by amount
  specified in xmm3/m128 while shifting in 0s.
 
 VEX.NDD.256.66.0F.WIG 72 /2 ib
 VPSRLD ymm1, ymm2, imm8
-VMI V/V AVX2 
+VMI V/V AVX2
 Shift doublewords in ymm2 right by imm8
  while shifting in 0s.
 
 VEX.NDS.256.66.0F.WIG D3 /r
 VPSRLQ ymm1, ymm2, xmm3/m128
-RVM V/V AVX2 
+RVM V/V AVX2
 Shift quadwords in ymm2 right by amount
  specified in xmm3/m128 while shifting in 0s.
 
 VEX.NDD.256.66.0F.WIG 73 /2 ib
 VPSRLQ ymm1, ymm2, imm8
-VMI V/V AVX2 
+VMI V/V AVX2
 Shift quadwords in ymm2 right by imm8 while
  shifting in 0s.
 
@@ -918,81 +920,81 @@ Note that only the first 64-bits of a 128-bit count operand are checked to compu
 PSUBB/PSUBW/PSUBD—Subtract Packed Integers
 
 Opcode/ Op/ 64/32 bit CPUID Description
-Instruction En Mode Feature 
-               Support Flag 
+Instruction En Mode Feature
+               Support Flag
 
-0F F8 /r 
+0F F8 /r
 PSUBB mm, mm/m64
-RM V/V MMX 
+RM V/V MMX
 Subtract packed byte integers in mm/m64
  from packed byte integers in mm.
 
 66 0F F8 /r
 PSUBB xmm1, xmm2/m128
-RM V/V SSE2 
+RM V/V SSE2
 Subtract packed byte integers in xmm2/m128
  from packed byte integers in xmm1.
 
 0F F9 /r
 PSUBW mm, mm/m64
-RM V/V MMX 
+RM V/V MMX
 Subtract packed word integers in mm/m64
  from packed word integers in mm.
 
 66 0F F9 /r
 PSUBW xmm1, xmm2/m128
-RM V/V SSE2 
+RM V/V SSE2
 Subtract packed word integers in
  xmm2/m128 from packed word integers in
           xmm1.
 
 0F FA /r
 PSUBD mm, mm/m64
-RM V/V MMX 
+RM V/V MMX
 Subtract packed doubleword integers in
  mm/m64 from packed doubleword integers in
  mm.
 
 66 0F FA /r
 PSUBD xmm1, xmm2/m128
-RM V/V SSE2 
+RM V/V SSE2
 Subtract packed doubleword integers in
  xmm2/mem128 from packed doubleword
  integers in xmm1.
 
-VEX.NDS.128.66.0F.WIG F8 /r 
-VPSUBB xmm1, xmm2, xmm3/m128 
-RVM V/V AVX 
+VEX.NDS.128.66.0F.WIG F8 /r
+VPSUBB xmm1, xmm2, xmm3/m128
+RVM V/V AVX
 Subtract packed byte integers in xmm3/m128
  from xmm2.
 
-VEX.NDS.128.66.0F.WIG F9 /r 
+VEX.NDS.128.66.0F.WIG F9 /r
 VPSUBW xmm1, xmm2, xmm3/m128
-RVM V/V AVX 
+RVM V/V AVX
 Subtract packed word integers in
  xmm3/m128 from xmm2.
 
-VEX.NDS.128.66.0F.WIG FA /r 
-VPSUBD xmm1, xmm2, xmm3/m128 xmm3/m128 
-RVM V/V AVX 
+VEX.NDS.128.66.0F.WIG FA /r
+VPSUBD xmm1, xmm2, xmm3/m128 xmm3/m128
+RVM V/V AVX
 Subtract packed doubleword integers in
  from xmm2.
 
-VEX.NDS.256.66.0F.WIG F8 /r 
-VPSUBB ymm1, ymm2, ymm3/m256 
-RVM V/V AVX2 
+VEX.NDS.256.66.0F.WIG F8 /r
+VPSUBB ymm1, ymm2, ymm3/m256
+RVM V/V AVX2
 Subtract packed byte integers in ymm3/m256
  from ymm2.
 
-VEX.NDS.256.66.0F.WIG F9 /r 
-VPSUBW ymm1, ymm2, ymm3/m256 
-RVM V/V AVX2 
+VEX.NDS.256.66.0F.WIG F9 /r
+VPSUBW ymm1, ymm2, ymm3/m256
+RVM V/V AVX2
 Subtract packed word integers in
  ymm3/m256 from ymm2.
 
-VEX.NDS.256.66.0F.WIG FA /r 
-VPSUBD ymm1, ymm2, ymm3/m256 
-RVM V/V AVX2 
+VEX.NDS.256.66.0F.WIG FA /r
+VPSUBD ymm1, ymm2, ymm3/m256
+RVM V/V AVX2
 Subtract packed doubleword integers in
  ymm3/m256 from ymm2.
 
@@ -1018,30 +1020,30 @@ represented in a byte, the result is wrapped around and the low 8 bits are writt
 PSUBQ—Subtract Packed Quadword Integers
 
 Opcode/ Op/ 64/32 bit CPUID Description
-Instruction En Mode Feature 
-               Support Flag 
+Instruction En Mode Feature
+               Support Flag
 
-0F FB /r 
+0F FB /r
 PSUBQ mm1, mm2/m64
-RM V/V SSE2 
+RM V/V SSE2
 Subtract quadword integer in mm1 from mm2
  /m64.
 
 66 0F FB /r
 PSUBQ xmm1, xmm2/m128
-RM V/V SSE2 
+RM V/V SSE2
 Subtract packed quadword integers in xmm1
  from xmm2 /m128.
 
 VEX.NDS.128.66.0F.WIG FB/r
 VPSUBQ xmm1, xmm2, xmm3/m128
-RVM V/V AVX 
+RVM V/V AVX
 Subtract packed quadword integers in
  xmm3/m128 from xmm2.
 
 VEX.NDS.256.66.0F.WIG FB /r
 VPSUBQ ymm1, ymm2, ymm3/m256
-RVM V/V AVX2 
+RVM V/V AVX2
 Subtract packed quadword integers in
  ymm3/m256 from ymm2.
 
@@ -1081,61 +1083,61 @@ Note: VEX.L must be 0, otherwise instructions will #UD.
 PSUBSB/PSUBSW—Subtract Packed Signed Integers with Signed Saturation
 
 Opcode/ Op/ 64/32 bit CPUID Description
-Instruction En Mode Feature 
-               Support Flag 
+Instruction En Mode Feature
+               Support Flag
 
-0F E8 /r 
+0F E8 /r
 PSUBSB mm, mm/m64
-RM V/V MMX 
+RM V/V MMX
 Subtract signed packed bytes in mm/m64
  from signed packed bytes in mm and saturate
  results.
 
 66 0F E8 /r
 PSUBSB xmm1, xmm2/m128
-RM V/V SSE2 
+RM V/V SSE2
 Subtract packed signed byte integers in
  xmm2/m128 from packed signed byte
  integers in xmm1 and saturate results.
 
 0F E9 /r
 PSUBSW mm, mm/m64
-RM V/V MMX 
+RM V/V MMX
 Subtract signed packed words in mm/m64
  from signed packed words in mm and saturate
  results.
 
 66 0F E9 /r
 PSUBSW xmm1, xmm2/m128
-RM V/V SSE2 
+RM V/V SSE2
 Subtract packed signed word integers in
  xmm2/m128 from packed signed word
  integers in xmm1 and saturate results.
 
 VEX.NDS.128.66.0F.WIG E8 /r
 VPSUBSB xmm1, xmm2, xmm3/m128
-RVM V/V AVX 
+RVM V/V AVX
 Subtract packed signed byte integers in
  xmm3/m128 from packed signed byte
  integers in xmm2 and saturate results.
 
 VEX.NDS.128.66.0F.WIG E9 /r
 VPSUBSW xmm1, xmm2, xmm3/m128
-RVM V/V AVX 
+RVM V/V AVX
 Subtract packed signed word integers in
  xmm3/m128 from packed signed word
  integers in xmm2 and saturate results.
 
 VEX.NDS.256.66.0F.WIG E8 /r
 VPSUBSB ymm1, ymm2, ymm3/m256
-RVM V/V AVX2 
+RVM V/V AVX2
 Subtract packed signed byte integers in
  ymm3/m256 from packed signed byte
  integers in ymm2 and saturate results.
 
 VEX.NDS.256.66.0F.WIG E9 /r
 VPSUBSW ymm1, ymm2, ymm3/m256
-RVM V/V AVX2 
+RVM V/V AVX2
 Subtract packed signed word integers in
  ymm3/m256 from packed signed word
  integers in ymm2 and saturate results.
@@ -1167,60 +1169,61 @@ range of a signed word integer (that is, greater than 7FFFH or less than 8000H),
 PSUBUSB/PSUBUSW—Subtract Packed Unsigned Integers with Unsigned Saturation
 
 Opcode/ Op/ 64/32 bit CPUID Description
-Instruction En Mode Feature 
-               Support Flag 
-0F D8 /r 
+Instruction En Mode Feature
+               Support Flag
+
+0F D8 /r
 PSUBUSB mm, mm/m64
-RM V/V MMX 
+RM V/V MMX
 Subtract unsigned packed bytes in mm/m64
  from unsigned packed bytes in mm and
  saturate result.
 
 66 0F D8 /r
 PSUBUSB xmm1, xmm2/m128
-RM V/V SSE2 
+RM V/V SSE2
 Subtract packed unsigned byte integers in
  xmm2/m128 from packed unsigned byte
  integers in xmm1 and saturate result.
 
 0F D9 /r
 PSUBUSW mm, mm/m64
-RM V/V MMX 
+RM V/V MMX
 Subtract unsigned packed words in mm/m64
  from unsigned packed words in mm and
  saturate result.
 
 66 0F D9 /r
 PSUBUSW xmm1, xmm2/m128
-RM V/V SSE2 
+RM V/V SSE2
 Subtract packed unsigned word integers in
  xmm2/m128 from packed unsigned word
  integers in xmm1 and saturate result.
 
 VEX.NDS.128.66.0F.WIG D8 /r
 VPSUBUSB xmm1, xmm2, xmm3/m128
-RVM V/V AVX 
+RVM V/V AVX
 Subtract packed unsigned byte integers in
  xmm3/m128 from packed unsigned byte
  integers in xmm2 and saturate result.
 
 VEX.NDS.128.66.0F.WIG D9 /r
 VPSUBUSW xmm1, xmm2, xmm3/m128
-RVM V/V AVX 
+RVM V/V AVX
 Subtract packed unsigned word integers in
  xmm3/m128 from packed unsigned word
  integers in xmm2 and saturate result.
 
 VEX.NDS.256.66.0F.WIG D8 /r
 VPSUBUSB ymm1, ymm2, ymm3/m256
-RVM V/V AVX2 
+RVM V/V AVX2
 Subtract packed unsigned byte integers in
  ymm3/m256 from packed unsigned byte
  integers in ymm2 and saturate result.
 
 VEX.NDS.256.66.0F.WIG D9 /r
 VPSUBUSW ymm1, ymm2, ymm3/m256
-RVM V/V AVX2 
+RVM V/V AVX2
 Subtract packed unsigned word integers in
  ymm3/m256 from packed unsigned word
  integers in ymm2 and saturate result.
@@ -1247,4 +1250,3 @@ zero, the saturated value of 00H is written to the destination operand.
 The (V)PSUBUSW instruction subtracts packed unsigned word integers. When an individual word result is less than
 zero, the saturated value of 0000H is written to the destination operand.
 ---------------------------------------------------------------------
-

@@ -8,7 +8,7 @@ Feature
 Flag
 Description
 
-VEX.NDS.256.66.0F3A.W0 18 /r ib 
+VEX.NDS.256.66.0F3A.W0 18 /r ib
 VINSERTF128 ymm1, ymm2, xmm3/m128, imm8
 RVM V/V AVX
 Insert a single precision floating-point value
@@ -49,8 +49,8 @@ Feature
 Flag
 Description
 
-VEX.NDS.256.66.0F3A.W0 38 /r ib 
-VINSERTI128 ymm1, ymm2, xmm3/m128, imm8 
+VEX.NDS.256.66.0F3A.W0 38 /r ib
+VINSERTI128 ymm1, ymm2, xmm3/m128, imm8
 RVMI V/V AVX2
 Insert 128-bits of integer data from xmm3/mem
 and the remaining values from ymm2 into
@@ -80,59 +80,59 @@ DEST TEMP
 
 VMASKMOV—Conditional SIMD Packed Loads and Stores
 
-Opcode/ Op/ 
-Instruction En 
+Opcode/ Op/
+Instruction En
 64/32-bit CPUID
 Mode
 Feature
 Flag
 Description
 
-VEX.NDS.128.66.0F38.W0 2C /r 
+VEX.NDS.128.66.0F38.W0 2C /r
 VMASKMOVPS xmm1, xmm2, m128
-RVM V/V AVX 
+RVM V/V AVX
 Conditionally load packed single-precision values from
  m128 using mask in xmm2 and store in xmm1.
 
 VEX.NDS.256.66.0F38.W0 2C /r
 VMASKMOVPS ymm1, ymm2, m256
-RVM V/V AVX 
+RVM V/V AVX
 Conditionally load packed single-precision values from
  m256 using mask in ymm2 and store in ymm1.
 
 VEX.NDS.128.66.0F38.W0 2D /r
 VMASKMOVPD xmm1, xmm2, m128
-RVM V/V AVX 
+RVM V/V AVX
 Conditionally load packed double-precision values from
  m128 using mask in xmm2 and store in xmm1.
 
 VEX.NDS.256.66.0F38.W0 2D /r
 VMASKMOVPD ymm1, ymm2, m256
-RVM V/V AVX 
+RVM V/V AVX
 Conditionally load packed double-precision values from
  m256 using mask in ymm2 and store in ymm1.
 
 VEX.NDS.128.66.0F38.W0 2E /r
 VMASKMOVPS m128, xmm1, xmm2
-MVR V/V AVX 
+MVR V/V AVX
 Conditionally store packed single-precision values from
  xmm2 using mask in xmm1.
 
 VEX.NDS.256.66.0F38.W0 2E /r
 VMASKMOVPS m256, ymm1, ymm2
-MVR V/V AVX 
+MVR V/V AVX
 Conditionally store packed single-precision values from
  ymm2 using mask in ymm1.
 
 VEX.NDS.128.66.0F38.W0 2F /r
 VMASKMOVPD m128, xmm1, xmm2
-MVR V/V AVX 
+MVR V/V AVX
 Conditionally store packed double-precision values from
  xmm2 using mask in xmm1.
 
 VEX.NDS.256.66.0F38.W0 2F /r
 VMASKMOVPD m256, ymm1, ymm2
-MVR V/V AVX 
+MVR V/V AVX
 Conditionally store packed double-precision values from
  ymm2 using mask in ymm1.
 
@@ -173,23 +173,23 @@ VPBLENDD — Blend Packed Dwords
 
 Opcode/ Op/
 Instruction En
-64/32 
-     -bit 
+64/32
+     -bit
      Mode
 CPUID Description
-Feature 
-Flag 
+Feature
+Flag
 
-VEX.NDS.128.66.0F3A.W0 02 /r ib 
-VPBLENDD xmm1, xmm2, xmm3/m128, imm8 
-RVMI V/V AVX2 
+VEX.NDS.128.66.0F3A.W0 02 /r ib
+VPBLENDD xmm1, xmm2, xmm3/m128, imm8
+RVMI V/V AVX2
 Select dwords from xmm2 and xmm3/m128 from
  mask specified in imm8 and store the values into
  xmm1.
 
-VEX.NDS.256.66.0F3A.W0 02 /r ib 
-VPBLENDD ymm1, ymm2, ymm3/m256, imm8 
-RVMI V/V AVX2 
+VEX.NDS.256.66.0F3A.W0 02 /r ib
+VPBLENDD ymm1, ymm2, ymm3/m256, imm8
+RVMI V/V AVX2
 Select dwords from ymm2 and ymm3/m256 from
  mask specified in imm8 and store the values into
  ymm1.
@@ -214,66 +214,66 @@ VPBROADCAST—Broadcast Integer Data
 
 Opcode/ Op/
 Instruction En
-CPUID 
-64/32 
-   -bit 
-   Mode 
-Feature 
-Flag 
+CPUID
+64/32
+   -bit
+   Mode
+Feature
+Flag
 Description
 
-VEX.128.66.0F38.W0 78 /r 
-VPBROADCASTB xmm1, xmm2/m8 
-RM V/V AVX2 
+VEX.128.66.0F38.W0 78 /r
+VPBROADCASTB xmm1, xmm2/m8
+RM V/V AVX2
 Broadcast a byte integer in the source operand to six-
 teen locations in xmm1.
 
 
-VEX.256.66.0F38.W0 78 /r 
-VPBROADCASTB ymm1, xmm2/m8 
-RM V/V AVX2 
+VEX.256.66.0F38.W0 78 /r
+VPBROADCASTB ymm1, xmm2/m8
+RM V/V AVX2
 Broadcast a byte integer in the source operand to thirty-
 two locations in ymm1.
 
-VEX.128.66.0F38.W0 79 /r 
-VPBROADCASTW xmm1, xmm2/m16 
-RM V/V AVX2 
+VEX.128.66.0F38.W0 79 /r
+VPBROADCASTW xmm1, xmm2/m16
+RM V/V AVX2
 Broadcast a word integer in the source operand to eight
 locations in xmm1.
 
-VEX.256.66.0F38.W0 79 /r 
-VPBROADCASTW ymm1, xmm2/m16 
-RM V/V AVX2 
+VEX.256.66.0F38.W0 79 /r
+VPBROADCASTW ymm1, xmm2/m16
+RM V/V AVX2
 Broadcast a word integer in the source operand to six-
 teen locations in ymm1.
 
-VEX.128.66.0F38.W0 58 /r 
-VPBROADCASTD xmm1, xmm2/m32 
-RM V/V AVX2 
+VEX.128.66.0F38.W0 58 /r
+VPBROADCASTD xmm1, xmm2/m32
+RM V/V AVX2
 Broadcast a dword integer in the source operand to four
 locations in xmm1.
 
-VEX.256.66.0F38.W0 58 /r 
-VPBROADCASTD ymm1, xmm2/m32 
-RM V/V AVX2 
+VEX.256.66.0F38.W0 58 /r
+VPBROADCASTD ymm1, xmm2/m32
+RM V/V AVX2
 Broadcast a dword integer in the source operand to eight
 locations in ymm1.
 
-VEX.128.66.0F38.W0 59 /r 
-VPBROADCASTQ xmm1, xmm2/m64 
-RM V/V AVX2 
+VEX.128.66.0F38.W0 59 /r
+VPBROADCASTQ xmm1, xmm2/m64
+RM V/V AVX2
 Broadcast a qword element in mem to two locations in
 xmm1.
 
-VEX.256.66.0F38.W0 59 /r 
-VPBROADCASTQ ymm1, xmm2/m64 
-RM V/V AVX2 
+VEX.256.66.0F38.W0 59 /r
+VPBROADCASTQ ymm1, xmm2/m64
+RM V/V AVX2
 Broadcast a qword element in mem to four locations in
 ymm1.
 
-VEX.256.66.0F38.W0 5A /r 
+VEX.256.66.0F38.W0 5A /r
 VBROADCASTI128 ymm1, m128
-RM V/V AVX2 
+RM V/V AVX2
 Broadcast 128 bits of integer data in mem to low and
  high 128-bits in ymm1.
 
@@ -308,8 +308,8 @@ Feature
 Flag
 Description
 
-VEX.NDS.256.66.0F38.W0 36 /r 
-VPERMD ymm1, ymm2, ymm3/m256 
+VEX.NDS.256.66.0F38.W0 36 /r
+VPERMD ymm1, ymm2, ymm3/m256
 RVM V/V AVX2
 Permute doublewords in ymm3/m256 using indexes in
 ymm2 and store the result in ymm1.
@@ -339,8 +339,8 @@ Feature
 Flag
 Description
 
-VEX.256.66.0F3A.W1 01 /r ib 
-VPERMPD ymm1, ymm2/m256, imm8 
+VEX.256.66.0F3A.W1 01 /r ib
+VPERMPD ymm1, ymm2/m256, imm8
 RMI V/V AVX2
 Permute double-precision floating-point elements in
 ymm2/m256 using indexes in imm8 and store the
@@ -366,12 +366,12 @@ Instruction En
 -bit
 Mode
 CPUID Description
-Feature 
-Flag 
+Feature
+Flag
 
-VEX.NDS.256.66.0F38.W0 16 /r 
-VPERMPS ymm1, ymm2, ymm3/m256 
-RVM V/V AVX2 
+VEX.NDS.256.66.0F38.W0 16 /r
+VPERMPS ymm1, ymm2, ymm3/m256
+RVM V/V AVX2
 Permute single-precision floating-point elements in
  ymm3/m256 using indexes in ymm2 and store the
  result in ymm1.
@@ -401,8 +401,8 @@ Feature
 Flag
 Description
 
-VEX.256.66.0F3A.W1 00 /r ib 
-VPERMQ ymm1, ymm2/m256, imm8 
+VEX.256.66.0F3A.W1 00 /r ib
+VPERMQ ymm1, ymm2/m256, imm8
 RMI V/V AVX2
 Permute qwords in ymm2/m256 using indexes in
 imm8 and store the result in ymm1.
@@ -431,8 +431,8 @@ Feature
 Flag
 Description
 
-VEX.NDS.256.66.0F3A.W0 46 /r ib 
-VPERM2I128 ymm1, ymm2, ymm3/m256, imm8 
+VEX.NDS.256.66.0F3A.W0 46 /r ib
+VPERM2I128 ymm1, ymm2, ymm3/m256, imm8
 RVMI AVX2 V/V
 Permute 128-bit integer data in ymm2 and
 ymm3/mem using controls from imm8 and
@@ -457,32 +457,32 @@ Instruction En
 Mode
 Support
 CPUID Description
-Feature 
-Flag 
+Feature
+Flag
 
-VEX.NDS.128.66.0F38.W0 0D /r 
-VPERMILPD xmm1, xmm2, xmm3/m128 
-RVM V/V AVX 
+VEX.NDS.128.66.0F38.W0 0D /r
+VPERMILPD xmm1, xmm2, xmm3/m128
+RVM V/V AVX
 Permute double-precision floating-point values
  in xmm2 using controls from xmm3/mem and
  store result in xmm1.
 
-VEX.NDS.256.66.0F38.W0 0D /r 
-VPERMILPD ymm1, ymm2, ymm3/m256 
-RVM V/V AVX 
+VEX.NDS.256.66.0F38.W0 0D /r
+VPERMILPD ymm1, ymm2, ymm3/m256
+RVM V/V AVX
 Permute double-precision floating-point values
  in ymm2 using controls from ymm3/mem and
  store result in ymm1.
 
-VEX.128.66.0F3A.W0 05 /r ib 
+VEX.128.66.0F3A.W0 05 /r ib
 VPERMILPD xmm1, xmm2/m128, imm8
-RMI V/V AVX 
+RMI V/V AVX
 Permute double-precision floating-point values
  in xmm2/mem using controls from imm8.
 
-VEX.256.66.0F3A.W0 05 /r ib 
+VEX.256.66.0F3A.W0 05 /r ib
 VPERMILPD ymm1, ymm2/m256, imm8
-RMI V/V AVX 
+RMI V/V AVX
 Permute double-precision floating-point values
  in ymm2/mem using controls from imm8.
 
@@ -497,7 +497,7 @@ fields in the low bytes of the second source operand (third operand) and store r
 (first operand). The first source operand is a YMM register, the second source operand is a YMM register or a 256-
 bit memory location, and the destination operand is a YMM register.
 ---------------------------------------------------------------------
- 
+
 VPERMILPS — Permute Single-Precision Floating-Point Values
 
 Opcode/ Op/
@@ -506,33 +506,33 @@ Instruction En
 Mode
 Support
 CPUID Description
-Feature 
-Flag 
+Feature
+Flag
 
-VEX.NDS.128.66.0F38.W0 0C /r 
-VPERMILPS xmm1, xmm2, xmm3/m128 
-RVM V/V AVX 
+VEX.NDS.128.66.0F38.W0 0C /r
+VPERMILPS xmm1, xmm2, xmm3/m128
+RVM V/V AVX
 Permute single-precision floating-point values in
  xmm2 using controls from xmm3/mem and store
  result in xmm1.
 
-VEX.128.66.0F3A.W0 04 /r ib 
+VEX.128.66.0F3A.W0 04 /r ib
 VPERMILPS xmm1, xmm2/m128, imm8
-RMI V/V AVX 
+RMI V/V AVX
 Permute single-precision floating-point values in
  xmm2/mem using controls from imm8 and store
  result in xmm1.
 
-VEX.NDS.256.66.0F38.W0 0C /r 
+VEX.NDS.256.66.0F38.W0 0C /r
 VPERMILPS ymm1, ymm2, ymm3/m256
-RVM V/V AVX 
+RVM V/V AVX
 Permute single-precision floating-point values in
  ymm2 using controls from ymm3/mem and store
  result in ymm1.
 
-VEX.256.66.0F3A.W0 04 /r ib 
+VEX.256.66.0F3A.W0 04 /r ib
 VPERMILPS ymm1, ymm2/m256, imm8
-RMI V/V AVX 
+RMI V/V AVX
 Permute single-precision floating-point values in
  ymm2/mem using controls from imm8 and store
  result in ymm1.
@@ -558,12 +558,12 @@ Instruction En
 Mode
 Support
 CPUID Description
-Feature 
-Flag 
+Feature
+Flag
 
-VEX.NDS.256.66.0F3A.W0 06 /r ib 
-VPERM2F128 ymm1, ymm2, ymm3/m256, imm8 
-RVMI V/V AVX 
+VEX.NDS.256.66.0F3A.W0 06 /r ib
+VPERM2F128 ymm1, ymm2, ymm3/m256, imm8
+RVMI V/V AVX
 Permute 128-bit floating-point fields in ymm2
  and ymm3/mem using controls from imm8 and
  store result in ymm1.
@@ -583,56 +583,56 @@ VPMASKMOV — Conditional SIMD Integer Packed Loads and Stores
 
 Opcode/ Op/
 Instruction En
-64/32 CPUID 
-    -bit Feature 
-    Mode Flag 
+64/32 CPUID
+    -bit Feature
+    Mode Flag
 Description
 
-VEX.NDS.128.66.0F38.W0 8C /r 
-VPMASKMOVD xmm1, xmm2, m128 
-RVM V/V AVX2 
+VEX.NDS.128.66.0F38.W0 8C /r
+VPMASKMOVD xmm1, xmm2, m128
+RVM V/V AVX2
 Conditionally load dword values from m128 using mask
 in xmm2 and store in xmm1.
 
-VEX.NDS.256.66.0F38.W0 8C /r 
+VEX.NDS.256.66.0F38.W0 8C /r
 VPMASKMOVD ymm1, ymm2, m256
-RVM V/V AVX2 
+RVM V/V AVX2
 Conditionally load dword values from m256 using mask
  in ymm2 and store in ymm1.
 
-VEX.NDS.128.66.0F38.W1 8C /r 
+VEX.NDS.128.66.0F38.W1 8C /r
 VPMASKMOVQ xmm1, xmm2, m128
-RVM V/V AVX2 
+RVM V/V AVX2
 Conditionally load qword values from m128 using mask
  in xmm2 and store in xmm1.
 
-VEX.NDS.256.66.0F38.W1 8C /r 
+VEX.NDS.256.66.0F38.W1 8C /r
 VPMASKMOVQ ymm1, ymm2, m256
-RVM V/V AVX2 
+RVM V/V AVX2
 Conditionally load qword values from m256 using mask
  in ymm2 and store in ymm1.
- 
-VEX.NDS.128.66.0F38.W0 8E /r 
+
+VEX.NDS.128.66.0F38.W0 8E /r
 VPMASKMOVD m128, xmm1, xmm2
-MVR V/V AVX2 
+MVR V/V AVX2
 Conditionally store dword values from xmm2 using
  mask in xmm1.
 
-VEX.NDS.256.66.0F38.W0 8E /r 
+VEX.NDS.256.66.0F38.W0 8E /r
 VPMASKMOVD m256, ymm1, ymm2
-MVR V/V AVX2 
+MVR V/V AVX2
 Conditionally store dword values from ymm2 using
  mask in ymm1.
 
-VEX.NDS.128.66.0F38.W1 8E /r 
+VEX.NDS.128.66.0F38.W1 8E /r
 VPMASKMOVQ m128, xmm1, xmm2
-MVR V/V AVX2 
+MVR V/V AVX2
 Conditionally store qword values from xmm2 using
  mask in xmm1.
 
-VEX.NDS.256.66.0F38.W1 8E /r 
+VEX.NDS.256.66.0F38.W1 8E /r
 VPMASKMOVQ m256, ymm1, ymm2
-MVR V/V AVX2 
+MVR V/V AVX2
 Conditionally store qword values from ymm2 using
  mask in ymm1.
 
@@ -674,35 +674,35 @@ VPSLLVD/VPSLLVQ — Variable Bit Shift Left Logical
 Opcode/ Op/
 Instruction En
 64/32 -bit Mode
-CPUID 
-Feature 
-Flag 
+CPUID
+Feature
+Flag
 Description
 
-VEX.NDS.128.66.0F38.W0 47 /r 
-VPSLLVD xmm1, xmm2, xmm3/m128 
-RVM V/V AVX2 
+VEX.NDS.128.66.0F38.W0 47 /r
+VPSLLVD xmm1, xmm2, xmm3/m128
+RVM V/V AVX2
 Shift bits in doublewords in xmm2 left by amount speci-
 fied in the corresponding element of xmm3/m128 while
 shifting in 0s.
 
-VEX.NDS.128.66.0F38.W1 47 /r 
+VEX.NDS.128.66.0F38.W1 47 /r
 VPSLLVQ xmm1, xmm2, xmm3/m128
-RVM V/V AVX2 
+RVM V/V AVX2
 Shift bits in quadwords in xmm2 left by amount speci-
  fied in the corresponding element of xmm3/m128 while
  shifting in 0s.
 
-VEX.NDS.256.66.0F38.W0 47 /r 
+VEX.NDS.256.66.0F38.W0 47 /r
 VPSLLVD ymm1, ymm2, ymm3/m256
-RVM V/V AVX2 
+RVM V/V AVX2
 Shift bits in doublewords in ymm2 left by amount speci-
  fied in the corresponding element of ymm3/m256 while
  shifting in 0s.
 
-VEX.NDS.256.66.0F38.W1 47 /r 
+VEX.NDS.256.66.0F38.W1 47 /r
 VPSLLVQ ymm1, ymm2, ymm3/m256
-RVM V/V AVX2 
+RVM V/V AVX2
 Shift bits in quadwords in ymm2 left by amount speci-
  fied in the corresponding element of ymm3/m256 while
  shifting in 0s.
@@ -724,4 +724,3 @@ zeroed.
 VEX.256 encoded version: The destination and first source operands are YMM registers. The count operand can be
 either an YMM register or a 256-bit memory location.
 ---------------------------------------------------------------------
-
