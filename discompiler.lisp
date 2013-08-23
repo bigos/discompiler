@@ -15,20 +15,20 @@
   ;;(process-file (car *reference-files*))
   ;;remove subseq to check every file
   (dolist (file  *reference-files*)
-    (setf *instructions* (nconc *instructions* (process-file file))))
-  (format t "~&no separator in following files ~S~%" *problem-files*))
+    (setf *instructions* (nconc *instructions* (process-file file)))))
 
-(defun column-info ()
-  (let ((z))
-    (dolist (inst *instructions*)
-      (format t "~&~s ~s~%~%" (subseq (caar inst) 0 7 ) (cadr inst)))))
+(defun instruction-title (instruction)
+  (car instruction))
+
+(defun instruction-columns (instruction)
+  (cadr instruction))
 
 (defun show-suspected () 
   (let ((ci))
     (dolist (inst *instructions*)
       (setf ci (cadr inst)) 
-      (if (> (list-length ci) 5) 
-          (format t "~&~a ~s ~%" (length  ci)  ci )))))
+      (if (> (list-length ci) 1) 
+          (format t "~&~a ~%~%~%~s ~%" (length  ci)  ci )))))
 
 (defun process-file (file)
   (declare (optimize (speed 0) (space 1) (compilation-speed 0) (debug 3)))
