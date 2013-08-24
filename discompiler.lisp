@@ -12,8 +12,6 @@
   ;; "64/32bit" "Mode" "Support" "CPUID" "Feature" "Flag" "Description")
   ;; wow!!!
   (defparameter *instructions* nil)
-  ;;(process-file (car *reference-files*))
-  ;;remove subseq to check every file
   (dolist (file  *reference-files*)
     (setf *instructions* (nconc *instructions* (process-file file)))))
 
@@ -25,17 +23,23 @@
 
 (defun column-keywords (instruction)
   (let ((column-data (instruction-columns instruction)))
-    (sort (remove-if 'emptystrp (cl-utilities:split-sequence #\space (list-to-string column-data))) #'string-lessp)))
+    (sort 
+     (remove-if 'emptystrp (cl-utilities:split-sequence 
+                            #\space 
+                            (list-to-string column-data))) 
+     #'string-lessp)))
 
 (defun emptystrp (string)
   (if (equal string "") 
       T 
       nil))
 
-(defun list-to-string (my-list &optional (pad " ")) 
+(defun list-to-string (my-list &optional (separator " ")) 
   (let ((result))
     (dolist (item my-list)
-      (setf result (concatenate 'string result (format nil "~A~a" item pad))))
+      (setf result (concatenate 'string 
+                                result 
+                                (format nil "~A~a" item separator))))
     result))
 
 (defun show-suspected () 
