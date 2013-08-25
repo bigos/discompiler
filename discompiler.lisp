@@ -50,20 +50,30 @@
           (format t "~&~a ~%~%~%~s ~%" (length  ci)  ci )))))
 
 (defun instruction-memonics (instruction)
-  (let ((title (instruction-title instruction)))
-    ))
+  (let ((separator "—") 
+        (title (caar instruction)))
+    (subseq title 0 (search  separator title) )))
 
 (defun uniques (instructions)
-  (let ((columns) (found))
+  (let ((columns) (mnemonics) (found) (column-mnemonics))
     (dolist (i instructions)
       (setf columns (column-keywords i))
-      ;; if columns exist in found
-      ;; then
-      ;; add instruction heading to columns
-      ;; else
-      ;; add columns to found with instruction heading
-      )
-    found))
+      (setf mnemonics (instruction-memonics i))
+      (setf found nil)
+      (format t "~s ~s ~S~%" found columns mnemonics)
+      (loop for cm in column-mnemonics
+         when (equalp columns (car cm))
+         do
+           (progn
+             (push mnemonics (cadr cm))
+             (format t ">>>>> ~S ~S~%" cm (cadr cm))
+             (setf found T)
+             (loop-finish)))      
+      (unless found
+        (progn
+          (format t "not found ~%")
+          (push `(,columns (,mnemonics)) column-mnemonics))))
+    column-mnemonics))
 
 (defun process-file (file)
   (declare (optimize (speed 0) (space 1) (compilation-speed 0) (debug 3)))
