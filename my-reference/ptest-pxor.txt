@@ -1,4 +1,4 @@
-PTEST- Logical Compare
+PTEST— Logical Compare
 
 Opcode/ Op/ 64/32 bit CPUID Description
 Instruction En Mode Feature

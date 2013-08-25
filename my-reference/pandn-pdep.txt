@@ -330,7 +330,7 @@ VEX.256 encoded version: The first source operand is a YMM register. The second 
 or a 256-bit memory location. The destination operand is a YMM register.
 ---------------------------------------------------------------------
 
-PCLMULQDQ - Carry-Less Multiplication Quadword
+PCLMULQDQ — Carry-Less Multiplication Quadword
 
 Opcode/ Op/ 64/32 bit CPUID Description
 Instruction En Mode Feature

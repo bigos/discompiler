@@ -49,6 +49,22 @@
       (if (> (list-length ci) 1) 
           (format t "~&~a ~%~%~%~s ~%" (length  ci)  ci )))))
 
+(defun instruction-memonics (instruction)
+  (let ((title (instruction-title instruction)))
+    ))
+
+(defun uniques (instructions)
+  (let ((columns) (found))
+    (dolist (i instructions)
+      (setf columns (column-keywords i))
+      ;; if columns exist in found
+      ;; then
+      ;; add instruction heading to columns
+      ;; else
+      ;; add columns to found with instruction heading
+      )
+    found))
+
 (defun process-file (file)
   (declare (optimize (speed 0) (space 1) (compilation-speed 0) (debug 3)))
   ;; use -> (step (process-file (car *reference-files*)))
