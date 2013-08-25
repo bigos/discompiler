@@ -524,7 +524,7 @@ None.
 
 OUTS/OUTSB/OUTSW/OUTSD—Output String to Port
 
-Opcode* Instruction Op/ 64-Bit Compat/ Description
+Opcode Instruction Op/ 64-Bit Compat/ Description
                     En Mode Leg Mode
 
 6E 

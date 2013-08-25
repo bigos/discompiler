@@ -77,9 +77,11 @@ processor.
 
 WRFSBASE/WRGSBASE—Write FS/GS Segment Base
 
-Opcode/ Op/ 64/32- CPUID Fea- Description
-Instruction En bit ture Flag
-               Mode 
+Opcode/ Op/ 64/32-bit 
+CPUID Feature 
+Description
+Instruction En 
+Flag Mode 
 
 F3 0F AE /2 
 WRFSBASE r32

@@ -266,7 +266,7 @@ shows the unpack operation for bytes in 64-bit operands.). The high-order data e
 
 PUSH—Push Word, Doubleword or Quadword Onto the Stack
 
-Opcode* Instruction Op/ 64-Bit Compat/ Description
+Opcode Instruction Op/ 64-Bit Compat/ Description
                     En Mode Leg Mode
 
 FF /6
