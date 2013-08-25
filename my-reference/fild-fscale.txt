@@ -519,7 +519,7 @@ C0, C1, C2, C3 undefined.
 
 FPATAN—Partial Arctangent
 
-Opcode* Instruction 64-Bit Compat/ Description
+Opcode Instruction 64-Bit Compat/ Description
                     Mode Leg Mode 
 
 D9 F3 

@@ -1,6 +1,6 @@
 BOUND—Check Array Index Against Bounds
 
-Opcode/Instruction Op/ 64-bit Compat/ Description
+Opcode Instruction Op/ 64-bit Compat/ Description
                    En  Mode   Leg Mode
 
 62 /r

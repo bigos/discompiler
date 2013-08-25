@@ -65,7 +65,7 @@ Undefined for non-string instructions or other situations.
 
 XABORT — Transactional Abort
 
-Opcode/Instruction Op/ En
+Opcode/ Instruction Op/ En
 64/32bit Mode Support
 CPUID Feature Flag
 Description
@@ -173,7 +173,9 @@ operand.
 
 XBEGIN — Transactional Begin
 
-Opcode/Instruction Op/En
+Opcode/
+Instruction Op/
+En
 64/32bit Mode Support
 CPUID 
 Feature 
@@ -339,7 +341,9 @@ None.
 
 XEND — Transactional End
 
-Opcode/Instruction Op/En
+Opcode/
+Instruction Op/
+En
 64/32bit
 Mode
 Support

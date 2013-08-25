@@ -1268,8 +1268,8 @@ before gathering any elements.
 ---------------------------------------------------------------------
 
 VPGATHERDD/VPGATHERQD — Gather Packed Dword Values Using Signed Dword/Qword
-
 Indices
+
 Opcode/ Op/
 Instruction En
 64/32 CPUID
@@ -1365,8 +1365,8 @@ elements an indeterminate number of times.
 ---------------------------------------------------------------------
 
 VPGATHERDQ/VPGATHERQQ — Gather Packed Qword Values Using Signed Dword/Qword
-
 Indices
+
 Opcode/ Op/
 Instruction En
 64/32 CPUID

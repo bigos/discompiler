@@ -22,12 +22,14 @@
   (cadr instruction))
 
 (defun column-keywords (instruction)
-  (let ((column-data (instruction-columns instruction)))
-    (sort 
-     (remove-if 'emptystrp 
-      (cl-utilities:split-sequence #\space 
-                                   (list-to-string column-data))) 
-     #'string-lessp)))
+  (let ((column-data (instruction-columns instruction)))      
+    (sort (map 'list 
+               #'(lambda (x) (string-trim "/" x)) 
+               (remove-if 'emptystrp 
+                          (cl-utilities:split-sequence #\space 
+                                                       (list-to-string 
+                                                        column-data)))) 
+          #'string-lessp)))
 
 (defun emptystrp (string)
   (if (equal string "") 
@@ -52,7 +54,7 @@
 (defun instruction-memonics (instruction)
   (let ((separator "—") 
         (title (caar instruction)))
-    (subseq title 0 (search  separator title) )))
+    (string-trim " " (subseq title 0 (search  separator title)))))
 
 (defun uniques (instructions)
   (let ((columns) (mnemonics) (found) (column-mnemonics))
@@ -60,18 +62,18 @@
       (setf columns (column-keywords i))
       (setf mnemonics (instruction-memonics i))
       (setf found nil)
-      (format t "~s ~s ~S~%" found columns mnemonics)
+      ;;(format t "~s ~s ~S~%" found columns mnemonics)
       (loop for cm in column-mnemonics
          when (equalp columns (car cm))
          do
            (progn
              (push mnemonics (cadr cm))
-             (format t ">>>>> ~S ~S~%" cm (cadr cm))
+             ;;(format t ">>>>> ~S ~S~%" cm (cadr cm))
              (setf found T)
              (loop-finish)))      
       (unless found
         (progn
-          (format t "not found ~%")
+          ;;(format t "not found ~%")
           (push `(,columns (,mnemonics)) column-mnemonics))))
     column-mnemonics))
 

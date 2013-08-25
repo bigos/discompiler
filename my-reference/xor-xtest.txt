@@ -454,7 +454,9 @@ None.
 
 XTEST — Test If In Transactional Execution
 
-Opcode/Instruction Op/En
+Opcode/
+Instruction Op/
+En
 64/32bit
 Mode
 Support
