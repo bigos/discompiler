@@ -1,20 +1,14 @@
 (defun mnemonic-columns (mnemonics)
   (let ((my-data))
-    (setf my-data '((("64/32bit" "CPUID" "Description" "En" "Feature" "Flag" "Instruction"
-                      "Mode" "Op" "Opcode" "Support")
-                     ("Opcode/Instruction" "Op/En" "64/32bit Mode Support" 
+    (setf my-data '((("Opcode/Instruction" "Op/En" "64/32bit Mode Support" 
                       "CPUID Feature Flag" "Description")
                      ("XTEST" "XEND" "XBEGIN" "XABORT"))
 
-                    (("64/32-" "bit" "CPUID" "Description" "Feature" "Flag" "Instruction"
-                      "Mode" "Opcode" "Support")
-                     ("Opcode/Instruction" "64/32bit Mode Support"
+                    (("Opcode/Instruction" "64/32bit Mode Support"
                       "CPUID Feature Flag" "Description")
                      ("XACQUIRE/XRELEASE"))
 
-                    (("64/32" "bit" "CPUID" "Description" "En" "Feature" "Flag" "Instruction"
-                      "Mode" "Op" "Opcode" "Support")
-                     ("Opcode/Instruction" "Op/En" "64/32bit Mode Support" 
+                    (("Opcode/Instruction" "Op/En" "64/32bit Mode Support" 
                       "CPUID Feature Flag" "Description")
                      ("XSAVEOPT" "XORPS" "XORPD" "VZEROUPPER" "VZEROALL" "VTESTPD/VTESTPS"
                       "VPERM2F128" "VPERMILPS" "VPERMILPD" "UNPCKLPS" "UNPCKLPD" "UNPCKHPS"
@@ -38,9 +32,7 @@
                       "PACKSSWB/PACKSSDW" "PABSB/PABSW/PABSD" "ORPS" "ORPD"))
 
 
-                    (("64-Bit" "Compat" "Description" "Instruction" "Leg" "Mode" "Mode"
-                      "Opcode")
-                     ("Opcode" "Instruction" "64-Bit Mode" "Compat/ Leg Mode" "Description")
+                    (("Opcode" "Instruction" "64-Bit Mode" "Compat/ Leg Mode" "Description")
                      ("FYL2XP1" "FYL2X" "FXTRACT" "FXCH" "FXAM" "FUCOM/FUCOMP/FUCOMPP" "FTST"
                       "FSUBR/FSUBRP/FISUBR" "FSUB/FSUBP/FISUB" "FSTSW/FNSTSW" "FSTENV/FNSTENV"
                       "FSTCW/FNSTCW" "FST/FSTP" "FSQRT" "FSINCOS" "FSIN" "FSCALE"
@@ -52,18 +44,14 @@
                       "FCOMI/FCOMIP/ FUCOMI/FUCOMIP" "FCOM/FCOMP/FCOMPP" "FCMOVcc"
                       "FCLEX/FNCLEX" "FCHS" "FBSTP" "FBLD" "FADD/FADDP/FIADD" "FABS" "F2XM1"))
 
-                    (("64/32-" "bit" "CPUID" "Description" "En" "Feature" "Flag" "Instruction"
-                      "Mode" "Op" "Opcode")
-                     ("Opcode/Instruction" "Op/En" "64/32bit Mode" 
+                    (("Opcode/Instruction" "Op/En" "64/32bit Mode" 
                       "CPUID Feature Flag" "Description")
                      ("VFNMSUB132SD/VFNMSUB213SD/VFNMSUB231SD"
                       "VFMADD132SD/VFMADD213SD/VFMADD231SD"
                       "VFMADD132PD/VFMADD213PD/VFMADD231PD" "VCVTPS2PH" "VCVTPH2PS" "INVPCID"
                       "CMPPS" "CMPPD"))
 
-                    (("-bit" "64/32" "CPUID" "Description" "En" "Feature" "Flag" "Instruction"
-                      "Mode" "Op" "Opcode")
-                     ("Opcode/Instruction" "Op/En" "64/32bit Mode" 
+                    (("Opcode/Instruction" "Op/En" "64/32bit Mode" 
                       "CPUID Feature Flag" "Description")
                      ("VPSRLVD/VPSRLVQ" "VPSRAVD" "VPSLLVD/VPSLLVQ" "VPMASKMOV" "VPERM2I128"
                       "VPERMQ" "VPERMPS" "VPERMPD" "VPERMD" "VPBROADCAST" "VPBLENDD"
@@ -88,9 +76,7 @@
                       "PEXT" "PDEP" "MULX" "LZCNT" "BZHI" "BLSR" "BLSMSK" "BLSI" "BEXTR"
                       "ANDN"))
 
-                    (("64/32-bit" "CPUID" "Description" "En" "Feature" "Flag" "Instruction"
-                      "Mode" "Op" "Opcode")
-                     ("Opcode/Instruction" "Op/En" "64/32bit Mode" 
+                    (("Opcode/Instruction" "Op/En" "64/32bit Mode" 
                       "CPUID Feature Flag" "Description")
                      ("WRFSBASE/WRGSBASE" "VMASKMOV" "VINSERTF128" "VGATHERDPD/VGATHERQPD"
                       "VEXTRACTI128" "VEXTRACTF128" "VBROADCAST" "RDFSBASE/RDGSBASE" "MULSS"
@@ -108,9 +94,7 @@
                       "AESENC" "AESDECLAST" "AESDEC" "ANDNPS" "ANDNPD" "ANDPS" "ANDPD"
                       "ADDSUBPS" "ADDSUBPD" "ADDSS" "ADDSD" "ADDPS" "ADDPD"))
 
-                    (("64-bit" "Compat" "Description" "En" "Instruction" "Leg" "Mode" "Mode"
-                      "Op" "Opcode")
-                     ("Opcode" "Instruction" "Op/En" "64-bit Mode" 
+                    (("Opcode" "Instruction" "Op/En" "64-bit Mode" 
                       "Compat Leg Mode" "Description")
                      ("XSETBV" "XSAVE" "XRSTOR" "XOR" "XLAT/XLATB" "XGETBV" "XCHG" "XADD"
                       "WRMSR" "WBINVD" "WAIT/FWAIT" "VERR/VERW" "UD2" "TEST" "SYSRET"
