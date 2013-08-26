@@ -52,6 +52,13 @@
       (if (> (list-length ci) 1) 
           (format t "~&~a ~%~%~%~s ~%" (length  ci)  ci )))))
 
+(defun all-mnemonics ()
+  (sort (flatten (loop for x in (summary-table-column-data) collect (nth 1 x))) #'string-lessp))
+
+(defun flatten (structure)
+  (cond ((null structure) nil)
+        ((atom structure) (list structure))
+        (t (mapcan #'flatten structure))))
 
 (defun mnemonic-columns (mnemonics)
   (dolist (d (summary-table-column-data))
