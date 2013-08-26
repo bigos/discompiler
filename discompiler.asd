@@ -8,6 +8,7 @@
   :components ((:file "packages") 	  
 	       (:file "discompiler")
                (:file "lisp-unit")
+               (:file "summary-table-columns")
                (:file "tests"))
   :description "machine code experiment"
   :long-description "experimenting with Intel machine code"
