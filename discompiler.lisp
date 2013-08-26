@@ -52,6 +52,12 @@
       (if (> (list-length ci) 1) 
           (format t "~&~a ~%~%~%~s ~%" (length  ci)  ci )))))
 
+
+(defun mnemonic-columns (mnemonics)
+  (dolist (d (summary-table-column-data))
+    (if (search `(,mnemonics) (nth 1 d) :test #'equalp)
+        (return (nth 0 d)))))
+
 (defun instruction-memonics (instruction)
   (let ((separator "—") 
         (title (caar instruction)))
