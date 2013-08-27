@@ -279,10 +279,9 @@ DEST[VLMAX-1:128]  0;
 ---------------------------------------------------------------------
 
 AESKEYGENASSIST—AES Round Key Generation Assist
+
 Opcode/     Op/ 64/32-bit CPUID Description
-Instruction En  Mode 
-                          Feature 
-                          Flag 
+Instruction En  Mode Feature Flag 
 
 66 0F 3A DF /r ib 
 AESKEYGENASSIST xmm1, xmm2/m128, imm8
