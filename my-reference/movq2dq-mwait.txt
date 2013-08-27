@@ -1,3 +1,4 @@
+618
 MOVQ2DQ—Move Quadword from MMX Technology to XMM Register
 
 Opcode Instruction Op/ 64-Bit Compat/ Description
@@ -26,6 +27,7 @@ DEST[63:0] ← SRC[63:0];
 DEST[127:64] ← 00000000000000000H;
 ---------------------------------------------------------------------
 
+619
 MOVS/MOVSB/MOVSW/MOVSD/MOVSQ—Move Data from String to String
 
 Opcode Instruction Op/ 64-Bit Compat/ Description
@@ -199,6 +201,7 @@ Flags Affected
 None.
 ---------------------------------------------------------------------
 
+623
 MOVSD—Move Scalar Double-Precision Floating-Point Value
 
 Opcode/ Op/ 64/32-bit CPUID Description
@@ -295,6 +298,7 @@ DEST[63:0]  SRC[63:0]
 DEST[VLMAX-1:64]  0
 ---------------------------------------------------------------------
 
+625
 MOVSHDUP—Move Packed Single-FP High and Duplicate
 
 Opcode/ Op/ 64/32-bit CPUID Description
@@ -365,6 +369,7 @@ DEST[223:192]  SRC[255:224]
 DEST[255:224]  SRC[255:224]
 ---------------------------------------------------------------------
 
+627
 MOVSLDUP—Move Packed Single-FP Low and Duplicate
 
 Opcode/ Op/ 64/32-bit CPUID Description
@@ -436,6 +441,8 @@ DEST[191:160]  SRC[159:128]
 DEST[223:192]  SRC[223:192]
 DEST[255:224]  SRC[223:192]
 ---------------------------------------------------------------------
+
+629
 MOVSS—Move Scalar Single-Precision Floating-Point Values
 
 Opcode/ Op/ 64/32-bit CPUID Description
@@ -531,6 +538,7 @@ DEST[31:0]  SRC[31:0]
 DEST[VLMAX-1:32]  0
 ---------------------------------------------------------------------
 
+631
 MOVSX/MOVSXD—Move with Sign-Extension
 
 Opcode Instruction Op/ 64-Bit Compat/ Description
@@ -593,6 +601,7 @@ Flags Affected
 None.
 ---------------------------------------------------------------------
 
+633
 MOVUPD—Move Unaligned Packed Double-Precision Floating-Point Values
 
 Opcode/ Op/ 64/32-bit CPUID Description
@@ -682,6 +691,7 @@ VMOVUPD (VEX.256 encoded version)
 DEST[255:0]  SRC[255:0]
 ---------------------------------------------------------------------
 
+635
 MOVUPS—Move Unaligned Packed Single-Precision Floating-Point Values
 
 Opcode/ Op/ 64/32-bit CPUID Description
@@ -768,6 +778,7 @@ VMOVUPS (VEX.256 encoded version)
 DEST[255:0]  SRC[255:0]
 ---------------------------------------------------------------------
 
+637
 MOVZX—Move with Zero-Extend
 
 Opcode Instruction Op/ 64-Bit Compat/ Description
@@ -819,6 +830,7 @@ Flags Affected
 None.
 ---------------------------------------------------------------------
 
+639
 MPSADBW — Compute Multiple Packed Sums of Absolute Difference
 
 Opcode/ Op/ 64/32-bit CPUID Description
@@ -869,6 +881,7 @@ Flags Affected
 None
 ---------------------------------------------------------------------
 
+647
 MUL—Unsigned Multiply
 
 Opcode Instruction Op/ 64-Bit Compat/ Description
@@ -950,6 +963,7 @@ The OF and CF flags are set to 0 if the upper half of the result is 0; otherwise
 PF flags are undefined.
 ---------------------------------------------------------------------
 
+649
 MULPD—Multiply Packed Double-Precision Floating-Point Values
 
 Opcode/ Op/ 64/32-bit CPUID Description
@@ -1013,6 +1027,7 @@ DEST[191:128]  SRC1[191:128] * SRC2[191:128]
 DEST[255:192]  SRC1[255:192] * SRC2[255:192]
 ---------------------------------------------------------------------
 
+651
 MULPS—Multiply Packed Single-Precision Floating-Point Values
 
 Opcode/ Op/ 64/32-bit CPUID Description
@@ -1083,6 +1098,7 @@ DEST[223:192]  SRC1[223:192] * SRC2[223:192]
 DEST[255:224]  SRC1[255:224] * SRC2[255:224].
 ---------------------------------------------------------------------
 
+653
 MULSD—Multiply Scalar Double-Precision Floating-Point Values
 
 Opcode/ Op/ 64/32-bit CPUID Description
@@ -1131,6 +1147,7 @@ DEST[127:64]  SRC1[127:64]
 DEST[VLMAX-1:128]  0
 ---------------------------------------------------------------------
 
+654
 MULSS—Multiply Scalar Single-Precision Floating-Point Values
 
 Opcode/ Op/ 64/32-bit CPUID Description
@@ -1178,6 +1195,8 @@ DEST[31:0]  SRC1[31:0] * SRC2[31:0]
 DEST[127:32]  SRC1[127:32]
 DEST[VLMAX-1:128]  0
 ---------------------------------------------------------------------
+
+655
 MULX — Unsigned Multiply Without Affecting Flags
 
 Opcode/ Op/
@@ -1230,6 +1249,7 @@ Flags Affected
 None
 ---------------------------------------------------------------------
 
+657
 MWAIT—Monitor Wait
 
 Opcode Instruction Op/ 64-Bit Compat/ Description
