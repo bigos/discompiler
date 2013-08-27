@@ -1,3 +1,4 @@
+249
 CVTDQ2PD—Convert Packed Dword Integers to Packed Double-Precision FP Values
 
 Opcode/ Op/ 64/32-bit CPUID Description
@@ -63,6 +64,7 @@ DEST[191:128]  Convert_Integer_To_Double_Precision_Floating_Point(SRC[95:64])
 DEST[255:192]  Convert_Integer_To_Double_Precision_Floating_Point(SRC[127:96)
 ---------------------------------------------------------------------
 
+251
 CVTDQ2PS—Convert Packed Dword Integers to Packed Single-Precision FP Values
 
 Opcode/     Op/ 64/32-bit CPUID Description
@@ -133,6 +135,7 @@ DEST[223:192]  Convert_Integer_To_Single_Precision_Floating_Point(SRC[223:192
 DEST[255:224]  Convert_Integer_To_Single_Precision_Floating_Point(SRC[255:224)
 ---------------------------------------------------------------------
 
+253
 CVTPD2DQ—Convert Packed Double-Precision FP Values to Packed Dword Integers
 
 Opcode/     Op/ 64/32-bit CPUID Description
@@ -203,6 +206,7 @@ DEST[127:96]  Convert_Double_Precision_Floating_Point_To_Integer(SRC[255:192)
 DEST[255:128] 0
 ---------------------------------------------------------------------
 
+255
 CVTPD2PI—Convert Packed Double-Precision FP Values to Packed Dword Integers
 
 Opcode/     Op/ 64-Bit Compat/ Description
@@ -237,6 +241,7 @@ DEST[31:0] ← Convert_Double_Precision_Floating_Point_To_Integer32(SRC[63:0]);
 DEST[63:32] ← Convert_Double_Precision_Floating_Point_To_Integer32(SRC[127:64]);
 ---------------------------------------------------------------------
 
+256
 CVTPD2PS—Convert Packed Double-Precision FP Values to Packed Single-Precision FP Values
 
 Opcode/     Op/ 64/32-bit CPUID Description
@@ -304,13 +309,14 @@ DEST[127:96]  Convert_Double_Precision_To_Single_Precision_Floating_Point(SRC
 DEST[255:128] 0
 ---------------------------------------------------------------------
 
+258
 CVTPI2PD—Convert Packed Dword Integers to Packed Double-Precision FP Values
 
 Opcode/     Op/ 64-Bit Compat/ Description
 Instruction En  Mode   Leg Mode
 
 66 0F 2A /r
-CVTPI2PD xmm, mm/m64*
+CVTPI2PD xmm, mm/m64
 RM Valid Valid
 Convert two packed signed doubleword
 integers from mm/mem64 to two packed
@@ -341,6 +347,7 @@ DEST[63:0] ← Convert_Integer_To_Double_Precision_Floating_Point(SRC[31:0]);
 DEST[127:64] ← Convert_Integer_To_Double_Precision_Floating_Point(SRC[63:32]);
 ---------------------------------------------------------------------
 
+259
 CVTPI2PS—Convert Packed Dword Integers to Packed Single-Precision FP Values
 
 Opcode/     Op/ 64-Bit Compat/ Description
@@ -375,6 +382,7 @@ DEST[63:32] ← Convert_Integer_To_Single_Precision_Floating_Point(SRC[63:32]);
 (* High quadword of destination unchanged *)
 ---------------------------------------------------------------------
 
+260
 CVTPS2DQ—Convert Packed Single-Precision FP Values to Packed Dword Integers
 
 Opcode/     Op/ 64/32-bit CPUID Description
@@ -448,6 +456,7 @@ DEST[223:192]  Convert_Single_Precision_Floating_Point_To_Integer(SRC[223:192
 DEST[255:224]  Convert_Single_Precision_Floating_Point_To_Integer(SRC[255:224])
 ---------------------------------------------------------------------
 
+262
 CVTPS2PD—Convert Packed Single-Precision FP Values to Packed Double-Precision FP Values
 
 Opcode/     Op/ 64/32-bit CPUID Description
@@ -513,6 +522,7 @@ DEST[191:128]  Convert_Single_Precision_To_Double_Precision_Floating_Point(SR
 DEST[255:192]  Convert_Single_Precision_To_Double_Precision_Floating_Point(SRC[127:96)
 ---------------------------------------------------------------------
 
+264
 CVTPS2PI—Convert Packed Single-Precision FP Values to Packed Dword Integers
 
 Opcode/     Op/ 64-Bit Compat/ Description
@@ -548,6 +558,7 @@ DEST[31:0] ← Convert_Single_Precision_Floating_Point_To_Integer(SRC[31:0]);
 DEST[63:32] ← Convert_Single_Precision_Floating_Point_To_Integer(SRC[63:32]);
 ---------------------------------------------------------------------
 
+265
 CVTSD2SI—Convert Scalar Double-Precision FP Value to Integer
 
 Opcode/     Op/ 64/32-bit CPUID Description

@@ -1,3 +1,4 @@
+349
 FILD—Load Integer
 
 Opcode Instruction 64-Bit Compat/ Description
@@ -33,6 +34,7 @@ C1 Set to 1 if stack overflow occurred; set to 0 otherwise.
 C0, C2, C3 Undefined.
 ---------------------------------------------------------------------
 
+351
 FINCSTP—Increment Stack-Top Pointer
 
 Opcode Instruction 64-Bit Compat/ Description
@@ -60,6 +62,7 @@ FPU Flags Affected
 The C1 flag is set to 0. The C0, C2, and C3 flags are undefined.
 ---------------------------------------------------------------------
 
+352
 FINIT/FNINIT—Initialize Floating-Point Unit
 
 Opcode Instruction 64-Bit Compat/ Description
@@ -113,6 +116,7 @@ FPU Flags Affected
 C0, C1, C2, C3 set to 0.
 ---------------------------------------------------------------------
 
+354
 FIST/FISTP—Store Integer
 
 Opcode
@@ -187,6 +191,52 @@ C0, C2, C3
 Undefined.
 ---------------------------------------------------------------------
 
+357
+FISTTP—Store Integer with Truncation
+
+Opcode Instruction 64-Bit Mode Compat/ Description
+                   Leg Mode 
+DF /1
+FISTTP m16int 
+Valid Valid Store ST(0) in m16int with truncation.
+
+DB /1
+FISTTP m32int 
+Valid Valid Store ST(0) in m32int with truncation.
+
+DD /1
+FISTTP m64int 
+Valid Valid Store ST(0) in m64int with truncation.
+
+Description
+FISTTP converts the value in ST into a signed integer using truncation (chop) as rounding mode, transfers the
+result to the destination, and pop ST. FISTTP accepts word, short integer, and long integer destinations.
+The following table shows the results obtained when storing various classes of numbers in integer format.
+Table 3-38. FISTTP Results
+ST(0)
+− ∞ or Value Too Large for DEST Format
+DEST
+*
+F≤ −1 −I
+−1<F<+1 0
+FŠ+1 +I
++ ∞ or Value Too Large for DEST Format *
+NaN *
+NOTES:
+F Means finite floating-point value.
+Ι Means integer.
+∗ Indicates floating-point invalid-operation (#IA) exception.
+This instruction’s operation is the same in non-64-bit modes and 64-bit mode.
+
+Operation
+DEST ← ST;
+pop ST;
+
+Flags Affected
+C1 is cleared; C0, C2, C3 undefined.
+---------------------------------------------------------------------
+
+359
 FLD—Load Floating Point Value
 
 Opcode Instruction 64-Bit Compat/ Description
@@ -240,6 +290,7 @@ C1 Set to 1 if stack overflow occurred; otherwise, set to 0.
 C0, C2, C3 Undefined.
 ---------------------------------------------------------------------
 
+361
 FLD1/FLDL2T/FLDL2E/FLDPI/FLDLG2/FLDLN2/FLDZ—Load Constant
 
 Opcode Instruction 64-Bit Compat/ Description
@@ -306,6 +357,7 @@ C1 Set to 1 if stack overflow occurred; otherwise, set to 0.
 C0, C2, C3 Undefined.
 ---------------------------------------------------------------------
 
+363
 FLDCW—Load x87 FPU Control Word
 
 Opcode Instruction 64-Bit Compat/ Description
@@ -334,6 +386,7 @@ FPU Flags Affected
 C0, C1, C2, C3 undefined.
 ---------------------------------------------------------------------
 
+365
 FLDENV—Load x87 FPU Environment
 
 Opcode Instruction 64-Bit Compat/ Description
@@ -378,6 +431,7 @@ FPU Flags Affected
 The C0, C1, C2, C3 flags are loaded.
 ---------------------------------------------------------------------
 
+367
 FMUL/FMULP/FIMUL—Multiply
 
 Opcode
@@ -498,6 +552,7 @@ C0, C2, C3
 Undefined.
 ---------------------------------------------------------------------
 
+370
 FNOP—No Operation
 
 Opcode Instruction 64-Bit Compat/ Description
@@ -517,6 +572,7 @@ FPU Flags Affected
 C0, C1, C2, C3 undefined.
 ---------------------------------------------------------------------
 
+371
 FPATAN—Partial Arctangent
 
 Opcode Instruction 64-Bit Compat/ Description
@@ -588,6 +644,7 @@ C0, C2, C3
 Undefined.
 ---------------------------------------------------------------------
 
+373
 FPREM—Partial Remainder
 
 Opcode Instruction 64-Bit Compat/ Description
@@ -668,6 +725,7 @@ C2 Set to 0 if reduction complete; set to 1 if incomplete.
 C3 Set to bit 1 (Q1) of the quotient.
 ---------------------------------------------------------------------
 
+375
 FPREM1—Partial Remainder
 
 Opcode Instruction 64-Bit Compat/ Description
@@ -749,6 +807,7 @@ C2 Set to 0 if reduction complete; set to 1 if incomplete.
 C3 Set to bit 1 (Q1) of the quotient.
 ---------------------------------------------------------------------
 
+377
 FPTAN—Partial Tangent
 
 Opcode Instruction 64-Bit Compat/ Description
@@ -809,6 +868,7 @@ C2 Set to 1 if outside range (−263 < source operand < +263); otherwise, set to
 C0, C3 Undefined.
 ---------------------------------------------------------------------
 
+379
 FRNDINT—Round to Integer
 
 Opcode Instruction 64-Bit Compat/ Description
@@ -837,6 +897,7 @@ C0, C2, C3
 Undefined.
 ---------------------------------------------------------------------
 
+380
 FRSTOR—Restore x87 FPU State
 
 Opcode Instruction 64-Bit Compat/ Description
@@ -884,6 +945,7 @@ FPU Flags Affected
 The C0, C1, C2, C3 flags are loaded.
 ---------------------------------------------------------------------
 
+382
 FSAVE/FNSAVE—Store x87 FPU State
 
 Opcode Instruction 64-Bit Compat/ Description
@@ -965,6 +1027,7 @@ FPU Flags Affected
 The C0, C1, C2, and C3 flags are saved and then cleared.
 ---------------------------------------------------------------------
 
+385
 FSCALE—Scale
 
 Opcode Instruction 64-Bit Compat/ Description

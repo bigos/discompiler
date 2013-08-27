@@ -1,3 +1,4 @@
+387
 FSIN—Sine
 
 Opcode Instruction 64-Bit Compat/ Description
@@ -51,6 +52,7 @@ C2 Set to 1 if outside range (−263 < source operand < +263); otherwise, set to
 C0, C3 Undefined.
 ---------------------------------------------------------------------
 
+389
 FSINCOS—Sine and Cosine
 
 Opcode Instruction 64-Bit Compat/ Description
@@ -114,6 +116,7 @@ C2 Set to 1 if outside range (−263 < source operand < +263); otherwise, set to
 C0, C3 Undefined.
 ---------------------------------------------------------------------
 
+391
 FSQRT—Square Root
 
 Opcode Instruction 64-Bit Compat/ Description
@@ -153,6 +156,7 @@ C0, C2, C3
 Undefined.
 ---------------------------------------------------------------------
 
+393
 FST/FSTP—Store Floating Point Value
 
 Opcode Instruction 64-Bit Compat/ Description
@@ -230,6 +234,7 @@ C0, C2, C3
 Undefined.
 ---------------------------------------------------------------------
 
+395
 FSTCW/FNSTCW—Store x87 FPU Control Word
 
 Opcode Instruction 64-Bit Compat/ Description
@@ -276,6 +281,7 @@ FPU Flags Affected
 The C0, C1, C2, and C3 flags are undefined.
 ---------------------------------------------------------------------
 
+397
 FSTENV/FNSTENV—Store x87 FPU Environment
 
 Opcode Instruction 64-Bit Compat/ Description
@@ -340,6 +346,7 @@ FPU Flags Affected
 The C0, C1, C2, and C3 are undefined.
 ---------------------------------------------------------------------
 
+399
 FSTSW/FNSTSW—Store x87 FPU Status Word
 
 Opcode Instruction 64-Bit Compat/ Description
@@ -407,6 +414,7 @@ FPU Flags Affected
 The C0, C1, C2, and C3 are undefined.
 ---------------------------------------------------------------------
 
+401
 FSUB/FSUBP/FISUB—Subtract
 
 Opcode Instruction 64-Bit Compat/ Description
@@ -498,6 +506,7 @@ C0, C2, C3
 Undefined.
 ---------------------------------------------------------------------
 
+404
 FSUBR/FSUBRP/FISUBR—Reverse Subtract
 
 Opcode Instruction 64-Bit Compat/ Description
@@ -609,6 +618,7 @@ C0, C2, C3
 Undefined.
 ---------------------------------------------------------------------
 
+407
 FTST—TEST
 
 Opcode Instruction 64-Bit Compat/ Description
@@ -651,6 +661,7 @@ C1 Set to 0.
 C0, C2, C3 See Table 3-50.
 ---------------------------------------------------------------------
 
+409
 FUCOM/FUCOMP/FUCOMPP—Unordered Compare Floating Point Values
 
 Opcode Instruction 64-Bit Compat/ Description
@@ -739,6 +750,7 @@ C1 Set to 0 if stack underflow occurred.
 C0, C2, C3 See Table 3-51.
 ---------------------------------------------------------------------
 
+411
 FXAM—Examine ModR/M
 
 Opcode Instruction 64-Bit Compat/ Description
@@ -789,6 +801,7 @@ C1 Sign of value in ST(0).
 C0, C2, C3 See Table 3-52.
 ---------------------------------------------------------------------
 
+413
 FXCH—Exchange Register Contents
 
 Opcode Instruction 64-Bit Compat/ Description
@@ -833,6 +846,7 @@ C1 Set to 0 if stack underflow occurred; otherwise, set to 1.
 C0, C2, C3 Undefined.
 ---------------------------------------------------------------------
 
+415
 FXRSTOR—Restore x87 FPU, MMX , XMM, and MXCSR State
 
 Opcode/ Op/ 64-Bit Compat/ Description
@@ -883,6 +897,7 @@ Operation
 (x87 FPU, MMX, XMM7-XMM0, MXCSR) ← Load(SRC);
 ---------------------------------------------------------------------
 
+418
 FXSAVE—Save x87 FPU, MMX Technology, and SSE State
 
 Opcode/ Op/ 64-Bit Compat/ Description
@@ -1270,6 +1285,7 @@ DEST ← SaveLegacyFxsave(x87 FPU, MMX, XMM7-XMM0, MXCSR);
 FI;
 ---------------------------------------------------------------------
 
+426
 FXTRACT—Extract Exponent and Significand
 
 Opcode/ 64-Bit Compat/ Description
@@ -1308,6 +1324,7 @@ C1 Set to 0 if stack underflow occurred; set to 1 if stack overflow occurred.
 C0, C2, C3 Undefined.
 ---------------------------------------------------------------------
 
+428
 FYL2X—Compute y ∗ log2x
 
 Opcode Instruction 64-Bit Compat/ Description
@@ -1360,6 +1377,7 @@ C0, C2, C3
 Undefined.
 ---------------------------------------------------------------------
 
+430
 FYL2XP1—Compute y ∗ log2(x +1)
 
 Opcode Instruction 64-Bit Compat/ Description

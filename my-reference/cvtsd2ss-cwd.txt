@@ -1,3 +1,4 @@
+267
 CVTSD2SS—Convert Scalar Double-Precision FP Value to Scalar Single-Precision FP Value
 
 Opcode/     Op/ 64/32-bit CPUID Description
@@ -49,6 +50,7 @@ DEST[127:32]  SRC1[127:32]
 DEST[VLMAX-1:128]  0
 ---------------------------------------------------------------------
 
+269
 CVTSI2SD—Convert Dword Integer to Scalar Double-Precision FP Value
 
 Opcode/     Op/ 64/32-bit CPUID Description
@@ -126,6 +128,7 @@ DEST[127:64]  SRC1[127:64]
 DEST[VLMAX-1:128]  0
 ---------------------------------------------------------------------
 
+271
 CVTSI2SS—Convert Dword Integer to Scalar Single-Precision FP Value
 
 Opcode/     Op/ 64/32-bit CPUID Description
@@ -206,6 +209,7 @@ DEST[127:32]  SRC1[127:32]
 DEST[VLMAX-1:128]  0
 ---------------------------------------------------------------------
 
+273
 CVTSS2SD—Convert Scalar Single-Precision FP Value to Scalar Double-Precision FP Value
 
 Opcode/     Op/ 64/32-bit CPUID Description
@@ -255,6 +259,7 @@ DEST[127:64]  SRC1[127:64]
 DEST[VLMAX-1:128]  0
 ---------------------------------------------------------------------
 
+274
 CVTSS2SI—Convert Scalar Single-Precision FP Value to Dword Integer
 
 Opcode/     Op/ 64/32-bit CPUID Description
@@ -322,6 +327,7 @@ DEST[31:0] ← Convert_Single_Precision_Floating_Point_To_Integer(SRC[31:0]);
 FI;
 ---------------------------------------------------------------------
 
+276
 CVTTPD2DQ—Convert with Truncation Packed Double-Precision FP Values to Packed Dword
 Integers
 
@@ -393,6 +399,7 @@ DEST[127:96]  Convert_Double_Precision_Floating_Point_To_Integer_Truncate(SRC
 DEST[255:128] 0
 ---------------------------------------------------------------------
 
+278
 CVTTPD2PI—Convert with Truncation Packed Double-Precision FP Values to Packed Dword Integers
 
 Opcode/     Op/ 64-Bit Compat/ Description
@@ -428,6 +435,7 @@ DEST[63:32] ← Convert_Double_Precision_Floating_Point_To_Integer32_
 Truncate(SRC[127:64]);
 ---------------------------------------------------------------------
 
+279
 CVTTPS2DQ—Convert with Truncation Packed Single-Precision FP Values to Packed Dword Integers
 
 Opcode/     Op/ 64/32-bit CPUID Description
@@ -504,6 +512,7 @@ DEST[223:192]  Convert_Single_Precision_Floating_Point_To_Integer_Truncate(SR
 DEST[255:224]  Convert_Single_Precision_Floating_Point_To_Integer_Truncate(SRC[255:224])
 ---------------------------------------------------------------------
 
+281
 CVTTPS2PI—Convert with Truncation Packed Single-Precision FP Values to Packed Dword Integers
 
 Opcode/    Op/ 64-Bit Compat/ Description
@@ -539,6 +548,7 @@ DEST[31:0] ← Convert_Single_Precision_Floating_Point_To_Integer_Truncate(SRC[3
 DEST[63:32] ← Convert_Single_Precision_Floating_Point_To_Integer_Truncate(SRC[63:32]);
 ---------------------------------------------------------------------
 
+282
 CVTTSD2SI—Convert with Truncation Scalar Double-Precision FP Value to Signed Integer
 
 Opcode/     Op/ 64/32-bit CPUID Description
@@ -605,6 +615,7 @@ Integer32_Truncate(SRC[63:0]);
 FI;
 ---------------------------------------------------------------------
 
+284
 CVTTSS2SI—Convert with Truncation Scalar Single-Precision FP Value to Dword Integer
 
 Opcode/     Op/ En 64/32-bit CPUID Description
@@ -670,6 +681,7 @@ Integer_Truncate(SRC[31:0]);
 FI;
 ---------------------------------------------------------------------
 
+286
 CWD/CDQ/CQO—Convert Word to Doubleword/Convert Doubleword to Quadword
 
 Opcode Instruction Op/ 64-Bit Compat/ Description

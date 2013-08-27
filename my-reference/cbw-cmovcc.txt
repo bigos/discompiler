@@ -1,5 +1,5 @@
-CBW/CWDE/CDQE—Convert Byte to Word/Convert Word to Doubleword/Convert Doubleword to
-Quadword
+170
+CBW/CWDE/CDQE—Convert Byte to Word/Convert Word to Doubleword/Convert Doubleword to Quadword
 
 Opcode Instruction Op/ 64-bit Compat/ Description
                    En  Mode   Leg Mode
@@ -49,6 +49,7 @@ Flags Affected
 None.
 ---------------------------------------------------------------------
 
+171
 CLC—Clear Carry Flag
 
 Opcode Instruction Op/ 64-bit Compat/ Description
@@ -73,6 +74,7 @@ Flags Affected
 The CF flag is set to 0. The OF, ZF, SF, AF, and PF flags are unaffected.
 ---------------------------------------------------------------------
 
+172
 CLD—Clear Direction Flag
 
 Opcode Instruction Op/ 64-bit Compat/ Description
@@ -98,6 +100,7 @@ Flags Affected
 The DF flag is set to 0. The CF, OF, ZF, SF, AF, and PF flags are unaffected.
 ---------------------------------------------------------------------
 
+173
 CLFLUSH—Flush Cache Line
 
 Opcode Instruction Op/ 64-bit Compat/ Description
@@ -143,7 +146,7 @@ CLFLUSH operation is the same in non-64-bit modes and 64-bit mode.
 Operation
 Flush_Cache_Line(SRC);
 ---------------------------------------------------------------------
-
+175
 CLI — Clear Interrupt Flag
 
 Opcode Instruction Op/ 64-bit Compat/ Description
@@ -225,6 +228,7 @@ When protected-mode virtual interrupts are enabled, CPL is 3, and IOPL is less t
 EFLAGS register, leaving IF unaffected.
 ---------------------------------------------------------------------
 
+177
 CLTS—Clear Task-Switched Flag in CR0
 
 Opcode Instruction Op/ 64-bit Compat/ Description
@@ -258,6 +262,7 @@ Flags Affected
 The TS flag in CR0 register is cleared.
 ---------------------------------------------------------------------
 
+178
 CMC—Complement Carry Flag
 
 Opcode Instruction Op/ 64-bit Compat/ Description
@@ -282,6 +287,7 @@ Flags Affected
 The CF flag contains the complement of its original value. The OF, ZF, SF, AF, and PF flags are unaffected.
 ---------------------------------------------------------------------
 
+179
 CMOVcc—Conditional Move
 
 Opcode Instruction Op/ 64-Bit Compat/ Description

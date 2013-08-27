@@ -1,3 +1,4 @@
+183
 CMP—Compare Two Operands
 
 Opcode Instruction Op/ 64-Bit Compat/ Description
@@ -145,6 +146,7 @@ Flags Affected
 The CF, OF, SF, ZF, AF, and PF flags are set according to the result.
 ---------------------------------------------------------------------
 
+185
 CMPPD—Compare Packed Double-Precision Floating-Point Values
 
 Opcode/     Op/ 64/32-   CPUID Description
@@ -259,6 +261,7 @@ THEN DEST[255:192]  FFFFFFFFFFFFFFFFH;
 ELSE DEST[255:192]  0000000000000000H; FI;
 ---------------------------------------------------------------------
 
+192
 CMPPS—Compare Packed Single-Precision Floating-Point Values
 
 Opcode/     Op/ 64/32-   CPUID Description
@@ -423,6 +426,7 @@ THEN DEST[255:224]  FFFFFFFFH;
 ELSE DEST[255:224]  000000000H; FI;
 ---------------------------------------------------------------------
 
+198
 CMPS/CMPSB/CMPSW/CMPSD/CMPSQ—Compare String Operands
 
 Opcode Instruction Op/ 64-Bit Compat/ Description
@@ -608,6 +612,7 @@ Flags Affected
 The CF, OF, SF, ZF, AF, and PF flags are set according to the temporary result of the comparison.
 ---------------------------------------------------------------------
 
+202
 CMPSD—Compare Scalar Double-Precision Floating-Point Values
 
 Opcode/     Op/ 64/32-bit CPUID Description
@@ -713,6 +718,7 @@ DEST[127:64]  SRC1[127:64]
 DEST[VLMAX-1:128]  0
 ---------------------------------------------------------------------
 
+206
 CMPSS—Compare Scalar Single-Precision Floating-Point Values
 
 Opcode/     Op/ 64/32-bit CPUID Description
@@ -817,7 +823,7 @@ ELSE DEST[31:0]  00000000H; FI;
 DEST[127:32]  SRC1[127:32]
 DEST[VLMAX-1:128]  0
 ---------------------------------------------------------------------
-
+210
 CMPXCHG—Compare and Exchange
 
 Opcode/     Op/ 64-Bit Compat/ Description
@@ -895,7 +901,7 @@ Flags Affected
 The ZF flag is set if the values in the destination operand and register AL, AX, or EAX are equal; otherwise it is
 cleared. The CF, PF, AF, SF, and OF flags are set according to the results of the comparison operation.
 ---------------------------------------------------------------------
-
+212
 CMPXCHG8B/CMPXCHG16B—Compare and Exchange Bytes
 
 Opcode/     Op/ 64-Bit Compat/ Description
@@ -967,6 +973,7 @@ The ZF flag is set if the destination operand and EDX:EAX are equal; otherwise i
 OF flags are unaffected.
 ---------------------------------------------------------------------
 
+214
 COMISD—Compare Scalar Ordered Double-Precision Floating-Point Values and Set EFLAGS
 
 Opcode/     Op/ 64/32-bit CPUID Description
@@ -1021,6 +1028,7 @@ ESAC;
 OF, AF, SF ← 0; }
 ---------------------------------------------------------------------
 
+216
 COMISS—Compare Scalar Ordered Single-Precision Floating-Point Values and Set EFLAGS
 
 Opcode/     Op/ 64/32-bit CPUID Description
@@ -1074,6 +1082,8 @@ ZF,PF,CF ← 100;
 ESAC;
 OF,AF,SF ← 0; }
 ---------------------------------------------------------------------
+
+218
 CPUID—CPU Identification
 
 Opcode Instruction Op/ 64-Bit Compat/ Description
@@ -1282,6 +1292,7 @@ Flags Affected
 None.
 ---------------------------------------------------------------------
 
+246
 CRC32 — Accumulate CRC32 Value
 
 Opcode/     Op/ 64-Bit Compat/ Description

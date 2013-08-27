@@ -1,3 +1,4 @@
+140
 BOUND—Check Array Index Against Bounds
 
 Opcode Instruction Op/ 64-bit Compat/ Description
@@ -48,6 +49,7 @@ Flags Affected
 None.
 ---------------------------------------------------------------------
 
+142
 BSF—Bit Scan Forward
 
 Opcode Instruction Op/ 64-bit Compat/ Description
@@ -100,6 +102,7 @@ Flags Affected
 The ZF flag is set to 1 if all the source operand is 0; otherwise, the ZF flag is cleared. The CF, OF, SF, AF, and PF, flags are undefined.
 ---------------------------------------------------------------------
 
+144
 BSR—Bit Scan Reverse
 
 Opcode Instruction Op/ 64-bit Compat/ Description
@@ -152,6 +155,8 @@ Flags Affected
 The ZF flag is set to 1 if all the source operand is 0; otherwise, the ZF flag is cleared. The CF, OF, SF, AF, and PF, flags
 are undefined.
 ---------------------------------------------------------------------
+
+146
 BSWAP—Byte Swap
 
 Opcode Instruction Op/ 64-bit Compat/ Description
@@ -209,6 +214,7 @@ Flags Affected
 None.
 ---------------------------------------------------------------------
 
+147
 BT—Bit Test
 
 Opcode Instruction Op/ 64-bit Compat/ Description
@@ -287,6 +293,7 @@ The CF flag contains the value of the selected bit. The ZF flag is unaffected. T
 undefined.
 ---------------------------------------------------------------------
 
+149
 BTC—Bit Test and Complement
 
 Opcode Instruction Op/ 64-bit Compat/ Description
@@ -356,6 +363,7 @@ The CF flag contains the value of the selected bit before it is complemented. Th
 AF, and PF flags are undefined.
 ---------------------------------------------------------------------
 
+151
 BTR—Bit Test and Reset
 
 Opcode Instruction Op/ 64-bit Compat/ Description
@@ -425,6 +433,7 @@ The CF flag contains the value of the selected bit before it is cleared. The ZF 
 PF flags are undefined.
 ---------------------------------------------------------------------
 
+153
 BTS—Bit Test and Set
 
 Opcode Instruction Op/ 64-bit Compat/ Description
@@ -494,6 +503,7 @@ The CF flag contains the value of the selected bit before it is set. The ZF flag
 flags are undefined.
 ---------------------------------------------------------------------
 
+155
 BZHI — Zero High Bits Starting with Specified Bit Position
 
 Opcode/     Op/ 64/32      CPUID         Description

@@ -1,3 +1,4 @@
+314
 F2XM1—Compute 2x–1
 
 Opcode Instruction 64-Bit Compat/ Description
@@ -30,6 +31,7 @@ C0, C2, C3
 Undefined.
 ---------------------------------------------------------------------
 
+316
 FABS—Absolute Value
 
 Opcode Instruction 64-Bit Compat/ Description
@@ -53,6 +55,7 @@ C1 Set to 0.
 C0, C2, C3 Undefined.
 ---------------------------------------------------------------------
 
+318
 FADD/FADDP/FIADD—Add
 
 Opcode Instruction 64-Bit Compat/ Description
@@ -143,6 +146,7 @@ C0, C2, C3
 Undefined.
 ---------------------------------------------------------------------
 
+321
 FBLD—Load Binary Coded Decimal
 
 Opcode Instruction 64-Bit Compat/ Description
@@ -171,6 +175,7 @@ C1 Set to 1 if stack overflow occurred; otherwise, set to 0.
 C0, C2, C3 Undefined.
 ---------------------------------------------------------------------
 
+323
 FBSTP—Store BCD Integer and Pop
 
 Opcode Instruction 64-Bit Compat/ Description
@@ -212,6 +217,7 @@ C0, C2, C3
 Undefined.
 ---------------------------------------------------------------------
 
+325
 FCHS—Change Sign
 
 Opcode Instruction 64-Bit Compat/ Description
@@ -239,6 +245,7 @@ C1 Set to 0.
 C0, C2, C3 Undefined.
 ---------------------------------------------------------------------
 
+327
 FCLEX/FNCLEX—Clear Exceptions
 
 Opcode Instruction 64-Bit Compat/ Description
@@ -287,6 +294,7 @@ The PE, UE, OE, ZE, DE, IE, ES, SF, and B flags in the FPU status word are clear
 undefined.
 ---------------------------------------------------------------------
 
+329
 FCMOVcc—Floating-Point Conditional Move
 
 Opcode Instruction 64-Bit Compat/
@@ -363,6 +371,7 @@ C1 Set to 0 if stack underflow occurred.
 C0, C2, C3 Undefined.
 ---------------------------------------------------------------------
 
+331
 FCOM/FCOMP/FCOMPP—Compare Floating Point Values
 
 Opcode Instruction 64-Bit Compat/ Description
@@ -473,6 +482,7 @@ C1 Set to 0.
 C0, C2, C3 See table on previous page.
 ---------------------------------------------------------------------
 
+334
 FCOMI/FCOMIP/ FUCOMI/FUCOMIP—Compare Floating Point Values and Set EFLAGS
 
 Opcode Instruction
@@ -582,6 +592,7 @@ C1 Set to 0.
 C0, C2, C3 Not affected.
 ---------------------------------------------------------------------
 
+337
 FCOS—Cosine
 
 Opcode Instruction 64-Bit Compat/ Description
@@ -635,6 +646,7 @@ Undefined if C2 is 1.
 C2 Set to 1 if outsi
 ---------------------------------------------------------------------
 
+339
 FDECSTP—Decrement Stack-Top Pointer
 
 Opcode Instruction 64-Bit Compat/ Description
@@ -661,6 +673,7 @@ FPU Flags Affected
 The C1 flag is set to 0. The C0, C2, and C3 flags are undefined.
 ---------------------------------------------------------------------
 
+340
 FDIV/FDIVP/FIDIV—Divide
 
 Opcode
@@ -781,6 +794,7 @@ C0, C2, C3
 Undefined.
 ---------------------------------------------------------------------
 
+343
 FDIVR/FDIVRP/FIDIVR—Reverse Divide
 
 Opcode Instruction 64-Bit Compat/ Description
@@ -900,6 +914,7 @@ C0, C2, C3
 Undefined.
 ---------------------------------------------------------------------
 
+346
 FFREE—Free Floating-Point Register
 
 Opcode Instruction 64-Bit Compat/ Description
@@ -924,6 +939,7 @@ Floating-Point Exceptions
 None.
 ---------------------------------------------------------------------
 
+347
 FICOM/FICOMP—Compare Integer
 
 Opcode Instruction 64-Bit Compat/ Description

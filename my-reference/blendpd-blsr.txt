@@ -1,3 +1,4 @@
+126
 BLENDPD — Blend Packed Double Precision Floating-Point Values
 
 Opcode/     Op/ 64/32-bit CPUID Description
@@ -71,6 +72,7 @@ IF (IMM8[3] = 0) THEN DEST[255:192]  SRC1[255:192]
 ELSE DEST [255:192]  SRC2[255:192] FI
 ---------------------------------------------------------------------
 
+128
 BEXTR — Bit Field Extract
 
 Opcode/     Op/ 64/32 
@@ -123,6 +125,7 @@ Flags Affected
 ZF is updated based on the result. AF, SF, and PF are undefined. All other flags are cleared.
 ---------------------------------------------------------------------
 
+130
 BLENDPS — Blend Packed Single Precision Floating-Point Values
 
 Opcode/ Op/ 64/32-bit CPUID Description
@@ -213,6 +216,7 @@ IF (IMM8[7] = 0) THEN DEST[255:224]  SRC1[255:224]
 ELSE DEST [255:224]  SRC2[255:224] FI.
 ---------------------------------------------------------------------
 
+132
 BLENDVPD — Variable Blend Packed Double Precision Floating-Point Values
 
 Opcode/     Op/ 64/32-bit CPUID Description
@@ -299,6 +303,7 @@ IF (MASK[255] = 0) THEN DEST[255:192]  SRC1[255:192]
 ELSE DEST [255:192]  SRC2[255:192] FI
 ---------------------------------------------------------------------
 
+134
 BLENDVPS — Variable Blend Packed Single Precision Floating-Point Values
 
 Opcode/     Op/ 64/32-bit CPUID Description
@@ -402,6 +407,7 @@ IF (MASK[255] = 0) THEN DEST[255:224]  SRC1[255:224]
 ELSE DEST [255:224]  SRC2[255:224] FI
 ---------------------------------------------------------------------
 
+137
 BLSI — Extract Lowest Set Isolated Bit
 
 Opcode/     Op/ 64/32 
@@ -447,6 +453,7 @@ Flags Affected
 ZF and SF are updated based on the result. CF is set if the source is not zero. OF flags are cleared. AF and PF flags are undefined.
 ---------------------------------------------------------------------
 
+138
 BLSMSK — Get Mask Up to Lowest Set Bit
 
 Opcode/     Op/ 64/32 
@@ -492,6 +499,7 @@ SF is updated based on the result. CF is set if the source if zero. ZF and OF fl
 undefined.
 ---------------------------------------------------------------------
 
+139
 BLSR — Reset Lowest Set Bit
 
 Opcode/     Op/ 64/32 CPUID Description

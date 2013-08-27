@@ -1,3 +1,4 @@
+78
 AAA—ASCII Adjust After Addition
 
 Opcode Instruction Op/ 64-bit Compat/  Description
@@ -46,6 +47,7 @@ The AF and CF flags are set to 1 if the adjustment results in a decimal carry; o
 SF, ZF, and PF flags are undefined.
 --------------------------------------------------------------------------------------------------------------------
 
+80
 AAD—ASCII Adjust AX Before Division
 
 Opcode Instruction Op/ 64-bit Compat/ Description
@@ -99,6 +101,7 @@ The SF, ZF, and PF flags are set according to the resulting binary value in the 
 are undefined.
 --------------------------------------------------------------------------------------------------------------------
 
+82
 AAM—ASCII Adjust AX After Multiply
 
 Opcode Instruction Op/ 64-bit Compat/ Description
@@ -148,6 +151,7 @@ The SF, ZF, and PF flags are set according to the resulting binary value in the 
 are undefined.
 --------------------------------------------------------------------------------------------------------------------
 
+84
 AAS—ASCII Adjust AL After Subtraction
 
 Opcode Instruction Op/ 64-bit Compat/ Description

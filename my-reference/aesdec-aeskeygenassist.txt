@@ -1,3 +1,5 @@
+
+102
 AESDEC—Perform One Round of an AES Decryption Flow
 
 Opcode/     Op/ 64/32-bit CPUID Description
@@ -59,6 +61,7 @@ DEST[127:0] ← STATE XOR RoundKey;
 DEST[VLMAX-1:128] ← 0
 ---------------------------------------------------------------------
 
+104
 AESDECLAST—Perform Last Round of an AES Decryption Flow
 
 Opcode/     Op/ 64/32-bit CPUID Description
@@ -117,6 +120,7 @@ DEST[127:0] ← STATE XOR RoundKey;
 DEST[VLMAX-1:128] ← 0
 ---------------------------------------------------------------------
 
+106
 AESENC—Perform One Round of an AES Encryption Flow
 
 Opcode/     Op/ 64/32-bit CPUID Description
@@ -177,6 +181,7 @@ DEST[127:0]  STATE XOR RoundKey;
 DEST[VLMAX-1:128]  0
 ---------------------------------------------------------------------
 
+108
 AESENCLAST—Perform Last Round of an AES Encryption Flow
 
 Opcode/     Op/ 64/32-bit CPUID Description
@@ -233,6 +238,7 @@ DEST[127:0]  STATE XOR RoundKey;
 DEST[VLMAX-1:128]  0
 ---------------------------------------------------------------------
 
+110
 AESIMC—Perform the AES InvMixColumn Transformation
 
 Opcode/     Op/ 64/32-bit CPUID Description
@@ -278,6 +284,7 @@ DEST[127:0]  InvMixColumns( SRC );
 DEST[VLMAX-1:128]  0;
 ---------------------------------------------------------------------
 
+111
 AESKEYGENASSIST—AES Round Key Generation Assist
 
 Opcode/     Op/ 64/32-bit CPUID Description
