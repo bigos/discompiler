@@ -1,3 +1,4 @@
+582
 MOVDDUP—Move One Double-FP and Duplicate
 
 Opcode/ Op/ 64/32-bit CPUID Description
@@ -61,6 +62,7 @@ DEST[191:128]  SRC[191:128]
 DEST[255:192]  SRC[191:128]
 ---------------------------------------------------------------------
 
+584
 MOVDQA—Move Aligned Double Quadword
 
 Opcode/ Op/ 64/32-bit CPUID Description
@@ -144,6 +146,7 @@ VMOVDQA (VEX.256 encoded version)
 DEST[255:0]  SRC[255:0]
 ---------------------------------------------------------------------
 
+586
 MOVDQU—Move Unaligned Double Quadword
 
 Opcode/ Op/ 64/32-bit CPUID Description
@@ -232,6 +235,7 @@ VMOVDQU (VEX.256 encoded version)
 DEST[255:0]  SRC[255:0]
 ---------------------------------------------------------------------
 
+588
 MOVDQ2Q—Move Quadword from XMM to MMX Technology Register
 
 Opcode Instruction Op/ 64-Bit Compat/ Description
@@ -259,6 +263,7 @@ Operation
 DEST ← SRC[63:0];
 ---------------------------------------------------------------------
 
+589
 MOVHLPS— Move Packed Single-Precision Floating-Point Values High to Low
 
 Opcode/ Op/ 64/32-bit CPUID Description
@@ -311,6 +316,7 @@ DEST[127:64]  SRC1[127:64]
 DEST[VLMAX-1:128]  0
 ---------------------------------------------------------------------
 
+591
 MOVHPD—Move High Packed Double-Precision Floating-Point Value
 
 Opcode/ Op/ 64/32-bit CPUID Description
@@ -385,6 +391,7 @@ VMOVHPD (store)
 DEST[63:0]  SRC[127:64]
 ---------------------------------------------------------------------
 
+593
 MOVHPS—Move High Packed Single-Precision Floating-Point Values
 
 Opcode/ Op/ 64/32-bit CPUID Description
@@ -460,6 +467,7 @@ VMOVHPS (store)
 DEST[63:0]  SRC[127:64]
 ---------------------------------------------------------------------
 
+595
 MOVLHPS—Move Packed Single-Precision Floating-Point Values Low to High
 
 Opcode/ Op/ 64/32-bit CPUID Description
@@ -513,6 +521,7 @@ DEST[127:64]  SRC2[63:0]
 DEST[VLMAX-1:128]  0
 ---------------------------------------------------------------------
 
+597
 MOVLPD—Move Low Packed Double-Precision Floating-Point Value
 
 Opcode/ Op/ 64/32-bit CPUID Description
@@ -584,6 +593,7 @@ VMOVLPD (store)
 DEST[63:0]  SRC[63:0]
 ---------------------------------------------------------------------
 
+599
 MOVLPS—Move Low Packed Single-Precision Floating-Point Values
 
 Opcode/ Op/ 64/32-bit CPUID Description
@@ -658,6 +668,7 @@ VMOVLPS (store)
 DEST[63:0]  SRC[63:0]
 ---------------------------------------------------------------------
 
+601
 MOVMSKPD—Extract Packed Double-Precision Floating-Point Sign Mask
 
 Opcode/ Op/ 64/32-bit CPUID Description
@@ -719,6 +730,7 @@ ELSE DEST[63:4]  0;
 FI
 ---------------------------------------------------------------------
 
+603
 MOVMSKPS—Extract Packed Single-Precision Floating-Point Sign Mask
 
 Opcode/ Op/ 64/32-bit CPUID Description
@@ -796,6 +808,7 @@ ELSE DEST[63:8]  0;
 FI
 ---------------------------------------------------------------------
 
+605
 MOVNTDQA — Load Double Quadword Non-Temporal Aligned Hint
 
 Opcode/ Op/ 64/32-bit CPUID Description
@@ -879,6 +892,7 @@ VMOVNTDQA (VEX.256 encoded form)
 DEST[255:0]  SRC[255:0]
 ---------------------------------------------------------------------
 
+607
 MOVNTDQ—Store Double Quadword Using Non-Temporal Hint
 
 Opcode/ Op/ 64/32-bit CPUID Description
@@ -933,6 +947,7 @@ Operation
 DEST ← SRC;
 ---------------------------------------------------------------------
 
+609
 MOVNTI—Store Doubleword Using Non-Temporal Hint
 
 Opcode Instruction Op/ 64-Bit Compat/ Description
@@ -976,6 +991,7 @@ Operation
 DEST ← SRC;
 ---------------------------------------------------------------------
 
+611
 MOVNTPD—Store Packed Double-Precision Floating-Point Values Using Non-Temporal Hint
 
 Opcode/ Op/ 64/32-bit CPUID Description
@@ -1031,6 +1047,7 @@ Operation
 DEST ← SRC;
 ---------------------------------------------------------------------
 
+613
 MOVNTPS—Store Packed Single-Precision Floating-Point Values Using Non-Temporal Hint
 
 Opcode/ Op/ 64/32-bit CPUID Description
@@ -1085,6 +1102,7 @@ Operation
 DEST ← SRC;
 ---------------------------------------------------------------------
 
+615
 MOVNTQ—Store of Quadword Using Non-Temporal Hint
 
 Opcode Instruction Op/ 64-Bit Compat/ Description
@@ -1121,6 +1139,7 @@ Operation
 DEST ← SRC;
 ---------------------------------------------------------------------
 
+616
 MOVQ—Move Quadword
 
 Opcode/ Op/ 64/32-bit CPUID Description
