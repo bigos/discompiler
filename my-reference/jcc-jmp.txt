@@ -1,3 +1,4 @@
+489
 Jcc—Jump if Condition Is Met
 
 Opcode Instruction Op/ 64-Bit Compat/ Description
@@ -567,6 +568,7 @@ FI;
 FI;
 ---------------------------------------------------------------------
 
+494
 JMP—Jump
 
 Opcode Instruction Op/ 64-Bit Compat/ Description

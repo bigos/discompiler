@@ -1,3 +1,4 @@
+502
 LAHF—Load Status Flags into AH Register
 
 Opcode Instruction Op/ 64-Bit Compat/ Description
@@ -34,6 +35,7 @@ Flags Affected
 None. The state of the flags in the EFLAGS register is not affected.
 ---------------------------------------------------------------------
 
+503
 LAR—Load Access Rights Byte
 
 Opcode Instruction Op/ 64-Bit Compat/ Description
@@ -113,6 +115,7 @@ Flags Affected
 The ZF flag is set to 1 if the access rights are loaded successfully; otherwise, it is cleared to 0.
 ---------------------------------------------------------------------
 
+506
 LDDQU—Load Unaligned Integer 128 Bits
 
 Opcode/ Op/ 64/32-bit CPUID Description
@@ -182,6 +185,7 @@ VLDDQU (VEX.256 encoded version)
 DEST[255:0]  SRC[255:0]
 ---------------------------------------------------------------------
 
+508
 LDMXCSR—Load MXCSR Register
 
 Opcode/ Op/ 64/32-bit CPUID Description
@@ -226,6 +230,7 @@ Operation
 MXCSR ← m32;
 ---------------------------------------------------------------------
 
+509
 LDS/LES/LFS/LGS/LSS—Load Far Pointer
 
 Opcode Instruction Op/ 64-Bit Compat/ Description
@@ -401,6 +406,7 @@ Flags Affected
 None.
 ---------------------------------------------------------------------
 
+513
 LEA—Load Effective Address
 
 Opcode Instruction Op/ 64-Bit Compat/ Description
@@ -500,6 +506,7 @@ Flags Affected
 None.
 ---------------------------------------------------------------------
 
+516
 LEAVE—High Level Procedure Exit
 
 Opcode Instruction Op/ 64-Bit Compat/ Description
@@ -557,6 +564,7 @@ Flags Affected
 None.
 ---------------------------------------------------------------------
 
+518
 LFENCE—Load Fence
 
 Opcode Instruction Op/ 64-Bit Compat/ Description
@@ -594,6 +602,7 @@ Operation
 Wait_On_Following_Instructions_Until(preceding_instructions_complete);
 ---------------------------------------------------------------------
 
+519
 LGDT/LIDT—Load Global/Interrupt Descriptor Table Register
 
 Opcode Instruction Op/ 64-Bit Compat/ Description
@@ -683,6 +692,7 @@ Flags Affected
 None.
 ---------------------------------------------------------------------
 
+522
 LLDT—Load Local Descriptor Table Register
 
 Opcode Instruction Op/ 64-Bit Compat/ Description
@@ -731,6 +741,7 @@ Flags Affected
 None.
 ---------------------------------------------------------------------
 
+524
 LMSW—Load Machine Status Word
 
 Opcode Instruction Op/ 64-Bit Compat/ Description
@@ -773,6 +784,7 @@ Flags Affected
 None.
 ---------------------------------------------------------------------
 
+526
 LOCK—Assert LOCK# Signal Prefix
 
 Opcode Instruction Op/ 64-Bit Compat/ Description
@@ -826,6 +838,7 @@ Flags Affected
 None.
 ---------------------------------------------------------------------
 
+528
 LODS/LODSB/LODSW/LODSD/LODSQ—Load String
 
 Opcode Instruction Op/ 64-Bit Compat/ Description
@@ -952,6 +965,7 @@ Flags Affected
 None.
 ---------------------------------------------------------------------
 
+531
 LOOP/LOOPcc—Loop According to ECX Counter
 
 Opcode Instruction Op/ 64-Bit Compat/ Description
@@ -1045,6 +1059,7 @@ Flags Affected
 None.
 ---------------------------------------------------------------------
 
+533
 LSL—Load Segment Limit
 
 Opcode Instruction Op/ 64-Bit Compat/ Description
@@ -1155,6 +1170,7 @@ Flags Affected
 The ZF flag is set to 1 if the segment limit is loaded successfully; otherwise, it is set to 0.
 ---------------------------------------------------------------------
 
+536
 LTR—Load Task Register
 
 Opcode Instruction Op/ 64-Bit Compat/ Description
@@ -1202,6 +1218,7 @@ Flags Affected
 None.
 ---------------------------------------------------------------------
 
+538
 LZCNT— Count the Number of Leading Zero Bits
 
 Opcode/ Op/

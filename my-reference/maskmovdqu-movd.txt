@@ -1,3 +1,4 @@
+540
 MASKMOVDQU—Store Selected Bytes of Double Quadword
 
 Opcode/ Op/ 64/32-bit CPUID Description
@@ -68,6 +69,7 @@ IF (MASK[127] = 1)
 THEN DEST[DI/EDI +15] ← SRC[127:120] ELSE (* Memory location unchanged *); FI;
 ---------------------------------------------------------------------
 
+542
 MASKMOVQ—Store Selected Bytes of Quadword
 
 Opcode/ Op/ 64-Bit Compat/ Description
@@ -130,6 +132,7 @@ IF (MASK[63] = 1)
 THEN DEST[DI/EDI +15] ← SRC[63:56] ELSE (* Memory location unchanged *); FI;
 ---------------------------------------------------------------------
 
+544
 MAXPD—Return Maximum Packed Double-Precision Floating-Point Values
 
 Opcode/ Op/ 64/32-bit CPUID Description
@@ -206,6 +209,7 @@ DEST[191:128]  MAX(SRC1[191:128], SRC2[191:128])
 DEST[255:192]  MAX(SRC1[255:192], SRC2[255:192])
 ---------------------------------------------------------------------
 
+546
 MAXPS—Return Maximum Packed Single-Precision Floating-Point Values
 
 Opcode/ Op/ 64/32-bit CPUID Description
@@ -291,6 +295,7 @@ DEST[223:192]  MAX(SRC1[223:192], SRC2[223:192])
 DEST[255:224]  MAX(SRC1[255:224], SRC2[255:224])
 ---------------------------------------------------------------------
 
+548
 MAXSD—Return Maximum Scalar Double-Precision Floating-Point Value
 
 Opcode/ Op/ 64/32-bit CPUID Description
@@ -357,6 +362,7 @@ DEST[127:64] SRC1[127:64]
 DEST[VLMAX-1:128]  0
 ---------------------------------------------------------------------
 
+550
 MAXSS—Return Maximum Scalar Single-Precision Floating-Point Value
 
 Opcode/ Op/ 64/32-bit CPUID Description
@@ -420,6 +426,7 @@ DEST[127:32] SRC1[127:32]
 DEST[VLMAX-1:128]  0
 ---------------------------------------------------------------------
 
+552
 MFENCE—Memory Fence
 
 Opcode Instruction Op/ 64-Bit Compat/ Description
@@ -456,6 +463,7 @@ Operation
 Wait_On_Following_Loads_And_Stores_Until(preceding_loads_and_stores_globally_visible);
 ---------------------------------------------------------------------
 
+553
 MINPD—Return Minimum Packed Double-Precision Floating-Point Values
 
 Opcode/ Op/ 64/32-bit CPUID Description
@@ -531,6 +539,7 @@ DEST[191:128]  MIN(SRC1[191:128], SRC2[191:128])
 DEST[255:192]  MIN(SRC1[255:192], SRC2[255:192])
 ---------------------------------------------------------------------
 
+555
 MINPS—Return Minimum Packed Single-Precision Floating-Point Values
 
 Opcode/ Op/ 64/32-bit CPUID Description
@@ -616,6 +625,7 @@ DEST[223:192]  MIN(SRC1[223:192], SRC2[223:192])
 DEST[255:224]  MIN(SRC1[255:224], SRC2[255:224])
 ---------------------------------------------------------------------
 
+557
 MINSD—Return Minimum Scalar Double-Precision Floating-Point Value
 
 Opcode/ Op/ 64/32-bit CPUID Description
@@ -681,6 +691,7 @@ DEST[127:64]  SRC1[127:64]
 DEST[VLMAX-1:128]  0
 ---------------------------------------------------------------------
 
+559
 MINSS—Return Minimum Scalar Single-Precision Floating-Point Value
 
 Opcode/ Op/ 64/32-bit CPUID Description
@@ -744,6 +755,7 @@ DEST[127:32]  SRC1[127:32]
 DEST[VLMAX-1:128]  0
 ---------------------------------------------------------------------
 
+561
 MONITOR—Set Up Monitor Address
 
 Opcode Instruction Op/ 64-Bit Compat/ Description
@@ -794,6 +806,7 @@ type. A store to the specified address range will trigger the monitor hardware. 
 used to communicate other information to the monitor hardware.
 ---------------------------------------------------------------------
 
+563
 MOV—Move
 
 Opcode
@@ -1072,6 +1085,7 @@ Flags Affected
 None.
 ---------------------------------------------------------------------
 
+568
 MOV—Move to/from Control Registers
 
 Opcode/ Op/ 64-Bit Compat/ Description
@@ -1158,6 +1172,7 @@ Flags Affected
 The OF, SF, ZF, AF, PF, and CF flags are undefined.
 ---------------------------------------------------------------------
 
+571
 MOV—Move to/from Debug Registers
 
 Opcode/ Op/ 64-Bit Compat/ Description
@@ -1217,6 +1232,7 @@ Flags Affected
 The OF, SF, ZF, AF, PF, and CF flags are undefined.
 ---------------------------------------------------------------------
 
+573
 MOVAPD—Move Aligned Packed Double-Precision Floating-Point Values
 
 Opcode/ Op/ 64/32-bit CPUID Description
@@ -1306,6 +1322,7 @@ VMOVAPD (VEX.256 encoded version)
 DEST[255:0]  SRC[255:0]
 ---------------------------------------------------------------------
 
+575
 MOVAPS—Move Aligned Packed Single-Precision Floating-Point Values
 
 Opcode/ Op/ 64/32-bit CPUID Description
@@ -1391,6 +1408,7 @@ VMOVAPS (VEX.256 encoded version)
 DEST[255:0]  SRC[255:0]
 ---------------------------------------------------------------------
 
+577
 MOVBE—Move Data After Swapping Bytes
 
 Opcode Instruction Op/ 64-Bit Compat/ Description
@@ -1472,6 +1490,7 @@ Flags Affected
 None.
 ---------------------------------------------------------------------
 
+579
 MOVD/MOVQ—Move Doubleword/Move Quadword
 
 Opcode/ Op/ 64/32-bit CPUID Description

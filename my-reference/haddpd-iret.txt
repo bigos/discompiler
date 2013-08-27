@@ -1,3 +1,4 @@
+432
 HADDPD—Packed Double-FP Horizontal Add
 
 Opcode/ Op/ 64/32-bit CPUID Description
@@ -53,6 +54,7 @@ DEST[191:128]  SRC1[255:192] + SRC1[191:128]
 DEST[255:192]  SRC2[255:192] + SRC2[191:128]
 ---------------------------------------------------------------------
 
+435
 HADDPS—Packed Single-FP Horizontal Add
 
 Opcode/ Op/ 64/32-bit CPUID Description
@@ -121,6 +123,7 @@ DEST[223:192]  SRC2[191:160] + SRC2[159:128]
 DEST[255:224]  SRC2[255:224] + SRC2[223:192]
 ---------------------------------------------------------------------
 
+438
 HLT—Halt
 
 Opcode Instruction Op/ 64-Bit Compat/ Description
@@ -154,6 +157,7 @@ Flags Affected
 None.
 ---------------------------------------------------------------------
 
+439
 HSUBPD—Packed Double-FP Horizontal Subtract
 
 Opcode/ Op/ 64/32-bit CPUID Description
@@ -211,6 +215,7 @@ DEST[191:128]  SRC1[191:128] - SRC1[255:192]
 DEST[255:192]  SRC2[191:128] - SRC2[255:192]
 ---------------------------------------------------------------------
 
+442
 HSUBPS—Packed Single-FP Horizontal Subtract
 
 Opcode/ Op/ 64/32-bit CPUID Description
@@ -280,6 +285,7 @@ DEST[223:192]  SRC2[159:128] - SRC2[191:160]
 DEST[255:224]  SRC2[223:192] - SRC2[255:224]
 ---------------------------------------------------------------------
 
+445
 IDIV—Signed Divide
 
 Opcode Instruction Op/ 64-Bit Compat/ Description
@@ -402,6 +408,7 @@ Flags Affected
 The CF, OF, SF, ZF, AF, and PF flags are undefined.
 ---------------------------------------------------------------------
 
+448
 IMUL—Signed Multiply
 
 Opcode Instruction Op/ 64-Bit Compat/ Description
@@ -576,6 +583,7 @@ destination operand size and cleared when the result fits exactly in the destina
 PF flags are undefined.
 ---------------------------------------------------------------------
 
+452
 IN—Input from Port
 
 Opcode Instruction Op/ 64-Bit Compat/ Description
@@ -651,6 +659,7 @@ Flags Affected
 None.
 ---------------------------------------------------------------------
 
+454
 INC—Increment by 1
 
 Opcode Instruction Op/ 64-Bit Compat/ Description
@@ -717,6 +726,7 @@ AFlags Affected
 The CF flag is not affected. The OF, SF, ZF, AF, and PF flags are set according to the result.
 ---------------------------------------------------------------------
 
+456
 INS/INSB/INSW/INSD—Input from Port to String
 
 Opcode Instruction Op/ 64-Bit Compat/ Description
@@ -850,6 +860,8 @@ FI;
 Flags Affected
 None.
 ---------------------------------------------------------------------
+
+459
 INSERTPS — Insert Packed Single Precision Floating-Point Value
 
 Opcode/ Op/ 64/32-bit CPUID Description
@@ -966,6 +978,7 @@ ELSE DEST[127:96]  TMP2[127:96]
 DEST[VLMAX-1:128]  0
 ---------------------------------------------------------------------
 
+462
 INT n/INTO/INT 3—Call to Interrupt Procedure
 
 Opcode Instruction Op/ 64-Bit Compat/ Description
@@ -1008,6 +1021,7 @@ the mode of operation of the processor when the INT instruction is executed (see
 interrupt uses a task gate, any flags may be set or cleared, controlled by the EFLAGS image in the new task’s TSS.
 ---------------------------------------------------------------------
 
+474
 INVD—Invalidate Internal Caches
 
 Opcode Instruction Op/ 64-Bit Compat/ Description
@@ -1058,6 +1072,7 @@ Flags Affected
 None.
 ---------------------------------------------------------------------
 
+476
 INVLPG—Invalidate TLB Entry
 
 Opcode Instruction Op/ 64-Bit Compat/ Description
@@ -1104,6 +1119,7 @@ Flags Affected
 None.
 ---------------------------------------------------------------------
 
+478
 INVPCID—Invalidate Process-Context Identifier
 
 Opcode/ Op/ 64/32- CPUID Description
@@ -1191,6 +1207,7 @@ BREAK;
 ESAC;
 ---------------------------------------------------------------------
 
+481
 IRET/IRETD—Interrupt Return
 
 Opcode Instruction Op/ 64-Bit Compat/ Description
