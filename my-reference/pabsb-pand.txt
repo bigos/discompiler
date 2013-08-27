@@ -1,3 +1,4 @@
+25
 PABSB/PABSW/PABSD — Packed Absolute Value
 
 Opcode/ Op/ 64/32 bit CPUID Description
@@ -171,6 +172,7 @@ Repeat operation for 2nd through 7th 32-bit double words
 Unsigned DEST[255:224]  ABS(SRC[255:224])
 ---------------------------------------------------------------------
 
+29
 PACKSSWB/PACKSSDW—Pack with Signed Saturation
 
 Opcode/ Op/ 64/32 bit CPUID Description
@@ -256,6 +258,7 @@ doubleword integers into packed signed word integers (PACKSSDW), using saturatio
 tions. See Figure 4-2 for an example of the packing operation.
 ---------------------------------------------------------------------
 
+34
 PACKUSDW — Pack with Unsigned Saturation
 
 Opcode/ Op/ 64/32 bit CPUID Description
@@ -310,6 +313,7 @@ or a 256-bit memory location. The destination operand is a YMM register.
 Note: VEX.L must be 0, otherwise the instruction will #UD.
 ---------------------------------------------------------------------
 
+37
 PACKUSWB—Pack with Unsigned Saturation
 
 Opcode/ Op/ 64/32 bit CPUID Description
@@ -378,6 +382,7 @@ VEX.256 encoded version: The first source operand is a YMM register. The second 
 or a 256-bit memory location. The destination operand is a YMM register.
 ---------------------------------------------------------------------
 
+40
 PADDB/PADDW/PADDD—Add Packed Integers
 
 Opcode/ Op/ 64/32 bit CPUID Description
@@ -493,6 +498,7 @@ or a 256-bit memory location. The destination operand is a YMM register.
 Note: VEX.L must be 0, otherwise the instruction will #UD.
 ---------------------------------------------------------------------
 
+44
 PADDQ—Add Packed Quadword Integers
 
 Opcode/ Op/ 64/32 bit CPUID Description
@@ -556,6 +562,7 @@ or a 256-bit memory location. The destination operand is a YMM register.
 Note: VEX.L must be 0, otherwise the instruction will #UD.
 ---------------------------------------------------------------------
 
+46
 PADDSB/PADDSW—Add Packed Signed Integers with Signed Saturation
 
 Opcode/ Op/ 64/32 bit CPUID Description
@@ -641,6 +648,7 @@ nology register or a 64-bit memory location. In 64-bit mode, using a REX prefix 
 instruction to access additional registers (XMM8-XMM15).
 ---------------------------------------------------------------------
 
+49
 PADDUSB/PADDUSW—Add Packed Unsigned Integers with Unsigned Saturation
 
 Opcode/ Op/ 64/32 bit CPUID Description
@@ -725,6 +733,7 @@ These instructions can operate on either 64-bit, 128-bit or 256-bit operands. Wh
 the destination operand must be an MMX technology register and the source operand can be either an MMX tech-
 ---------------------------------------------------------------------
 
+52
 PALIGNR — Packed Align Right
 
 Opcode/ Op/ 64/32 bit CPUID Description
@@ -792,6 +801,7 @@ operand is a YMM register and contain two 16-byte results. The imm8[7:0] is the 
 two lower 16-byte block sources and the two upper 16-byte block sources. The low 16-byte block of the two source
 ---------------------------------------------------------------------
 
+55
 PAND—Logical AND
 
 Opcode/ Op/ 64/32 bit CPUID Description

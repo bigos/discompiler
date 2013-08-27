@@ -1,3 +1,4 @@
+8
 NEG—Two's Complement Negation
 
 Opcode Instruction Op/ 64-Bit Compat/ Description
@@ -56,6 +57,7 @@ The CF flag set to 0 if the source operand is 0; otherwise it is set to 1. The O
 according to the result.
 ---------------------------------------------------------------------
 
+10
 NOP—No Operation
 
 Opcode Instruction Op/ 64-Bit Compat/ Description
@@ -113,6 +115,7 @@ Flags Affected
 None.
 ---------------------------------------------------------------------
 
+11
 NOT—One's Complement Negation
 
 Opcode Instruction Op/ 64-Bit Compat/ Description
@@ -165,6 +168,7 @@ Flags Affected
 None.
 ---------------------------------------------------------------------
 
+13
 OR—Logical Inclusive OR
 
 Opcode Instruction Op/ 64-Bit Compat/ Description
@@ -309,6 +313,7 @@ The OF and CF flags are cleared; the SF, ZF, and PF flags are set according to t
 undefined.
 ---------------------------------------------------------------------
 
+15
 ORPD—Bitwise Logical OR of Double-Precision Floating-Point Values
 
 Opcode/ Op/ 64/32 bit CPUID Description
@@ -370,6 +375,7 @@ DEST[191:128]  SRC1[191:128] BITWISE OR SRC2[191:128]
 DEST[255:192]  SRC1[255:192] BITWISE OR SRC2[255:192]
 ---------------------------------------------------------------------
 
+17
 ORPS—Bitwise Logical OR of Single-Precision Floating-Point Values
 
 Opcode/ Op/ 64/32 bit CPUID Description
@@ -439,6 +445,7 @@ DEST[223:192]  SRC1[223:192] BITWISE OR SRC2[223:192]
 DEST[255:224]  SRC1[255:224] BITWISE OR SRC2[255:224].
 ---------------------------------------------------------------------
 
+19
 OUT—Output to Port
 
 Opcode Instruction Op/ 64-Bit Compat/ Description
@@ -522,6 +529,7 @@ Flags Affected
 None.
 ---------------------------------------------------------------------
 
+21
 OUTS/OUTSB/OUTSW/OUTSD—Output String to Port
 
 Opcode Instruction Op/ 64-Bit Compat/ Description

@@ -1,3 +1,4 @@
+57
 PANDN—Logical AND NOT
 
 Opcode/ Op/ 64/32 bit CPUID Description
@@ -64,6 +65,7 @@ VPANDN (VEX.256 encoded instruction)
 DEST[255:0]  ((NOT SRC1[255:0]) AND SRC2[255:0])
 ---------------------------------------------------------------------
 
+59
 PAUSE—Spin Loop Hint
 
 Opcode Instruction Op/ 64-Bit Compat/ Description
@@ -100,6 +102,7 @@ Operation
 Execute_Next_Instruction(DELAY);
 ---------------------------------------------------------------------
 
+60
 PAVGB/PAVGW—Average Packed Integers
 
 Opcode/ Op/ 64/32 bit CPUID Description
@@ -222,6 +225,7 @@ DEST[15:0]  (SRC1[15:0] + SRC2[15:0] + 1) >> 1; (* Temp sum before shifting i
 DEST[255:14])  (SRC1[255:240] + SRC2[255:240] + 1) >> 1;
 ---------------------------------------------------------------------
 
+63
 PBLENDVB — Variable Blend Packed Bytes
 
 Opcode/ Op/ 64/32 bit CPUID Description
@@ -281,6 +285,7 @@ mask and do not support non-destructive destination operation. An attempt to exe
 VEX prefix will cause a #UD exception.
 ---------------------------------------------------------------------
 
+67
 PBLENDW — Blend Packed Words
 
 Opcode/ Op/ 64/32 bit CPUID Description
@@ -329,6 +334,7 @@ VEX.256 encoded version: The first source operand is a YMM register. The second 
 or a 256-bit memory location. The destination operand is a YMM register.
 ---------------------------------------------------------------------
 
+70
 PCLMULQDQ — Carry-Less Multiplication Quadword
 
 Opcode/ Op/ 64/32 bit CPUID Description
@@ -364,6 +370,7 @@ according to the value of the immediate byte. Bits 4 and 0 are used to select wh
 use according to Table 4-10, other bits of the immediate byte are ignored.
 ---------------------------------------------------------------------
 
+73
 PCMPEQB/PCMPEQW/PCMPEQD— Compare Packed Data for Equal
 
 Opcode/ Op/ 64/32 bit CPUID Description
@@ -461,6 +468,7 @@ The (V)PCMPEQB instruction compares the corresponding bytes in the destination a
 (V)PCMPEQD instruction compares the corresponding doublewords in the destination and source operands.
 ---------------------------------------------------------------------
 
+77
 PCMPEQQ — Compare Packed Qword Data for Equal
 
 Opcode/ Op/ 64/32 bit CPUID Description
@@ -519,6 +527,7 @@ DEST[127:0] COMPARE_QWORDS_EQUAL(SRC1[127:0],SRC2[127:0])
 DEST[255:128] COMPARE_QWORDS_EQUAL(SRC1[255:128],SRC2[255:128])
 ---------------------------------------------------------------------
 
+79
 PCMPESTRI — Packed Compare Explicit Length Strings, Return Index
 
 Opcode/ Op/ 64/32 bit CPUID Description
@@ -559,6 +568,7 @@ Section 4.1). The index of the first (or last, according to imm8[6]) set bit of 
 in ECX. If no bits are set in IntRes2, ECX is set to 16 (8).
 ---------------------------------------------------------------------
 
+81
 PCMPESTRM — Packed Compare Explicit Length Strings, Return Mask
 
 Opcode/ Op/ 64/32 bit CPUID Description
@@ -599,6 +609,7 @@ Section 4.1). As defined by imm8[6], IntRes2 is then either stored to the least 
 extended to 128 bits) or expanded into a byte/word-mask and then stored to XMM0.
 ---------------------------------------------------------------------
 
+83
 PCMPGTB/PCMPGTW/PCMPGTD—Compare Packed Signed Integers for Greater Than
 
 Opcode/ Op/ 64/32 bit CPUID Description
@@ -696,6 +707,7 @@ The PCMPGTB instruction compares the corresponding signed byte integers in the d
 ands; the PCMPGTW instruction compares the corresponding signed word integers in the destination and source
 ---------------------------------------------------------------------
 
+87
 PCMPGTQ — Compare Packed Data for Greater Than
 
 Opcode/ Op/ 64/32 bit CPUID Description
@@ -756,6 +768,7 @@ DEST[255:128] COMPARE_QWORDS_GREATER(SRC1[255:128],SRC2[255:128])
 PCMPGTQ — Compare Packed Data for Greater Than
 ---------------------------------------------------------------------
 
+89
 PCMPISTRI — Packed Compare Implicit Length Strings, Return Index
 
 Opcode/ Op/ 64/32 bit CPUID Description
@@ -793,6 +806,7 @@ Section 4.1). The index of the first (or last, according to imm8[6]) set bit of 
 are set in IntRes2, ECX is set to 16 (8).
 ---------------------------------------------------------------------
 
+91
 PCMPISTRM — Packed Compare Implicit Length Strings, Return Mask
 
 Opcode/ Op/ 64/32 bit CPUID Description
@@ -830,6 +844,7 @@ Section 4.1). As defined by imm8[6], IntRes2 is then either stored to the least 
 extended to 128 bits) or expanded into a byte/word-mask and then stored to XMM0.
 ---------------------------------------------------------------------
 
+93
 PDEP — Parallel Bits Deposit
 
 Opcode/ Op/

@@ -1,3 +1,4 @@
+125
 PMAXSB — Maximum of Packed Signed Byte Integers
 
 Opcode/ Op/ 64/32 bit CPUID Description
@@ -44,6 +45,7 @@ first source and destination operands are YMM registers.
 Note: VEX.L must be 0, otherwise the instruction will #UD.
 ---------------------------------------------------------------------
 
+128
 PMAXSD — Maximum of Packed Signed Dword Integers
 
 Opcode/ Op/ 64/32 bit CPUID Description
@@ -90,6 +92,7 @@ first source and destination operands are YMM registers.
 Note: VEX.L must be 0, otherwise the instruction will #UD.
 ---------------------------------------------------------------------
 
+130
 PMAXSW—Maximum of Packed Signed Word Integers
 
 Opcode/ Op/ 64/32 bit CPUID Description
@@ -151,6 +154,7 @@ first source and destination operands are YMM registers.
 Note: VEX.L must be 0, otherwise the instruction will #UD.
 ---------------------------------------------------------------------
 
+133
 PMAXUB—Maximum of Packed Unsigned Byte Integers
 
 Opcode/ Op/ 64/32 bit CPUID Description
@@ -213,6 +217,7 @@ first source and destination operands are YMM registers.
 Note: VEX.L must be 0, otherwise the instruction will #UD.
 ---------------------------------------------------------------------
 
+136
 PMAXUD — Maximum of Packed Unsigned Dword Integers
 
 Opcode/ Op/ 64/32 bit CPUID Description
@@ -259,6 +264,7 @@ first source and destination operands are YMM registers.
 Note: VEX.L must be 0, otherwise the instruction will #UD.
 ---------------------------------------------------------------------
 
+138
 PMAXUW — Maximum of Packed Word Integers
 
 Opcode/ Op/ 64/32 bit CPUID Description
@@ -305,6 +311,7 @@ first source and destination operands are YMM registers.
 Note: VEX.L must be 0, otherwise the instruction will #UD.
 ---------------------------------------------------------------------
 
+140
 PMINSB — Minimum of Packed Signed Byte Integers
 
 Opcode/ Op/ 64/32 bit CPUID Description
@@ -351,6 +358,7 @@ first source and destination operands are YMM registers.
 Note: VEX.L must be 0, otherwise the instruction will #UD.
 ---------------------------------------------------------------------
 
+143
 PMINSD — Minimum of Packed Dword Integers
 
 Opcode/ Op/ 64/32 bit CPUID Description
@@ -397,6 +405,7 @@ first source and destination operands are YMM registers.
 Note: VEX.L must be 0, otherwise the instruction will #UD.
 ---------------------------------------------------------------------
 
+145
 PMINSW—Minimum of Packed Signed Word Integers
 
 Opcode/ Op/ 64/32 bit CPUID Description
@@ -458,6 +467,7 @@ first source and destination operands are YMM registers.
 Note: VEX.L must be 0, otherwise the instruction will #UD.
 ---------------------------------------------------------------------
 
+148
 PMINUB—Minimum of Packed Unsigned Byte Integers
 
 Opcode/ Op/ 64/32 bit CPUID Description
@@ -520,6 +530,7 @@ first source and destination operands are YMM registers.
 Note: VEX.L must be 0, otherwise the instruction will #UD.
 ---------------------------------------------------------------------
 
+151
 PMINUD — Minimum of Packed Dword Integers
 
 Opcode/ Op/ 64/32 bit CPUID Description
@@ -566,6 +577,7 @@ first source and destination operands are YMM registers.
 Note: VEX.L must be 0, otherwise the instruction will #UD.
 ---------------------------------------------------------------------
 
+153
 PMINUW — Minimum of Packed Word Integers
 
 Opcode/ Op/ 64/32 bit CPUID Description

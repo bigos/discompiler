@@ -1,3 +1,4 @@
+95
 PEXT — Parallel Bits Extract
 
 Opcode/ Op/
@@ -30,6 +31,7 @@ operand and writes them into contiguous lower bits of destination operand. The r
 are zeroed.
 ---------------------------------------------------------------------
 
+97
 PEXTRB/PEXTRD/PEXTRQ — Extract Byte/Dword/Qword
 
 Opcode/ Op/ 64/32 bit CPUID Description
@@ -99,6 +101,7 @@ VPEXTRB/VPEXTRD is 64 bits, the bits above the least significant byte/word/dword
 Attempt to execute VPEXTRQ in non-64-bit mode will cause #UD.
 ---------------------------------------------------------------------
 
+100
 PEXTRW—Extract Word
 
 Opcode/ Op/ 64/32 bit CPUID Description
@@ -169,6 +172,7 @@ instruction will #UD. If the destination operand is a register, the default oper
 is 64 bits, the bits above the least significant byte/word/dword data are filled with zeros.
 ---------------------------------------------------------------------
 
+103
 PHADDW/PHADDD — Packed Horizontal Add
 
 Opcode/ Op/ 64/32 bit CPUID Description
@@ -248,6 +252,7 @@ destination register remain unchanged.
 In 64-bit mode, use the REX prefix to access additional registers.
 ---------------------------------------------------------------------
 
+107
 PHADDSW — Packed Horizontal Add and Saturate
 
 Opcode/ Op/ 64/32 bit CPUID Description
@@ -307,6 +312,7 @@ operand can be an YMM register or a 256-bit memory location.
 Note: VEX.L must be 0, otherwise the instruction will #UD.
 ---------------------------------------------------------------------
 
+109
 PHMINPOSUW — Packed Horizontal Word Minimum
 
 Opcode/ Op/ 64/32 bit CPUID Description
@@ -343,6 +349,7 @@ VEX.128 encoded version: Bits (VLMAX-1:128) of the destination YMM register are 
 and must be 1111b, VEX.L must be 0, otherwise the instruction will #UD.
 ---------------------------------------------------------------------
 
+111
 PHSUBW/PHSUBD — Packed Horizontal Subtract
 
 Opcode/ Op/ 64/32 bit CPUID Description
@@ -426,6 +433,7 @@ operand is an XMM register or a 128-bit memory location. Bits (VLMAX-1:128) of t
 zeroed.
 ---------------------------------------------------------------------
 
+114
 PHSUBSW — Packed Horizontal Subtract and Saturate
 
 Opcode/ Op/ 64/32 bit CPUID Description
@@ -486,6 +494,7 @@ operand can be an YMM register or a 256-bit memory location.
 Note: VEX.L must be 0, otherwise the instruction will #UD.
 ---------------------------------------------------------------------
 
+116
 PINSRB/PINSRD/PINSRQ — Insert Byte/Dword/Qword
 
 Opcode/ Op/ 64/32 bit CPUID Description
@@ -557,6 +566,7 @@ VEX.128 encoded version: Bits (VLMAX-1:128) of the destination YMM register are 
 wise the instruction will #UD. Attempt to execute VPINSRQ in non-64-bit mode will cause #UD.
 ---------------------------------------------------------------------
 
+118
 PINSRW—Insert Word
 
 Opcode/ Op/ 64/32 bit CPUID Description
@@ -610,6 +620,7 @@ VEX.128 encoded version: Bits (VLMAX-1:128) of the destination YMM register are 
 wise the instruction will #UD.
 ---------------------------------------------------------------------
 
+120
 PMADDUBSW — Multiply and Add Packed Signed and Unsigned Bytes
 
 Opcode/ Op/ 64/32 bit CPUID Description
@@ -673,6 +684,7 @@ operand can be an YMM register or a 256-bit memory location.
 Note: VEX.L must be 0, otherwise the instruction will #UD.
 ---------------------------------------------------------------------
 
+122
 PMADDWD—Multiply and Add Packed Integers
 
 Opcode/ Op/ 64/32 bit CPUID Description
