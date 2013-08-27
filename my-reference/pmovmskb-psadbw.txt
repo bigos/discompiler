@@ -1,3 +1,4 @@
+155
 PMOVMSKB—Move Byte Mask
 
 Opcode/ Op/ 64/32 bit CPUID Description
@@ -51,6 +52,7 @@ VEX.256 encoded version: The source operand is a YMM register.
 Note: VEX.vvvv is reserved and must be 1111b, VEX.L must be 0, otherwise the instruction will #UD.
 ---------------------------------------------------------------------
 
+157
 PMOVSX — Packed Move with Sign Extend
 
 Opcode/ Op/ 64/32 bit CPUID Description
@@ -197,6 +199,7 @@ VEX.256 encoded version: The destination register is YMM Register.
 Note: VEX.vvvv is reserved and must be 1111b, VEX.L must be 0, otherwise the instruction will #UD.
 ---------------------------------------------------------------------
 
+161
 PMOVZX — Packed Move with Zero Extend
 
 Opcode/ Op/ 64/32 bit CPUID Description
@@ -343,6 +346,7 @@ VEX.256 encoded version: The destination register is YMM Register.
 Note: VEX.vvvv is reserved and must be 1111b, VEX.L must be 0, otherwise the instruction will #UD.
 ---------------------------------------------------------------------
 
+165
 PMULDQ — Multiply Packed Signed Dword Integers
 
 Opcode/ Op/ 64/32 bit CPUID Description
@@ -403,6 +407,7 @@ VEX.256 encoded version: The second source operand can be an YMM register or a 2
 first source and destination operands are YMM registers.
 ---------------------------------------------------------------------
 
+167
 PMULHRSW — Packed Multiply High with Round and Scale
 
 Opcode/ Op/ 64/32 bit CPUID Description
@@ -469,6 +474,7 @@ VEX.256 encoded version: The second source operand can be an YMM register or a 2
 first source and destination operands are YMM registers.
 ---------------------------------------------------------------------
 
+170
 PMULHUW—Multiply Packed Unsigned Integers and Store High Result
 
 Opcode/ Op/ 64/32 bit CPUID Description
@@ -531,6 +537,7 @@ VEX.256 encoded version: The second source operand can be an YMM register or a 2
 first source and destination operands are YMM registers.
 ---------------------------------------------------------------------
 
+174
 PMULHW—Multiply Packed Signed Integers and Store High Result
 
 Opcode/ Op/ 64/32 bit CPUID Description
@@ -593,6 +600,7 @@ VEX.256 encoded version: The second source operand can be an YMM register or a 2
 first source and destination operands are YMM registers.
 ---------------------------------------------------------------------
 
+177
 PMULLD — Multiply Packed Signed Dword Integers and Store Low Result
 
 Opcode/ Op/ 64/32 bit CPUID Description
@@ -641,6 +649,7 @@ first source and destination operands are YMM registers.
 Note: VEX.L must be 0, otherwise the instruction will #UD.
 ---------------------------------------------------------------------
 
+179
 PMULLW—Multiply Packed Signed Integers and Store Low Result
 
 Opcode/ Op/ 64/32 bit CPUID Description
@@ -703,6 +712,7 @@ VEX.256 encoded version: The second source operand can be an YMM register or a 2
 first source and destination operands are YMM registers.
 ---------------------------------------------------------------------
 
+182
 PMULUDQ—Multiply Packed Unsigned Doubleword Integers
 
 Opcode/ Op/ 64/32 bit CPUID Description
@@ -774,6 +784,7 @@ first (low) and third doublewords of an XMM register or a 128-bit memory locatio
 128 bits are fetched from memory, but only the first and third doublewords are used in the computation.The first
 ---------------------------------------------------------------------
 
+184
 POP—Pop a Value from the Stack
 
 Opcode Instruction Op/ 64-Bit Compat/ Description
@@ -884,6 +895,7 @@ Address size. The D flag in the current code-segment descriptor determines the d
 overridden by an instruction prefix (67H).
 ---------------------------------------------------------------------
 
+189
 POPA/POPAD—Pop All General-Purpose Registers
 
 Opcode Instruction Op/ 64-Bit Compat/ Description
@@ -919,6 +931,7 @@ descriptor determines the operand-size attribute.)
 This instruction executes as described in non-64-bit modes. It is not valid in 64-bit mode.
 ---------------------------------------------------------------------
 
+191
 POPCNT — Return the Count of Number of Bits Set to 1
 
 Opcode Instruction Op/ 64-Bit Compat/ Description
@@ -960,6 +973,7 @@ Flags Affected
 OF, SF, ZF, AF, CF, PF are all cleared. ZF is set if SRC = 0, otherwise ZF is cleared
 ---------------------------------------------------------------------
 
+193
 POPF/POPFD/POPFQ—Pop Stack into EFLAGS Register
 
 Opcode Instruction Op/ 64-Bit Compat/ Description
@@ -1012,6 +1026,7 @@ See Chapter 3 of the Intel® 64 and IA-32 Architectures Software Developer’s M
 tion about the EFLAGS registers.
 ---------------------------------------------------------------------
 
+196
 POR—Bitwise Logical OR
 
 Opcode/ Op/ 64/32 bit CPUID Description
@@ -1067,6 +1082,7 @@ source and destination operands can be YMM registers.
 Note: VEX.L must be 0, otherwise the instruction will #UD.
 ---------------------------------------------------------------------
 
+198
 PREFETCHh—Prefetch Data Into Caches
 
 Opcode Instruction Op/ 64-Bit Compat/ Description
@@ -1136,6 +1152,7 @@ PREFETCHh instruction is considered a hint to this speculative behavior. Because
 at any time and is not tied to instruction execution, a PREFETCHh instruction is not ordered with respect to the
 ---------------------------------------------------------------------
 
+200
 PSADBW—Compute Sum of Absolute Differences
 
 Opcode/ Op/ 64/32 bit CPUID Description
