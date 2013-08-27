@@ -339,5 +339,5 @@ DEST[63:32 ]  RotWord( SubWord(X1) ) XOR RCON;
 DEST[95:64]  SubWord(X3);
 DEST[127:96]  RotWord( SubWord(X3) ) XOR RCON;
 DEST[VLMAX-1:128]  0;
-
+---------------------------------------------------------------------
 
