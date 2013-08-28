@@ -1,3 +1,4 @@
+277
 RCL/RCR/ROL/ROR-—Rotate
 
 Opcode Instruction Op/ 64-Bit Compat/ Description
@@ -427,6 +428,7 @@ The CF flag contains the value of the bit shifted into it. The OF flag is affect
 “Description” above); it is undefined for multi-bit rotates. The SF, ZF, AF, and PF flags are not affected.
 ---------------------------------------------------------------------
 
+282
 RCPPS—Compute Reciprocals of Packed Single-Precision Floating-Point Values
 
 Opcode/ Op/ 64/32 bit CPUID Description
@@ -487,6 +489,7 @@ register or a 256-bit memory location. The destination operand is a YMM register
 Note: In VEX-encoded versions, VEX.vvvv is reserved and must be 1111b, otherwise instructions will #UD.
 ---------------------------------------------------------------------
 
+284
 RCPSS—Compute Reciprocal of Scalar Single-Precision Floating-Point Values
 
 Opcode/ Op/ 64/32 bit CPUID Description
@@ -538,6 +541,7 @@ In 64-bit mode, using a REX prefix in the form of REX.R permits this instruction
 VEX.128 encoded version: Bits (VLMAX-1:128) of the destination YMM register are zeroed.
 ---------------------------------------------------------------------
 
+286
 RDFSBASE/RDGSBASE—Read FS/GS Segment Base
 
 Opcode/ Op/ 64/32-bit 
@@ -588,6 +592,7 @@ Flags Affected
 None
 ---------------------------------------------------------------------
 
+288
 RDMSR—Read from Model Specific Register
 
 Opcode Instruction Op/ 64-Bit Compat/ Description
@@ -637,6 +642,7 @@ Flags Affected
 None.
 ---------------------------------------------------------------------
 
+290
 RDPMC—Read Performance-Monitoring Counters
 
 Opcode Instruction Op/ 64-Bit Compat/ Description
@@ -679,6 +685,7 @@ Volume 2A).
 Table 4-12. Valid General and Special Purpose Performance Counter Index Range for RDPMC
 ---------------------------------------------------------------------
 
+294
 RDRAND—Read Random Number
 
 Opcode/ Op/ 64/32 bit CPUID Description
@@ -721,6 +728,7 @@ access to additional registers (R8-R15). Using a REX prefix in the form of REX.W
 ands. See the summary chart at the beginning of this section for encoding data and limits.
 ---------------------------------------------------------------------
 
+296
 RDTSC—Read Time-Stamp Counter
 
 Opcode Instruction Op/ 64-Bit Compat/ Description
@@ -768,6 +776,7 @@ Flags Affected
 None.
 ---------------------------------------------------------------------
 
+298
 RDTSCP—Read Time-Stamp Counter and Processor ID
 
 Opcode Instruction Op/ 64-Bit Compat/ Description
@@ -817,6 +826,7 @@ Flags Affected
 None.
 ---------------------------------------------------------------------
 
+300
 REP/REPE/REPZ/REPNE/REPNZ—Repeat String Operation Prefix
 
 Opcode Instruction 
@@ -1083,6 +1093,8 @@ instruction or another looping construct. All of these repeat prefixes cause the
 repeated until the count in register is decremented to 0. See Table 4-13.
 Table 4-13. Repeat Prefixes
 ---------------------------------------------------------------------
+
+303
 RET—Return from Procedure
 
 Opcode Instruction Op/ 64-Bit Compat/ Description

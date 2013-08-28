@@ -1,3 +1,4 @@
+313
 RORX — Rotate Right Logical Without Affecting Flags
 
 Opcode/ Op/
@@ -42,6 +43,7 @@ Flags Affected
 None
 ---------------------------------------------------------------------
 
+314
 ROUNDPD — Round Packed Double Precision Floating-Point Values
 
 Opcode/ Op/ 64/32 bit CPUID Description
@@ -99,6 +101,7 @@ operand is a YMM register.
 Note: In VEX-encoded versions, VEX.vvvv is reserved and must be 1111b, otherwise instructions will #UD.
 ---------------------------------------------------------------------
 
+317
 ROUNDPS — Round Packed Single Precision Floating-Point Values
 
 Opcode/ Op/ 64/32 bit CPUID Description
@@ -156,6 +159,7 @@ operand is a YMM register.
 Note: In VEX-encoded versions, VEX.vvvv is reserved and must be 1111b otherwise instructions will #UD.
 ---------------------------------------------------------------------
 
+320
 ROUNDSD — Round Scalar Double Precision Floating-Point Values
 
 Opcode/ Op/ 64/32 bit CPUID Description
@@ -203,6 +207,7 @@ rounding.
 VEX.128 encoded version: Bits (VLMAX-1:128) of the destination YMM register are zeroed.
 ---------------------------------------------------------------------
 
+322
 ROUNDSS — Round Scalar Single Precision Floating-Point Values
 
 Opcode/ Op/ 64/32 bit CPUID Description
@@ -251,6 +256,7 @@ rounding.
 VEX.128 encoded version: Bits (VLMAX-1:128) of the destination YMM register are zeroed.
 ---------------------------------------------------------------------
 
+324
 RSM—Resume from System Management Mode
 
 Opcode Instruction Op/ 64-Bit Compat/ Description
@@ -292,6 +298,7 @@ Flags Affected
 All.
 ---------------------------------------------------------------------
 
+326
 RSQRTPS—Compute Reciprocals of Square Roots of Packed Single-Precision Floating-Point Values
 
 Opcode/ Op/ 64/32 bit CPUID Description
@@ -349,6 +356,7 @@ register or a 256-bit memory location. The destination operand is a YMM register
 Note: In VEX-encoded versions, VEX.vvvv is reserved and must be 1111b, otherwise instructions will #UD.
 ---------------------------------------------------------------------
 
+328
 RSQRTSS—Compute Reciprocal of Square Root of Scalar Single-Precision Floating-Point Value
 
 Opcode/ Op/ 64/32 bit CPUID Description

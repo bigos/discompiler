@@ -1,3 +1,4 @@
+251
 PTEST— Logical Compare
 
 Opcode/ Op/ 64/32 bit CPUID Description
@@ -39,6 +40,7 @@ register or a 256-bit memory location. The destination register is not modified.
 Note: In VEX-encoded versions, VEX.vvvv is reserved and must be 1111b, otherwise instructions will #UD.
 ---------------------------------------------------------------------
 
+253
 PUNPCKHBW/PUNPCKHWD/PUNPCKHDQ/PUNPCKHQDQ— Unpack High Data
 
 Opcode/ Op/ 64/32 bit CPUID Description
@@ -152,6 +154,7 @@ tion operand (first operand) and source operand (second operand) into the destin
 the unpack operation for bytes in 64-bit operands. The low-order data elements are ignored.
 ---------------------------------------------------------------------
 
+260
 PUNPCKLBW/PUNPCKLWD/PUNPCKLDQ/PUNPCKLQDQ—Unpack Low Data
 
 Opcode/ Op/ 64/32 bit CPUID Description
@@ -264,6 +267,7 @@ tion operand (first operand) and source operand (second operand) into the destin
 shows the unpack operation for bytes in 64-bit operands.). The high-order data elements are ignored.
 ---------------------------------------------------------------------
 
+267
 PUSH—Push Word, Doubleword or Quadword Onto the Stack
 
 Opcode Instruction Op/ 64-Bit Compat/ Description
@@ -394,6 +398,7 @@ existed before the instruction was executed. (This is also true for Intel 64 arc
 of the SP register (that is the value after it has been decremented by 2).
 ---------------------------------------------------------------------
 
+271
 PUSHA/PUSHAD—Push All General-Purpose Registers
 
 Opcode Instruction Op/ 64-Bit Compat/ Description
@@ -463,6 +468,7 @@ Flags Affected
 None.
 ---------------------------------------------------------------------
 
+273
 PUSHF/PUSHFD—Push EFLAGS Register onto the Stack
 
 Opcode Instruction Op/ 64-Bit Compat/ Description
@@ -538,6 +544,7 @@ Flags Affected
 None.
 ---------------------------------------------------------------------
 
+275
 PXOR—Logical Exclusive OR
 
 Opcode/ Op/ 64/32 bit CPUID Description
