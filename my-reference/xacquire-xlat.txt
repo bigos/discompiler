@@ -1,3 +1,4 @@
+554
 XACQUIRE/XRELEASE — Hardware Lock Elision Prefix Hints
 
 Opcode/
@@ -64,6 +65,7 @@ Cause #UD if prepending the VEX prefix.
 Undefined for non-string instructions or other situations.
 ---------------------------------------------------------------------
 
+557
 XABORT — Transactional Abort
 
 Opcode/ Instruction Op/ En
@@ -112,6 +114,7 @@ Flags Affected
 None
 ---------------------------------------------------------------------
 
+559
 XADD—Exchange and Add
 
 Opcode Instruction Op/ 64-Bit Compat/ Description
@@ -172,6 +175,7 @@ The CF, PF, AF, SF, ZF, and OF flags are set according to the result of the addi
 operand.
 ---------------------------------------------------------------------
 
+561
 XBEGIN — Transactional Begin
 
 Opcode/
@@ -212,6 +216,7 @@ the RTM execution and restores architectural state to that corresponding to the 
 fallback address following an abort is computed from the outermost XBEGIN instruction.
 ---------------------------------------------------------------------
 
+564
 XCHG—Exchange Register/Memory with Register
 
 Opcode
@@ -340,6 +345,7 @@ Flags Affected
 None.
 ---------------------------------------------------------------------
 
+566
 XEND — Transactional End
 
 Opcode/
@@ -372,6 +378,7 @@ is updated to reflect RTM abort information.
 XEND executed outside a transactional region will cause a #GP (General Protection Fault).
 ---------------------------------------------------------------------
 
+568
 XGETBV—Get Value of Extended Control Register
 
 Opcode Instruction Op/ 64-Bit Compat/ Description
@@ -404,6 +411,7 @@ Flags Affected
 None.
 ---------------------------------------------------------------------
 
+570
 XLAT/XLATB—Table Look-up Translation
 
 Opcode Instruction Op/ 64-Bit Compat/ Description

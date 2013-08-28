@@ -1,3 +1,4 @@
+536
 VPSRAVD — Variable Bit Shift Right Arithmetic
 
 Opcode/ Op/
@@ -39,6 +40,7 @@ VEX.256 encoded version: The destination and first source operands are YMM regis
 either an YMM register or a 256-bit memory location.
 ---------------------------------------------------------------------
 
+538
 VPSRLVD/VPSRLVQ — Variable Bit Shift Right Logical
 
 Opcode/ Op/
@@ -95,6 +97,7 @@ VEX.256 encoded version: The destination and first source operands are YMM regis
 either an YMM register or a 256-bit memory location.
 ---------------------------------------------------------------------
 
+540
 VTESTPD/VTESTPS—Packed Bit Test
 
 Opcode/ Op/ 64/32 bit CPUID Description
@@ -152,6 +155,7 @@ register or a 256-bit memory location. The destination register is not modified.
 Note: In VEX-encoded versions, VEX.vvvv is reserved and must be 1111b, otherwise instructions will #UD.
 ---------------------------------------------------------------------
 
+543
 VZEROALL—Zero All YMM Registers
 
 Opcode/ Op/ 64/32 bit CPUID Description
@@ -173,6 +177,7 @@ Note: VEX.vvvv is reserved and must be 1111b, otherwise instructions will #UD. I
 bit mode only the lower 8 registers are modified.
 ---------------------------------------------------------------------
 
+545
 VZEROUPPER—Zero Upper Bits of YMM Registers
 
 Opcode/ Op/ 64/32 bit CPUID Description

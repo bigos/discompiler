@@ -1,3 +1,4 @@
+572
 XOR—Logical Exclusive OR
 
 Opcode Instruction Op/ 64-Bit Compat/ Description
@@ -142,6 +143,7 @@ The OF and CF flags are cleared; the SF, ZF, and PF flags are set according to t
 undefined.
 ---------------------------------------------------------------------
 
+574
 XORPD—Bitwise Logical XOR for Double-Precision Floating-Point Values
 
 Opcode/ Op/ 64/32 bit CPUID Description
@@ -190,6 +192,7 @@ VEX.256 encoded version: The first source operand is a YMM register. The second 
 register or a 256-bit memory location. The destination operand is a YMM register.
 ---------------------------------------------------------------------
 
+576
 XORPS—Bitwise Logical XOR for Single-Precision Floating-Point Values
 
 Opcode/ Op/ 64/32 bit CPUID Description
@@ -237,6 +240,7 @@ VEX.256 encoded version: The first source operand is a YMM register. The second 
 register or a 256-bit memory location. The destination operand is a YMM register.
 ---------------------------------------------------------------------
 
+578
 XRSTOR—Restore Processor Extended States
 
 Opcode Instruction Op/ 64-Bit Compat/ Description
@@ -268,6 +272,8 @@ tionship between the order of XCR0 bits and the order of the state layout. State
 XCR0 bits may be intermingled in the layout.
 Table 4-17. General Layout of XSAVE/XRSTOR Save Area
 ---------------------------------------------------------------------
+
+582
 XSAVE—Save Processor Extended States
 
 Opcode Instruction Op/ 64-Bit Compat/ Description
@@ -346,6 +352,7 @@ Flags Affected
 None.
 ---------------------------------------------------------------------
 
+585
 XSAVEOPT—Save Processor Extended States Optimized
 
 Opcode/ Op/ 64/32 bit CPUID
@@ -413,6 +420,7 @@ when the header bit value is 0. XRSTOR will ensure the correct value is placed i
 value of the save area when the header bit is zero.
 ---------------------------------------------------------------------
 
+588
 XSETBV—Set Extended Control Register
 
 Opcode Instruction Op/ 64-Bit Compat/ Description
@@ -452,6 +460,7 @@ Flags Affected
 None.
 ---------------------------------------------------------------------
 
+590
 XTEST — Test If In Transactional Execution
 
 Opcode/

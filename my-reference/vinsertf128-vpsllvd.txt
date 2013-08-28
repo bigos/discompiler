@@ -1,3 +1,4 @@
+506
 VINSERTF128 — Insert Packed Floating-Point Values
 
 Opcode/ Op/
@@ -37,6 +38,7 @@ ESAC
 DEST TEMP
 ---------------------------------------------------------------------
 
+507
 VINSERTI128 — Insert Packed Integer Values
 
 Opcode/ Op/
@@ -78,6 +80,7 @@ ESAC
 DEST TEMP
 ---------------------------------------------------------------------
 
+508
 VMASKMOV—Conditional SIMD Packed Loads and Stores
 
 Opcode/ Op/
@@ -169,6 +172,7 @@ Note: for store forms, the first source (the mask) is encoded in VEX.vvvv; the s
 reg_field, and the destination memory location is encoded in rm_field.
 ---------------------------------------------------------------------
 
+511
 VPBLENDD — Blend Packed Dwords
 
 Opcode/ Op/
@@ -210,6 +214,7 @@ VEX.256 encoded version: The first source operand is a YMM register. The second 
 or a 256-bit memory location. The destination operand is a YMM register.
 ---------------------------------------------------------------------
 
+513
 VPBROADCAST—Broadcast Integer Data
 
 Opcode/ Op/
@@ -296,6 +301,7 @@ Attempts to execute any VPBROADCAST* instruction with VEX.W = 1 will cause #UD. 
 encoded with VEX.L= 0, an attempt to execute the instruction encoded with VEX.L= 0 will cause an #UD exception.
 ---------------------------------------------------------------------
 
+517
 VPERMD — Full Doublewords Element Permutation
 
 Opcode/ Op/
@@ -327,6 +333,7 @@ location in the destination operand.
 An attempt to execute VPERMD encoded with VEX.L= 0 will cause an #UD exception.
 ---------------------------------------------------------------------
 
+518
 VPERMPD — Permute Double-Precision Floating-Point Elements
 
 Opcode/ Op/
@@ -358,6 +365,7 @@ to multiple location in the destination operand.
 An attempt to execute VPERMPD encoded with VEX.L= 0 will cause an #UD exception.
 ---------------------------------------------------------------------
 
+519
 VPERMPS — Permute Single-Precision Floating-Point Elements
 
 Opcode/ Op/
@@ -389,6 +397,7 @@ one doubleword location in the destination operand.
 An attempt to execute VPERMPS encoded with VEX.L= 0 will cause an #UD exception.
 ---------------------------------------------------------------------
 
+520
 VPERMQ — Qwords Element Permutation
 
 Opcode/ Op/
@@ -419,6 +428,7 @@ locations in the destination operand.
 An attempt to execute VPERMQ encoded with VEX.L= 0 will cause an #UD exception.
 ---------------------------------------------------------------------
 
+521
 VPERM2I128 — Permute Integer Values
 
 Opcode/ Op/
@@ -449,6 +459,7 @@ source operand is a YMM register, the second source operand is a YMM register or
 the destination operand is a YMM register.
 ---------------------------------------------------------------------
 
+523
 VPERMILPD — Permute Double-Precision Floating-Point Values
 
 Opcode/ Op/
@@ -498,6 +509,7 @@ fields in the low bytes of the second source operand (third operand) and store r
 bit memory location, and the destination operand is a YMM register.
 ---------------------------------------------------------------------
 
+526
 VPERMILPS — Permute Single-Precision Floating-Point Values
 
 Opcode/ Op/
@@ -550,6 +562,7 @@ nation operand (first operand). The first source operand is a YMM register, the 
 register or a 256-bit memory location, and the destination operand is a YMM register.
 ---------------------------------------------------------------------
 
+529
 VPERM2F128 — Permute Floating-Point Values
 
 Opcode/ Op/
@@ -579,6 +592,7 @@ operand). The first source operand is a YMM register, the second source operand 
 memory location, and the destination operand is a YMM register.
 ---------------------------------------------------------------------
 
+531
 VPMASKMOV — Conditional SIMD Integer Packed Loads and Stores
 
 Opcode/ Op/
@@ -669,6 +683,7 @@ Note: for store forms, the first source (the mask) is encoded in VEX.vvvv; the s
 reg_field, and the destination memory location is encoded in rm_field.
 ---------------------------------------------------------------------
 
+534
 VPSLLVD/VPSLLVQ — Variable Bit Shift Left Logical
 
 Opcode/ Op/

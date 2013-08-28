@@ -1,3 +1,4 @@
+547
 WAIT/FWAIT—Wait
 
 Opcode Instruction Op/ 64-Bit Compat/ Description
@@ -36,6 +37,7 @@ FPU Flags Affected
 The C0, C1, C2, and C3 flags are undefined.
 ---------------------------------------------------------------------
 
+548
 WBINVD—Write Back and Invalidate Cache
 
 Opcode Instruction Op/ 64-Bit Compat/ Description
@@ -75,6 +77,7 @@ Intel 64 and IA-32 processors. The instruction is not supported on IA-32 process
 processor.
 ---------------------------------------------------------------------
 
+550
 WRFSBASE/WRGSBASE—Write FS/GS Segment Base
 
 Opcode/ Op/ 64/32-bit 
@@ -125,6 +128,7 @@ Flags Affected
 None
 ---------------------------------------------------------------------
 
+552
 WRMSR—Write to Model Specific Register
 
 Opcode Instruction Op/ 64-Bit Compat/ Description
