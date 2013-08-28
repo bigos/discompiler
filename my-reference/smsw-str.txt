@@ -1,3 +1,4 @@
+368
 SMSW—Store Machine Status Word
 
 Opcode Instruction Op/ 64-Bit Compat/ Description
@@ -56,6 +57,7 @@ Flags Affected
 None.
 ---------------------------------------------------------------------
 
+370
 SQRTPD—Compute Square Roots of Packed Double-Precision Floating-Point Values
 
 Opcode/ Op/ 64/32 bit CPUID Description
@@ -106,6 +108,7 @@ operand is a YMM register.
 Note: In VEX-encoded versions, VEX.vvvv is reserved and must be 1111b otherwise instructions will #UD.
 ---------------------------------------------------------------------
 
+372
 SQRTPS—Compute Square Roots of Packed Single-Precision Floating-Point Values
 
 Opcode/ Op/ 64/32 bit CPUID Description
@@ -156,6 +159,7 @@ operand is a YMM register.
 Note: In VEX-encoded versions, VEX.vvvv is reserved and must be 1111b otherwise instructions will #UD.
 ---------------------------------------------------------------------
 
+374
 SQRTSD—Compute Square Root of Scalar Double-Precision Floating-Point Value
 
 Opcode/ Op/ 64/32 bit CPUID Description
@@ -197,6 +201,7 @@ In 64-bit mode, using a REX prefix in the form of REX.R permits this instruction
 VEX.128 encoded version: Bits (VLMAX-1:128) of the destination YMM register are zeroed.
 ---------------------------------------------------------------------
 
+375
 SQRTSS—Compute Square Root of Scalar Single-Precision Floating-Point Value
 
 Opcode/ Op/ 64/32 bit CPUID Description
@@ -247,6 +252,7 @@ DEST[127:32]  SRC1[127:32]
 DEST[VLMAX-1:128]  0
 ---------------------------------------------------------------------
 
+376
 STC—Set Carry Flag
 
 Opcode Instruction Op/ 64-Bit Compat/ Description
@@ -272,6 +278,7 @@ Flags Affected
 The CF flag is set. The OF, ZF, SF, AF, and PF flags are unaffected.
 ---------------------------------------------------------------------
 
+377
 STD—Set Direction Flag
 
 Opcode Instruction Op/ 64-Bit Compat/ Description
@@ -298,6 +305,7 @@ Flags Affected
 The DF flag is set. The CF, OF, ZF, SF, AF, and PF flags are unaffected.
 ---------------------------------------------------------------------
 
+378
 STI—Set Interrupt Flag
 
 Opcode Instruction Op/ 64-Bit Compat/ Description
@@ -331,6 +339,7 @@ This instruction’s operation is the same in non-64-bit modes and 64-bit mode.
 Table 4-15. Decision Table for STI Results
 ---------------------------------------------------------------------
 
+380
 STMXCSR—Store MXCSR Register State
 
 Opcode/ Op/ 64/32 bit CPUID Description
@@ -362,6 +371,7 @@ Operation
 m32 ← MXCSR;
 ---------------------------------------------------------------------
 
+381
 STOS/STOSB/STOSW/STOSD/STOSQ—Store String
 
 Opcode Instruction Op/ 64-Bit Compat/ Description
@@ -447,6 +457,7 @@ register is incremented; if the DF flag is 1, the register is decremented (the r
 by 1 for byte operations, by 2 for word operations, by 4 for doubleword operations).
 ---------------------------------------------------------------------
 
+385
 STR—Store Task Register
 
 Opcode Instruction Op/ 64-Bit Compat/ Description

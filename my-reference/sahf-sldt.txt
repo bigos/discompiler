@@ -1,3 +1,4 @@
+330
 SAHF—Store AH into Flags
 
 Opcode Instruction Op/ 64-Bit Compat/ Description
@@ -41,6 +42,7 @@ The SF, ZF, AF, PF, and CF flags are loaded with values from the AH register. Bi
 are unaffected, with the values remaining 1, 0, and 0, respectively.
 ---------------------------------------------------------------------
 
+332
 SAL/SAR/SHL/SHR—Shift
 
 Opcode
@@ -405,6 +407,7 @@ do mask the shift count to 5 bits, resulting in a maximum count of 31. This mask
 (including the virtual-8086 mode) to reduce the maximum execution time of the instructions.
 ---------------------------------------------------------------------
 
+337
 SARX/SHLX/SHRX — Shift Without Affecting Flags
 
 Opcode/ Op/
@@ -467,6 +470,7 @@ If the value specified in the first source operand exceeds OperandSize -1, the C
 SARX,SHRX, and SHLX instructions do not update flags.
 ---------------------------------------------------------------------
 
+339
 SBB—Integer Subtraction with Borrow
 
 Opcode Instruction Op/ 64-Bit Compat/ Description
@@ -619,6 +623,7 @@ Operation
 DEST ← (DEST – (SRC + CF));
 ---------------------------------------------------------------------
 
+342
 SCAS/SCASB/SCASW/SCASD—Scan String
 
 Opcode Instruction Op/ 64-Bit Compat/ Description
@@ -713,6 +718,7 @@ or decremented by the current operand size (depending on the value of the DF fla
 beginning of this section for encoding data and limits.
 ---------------------------------------------------------------------
 
+346
 SETcc—Set Byte on Condition
 
 Opcode Instruction Op/ 64-Bit Compat/ Description
@@ -1057,6 +1063,7 @@ Flags Affected
 None.
 ---------------------------------------------------------------------
 
+349
 SFENCE—Store Fence
 
 Opcode Instruction Op/ 64-Bit Compat/ Description
@@ -1088,6 +1095,7 @@ Operation
 Wait_On_Following_Stores_Until(preceding_stores_globally_visible);
 ---------------------------------------------------------------------
 
+350
 SGDT—Store Global Descriptor Table Register
 
 Opcode Instruction Op/ 64-Bit Compat/ Description
@@ -1144,6 +1152,7 @@ Flags Affected
 None.
 ---------------------------------------------------------------------
 
+352
 SHLD—Double Precision Shift Left
 
 Opcode Instruction Op/ 64-Bit Compat/ Description
@@ -1209,6 +1218,7 @@ access to additional registers (R8-R15). Using a REX prefix in the form of REX.W
 limits.
 ---------------------------------------------------------------------
 
+355
 SHRD—Double Precision Shift Right
 
 Opcode Instruction Op/ 64-Bit Compat/ Description
@@ -1274,6 +1284,7 @@ access to additional registers (R8-R15). Using a REX prefix in the form of REX.W
 limits.
 ---------------------------------------------------------------------
 
+358
 SHUFPD—Shuffle Packed Double-Precision Floating-Point Values
 
 Opcode/ Op/ 64/32 bit CPUID Description
@@ -1323,6 +1334,7 @@ VEX.256 encoded version: The first source operand is a YMM register. The second 
 register or a 256-bit memory location. The destination operand is a YMM register.
 ---------------------------------------------------------------------
 
+361
 SHUFPS—Shuffle Packed Single-Precision Floating-Point Values
 
 Opcode/ Op/ 64/32 bit CPUID Description
@@ -1374,6 +1386,7 @@ VEX.256 encoded version: The first source operand is a YMM register. The second 
 register or a 256-bit memory location. The destination operand is a YMM register.
 ---------------------------------------------------------------------
 
+364
 SIDT—Store Interrupt Descriptor Table Register
 
 Opcode Instruction Op/ 64-Bit Compat/ Description
@@ -1427,6 +1440,7 @@ Flags Affected
 None.
 ---------------------------------------------------------------------
 
+366
 SLDT—Store Local Descriptor Table Register
 
 Opcode Instruction Op/ 64-Bit Compat/ Description
