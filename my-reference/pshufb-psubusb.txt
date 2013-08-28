@@ -1,3 +1,4 @@
+203
 PSHUFB — Packed Shuffle Bytes
 
 Opcode/ Op/ 64/32 bit CPUID Description
@@ -61,6 +62,7 @@ control byte. The index value selects a source data element within each 128-bit 
 Note: VEX.L must be 0, otherwise the instruction will #UD.
 ---------------------------------------------------------------------
 
+206
 PSHUFD—Shuffle Packed Doublewords
 
 Opcode/ Op/ 64/32 bit CPUID Description
@@ -107,6 +109,7 @@ Note that this instruction permits a doubleword in the source operand to be copi
 location in the destination operand.
 ---------------------------------------------------------------------
 
+208
 PSHUFHW—Shuffle Packed High Words
 
 Opcode/ Op/ 64/32 bit CPUID Description
@@ -161,6 +164,8 @@ VEX.256 encoded version: The destination operand is an YMM register. The source 
 or a 256-bit memory location.
 Note: In VEX encoded versions VEX.vvvv is reserved and must be 1111b otherwise instructions will #UD.
 ---------------------------------------------------------------------
+
+210
 PSHUFLW—Shuffle Packed Low Words
 
 Opcode/ Op/ 64/32 bit CPUID Description
@@ -215,6 +220,7 @@ or a 256-bit memory location.
 Note: VEX.vvvv is reserved and must be 1111b, VEX.L must be 0, otherwise instructions will #UD.
 ---------------------------------------------------------------------
 
+212
 PSHUFW—Shuffle Packed Words
 
 Opcode/ Op/ 64-Bit Compat/ Description
@@ -243,6 +249,7 @@ In 64-bit mode, using a REX prefix in the form of REX.R permits this instruction
 (XMM8-XMM15).
 ---------------------------------------------------------------------
 
+213
 PSIGNB/PSIGNW/PSIGND — Packed SIGN
 
 Opcode/ Op/ 64/32 bit CPUID Description
@@ -364,6 +371,7 @@ VEX.256 encoded version: The first source and destination operands are YMM regis
 operand is an YMM register or a 256-bit memory location.
 ---------------------------------------------------------------------
 
+217
 PSLLDQ—Shift Double Quadword Left Logical
 
 Opcode/ Op/ 64/32 bit CPUID Description
@@ -407,6 +415,7 @@ Note: VEX.vvvv encodes the destination register, and VEX.B + ModRM.r/m encodes t
 be 0, otherwise instructions will #UD.
 ---------------------------------------------------------------------
 
+219
 PSLLW/PSLLD/PSLLQ—Shift Packed Data Left Logical
 
 Opcode/ Op/ 64/32 bit CPUID Description
@@ -577,6 +586,7 @@ operand is greater than 15 (for words), 31 (for doublewords), or 63 (for a quadw
 is set to all 0s. Figure 4-13 gives an example of shifting words in a 64-bit operand.
 ---------------------------------------------------------------------
 
+225
 PSRAW/PSRAD—Shift Packed Data Right Arithmetic
 
 Opcode/ Op/ 64/32 bit CPUID Description
@@ -702,6 +712,7 @@ element is filled with the initial value of the sign bit of the element. (Figure
 in a 64-bit operand.)
 ---------------------------------------------------------------------
 
+230
 PSRLDQ—Shift Double Quadword Right Logical
 
 Opcode/ Op/ 64/32 bit CPUID Description
@@ -746,7 +757,7 @@ Note: VEX.vvvv encodes the destination register, and VEX.B + ModRM.r/m encodes t
 be 0, otherwise instructions will #UD.
 ---------------------------------------------------------------------
 
-
+232
 PSRLW/PSRLD/PSRLQ—Shift Packed Data Right Logical
 
 Opcode/ Op/ 64/32 bit CPUID Description
@@ -917,6 +928,7 @@ is set to all 0s. Figure 4-15 gives an example of shifting words in a 64-bit ope
 Note that only the first 64-bits of a 128-bit count operand are checked to compute the count.
 ---------------------------------------------------------------------
 
+238
 PSUBB/PSUBW/PSUBD—Subtract Packed Integers
 
 Opcode/ Op/ 64/32 bit CPUID Description
@@ -1017,6 +1029,7 @@ The (V)PSUBB instruction subtracts packed byte integers. When an individual resu
 represented in a byte, the result is wrapped around and the low 8 bits are written to the destination element.
 ---------------------------------------------------------------------
 
+243
 PSUBQ—Subtract Packed Quadword Integers
 
 Opcode/ Op/ 64/32 bit CPUID Description
@@ -1080,6 +1093,7 @@ source operand and destination operands are YMM registers.
 Note: VEX.L must be 0, otherwise instructions will #UD.
 ---------------------------------------------------------------------
 
+245
 PSUBSB/PSUBSW—Subtract Packed Signed Integers with Signed Saturation
 
 Opcode/ Op/ 64/32 bit CPUID Description
@@ -1166,6 +1180,7 @@ range of a signed word integer (that is, greater than 7FFFH or less than 8000H),
 8000H, respectively, is written to the destination operand.
 ---------------------------------------------------------------------
 
+248
 PSUBUSB/PSUBUSW—Subtract Packed Unsigned Integers with Unsigned Saturation
 
 Opcode/ Op/ 64/32 bit CPUID Description
