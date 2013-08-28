@@ -1,3 +1,4 @@
+408
 TEST—Logical Compare
 
 Opcode Instruction Op/ 64-Bit Compat/ Description
@@ -121,6 +122,7 @@ The OF and CF flags are set to 0. The SF, ZF, and PF flags are set according to 
 section above). The state of the AF flag is undefined.
 ---------------------------------------------------------------------
 
+410
 TZCNT — Count the Number of Trailing Zero Bits
 
 Opcode/ Op/
@@ -159,6 +161,7 @@ while in the case of BSF instruction, if source operand is zero, the content of 
 processors that do not support TZCNT, the instruction byte encoding is executed as BSF.
 ---------------------------------------------------------------------
 
+412
 UCOMISD—Unordered Compare Scalar Double-Precision Floating-Point Values and Set EFLAGS
 
 Opcode/ Op/ 64/32 bit CPUID Description
@@ -214,6 +217,7 @@ ESAC;
 OF, AF, SF ← 0;
 ---------------------------------------------------------------------
 
+414
 UCOMISS—Unordered Compare Scalar Single-Precision Floating-Point Values and Set EFLAGS
 
 Opcode/ Op/ 64/32 bit CPUID Description
@@ -255,6 +259,7 @@ In 64-bit mode, using a REX prefix in the form of REX.R permits this instruction
 Note: In VEX-encoded versions, VEX.vvvv is reserved and must be 1111b, otherwise instructions will #UD.
 ---------------------------------------------------------------------
 
+416
 UD2—Undefined Instruction
 
 Opcode Instruction Op/ 64-Bit Compat/ Description
@@ -284,6 +289,7 @@ Flags Affected
 None.
 ---------------------------------------------------------------------
 
+417
 UNPCKHPD—Unpack and Interleave High Packed Double-Precision Floating-Point Values
 
 Opcode/ Op/ 64/32 bit CPUID Description
@@ -320,6 +326,7 @@ Performs an interleaved unpack of the high double-precision floating-point value
 operand) and the destination operand (first operand). See Figure 4-23.
 ---------------------------------------------------------------------
 
+419
 UNPCKHPS—Unpack and Interleave High Packed Single-Precision Floating-Point Values
 
 Opcode/ Op/ 64/32 bit CPUID Description
@@ -358,6 +365,7 @@ Performs an interleaved unpack of the high-order single-precision floating-point
 XMM register or a 128-bit memory location; the destination operand is an XMM register.
 ---------------------------------------------------------------------
 
+421
 UNPCKLPD—Unpack and Interleave Low Packed Double-Precision Floating-Point Values
 
 Opcode/ Op/ 64/32 bit CPUID Description
@@ -396,6 +404,7 @@ operand) and the destination operand (first operand). See Figure 4-25. The sourc
 register or a 128-bit memory location; the destination operand is an XMM register.
 ---------------------------------------------------------------------
 
+423
 UNPCKLPS—Unpack and Interleave Low Packed Single-Precision Floating-Point Values
 
 Opcode/ Op/ 64/32 bit CPUID Description

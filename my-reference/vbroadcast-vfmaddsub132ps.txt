@@ -1,3 +1,4 @@
+425
 VBROADCAST—Broadcast Floating-Point Data
 
 Opcode/ Op/ 64/32-bit CPUID Description
@@ -68,6 +69,7 @@ attempt to execute VBROADCASTSD or VBROADCASTF128 encoded with VEX.L= 0 will cau
 Attempts to execute any VBROADCAST* instruction with VEX.W = 1 will cause #UD.
 ---------------------------------------------------------------------
 
+429
 VCVTPH2PS—Convert 16-bit FP Values to Single-Precision FP Values
 
 Opcode/ Op/ 64/32- CPUID Description
@@ -107,6 +109,7 @@ precision (in 128 bits) FP values.
 Note: VEX.vvvv is reserved (must be 1111b).
 ---------------------------------------------------------------------
 
+431
 VCVTPS2PH—Convert Single-Precision FP value to 16-bit FP value
 
 Opcode/ Op/ 64/32- CPUID Description
@@ -152,6 +155,7 @@ The diagram below illustrates how data is converted from four packed single prec
 precision (in 64 bits) FP values.
 ---------------------------------------------------------------------
 
+434
 VERR/VERW—Verify a Segment for Reading or Writing
 
 Opcode Instruction Op/ 64-Bit Compat/ Description
@@ -213,6 +217,7 @@ Flags Affected
 The ZF flag is set to 1 if the segment is accessible and readable (VERR) or writable (VERW); otherwise, it is set to 0.
 ---------------------------------------------------------------------
 
+436
 VEXTRACTF128 — Extract Packed Floating-Point Values
 
 Opcode/ Op/ 64/32-bit CPUID Description
@@ -254,6 +259,7 @@ ESAC.
 DEST[VLMAX-1:128]  0
 ---------------------------------------------------------------------
 
+437
 VEXTRACTI128 — Extract packed Integer Values
 
 Opcode/ Op/ 64/32-bit
@@ -295,6 +301,7 @@ ESAC.
 DEST[VLMAX-1:128]  0
 ---------------------------------------------------------------------
 
+438
 VFMADD132PD/VFMADD213PD/VFMADD231PD — Fused Multiply-Add of Packed Double-
 Precision Floating-Point Values
 
@@ -384,6 +391,7 @@ involving NANs are governed by the definition of the instruction mnemonic define
 column. See also Section 2.3.1, “FMA Instruction Operand Order and Arithmetic Behavior”.
 ---------------------------------------------------------------------
 
+441
 VFMADD132PS/VFMADD213PS/VFMADD231PS — Fused Multiply-Add of Packed Single-
 Precision Floating-Point Values
 
@@ -474,6 +482,7 @@ involving NANs are governed by the definition of the instruction mnemonic define
 column. See also Section 2.3.1, “FMA Instruction Operand Order and Arithmetic Behavior”.
 ---------------------------------------------------------------------
 
+444
 VFMADD132SD/VFMADD213SD/VFMADD231SD — Fused Multiply-Add of Scalar Double-
 Precision Floating-Point Values
 
@@ -536,6 +545,7 @@ involving NANs are governed by the definition of the instruction mnemonic define
 column. See also Section 2.3.1, “FMA Instruction Operand Order and Arithmetic Behavior”.
 ---------------------------------------------------------------------
 
+446
 VFMADD132SS/VFMADD213SS/VFMADD231SS — Fused Multiply-Add of Scalar Single-Precision
 Floating-Point Values
 
@@ -601,6 +611,7 @@ involving NANs are governed by the definition of the instruction mnemonic define
 column. See also Section 2.3.1, “FMA Instruction Operand Order and Arithmetic Behavior”.
 ---------------------------------------------------------------------
 
+448
 VFMADDSUB132PD/VFMADDSUB213PD/VFMADDSUB231PD — Fused Multiply-Alternating
 Add/Subtract of Packed Double-Precision Floating-Point Values
 
@@ -687,6 +698,7 @@ involving NANs are governed by the definition of the instruction mnemonic define
 column. See also Section 2.3.1, “FMA Instruction Operand Order and Arithmetic Behavior”.
 ---------------------------------------------------------------------
 
+451
 VFMADDSUB132PS/VFMADDSUB213PS/VFMADDSUB231PS — Fused Multiply-Alternating
 Add/Subtract of Packed Single-Precision Floating-Point Values
 

@@ -1,3 +1,4 @@
+454
 VFMSUBADD132PD/VFMSUBADD213PD/VFMSUBADD231PD — Fused Multiply-Alternating
 Subtract/Add of Packed Double-Precision Floating-Point Values
 
@@ -83,6 +84,7 @@ involving NANs are governed by the definition of the instruction mnemonic define
 column. See also Section 2.3.1, “FMA Instruction Operand Order and Arithmetic Behavior”.
 ---------------------------------------------------------------------
 
+457
 VFMSUBADD132PS/VFMSUBADD213PS/VFMSUBADD231PS — Fused Multiply-Alternating
 Subtract/Add of Packed Single-Precision Floating-Point Values
 
@@ -172,6 +174,7 @@ involving NANs are governed by the definition of the instruction mnemonic define
 column. See also Section 2.3.1, “FMA Instruction Operand Order and Arithmetic Behavior”.
 ---------------------------------------------------------------------
 
+460
 VFMSUB132PD/VFMSUB213PD/VFMSUB231PD — Fused Multiply-Subtract of Packed Double-
 Precision Floating-Point Values
 
@@ -263,6 +266,7 @@ involving NANs are governed by the definition of the instruction mnemonic define
 column. See also Section 2.3.1, “FMA Instruction Operand Order and Arithmetic Behavior”.
 ---------------------------------------------------------------------
 
+463
 VFMSUB132PS/VFMSUB213PS/VFMSUB231PS — Fused Multiply-Subtract of Packed Single-
 Precision Floating-Point Values
 
@@ -352,6 +356,7 @@ involving NANs are governed by the definition of the instruction mnemonic define
 column. See also Section 2.3.1, “FMA Instruction Operand Order and Arithmetic Behavior”.
 ---------------------------------------------------------------------
 
+466
 VFMSUB132SD/VFMSUB213SD/VFMSUB231SD — Fused Multiply-Subtract of Scalar Double-
 Precision Floating-Point Values
 
@@ -416,6 +421,8 @@ opcode/instruction column of the summary table. The behavior of the complementar
 involving NANs are governed by the definition of the instruction mnemonic defined in the opcode/instruction
 column. See also Section 2.3.1, “FMA Instruction Operand Order and Arithmetic Behavior”.
 ---------------------------------------------------------------------
+
+468
 VFMSUB132SS/VFMSUB213SS/VFMSUB231SS — Fused Multiply-Subtract of Scalar Single-
 Precision Floating-Point Values
 
@@ -483,6 +490,7 @@ involving NANs are governed by the definition of the instruction mnemonic define
 column. See also Section 2.3.1, “FMA Instruction Operand Order and Arithmetic Behavior”.
 ---------------------------------------------------------------------
 
+470
 VFNMADD132PD/VFNMADD213PD/VFNMADD231PD — Fused Negative Multiply-Add of Packed
 Double-Precision Floating-Point Values
 
@@ -574,6 +582,7 @@ involving NANs are governed by the definition of the instruction mnemonic define
 column. See also Section 2.3.1, “FMA Instruction Operand Order and Arithmetic Behavior”.
 ---------------------------------------------------------------------
 
+473
 VFNMADD132PS/VFNMADD213PS/VFNMADD231PS — Fused Negative Multiply-Add of Packed
 Single-Precision Floating-Point Values
 
@@ -666,6 +675,7 @@ involving NANs are governed by the definition of the instruction mnemonic define
 column. See also Section 2.3.1, “FMA Instruction Operand Order and Arithmetic Behavior”.
 ---------------------------------------------------------------------
 
+476
 VFNMADD132SD/VFNMADD213SD/VFNMADD231SD — Fused Negative Multiply-Add of Scalar
 Double-Precision Floating-Point Values
 
@@ -728,6 +738,7 @@ involving NANs are governed by the definition of the instruction mnemonic define
 column. See also Section 2.3.1, “FMA Instruction Operand Order and Arithmetic Behavior”.
 ---------------------------------------------------------------------
 
+478
 VFNMADD132SS/VFNMADD213SS/VFNMADD231SS — Fused Negative Multiply-Add of Scalar
 Single-Precision Floating-Point Values
 
@@ -789,6 +800,7 @@ involving NANs are governed by the definition of the instruction mnemonic define
 column. See also Section 2.3.1, “FMA Instruction Operand Order and Arithmetic Behavior”.
 ---------------------------------------------------------------------
 
+480
 VFNMSUB132PD/VFNMSUB213PD/VFNMSUB231PD — Fused Negative Multiply-Subtract of
 Packed Double-Precision Floating-Point Values
 
@@ -880,6 +892,7 @@ involving NANs are governed by the definition of the instruction mnemonic define
 column. See also Section 2.3.1, “FMA Instruction Operand Order and Arithmetic Behavior”.
 ---------------------------------------------------------------------
 
+483
 VFNMSUB132PS/VFNMSUB213PS/VFNMSUB231PS — Fused Negative Multiply-Subtract of
 Packed Single-Precision Floating-Point Values
 
@@ -971,6 +984,7 @@ involving NANs are governed by the definition of the instruction mnemonic define
 column. See also Section 2.3.1, “FMA Instruction Operand Order and Arithmetic Behavior”.
 ---------------------------------------------------------------------
 
+486
 VFNMSUB132SD/VFNMSUB213SD/VFNMSUB231SD — Fused Negative Multiply-Subtract of
 Scalar Double-Precision Floating-Point Values
 
@@ -1035,6 +1049,7 @@ involving NANs are governed by the definition of the instruction mnemonic define
 column. See also Section 2.3.1, “FMA Instruction Operand Order and Arithmetic Behavior”.
 ---------------------------------------------------------------------
 
+488
 VFNMSUB132SS/VFNMSUB213SS/VFNMSUB231SS — Fused Negative Multiply-Subtract of
 Scalar Single-Precision Floating-Point Values
 
@@ -1097,6 +1112,7 @@ involving NANs are governed by the definition of the instruction mnemonic define
 column. See also Section 2.3.1, “FMA Instruction Operand Order and Arithmetic Behavior”.
 ---------------------------------------------------------------------
 
+490
 VGATHERDPD/VGATHERQPD — Gather Packed DP FP Values Using Signed Dword/Qword Indices
 
 Opcode/ Op/
@@ -1195,6 +1211,7 @@ is implementation specific, and some implementations may use loads larger than t
 elements an indeterminate number of times.
 ---------------------------------------------------------------------
 
+494
 VGATHERDPS/VGATHERQPS — Gather Packed SP FP values Using Signed Dword/Qword Indices
 
 Opcode/ Op/
@@ -1267,6 +1284,7 @@ of those registers even if the instruction triggers an exception, and even if th
 before gathering any elements.
 ---------------------------------------------------------------------
 
+498
 VPGATHERDD/VPGATHERQD — Gather Packed Dword Values Using Signed Dword/Qword
 Indices
 
@@ -1364,6 +1382,7 @@ is implementation specific, and some implementations may use loads larger than t
 elements an indeterminate number of times.
 ---------------------------------------------------------------------
 
+502
 VPGATHERDQ/VPGATHERQQ — Gather Packed Qword Values Using Signed Dword/Qword
 Indices
 

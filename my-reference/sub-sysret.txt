@@ -1,3 +1,4 @@
+387
 SUB—Subtract
 
 Opcode Instruction 
@@ -149,6 +150,7 @@ Flags Affected
 The OF, SF, ZF, AF, PF, and CF flags are set according to the result.
 ---------------------------------------------------------------------
 
+389
 SUBPD—Subtract Packed Double-Precision Floating-Point Values
 
 Opcode/ Op/ 64/32 bit CPUID Description
@@ -199,6 +201,7 @@ VEX.256 encoded version: The first source operand is a YMM register. The second 
 register or a 256-bit memory location. The destination operand is a YMM register.
 ---------------------------------------------------------------------
 
+391
 SUBPS—Subtract Packed Single-Precision Floating-Point Values
 
 Opcode/ Op/ 64/32 bit CPUID Description
@@ -249,6 +252,7 @@ VEX.256 encoded version: The first source operand is a YMM register. The second 
 register or a 256-bit memory location. The destination operand is a YMM register.
 ---------------------------------------------------------------------
 
+393
 SUBSD—Subtract Scalar Double-Precision Floating-Point Values
 
 Opcode/ Op/ 64/32 bit CPUID Description
@@ -297,6 +301,7 @@ DEST[127:64]  SRC1[127:64]
 DEST[VLMAX-1:128]  0
 ---------------------------------------------------------------------
 
+394
 SUBSS—Subtract Scalar Single-Precision Floating-Point Values
 
 Opcode/ Op/ 64/32 bit CPUID Description
@@ -344,6 +349,7 @@ DEST[127:32]  SRC1[127:32]
 DEST[VLMAX-1:128]  0
 ---------------------------------------------------------------------
 
+395
 SWAPGS—Swap GS Base Register
 
 Opcode Instruction Op/ 64-Bit Compat/ Description
@@ -390,6 +396,7 @@ Flags Affected
 None
 ---------------------------------------------------------------------
 
+397
 SYSCALL—Fast System Call
 
 Opcode Instruction Op/ 64-Bit Compat/ Description
@@ -425,6 +432,7 @@ be executed after SYSRET). Alternatively, the OS system-call handler may save th
 before executing SYSRET.
 ---------------------------------------------------------------------
 
+399
 SYSENTER—Fast System Call
 
 Opcode Instruction Op/ 64-Bit Compat/ Description
@@ -496,6 +504,7 @@ When the CPUID instruction is executed on the Pentium Pro processor (model 1), t
 flag as set, but does not support the SYSENTER/SYSEXIT instructions.
 ---------------------------------------------------------------------
 
+402
 SYSEXIT—Fast Return from Fast System Call
 
 Opcode Instruction Op/ 64-Bit Compat/ Description
@@ -558,6 +567,7 @@ flag as set, but does not support the SYSENTER/SYSEXIT instructions.
 SYSEXIT—Fast Return from Fast System CallINSTRUCTION SET REFERENCE, N-Z
 ---------------------------------------------------------------------
 
+405
 SYSRET—Return From Fast System Call
 
 Opcode Instruction Op/ 64-Bit Compat/ Description
