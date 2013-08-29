@@ -15,11 +15,23 @@
   (dolist (file  *reference-files*)
     (setf *instructions* (nconc *instructions* (process-file file)))))
 
+(defun instruction-volume-page (mnemonics)
+  (let ((prev 0) (current) (vol "a"))
+    (dolist (inst *instructions*)
+      (setq current (parse-integer(caar inst)))
+      (unless (> current prev) 
+        (setq vol "b"))
+      ;;(format t "~& ~S ~S" (instruction-memonics inst) (cons vol current))
+      (setq prev current)
+      (if (equalp mnemonics (instruction-memonics inst))
+          (return (cons vol current))
+          ))))
+
 (defun instruction-title (instruction)
-  (car instruction))
+  (subseq (car instruction)) 1)
 
 (defun instruction-columns (instruction)
-  (cadr instruction))
+  (nth 1 instruction))
 
 (defun column-keywords (instruction)
   (let ((column-data (instruction-columns instruction)))      
@@ -67,7 +79,7 @@
 
 (defun instruction-memonics (instruction)
   (let ((separator "—") 
-        (title (caar instruction)))
+        (title (cadar instruction)))
     (string-trim " " (subseq title 0 (search  separator title)))))
 
 (defun uniques (instructions)
