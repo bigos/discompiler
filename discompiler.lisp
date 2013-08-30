@@ -36,7 +36,7 @@
          (volume (car volpa)) (page (cdr volpa)))
     (sb-ext:run-program pdf-viewer 
                         `("-p" ,(format nil "~d" page) ,(if (equalp volume "a") vola volb))
-                        :wait t)))
+                        :wait nil)))
 
 (defun instruction-title (instruction)
   (subseq (car instruction)) 1)
@@ -76,7 +76,9 @@
           (format t "~&~a ~%~%~%~s ~%" (length  ci)  ci )))))
 
 (defun all-mnemonics ()
-  (sort (flatten (loop for x in (summary-table-column-data) collect (nth 1 x))) #'string-lessp))
+  (sort (flatten (loop for inst in *instructions* collecting 
+                      (cl-utilities:split-sequence #\/ (instruction-memonics inst))))  
+        #'string-lessp))
 
 (defun flatten (structure)
   (cond ((null structure) nil)
