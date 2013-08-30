@@ -27,6 +27,17 @@
           (return (cons vol current))
           ))))
 
+(defun pdf-documentation-page (mnemonics)
+  ;; run like this: (pdf-documentation-page "aaa")
+  (let* ((vola "/home/jacek/Documents/Manuals/IntelDocumentation/latest/253666.pdf") 
+         (volb "/home/jacek/Documents/Manuals/IntelDocumentation/latest/253667.pdf")
+         (pdf-viewer "/usr/bin/atril")
+         (volpa (instruction-volume-page mnemonics))
+         (volume (car volpa)) (page (cdr volpa)))
+    (sb-ext:run-program pdf-viewer 
+                        `("-p" ,(format nil "~d" page) ,(if (equalp volume "a") vola volb))
+                        :wait t)))
+
 (defun instruction-title (instruction)
   (subseq (car instruction)) 1)
 
