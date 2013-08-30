@@ -15,7 +15,7 @@
   (dolist (file  *reference-files*)
     (setf *instructions* (nconc *instructions* (process-file file)))))
 
-(defun instruction-volume-page (mnemonics)
+(defun instruction-volume-page (mnemonic)
   (let ((prev 0) (current) (vol "a"))
     (dolist (inst *instructions*)
       (setq current (parse-integer(caar inst)))
@@ -23,16 +23,15 @@
         (setq vol "b"))
       ;;(format t "~& ~S ~S" (instruction-memonics inst) (cons vol current))
       (setq prev current)
-      (if (equalp mnemonics (instruction-memonics inst))
-          (return (cons vol current))
-          ))))
+      (if (find mnemonic (instruction-memonics-list inst) :test #'equalp)
+          (return (cons vol current))))))
 
-(defun pdf-documentation-page (mnemonics)
+(defun pdf-documentation-page (mnemonic)
   ;; run like this: (pdf-documentation-page "aaa")
   (let* ((vola "/home/jacek/Documents/Manuals/IntelDocumentation/latest/253666.pdf") 
          (volb "/home/jacek/Documents/Manuals/IntelDocumentation/latest/253667.pdf")
          (pdf-viewer "/usr/bin/atril")
-         (volpa (instruction-volume-page mnemonics))
+         (volpa (instruction-volume-page mnemonic))
          (volume (car volpa)) (page (cdr volpa)))
     (sb-ext:run-program pdf-viewer 
                         `("-p" ,(format nil "~d" page) ,(if (equalp volume "a") vola volb))
@@ -94,6 +93,9 @@
   (let ((separator "—") 
         (title (cadar instruction)))
     (string-trim " " (subseq title 0 (search  separator title)))))
+
+(defun instruction-memonics-list (instruction)  
+  (cl-utilities:split-sequence #\/ (instruction-memonics instruction)))
 
 (defun uniques (instructions)
   (let ((columns) (mnemonics) (found) (column-mnemonics))
