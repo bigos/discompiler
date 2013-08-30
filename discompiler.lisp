@@ -19,7 +19,7 @@
   (let ((prev 0) (current) (vol "a"))
     (dolist (inst *instructions*)
       (setq current (parse-integer(caar inst)))
-      (unless (> current prev) 
+      (unless (> current prev)
         (setq vol "b"))
       ;;(format t "~& ~S ~S" (instruction-memonics inst) (cons vol current))
       (setq prev current)
@@ -28,12 +28,12 @@
 
 (defun pdf-documentation-page (mnemonic)
   ;; run like this: (pdf-documentation-page "aaa")
-  (let* ((vola "/home/jacek/Documents/Manuals/IntelDocumentation/latest/253666.pdf") 
+  (let* ((vola "/home/jacek/Documents/Manuals/IntelDocumentation/latest/253666.pdf")
          (volb "/home/jacek/Documents/Manuals/IntelDocumentation/latest/253667.pdf")
          (pdf-viewer "/usr/bin/atril")
          (volpa (instruction-volume-page mnemonic))
          (volume (car volpa)) (page (cdr volpa)))
-    (sb-ext:run-program pdf-viewer 
+    (sb-ext:run-program pdf-viewer
                         `("-p" ,(format nil "~d" page) ,(if (equalp volume "a") vola volb))
                         :wait nil)))
 
@@ -44,40 +44,45 @@
   (nth 1 instruction))
 
 (defun column-keywords (instruction)
-  (let ((column-data (instruction-columns instruction)))      
-    (sort (map 'list 
-               #'(lambda (x) (string-trim "/" x)) 
-               (remove-if 'emptystrp 
-                          (cl-utilities:split-sequence #\space 
-                                                       (list-to-string 
-                                                        column-data)))) 
+  (let ((column-data (instruction-columns instruction)))
+    (sort (map 'list
+               #'(lambda (x) (string-trim "/" x))
+               (remove-if 'emptystrp
+                          (cl-utilities:split-sequence #\space
+                                                       (list-to-string
+                                                        column-data))))
           #'string-lessp)))
 
 
 (defun emptystrp (string)
-  (if (equal string "") 
-      T 
+  (if (equal string "")
+      T
       nil))
 
-(defun list-to-string (my-list &optional (separator " ")) 
+(defun list-to-string (my-list &optional (separator " "))
   (let ((result))
     (dolist (item my-list)
-      (setf result (concatenate 'string 
-                                result 
+      (setf result (concatenate 'string
+                                result
                                 (format nil "~A~a" item separator))))
     result))
 
-(defun show-suspected () 
+(defun show-suspected ()
   (let ((ci))
     (dolist (inst *instructions*)
-      (setf ci (cadr inst)) 
-      (if (> (list-length ci) 1) 
+      (setf ci (cadr inst))
+      (if (> (list-length ci) 1)
           (format t "~&~a ~%~%~%~s ~%" (length  ci)  ci )))))
 
 (defun all-mnemonics ()
-  (sort (flatten (loop for inst in *instructions* collecting 
-                      (cl-utilities:split-sequence #\/ (instruction-memonics inst))))  
-        #'string-lessp))
+  (sort
+   (flatten
+    (loop
+       for inst in *instructions*
+       collecting (cl-utilities:split-sequence
+                   #\/
+                   (instruction-memonics inst))))
+   #'string-lessp))
 
 (defun flatten (structure)
   (cond ((null structure) nil)
@@ -90,11 +95,11 @@
         (return (nth 0 d)))))
 
 (defun instruction-memonics (instruction)
-  (let ((separator "—") 
+  (let ((separator "—")
         (title (cadar instruction)))
     (string-trim " " (subseq title 0 (search  separator title)))))
 
-(defun instruction-memonics-list (instruction)  
+(defun instruction-memonics-list (instruction)
   (cl-utilities:split-sequence #\/ (instruction-memonics instruction)))
 
 (defun uniques (instructions)
@@ -111,7 +116,7 @@
              (push mnemonics (cadr cm))
              ;;(format t ">>>>> ~S ~S~%" cm (cadr cm))
              (setf found T)
-             (loop-finish)))      
+             (loop-finish)))
       (unless found
         (progn
           ;;(format t "not found ~%")
