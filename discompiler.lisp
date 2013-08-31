@@ -21,9 +21,9 @@
       (setq current (parse-integer(caar inst)))
       (unless (> current prev)
         (setq vol "b"))
-      ;;(format t "~& ~S ~S" (instruction-memonics inst) (cons vol current))
+      ;;(format t "~& ~S ~S" (instruction-mnemonics-string inst) (cons vol current))
       (setq prev current)
-      (if (find mnemonic (instruction-memonics-list inst) :test #'equalp)
+      (if (find mnemonic (instruction-mnemonics-list inst) :test #'equalp)
           (return (cons vol current))))))
 
 (defun pdf-documentation-page (mnemonic)
@@ -81,7 +81,7 @@
        for inst in *instructions*
        collecting (cl-utilities:split-sequence
                    #\/
-                   (instruction-memonics inst))))
+                   (instruction-mnemonics-string inst))))
    #'string-lessp))
 
 (defun flatten (structure)
@@ -94,19 +94,19 @@
     (if (search `(,mnemonics) (nth 1 d) :test #'equalp)
         (return (nth 0 d)))))
 
-(defun instruction-memonics (instruction)
+(defun instruction-mnemonics-string (instruction)
   (let ((separator "—")
         (title (cadar instruction)))
     (string-trim " " (subseq title 0 (search  separator title)))))
 
-(defun instruction-memonics-list (instruction)
-  (cl-utilities:split-sequence #\/ (instruction-memonics instruction)))
+(defun instruction-mnemonics-list (instruction)
+  (cl-utilities:split-sequence #\/ (instruction-mnemonics-string instruction)))
 
 (defun uniques (instructions)
   (let ((columns) (mnemonics) (found) (column-mnemonics))
     (dolist (i instructions)
       (setf columns (column-keywords i))
-      (setf mnemonics (instruction-memonics i))
+      (setf mnemonics (instruction-mnemonics-string i))
       (setf found nil)
       ;;(format t "~s ~s ~S~%" found columns mnemonics)
       (loop for cm in column-mnemonics
