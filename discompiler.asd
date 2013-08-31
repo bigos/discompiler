@@ -7,12 +7,12 @@
   :depends-on (:lisp-unit :cl-ppcre :cl-fad :cl-utilities)
   :components ((:file "packages") 	  
                (:file "discompiler")
-               (:module "src" 
-                        (:file "byte-utilities")
-                        (:file "summary-table-columns"))
+               (:module "src"
+                        :components ((:file "byte-utilities")
+                                     (:file "summary-table-columns")))
                (:module "test"
-                        (:file "lisp-unit")
-                        (:file "tests")))
+                        :components ((:file "lisp-unit")
+                                     (:file "tests"))))
   :description "machine code experiment"
   :long-description "experimenting with Intel machine code"
   )
