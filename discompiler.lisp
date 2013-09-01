@@ -28,13 +28,16 @@
 
 (defun pdf-documentation-page (mnemonic)
   ;; run like this: (pdf-documentation-page "aaa")
+  ;; remember to change vola volb and pdf-viewer on a different machine
   (let* ((vola "/home/jacek/Documents/Manuals/IntelDocumentation/latest/253666.pdf")
          (volb "/home/jacek/Documents/Manuals/IntelDocumentation/latest/253667.pdf")
          (pdf-viewer "/usr/bin/atril")
          (volpa (instruction-volume-page mnemonic))
          (volume (car volpa)) (page (cdr volpa)))
     (sb-ext:run-program pdf-viewer
-                        `("-p" ,(format nil "~d" page) ,(if (equalp volume "a") vola volb))
+                        `("-p"
+                          ,(format nil "~d" page)
+                          ,(if (equalp volume "a") vola volb))
                         :wait nil)))
 
 (defun instruction-title (instruction)
@@ -166,4 +169,3 @@
 
 (defun separatorp (line)
   (cl-ppcre:scan-to-strings "-{10,}" line))
-
