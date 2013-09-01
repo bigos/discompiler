@@ -6,13 +6,13 @@
   :licence "GPLv3"
   :depends-on (:lisp-unit :cl-ppcre :cl-fad :cl-utilities)
   :components ((:file "packages") 	  
-               (:file "discompiler")
                (:module "src"
                         :components ((:file "byte-utilities")
                                      (:file "summary-table-columns")))
                (:module "test"
                         :components ((:file "lisp-unit")
-                                     (:file "tests"))))
+                                     (:file "tests")))
+               (:file "discompiler")
+               )
   :description "machine code experiment"
-  :long-description "experimenting with Intel machine code"
-  )
+  :long-description "experimenting with Intel machine code")
