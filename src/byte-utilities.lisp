@@ -1,4 +1,4 @@
-(in-package :discompiler)
+(in-package :byte)
 
 (defun int-to-bin (int)
   (format nil "~8,'0B" int))

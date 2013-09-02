@@ -5,7 +5,8 @@
   :author "Jacek Podkanski"
   :licence "GPLv3"
   :depends-on (:lisp-unit :cl-ppcre :cl-fad :cl-utilities)
-  :components ((:file "packages") 	  
+  :components (
+               (:file "packages") 	  
                (:module "src"
                         :components ((:file "byte-utilities")
                                      (:file "summary-table-columns")))
