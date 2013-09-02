@@ -2,5 +2,5 @@
   (:use :cl :asdf :lisp-unit)
   (:export :run))
 
-(defpackage #:byte
-  (:use :cl ))
+(defpackage #:byte-utilities
+  )
