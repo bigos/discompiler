@@ -9,6 +9,7 @@
                (:file "packages") 	  
                (:module "src"
                         :components ((:file "byte-utilities")
+                                     (:file "reference-data")
                                      (:file "summary-table-columns")))
                (:module "test"
                         :components ((:file "lisp-unit")

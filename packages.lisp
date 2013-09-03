@@ -5,3 +5,6 @@
 (defpackage #:byte-utilities
   (:use :cl))
 
+(defpackage #:reference-data
+  (:use :cl)
+  (:export :process-file))
