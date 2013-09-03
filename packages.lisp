@@ -3,4 +3,5 @@
   (:export :run))
 
 (defpackage #:byte-utilities
-  )
+  (:use :cl))
+
