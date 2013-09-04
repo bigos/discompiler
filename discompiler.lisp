@@ -6,13 +6,11 @@
   ;; (test-mod-vals)
   ;; (run-tests :all)
   (defparameter *problem-files* '())
-  ;; (car (nth 469 *instructions*))
+  ;; (car (nth 472 *instructions*))
   ;; ("XTEST — Test If In Transactional Execution" "Opcode/Instruction Op/En"
   ;; "64/32bit" "Mode" "Support" "CPUID" "Feature" "Flag" "Description")
   ;; wow!!!
-  (defparameter *instructions* nil)
-  (dolist (file  reference-data::*reference-files*)
-    (setf *instructions* (nconc *instructions* (reference-data::process-file file)))))
+  (defparameter *instructions* (reference-data:process-reference-files)))
 
 (defun instruction-volume-page (mnemonic)
   (let ((prev 0) (current) (vol "a"))

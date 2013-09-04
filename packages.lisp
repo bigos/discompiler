@@ -7,4 +7,4 @@
 
 (defpackage #:reference-data
   (:use :cl)
-  (:export :process-file))
+  (:export :process-reference-files))

@@ -2,6 +2,12 @@
 
 (defparameter *reference-files* (cl-fad:list-directory "my-reference"))
 
+(defun process-reference-files ()
+  (let ((instructions))
+      (loop for file in *reference-files* do
+           (setf instructions (nconc instructions (process-file  file))))
+      instructions))
+
 (defun process-file (file)
   (declare (optimize (speed 0) (space 1) (compilation-speed 0) (debug 3)))
   ;; use -> (step (process-file (car *reference-files*)))
