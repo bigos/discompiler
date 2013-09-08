@@ -2,11 +2,12 @@
 
 (defparameter *reference-files* (cl-fad:list-directory "my-reference"))
 
+
 (defun process-reference-files ()
   (let ((instructions))
-    (format t "~&going to go through files ~S ~S~%" *reference-files*  (cl-fad:list-directory "my-reference"))
+    ;;(format t "~&going to go through files ~S ~S~%" *reference-files*  (cl-fad:list-directory "my-reference"))
     (loop for file in  (cl-fad:list-directory "my-reference") do
-         (format t "~S~%" file)
+       ;;(format t "~S~%" file)
          (setf instructions (nconc instructions (process-file  file))))
     instructions))
 
