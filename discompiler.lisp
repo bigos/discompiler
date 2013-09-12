@@ -11,7 +11,7 @@
   ;; "64/32bit" "Mode" "Support" "CPUID" "Feature" "Flag" "Description")
   ;; wow!!!
   (defparameter *instructions* (reference-data:process-reference-files))
-  *instructions*)
+  (list-length *instructions*))
 
 (defun instruction-volume-page (mnemonic)
   (let ((prev 0) (current) (vol "a"))
