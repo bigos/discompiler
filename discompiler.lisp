@@ -11,6 +11,8 @@
   ;; "64/32bit" "Mode" "Support" "CPUID" "Feature" "Flag" "Description")
   ;; wow!!!
   (defparameter *instructions* (reference-data:process-reference-files))
+
+
   (list-length *instructions*))
 
 (defun instruction-volume-page (mnemonic)
@@ -19,7 +21,7 @@
       (setq current (parse-integer(caar inst)))
       (unless (> current prev)
         (setq vol "b"))
-      (format t "~& ~S ~S" (instruction-mnemonics-string inst) (cons vol current))
+      ;;(format t "~& ~S ~S" (instruction-mnemonics-string inst) (cons vol current))
       (setq prev current)
       (if (find mnemonic (instruction-mnemonics-list inst) :test #'equalp)
           (return (cons vol current))))))
