@@ -10,3 +10,5 @@
      ,@(when doc (list doc))))
 
 (define-constant +dll-folder+ "~/.wine/drive_c/windows/system32")
+
+(define-constant +ms-dos-header-size+ 64 )
