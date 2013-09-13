@@ -3,13 +3,10 @@
 (defmacro define-constant (name value &optional doc)
   (if (boundp name)
       (progn
-        (if (not (equalp (symbol-value name) value)) 
-            (format 
-             t "~&warning: constant ~A defined as~&~s attempted value~&~s~%"
-             name (symbol-value name) value)
+        (unless (equalp (symbol-value name) value)
             (format
-             t "~&redefining constant ~S with the same value ~S~%"
-             name value))
+             t "~&warning: constant ~A defined as~&~s attempted value~&~s~%"
+             name (symbol-value name) value))
         `(defconstant ,name (if (boundp ',name) (symbol-value ',name) ,value)
            ,@(when doc (list doc))))))
 
