@@ -5,8 +5,9 @@
   :author "Jacek Podkanski"
   :licence "GPLv3"
   :depends-on (:lisp-unit :cl-ppcre :cl-fad :cl-utilities)
-  :components ((:file "constants")
+  :components (
                (:file "packages") 	  
+               (:file "constants")
                (:module "src"
                         :components ((:file "byte-utilities")
                                      (:file "reference-data")
