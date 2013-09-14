@@ -13,7 +13,7 @@
   (defparameter *instructions* (reference-data:process-reference-files))
   (list-length *instructions*))
 
-(defparameter *dll* (nth 1 (cl-fad:list-directory +dll-folder+))
+(defparameter *dll* (nth 0 (cl-fad:list-directory "./Test executables/"))
   "sample dll file")
 
 (defun file-to-bytes (file)
@@ -30,6 +30,9 @@
 
 (defun pe-header-pointer (bytes)
   (aref bytes 60))
+
+(defun byte-at (bytes offset)
+  (aref bytes offset))
 
 (defun instruction-volume-page (mnemonic)
   (let ((prev 0) (current) (vol "a"))
