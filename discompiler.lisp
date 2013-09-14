@@ -11,9 +11,19 @@
   ;; "64/32bit" "Mode" "Support" "CPUID" "Feature" "Flag" "Description")
   ;; wow!!!
   (defparameter *instructions* (reference-data:process-reference-files))
-
-
   (list-length *instructions*))
+
+(defparameter *dll* (nth 354 (cl-fad:list-directory +dll-folder+)) "sample dll file")
+
+(defun file-to-bytes (file)
+  (let ((bytes))
+    (with-open-file (stream file)
+      (setf bytes (make-array `(,(file-length stream))))
+      (do ((ch (read-char stream nil)
+                (read-char stream nil)))
+          ((null ch))
+        (format t "~c" ch))
+      )))
 
 (defun instruction-volume-page (mnemonic)
   (let ((prev 0) (current) (vol "a"))
