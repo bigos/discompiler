@@ -17,15 +17,19 @@
   "sample dll file")
 
 (defun file-to-bytes (file)
-  (let ((bytes) (index 0))
+  (let ((bytes) (index 0) (size))
     (with-open-file (stream file :element-type 'unsigned-byte)
-      (setf bytes (make-array `(,(file-length stream))))
+      (setf size (file-length stream))
+      (setf bytes (make-array size))
       (do ((byte (read-byte stream nil)
                  (read-byte stream nil)))
           ((null byte))                
         (setf (aref bytes index) byte)
         (incf index))
-      bytes)))
+      (values bytes size))))
+
+(defun pe-header-pointer (bytes)
+  (aref bytes 60))
 
 (defun instruction-volume-page (mnemonic)
   (let ((prev 0) (current) (vol "a"))
