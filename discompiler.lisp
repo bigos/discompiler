@@ -45,9 +45,8 @@
      collecting (byte-at bytes (+ offset x))))
 
 (defun bytes-to-type-int (bytelist)     ;ignoring endianness
-  (let ((result 0) (mult 0))
-    (loop for x to (1- (list-length bytelist))
-         summing (* (nth x bytelist) (expt 2 (* 8 x))))))
+  (loop for x to (1- (list-length bytelist))
+     summing (* (nth x bytelist) (expt 2 (* 8 x)))))
 
 (defun instruction-volume-page (mnemonic)
   (let ((prev 0) (current) (vol "a"))
