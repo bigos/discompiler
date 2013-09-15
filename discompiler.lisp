@@ -28,7 +28,7 @@
       (setf bytes (make-array size))
       (do ((byte (read-byte stream nil)
                  (read-byte stream nil)))
-          ((null byte))                
+          ((null byte))
         (setf (aref bytes index) byte)
         (incf index))
       (values bytes size))))
@@ -37,8 +37,12 @@
   (bytes-to-type-int (bytes bytes *long-size* 60)))
 
 (defun pe-header-signature-validp (bytes)
-  (let ((signature (bytes bytes *long-size* (pe-header-signature-pointer bytes))))
-    (if (equalp signature '(80 69 0 0)) T nil)))
+  (let ((pointer (pe-header-signature-pointer bytes)))
+    (if (array-in-bounds-p bytes pointer)
+        (equalp
+         (bytes bytes *long-size* pointer)
+         '(80 69 0 0))
+        nil)))
 
 (defun byte-at (bytes offset)
   (aref bytes offset))
