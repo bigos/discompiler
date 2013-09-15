@@ -16,6 +16,11 @@
 (defparameter *dll* (nth 0 (cl-fad:list-directory "./Test executables/"))
   "sample dll file")
 
+;; size of datatyoe in bytes
+(defparameter *char-size* 1)
+(defparameter *short-size* 2)
+(defparameter *long-size* 4)
+
 (defun file-to-bytes (file)
   (let ((bytes) (index 0) (size))
     (with-open-file (stream file :element-type 'unsigned-byte)
@@ -33,6 +38,16 @@
 
 (defun byte-at (bytes offset)
   (aref bytes offset))
+
+(defun bytes (bytes count offset)
+  "get number of bytes for C structure datatypes"
+  (loop for x to (1- count)
+     collecting (byte-at bytes (+ offset x))))
+
+(defun bytes-to-type-int (bytelist)     ;ignoring endianness
+  (let ((result 0) (mult 0))
+    (loop for x to (1- (list-length bytelist))
+         summing (* (nth x bytelist) (expt 2 (* 8 x))))))
 
 (defun instruction-volume-page (mnemonic)
   (let ((prev 0) (current) (vol "a"))
