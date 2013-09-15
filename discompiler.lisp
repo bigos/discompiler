@@ -33,8 +33,8 @@
         (incf index))
       (values bytes size))))
 
-(defun pe-header-pointer (bytes)
-  (aref bytes 60))
+(defun pe-header-signature-pointer (bytes)
+  (bytes-to-type-int (bytes bytes 4 60)))
 
 (defun byte-at (bytes offset)
   (aref bytes offset))
