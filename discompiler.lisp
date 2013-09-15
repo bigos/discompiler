@@ -36,6 +36,10 @@
 (defun pe-header-signature-pointer (bytes)
   (bytes-to-type-int (bytes bytes *long-size* 60)))
 
+(defun pe-header-signature-validp (bytes)
+  (let ((signature (bytes bytes *long-size* (pe-header-signature-pointer bytes))))
+    (if (equalp signature '(80 69 0 0)) T nil)))
+
 (defun byte-at (bytes offset)
   (aref bytes offset))
 
