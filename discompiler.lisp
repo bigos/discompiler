@@ -48,6 +48,10 @@
 (defun coff-header-pointer (bytes)
   (+  (pe-header-signature-pointer bytes) 4))
 
+(defun struct-value (name struct)
+  (dolist (el struct)
+    (if (equalp (nth 1 el) name) (return (nth 2 el)))))
+
 (defun c-structure-values (bytes c-structure offset)
   (values
    (loop for el in c-structure
