@@ -62,10 +62,11 @@
                     (+short+ "SizeOfOptionalHeader")
                     (+short+ "Characteristics"))))
     (loop for el in elements
-       collecting 
-         (list (cadr el) 
-               (bytes-to-type-int 
-                (bytes bytes (eval (car el)) offset))))))
+       collecting (list (cadr el)
+                        (bytes-to-type-int
+                         (bytes bytes (eval (car el)) offset)))
+       do
+         (incf offset (eval (car el))))))
 
 (defun byte-at (bytes offset)
   (aref bytes offset))
