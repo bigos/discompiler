@@ -51,7 +51,6 @@
 (defun coff-header-pointer (bytes)
   (+  (pe-header-signature-pointer bytes) 4))
 
-
 (defun coff-header (bytes)
   (let ((offset (coff-header-pointer bytes))
         (elements '((+short+ "Machine")
@@ -61,12 +60,16 @@
                     (+long+ "NumberOfSymbols")
                     (+short+ "SizeOfOptionalHeader")
                     (+short+ "Characteristics"))))
-    (loop for el in elements
-       collecting (list (cadr el)
-                        (bytes-to-type-int
-                         (bytes bytes (eval (car el)) offset)))
-       do
-         (incf offset (eval (car el))))))
+    (values
+     (loop for el in elements
+        collecting (list offset
+                         (cadr el)
+                         (bytes-to-type-int
+                          (bytes bytes (eval (car el)) offset)))
+        do
+          (incf offset (eval (car el))))
+     offset))) ;now offset points to optional header
+
 
 (defun byte-at (bytes offset)
   (aref bytes offset))
