@@ -12,3 +12,8 @@
 (define-constant +dll-folder+ "~/Programming/Lisp/discompiler/Test executables/")
 
 (define-constant +ms-dos-header-size+ 64 )
+
+(defconstant +char+ 1)
+(defconstant +short+ 2)
+(defconstant +long+ 4)
+(defconstant +void+ 2)

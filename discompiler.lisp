@@ -21,9 +21,6 @@
 (defparameter *short-size* 2)
 (defparameter *long-size* 4)
 
-(defconstant +char+ 1)
-(defconstant +short+ 2)
-(defconstant +long+ 4)
 
 (defun file-to-bytes (file)
   (let ((bytes) (index 0) (size))
@@ -38,21 +35,61 @@
       (values bytes size))))
 
 (defun pe-header-signature-pointer (bytes)
-  (bytes-to-type-int (bytes bytes *long-size* 60)))
+  (bytes-to-type-int (bytes bytes +long+ 60)))
 
 (defun pe-header-signature-validp (bytes)
   (let ((pointer (pe-header-signature-pointer bytes)))
     (if (array-in-bounds-p bytes pointer)
         (equalp
-         (bytes bytes *long-size* pointer)
+         (bytes bytes +long+ pointer)
          '(80 69 0 0))
         nil)))
 
 (defun coff-header-pointer (bytes)
   (+  (pe-header-signature-pointer bytes) 4))
 
+(defun c-structure-values (bytes c-structure offset)
+  (values
+   (loop for el in c-structure
+      collecting (list offset
+                       (cadr el)
+                       (bytes-to-type-int
+                        (bytes bytes (eval (car el)) offset)))
+      do
+        (incf offset (eval (car el))))
+   offset))
+
+(defun msdos-header (bytes)
+  (let ((offset 0)
+        (structure-size)
+        (data)
+        (elements '(((* 2 +char+) "signature")
+                    (+short+ "lastsize")
+                    (+short+ "nblocks")
+                    (+short+ "nreloc")
+                    (+short+ "hdrsize")
+                    (+short+ "minalloc")
+                    (+short+ "maxalloc")
+                    (+void+ "*ss")
+                    (+void+ "*sp")
+                    (+short+ "checksum")
+                    (+void+ "*ip")
+                    (+void+ "*cs")
+                    (+short+ "relocpos")
+                    (+short+ "noverlay")
+                    ((* 4 +short+) "reserved1")
+                    (+short+ "oem_id")
+                    (+short+ "oem_info")
+                    ((* 10 +short+) "reserved2")
+                    (+long+ "e_lfanew"))))
+    (multiple-value-setq (data structure-size) 
+      (c-structure-values bytes elements offset))
+    (values data structure-size)))
+
 (defun coff-header (bytes)
   (let ((offset (coff-header-pointer bytes))
+        (structure-size)
+        (data)
         (elements '((+short+ "Machine")
                     (+short+ "NumberOfSections")
                     (+long+ "TimeDateStamp")
@@ -60,15 +97,9 @@
                     (+long+ "NumberOfSymbols")
                     (+short+ "SizeOfOptionalHeader")
                     (+short+ "Characteristics"))))
-    (values
-     (loop for el in elements
-        collecting (list offset
-                         (cadr el)
-                         (bytes-to-type-int
-                          (bytes bytes (eval (car el)) offset)))
-        do
-          (incf offset (eval (car el))))
-     offset))) ;now offset points to optional header
+    (multiple-value-setq (data structure-size)
+      (c-structure-values bytes elements offset))
+    (values data structure-size)))
 
 
 (defun byte-at (bytes offset)
