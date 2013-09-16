@@ -14,3 +14,5 @@ http://www.csn.ul.ie/~caolan/publink/winresdump/winresdump/doc/pefile2.html
 http://msdn.microsoft.com/en-us/library/ms809762.aspx
 
 http://en.wikibooks.org/wiki/X86_Disassembly/Windows_Executable_Files
+
+http://code.google.com/p/corkami/wiki/PE
