@@ -1,5 +1,4 @@
-(in-package :byte-utilities)
-;;use functions below like this (byte-utilities::int-to-bin 255)
+(in-package :discompiler)
 
 (defun int-to-bin (int)
   (format nil "~8,'0B" int))
