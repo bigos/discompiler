@@ -106,10 +106,15 @@
     (values data structure-size)))
 
 (defun coff-characteristics (bytes)
-  (let ((charac-int (struct-value "Characteristics" (coff-header bytes))))
+  (let ((charac-int 
+(struct-value "Characteristics" (coff-header bytes))
+))
     (princ (ldb (byte 1 0) charac-int))
     TO DO LATER
     ))
+
+(defun coff-value (name bytes)
+  (struct-value name (coff-header bytes)))
 
 (defun byte-at (bytes offset)
   (aref bytes offset))
