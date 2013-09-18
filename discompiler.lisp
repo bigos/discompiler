@@ -106,30 +106,24 @@
     (values data structure-size)))
 
 (defun coff-characteristics (bytes)
-  (let ((characteristics (struct-value "Characteristics" (coff-header bytes))))
-    (characteristics-names characteristics)))
-
-(defun characteristics-names (characteristics)
-  (let ((codes '((RELOCS_STRIPPED) 
-                 (EXECUTABLE_IMAGE) 
-                 (LINE_NUMS_STRIPPED) 
-                 (LOCAL_SYMS_STRIPPED) 
-                 (AGGRESSIVE_WS_TRIM) 
-                 (LARGE_ADDRESS_AWARE) 
-                 (16BIT_MACHINE) 
-                 (BYTES_REVERSED_LO)
-                 (32BIT_MACHINE) 
-                 (DEBUG_STRIPPED)
-                 (REMOVABLE_RUN_FROM_SWAP)
-                 (-nonexistent-)
-                 (SYSTEM) 
-                 (DLL) 
-                 (UP_SYSTEM_ONLY)
-                 (BYTES_REVERSED_HI))))
-    (loop for c from 0 to (1- (list-length codes))
-       for code in codes
-       when (not (zerop (ldb (byte 1 c) characteristics)))
-       collect (car code))))
+  (let ((characteristics (struct-value "Characteristics" (coff-header bytes)))
+        (codes '(RELOCS_STRIPPED 
+                 EXECUTABLE_IMAGE 
+                 LINE_NUMS_STRIPPED 
+                 LOCAL_SYMS_STRIPPED 
+                 AGGRESSIVE_WS_TRIM 
+                 LARGE_ADDRESS_AWARE 
+                 16BIT_MACHINE 
+                 BYTES_REVERSED_LO
+                 32BIT_MACHINE 
+                 DEBUG_STRIPPED
+                 REMOVABLE_RUN_FROM_SWAP
+                 ()
+                 SYSTEM 
+                 DLL 
+                 UP_SYSTEM_ONLY
+                 BYTES_REVERSED_HI)))
+    (flag-names codes characteristics)))
 
 (defun flag-names (flags value)
   (loop for bit from 0 to (1- (list-length flags))
