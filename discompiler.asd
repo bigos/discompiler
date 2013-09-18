@@ -4,7 +4,7 @@
   :version "0.0.1"
   :author "Jacek Podkanski"
   :licence "GPLv3"
-  :depends-on (:lisp-unit :cl-ppcre :cl-fad :cl-utilities)
+  :depends-on (:lisp-unit :cl-ppcre :cl-fad :cl-utilities :md5)
   :components (
                (:file "packages") 	  
                (:file "constants")
@@ -19,3 +19,4 @@
                )
   :description "machine code experiment"
   :long-description "experimenting with Intel machine code")
+2

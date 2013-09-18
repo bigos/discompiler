@@ -46,7 +46,15 @@
         nil)))
 
 (defun coff-header-pointer (bytes)
-  (+  (pe-header-signature-pointer bytes) 4))
+  (+ (pe-header-signature-pointer bytes) 4))
+
+(defun optional-header-signature-pointer (bytes)
+  (multiple-value-bind (d s) (coff-header bytes)
+    s))
+
+(defun optional-header-signature (bytes)
+  (bytes-to-type-int 
+   (bytes bytes +short+ (optional-header-signature-pointer bytes))))
 
 (defun struct-value (name struct)
   (dolist (el struct)

@@ -1,5 +1,5 @@
 (defpackage #:discompiler
-  (:use :cl :asdf :lisp-unit)
+  (:use :cl :asdf :lisp-unit :md5)
   (:export :run))
 
 (defpackage #:reference-data

@@ -2,6 +2,20 @@
 
 (setf *print-failures* t)
 
+(defparameter *sample-file* "~/discompiler/SampleExecutables/crackme12.exe")
+
+(define-test test-sample-file
+  "sample executable file"
+  (assert-equalp #(17 122 62 7 172 101 207 43 236 55 231 193 95 182 209 19)
+                 (md5:md5sum-file *sample-file*))
+  (assert-equal (pe-header-signature-pointer (file-to-bytes *sample-file*))
+                192)
+  (assert-eq (pe-header-signature-validp (file-to-bytes *sample-file*))
+             T)
+  (assert-eq (optional-header-signature (file-to-bytes *sample-file*))
+   #x10b)
+  )
+
 (define-test test-addition
   "test simple addition"
   (assert-equal 3 (+ 1 2))
