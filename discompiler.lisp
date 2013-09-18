@@ -128,7 +128,9 @@
 (defun flag-names (flags value)
   (loop for bit from 0 to (1- (list-length flags))
      for flag in flags
-     when (not (zerop (ldb (byte 1 bit) value)))
+     when (and 
+           (not (zerop (ldb (byte 1 bit) value)))
+           flag)
      collect flag))
 
 (defun coff-value (name bytes)
