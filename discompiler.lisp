@@ -126,7 +126,7 @@
                  (DLL) 
                  (UP_SYSTEM_ONLY)
                  (BYTES_REVERSED_HI))))
-    (loop for c from 0 to 15
+    (loop for c from 0 to (1- (list-length codes))
        for code in codes
        when (not (zerop (ldb (byte 1 c) characteristics)))
        collect (car code))))
