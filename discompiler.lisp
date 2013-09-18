@@ -106,11 +106,19 @@
     (values data structure-size)))
 
 (defun coff-characteristics (bytes)
-  (let ((charac-int 
-(struct-value "Characteristics" (coff-header bytes))
-))
+  (let ((charac-int (struct-value "Characteristics" (coff-header bytes)))
+        (codes))
     (princ (ldb (byte 1 0) charac-int))
     TO DO LATER
+    
+    IMAGE_FILE_RELOCS_STRIPPED 0x0001 
+    IMAGE_FILE_EXECUTABLE_IMAGE 0x0002 
+    IMAGE_FILE_LINE_NUMS_STRIPPED 0x0004 
+    IMAGE_FILE_LOCAL_SYMS_STRIPPED 0x0008 
+
+
+
+
     ))
 
 (defun coff-value (name bytes)
