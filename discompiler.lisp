@@ -106,27 +106,29 @@
     (values data structure-size)))
 
 (defun coff-characteristics (bytes)
-  (let ((charac-int (struct-value "Characteristics" (coff-header bytes)))
-        (codes))
-    (princ (ldb (byte 1 0) charac-int))
-    TO DO LATER
-    
-    IMAGE_FILE_RELOCS_STRIPPED #x0001 
-    IMAGE_FILE_EXECUTABLE_IMAGE #x0002 
-    IMAGE_FILE_LINE_NUMS_STRIPPED #x0004 
-    IMAGE_FILE_LOCAL_SYMS_STRIPPED #x0008 
-    IMAGE_FILE_AGGRESSIVE_WS_TRIM #x0010 
-    IMAGE_FILE_LARGE_ADDRESS_AWARE #x0020 
-    IMAGE_FILE_16BIT_MACHINE #x0040 
-    IMAGE_FILE_BYTES_REVERSED_LO #x0080
-    IMAGE_FILE_32BIT_MACHINE #x0100 
-    IMAGE_FILE_DEBUG_STRIPPED #x0200
-    IMAGE_FILE_REMOVABLE_RUN_FROM_SWAP #x0400
-    IMAGE_FILE_SYSTEM #x1000 
-    IMAGE_FILE_DLL #x2000 
-    IMAGE_FILE_UP_SYSTEM_ONLY #x4000
-    IMAGE_FILE_BYTES_REVERSED_HI #x8000
-    ))
+  (let ((characteristics (struct-value "Characteristics" (coff-header bytes))))
+    (princ (ldb (byte 1 0) characteristics)) ))
+
+(defun characteristics-names (characteristics)
+  (let ((codes '((IMAGE_FILE_RELOCS_STRIPPED #x0001) 
+                 (IMAGE_FILE_EXECUTABLE_IMAGE #x0002) 
+                 (IMAGE_FILE_LINE_NUMS_STRIPPED #x0004) 
+                 (IMAGE_FILE_LOCAL_SYMS_STRIPPED #x0008) 
+                 (IMAGE_FILE_AGGRESSIVE_WS_TRIM #x0010) 
+                 (IMAGE_FILE_LARGE_ADDRESS_AWARE #x0020) 
+                 (IMAGE_FILE_16BIT_MACHINE #x0040) 
+                 (IMAGE_FILE_BYTES_REVERSED_LO #x0080)
+                 (IMAGE_FILE_32BIT_MACHINE #x0100) 
+                 (IMAGE_FILE_DEBUG_STRIPPED #x0200)
+                 (IMAGE_FILE_REMOVABLE_RUN_FROM_SWAP #x0400)
+                 (IMAGE_FILE_SYSTEM #x1000) 
+                 (IMAGE_FILE_DLL #x2000) 
+                 (IMAGE_FILE_UP_SYSTEM_ONLY #x4000)
+                 (IMAGE_FILE_BYTES_REVERSED_HI #x8000))))
+    (loop for code in codes
+       do
+         (format t "~S ~S~%" (car code) (cadr code)))
+    nil))
 
 (defun coff-value (name bytes)
   (struct-value name (coff-header bytes)))
