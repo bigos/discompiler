@@ -107,7 +107,7 @@
 
 (defun coff-characteristics (bytes)
   (let ((characteristics (struct-value "Characteristics" (coff-header bytes))))
-    (princ (ldb (byte 1 0) characteristics)) ))
+    (characteristics-names characteristics)))
 
 (defun characteristics-names (characteristics)
   (let ((codes '((RELOCS_STRIPPED) 
