@@ -12,8 +12,12 @@
                 192)
   (assert-eq (pe-header-signature-validp (file-to-bytes *sample-file*))
              T)
+  (assert-equalp (coff-characteristics (file-to-bytes *sample-file*))
+                 '(RELOCS_STRIPPED EXECUTABLE_IMAGE LINE_NUMS_STRIPPED LOCAL_SYMS_STRIPPED 32BIT_MACHINE))
   (assert-eq (optional-header-signature (file-to-bytes *sample-file*))
-   #x10b)
+             #x10b)
+  (assert-eq (optional-header-image-type (file-to-bytes *sample-file*))
+             'PE32)
   )
 
 (define-test test-addition

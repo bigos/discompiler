@@ -56,6 +56,12 @@
   (bytes-to-type-int 
    (bytes bytes +short+ (optional-header-signature-pointer bytes))))
 
+(defun optional-header-image-type (bytes)
+  (let ((signature (optional-header-signature bytes)))
+    (cond ((eq signature #x10b) 'pe32)
+          ((eq signature #xb) 'pe32+)
+          (T nil))))
+
 (defun struct-value (name struct)
   (dolist (el struct)
     (if (equalp (nth 1 el) name) (return (nth 2 el)))))
