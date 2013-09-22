@@ -6,20 +6,21 @@
 (define-test test-sample-file
   "sample executable file"
   (let* ((file "~/discompiler/SampleExecutables/crackme12.exe")
-        (bytes (file-to-bytes file)))
+         (bytes (file-to-bytes file)))
     (assert-equalp #(17 122 62 7 172 101 207 43 236 55 231 193 95 182 209 19)
                    (md5:md5sum-file file))
-    (assert-equal (pe-header-signature-pointer bytes) 
+    (assert-equal (pe-header-signature-pointer bytes)
                   192)
-    (assert-eq (pe-header-signature-validp bytes) 
+    (assert-eq (pe-header-signature-validp bytes)
                T)
     (assert-equalp (coff-characteristics bytes)
-                   '(RELOCS_STRIPPED EXECUTABLE_IMAGE LINE_NUMS_STRIPPED LOCAL_SYMS_STRIPPED 32BIT_MACHINE))
+                   '(RELOCS_STRIPPED
+                     EXECUTABLE_IMAGE LINE_NUMS_STRIPPED
+                     LOCAL_SYMS_STRIPPED 32BIT_MACHINE))
     (assert-eq (optional-header-signature bytes)
                #x10b)
     (assert-eq (optional-header-image-type bytes)
-               'PE32))
-  )
+               'PE32)))
 
 (define-test test-addition
   "test simple addition"
