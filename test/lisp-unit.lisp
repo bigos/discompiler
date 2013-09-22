@@ -15,8 +15,10 @@
                T)
     (assert-equalp (coff-characteristics bytes)
                    '(RELOCS_STRIPPED
-                     EXECUTABLE_IMAGE LINE_NUMS_STRIPPED
-                     LOCAL_SYMS_STRIPPED 32BIT_MACHINE))
+                     EXECUTABLE_IMAGE 
+                     LINE_NUMS_STRIPPED
+                     LOCAL_SYMS_STRIPPED 
+                     32BIT_MACHINE))
     (assert-eq (optional-header-signature bytes)
                #x10b)
     (assert-eq (optional-header-image-type bytes)
