@@ -59,7 +59,7 @@
 (defun optional-header-image-type (bytes)
   (let ((signature (optional-header-signature bytes)))
     (cond ((eq signature #x10b) 'pe32)
-          ((eq signature #xb) 'pe32+)
+          ((eq signature #x20b) 'pe32+)
           (T nil))))
 
 (defun struct-value (name struct)
