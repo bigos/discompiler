@@ -146,6 +146,23 @@
 (defun coff-value (name bytes)
   (struct-value name (coff-header bytes)))
 
+(defun optional-header-standard-fields (bytes)
+  (let ((offset (optional-header-signature-pointer bytes))
+        (elements '((+short+ "Magic")
+                    (+char+ "MajorLinkerVersion")
+                    (+char+ "MinorLinkerVersion")
+                    (+long+ "SizeOfCode")
+                    (+long+ "SizeOfInitializedData")
+                    (+long+ "SizeOfUninitializedData")
+                    (+long+ "AddressOfEntryPoint")
+                    (+long+ "BaseOfCode")
+                    (+long+ "BaseOfData") ;only in PE32, not in PE32+
+                    )))
+    (multiple-value-bind (data structure-size)
+        (c-structure-values bytes elements offset)
+      (values data structure-size))))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun byte-at (bytes offset)
   (aref bytes offset))
 
