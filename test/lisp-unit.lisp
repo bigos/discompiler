@@ -2,22 +2,23 @@
 
 (setf *print-failures* t)
 
-(defparameter *sample-file* "~/discompiler/SampleExecutables/crackme12.exe")
 
 (define-test test-sample-file
   "sample executable file"
-  (assert-equalp #(17 122 62 7 172 101 207 43 236 55 231 193 95 182 209 19)
-                 (md5:md5sum-file *sample-file*))
-  (assert-equal (pe-header-signature-pointer (file-to-bytes *sample-file*))
-                192)
-  (assert-eq (pe-header-signature-validp (file-to-bytes *sample-file*))
-             T)
-  (assert-equalp (coff-characteristics (file-to-bytes *sample-file*))
-                 '(RELOCS_STRIPPED EXECUTABLE_IMAGE LINE_NUMS_STRIPPED LOCAL_SYMS_STRIPPED 32BIT_MACHINE))
-  (assert-eq (optional-header-signature (file-to-bytes *sample-file*))
-             #x10b)
-  (assert-eq (optional-header-image-type (file-to-bytes *sample-file*))
-             'PE32)
+  (let* ((file "~/discompiler/SampleExecutables/crackme12.exe")
+        (bytes (file-to-bytes file)))
+    (assert-equalp #(17 122 62 7 172 101 207 43 236 55 231 193 95 182 209 19)
+                   (md5:md5sum-file file))
+    (assert-equal (pe-header-signature-pointer bytes) 
+                  192)
+    (assert-eq (pe-header-signature-validp bytes) 
+               T)
+    (assert-equalp (coff-characteristics bytes)
+                   '(RELOCS_STRIPPED EXECUTABLE_IMAGE LINE_NUMS_STRIPPED LOCAL_SYMS_STRIPPED 32BIT_MACHINE))
+    (assert-eq (optional-header-signature bytes)
+               #x10b)
+    (assert-eq (optional-header-image-type bytes)
+               'PE32))
   )
 
 (define-test test-addition
