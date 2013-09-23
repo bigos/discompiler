@@ -16,4 +16,5 @@
 (defconstant +char+ 1)
 (defconstant +short+ 2)
 (defconstant +long+ 4)
+(defconstant +double-long+ (* 2 +long+))
 (defconstant +void+ 2)
