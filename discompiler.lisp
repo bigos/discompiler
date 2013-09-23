@@ -1,5 +1,6 @@
 (in-package :discompiler)
 
+
 (defun run ()
   (format t "running skeleton program")
   ;; (test-arithmetic)
@@ -148,16 +149,16 @@
 
 (defun optional-header-standard-fields (bytes)
   (let ((offset (optional-header-signature-pointer bytes))
-        (elements '((+short+ "Magic")
-                    (+char+ "MajorLinkerVersion")
-                    (+char+ "MinorLinkerVersion")
-                    (+long+ "SizeOfCode")
-                    (+long+ "SizeOfInitializedData")
-                    (+long+ "SizeOfUninitializedData")
-                    (+long+ "AddressOfEntryPoint")
-                    (+long+ "BaseOfCode")
-                    (+long+ "BaseOfData") ;only in PE32, not in PE32+
-                    )))
+        (elements (append '((+short+ "Magic")
+                            (+char+ "MajorLinkerVersion")
+                            (+char+ "MinorLinkerVersion")
+                            (+long+ "SizeOfCode")
+                            (+long+ "SizeOfInitializedData")
+                            (+long+ "SizeOfUninitializedData")
+                            (+long+ "AddressOfEntryPoint")
+                            (+long+ "BaseOfCode"))
+                          (when (eq (optional-header-image-type bytes) 'PE32)
+                            '((+long+ "BaseOfData"))))))
     (multiple-value-bind (data structure-size)
         (c-structure-values bytes elements offset)
       (values data structure-size))))
