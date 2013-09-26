@@ -14,8 +14,10 @@
   (defparameter *instructions* (reference-data:process-reference-files))
   (list-length *instructions*))
 
-(defparameter *dll* (nth 0 (cl-fad:list-directory "./Test executables/"))
+(defparameter *dll* (nth 0 (cl-fad:list-directory "./SampleExecutables/"))
   "sample dll file")
+
+(defparameter *bytes* (file-to-bytes "~/discompiler/SampleExecutables/crackme12.exe"))
 
 ;; size of datatyoe in bytes
 (defparameter *char-size* 1)
@@ -35,33 +37,7 @@
         (incf index))
       (values bytes size))))
 
-(defun pe-header-signature-pointer (bytes)
-  (bytes-to-type-int (bytes bytes +long+ 60)))
 
-(defun pe-header-signature-validp (bytes)
-  (let ((pointer (pe-header-signature-pointer bytes)))
-    (if (array-in-bounds-p bytes pointer)
-        (equalp
-         (bytes bytes +long+ pointer)
-         '(80 69 0 0))
-        nil)))
-
-(defun coff-header-pointer (bytes)
-  (+ (pe-header-signature-pointer bytes) 4))
-
-(defun optional-header-signature-pointer (bytes)
-  (multiple-value-bind (d s) (coff-header bytes)
-    s))
-
-(defun optional-header-signature (bytes)
-  (bytes-to-type-int 
-   (bytes bytes +short+ (optional-header-signature-pointer bytes))))
-
-(defun optional-header-image-type (bytes)
-  (let ((signature (optional-header-signature bytes)))
-    (cond ((eq signature #x10b) 'pe32)
-          ((eq signature #x20b) 'pe32+)
-          (T nil))))
 
 (defun struct-value (name struct)
   (dolist (el struct)
@@ -78,116 +54,14 @@
         (incf offset (eval (car el))))
    offset))
 
-(defun msdos-header (bytes)
-  (let ((offset 0)
-        (elements '(((* 2 +char+) "signature")
-                    (+short+ "lastsize")
-                    (+short+ "nblocks")
-                    (+short+ "nreloc")
-                    (+short+ "hdrsize")
-                    (+short+ "minalloc")
-                    (+short+ "maxalloc")
-                    (+void+ "*ss")
-                    (+void+ "*sp")
-                    (+short+ "checksum")
-                    (+void+ "*ip")
-                    (+void+ "*cs")
-                    (+short+ "relocpos")
-                    (+short+ "noverlay")
-                    ((* 4 +short+) "reserved1")
-                    (+short+ "oem_id")
-                    (+short+ "oem_info")
-                    ((* 10 +short+) "reserved2")
-                    (+long+ "e_lfanew"))))
-    (multiple-value-bind (data structure-size) 
-        (c-structure-values bytes elements offset)
-      (values data structure-size))))
-
-(defun coff-header (bytes)
-  (let ((offset (coff-header-pointer bytes))
-        (elements '((+short+ "Machine")
-                    (+short+ "NumberOfSections")
-                    (+long+ "TimeDateStamp")
-                    (+long+ "PointerToSymbolTable")
-                    (+long+ "NumberOfSymbols")
-                    (+short+ "SizeOfOptionalHeader")
-                    (+short+ "Characteristics"))))
-    (multiple-value-bind (data structure-size)
-        (c-structure-values bytes elements offset)
-      (values data structure-size))))
-
-(defun coff-characteristics (bytes)
-  (let ((characteristics (struct-value "Characteristics" (coff-header bytes)))
-        (codes '(RELOCS_STRIPPED 
-                 EXECUTABLE_IMAGE 
-                 LINE_NUMS_STRIPPED 
-                 LOCAL_SYMS_STRIPPED 
-                 AGGRESSIVE_WS_TRIM 
-                 LARGE_ADDRESS_AWARE 
-                 16BIT_MACHINE 
-                 BYTES_REVERSED_LO
-                 32BIT_MACHINE 
-                 DEBUG_STRIPPED
-                 REMOVABLE_RUN_FROM_SWAP
-                 ()
-                 SYSTEM 
-                 DLL 
-                 UP_SYSTEM_ONLY
-                 BYTES_REVERSED_HI)))
-    (flag-names codes characteristics)))
-
 (defun flag-names (flags value)
   (loop for bit from 0 to (1- (list-length flags))
      for flag in flags
-     when (and 
+     when (and
            (not (zerop (ldb (byte 1 bit) value)))
            flag)
      collect flag))
 
-(defun coff-value (name bytes)
-  (struct-value name (coff-header bytes)))
-
-(defun optional-header-standard-fields (bytes)   
-  (let* ((offset (optional-header-signature-pointer bytes))
-         (header-type (optional-header-image-type bytes))
-         (long-or-double (if (eq (optional-header-image-type bytes) 'PE32)
-                             '+long+ 
-                             '+double-long+))
-         (elements (append '((+short+ "Magic")
-                             (+char+ "MajorLinkerVersion")
-                             (+char+ "MinorLinkerVersion")
-                             (+long+ "SizeOfCode")
-                             (+long+ "SizeOfInitializedData")
-                             (+long+ "SizeOfUninitializedData")
-                             (+long+ "AddressOfEntryPoint")
-                             (+long+ "BaseOfCode"))
-                           (when  (eq header-type 'PE32) 
-                             '((+long+ "BaseOfData")))
-                           `((,long-or-double "ImageBase")
-                             (+long+ "SectionAlignment")
-                             (+long+ "FileAlignment")
-                             (+short+ "MajorOperatingSystemVersion") 
-                             (+short+ "MinorOperatingSystemVersion") 
-                             (+short+ "MajorImageVersion")
-                             (+short+ "MinorImageVersion")
-                             (+short+ "MajorSubsystemVersion")
-                             (+short+ "MinorSubsystemVersion")
-                             (+long+ "Reserved")
-                             (+long+ "SizeOfImage")
-                             (+long+ "SizeOfHeaders")
-                             (+long+ "CheckSum")
-                             (+short+ "Subsystem")
-                             (+short+ "DLLCharacteristics")
-                             (,long-or-double "SizeOfStackReserve")
-                             (,long-or-double "SizeOfStackCommit")
-                             (,long-or-double "SizeOfHeapReserve")
-                             (,long-or-double "SizeOfHeapCommit")
-                             (+long+ "LoaderFlags")
-                             (+long+ "NumberOfRvaAndSizes")))))
-    (format t "~s~%" elements)
-    (multiple-value-bind (data structure-size)
-        (c-structure-values bytes elements offset)
-      (values data structure-size))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun byte-at (bytes offset)

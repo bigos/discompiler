@@ -9,7 +9,10 @@
                (:file "packages") 	  
                (:file "constants")
                (:module "src"
-                        :components ((:file "byte-utilities")
+                        :components ((:file "pe-header")
+                                     (:file "coff-header")
+                                     (:file "optional-header")
+                                     (:file "byte-utilities")
                                      (:file "reference-data")
                                      (:file "summary-table-columns")))
                (:module "test"
