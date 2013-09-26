@@ -1,6 +1,5 @@
 (in-package :discompiler)
 
-
 (defun run ()
   (format t "running skeleton program")
   ;; (test-arithmetic)
@@ -17,13 +16,11 @@
 (defparameter *dll* (nth 0 (cl-fad:list-directory "./SampleExecutables/"))
   "sample dll file")
 
-(defparameter *bytes* (file-to-bytes "~/discompiler/SampleExecutables/crackme12.exe"))
 
 ;; size of datatyoe in bytes
 (defparameter *char-size* 1)
 (defparameter *short-size* 2)
 (defparameter *long-size* 4)
-
 
 (defun file-to-bytes (file)
   (let ((bytes) (index 0) (size))
@@ -37,7 +34,7 @@
         (incf index))
       (values bytes size))))
 
-
+(defparameter *bytes* (file-to-bytes "~/discompiler/SampleExecutables/crackme12.exe"))
 
 (defun struct-value (name struct)
   (dolist (el struct)
@@ -61,7 +58,6 @@
            (not (zerop (ldb (byte 1 bit) value)))
            flag)
      collect flag))
-
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun byte-at (bytes offset)

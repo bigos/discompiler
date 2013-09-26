@@ -9,9 +9,11 @@
                (:file "packages") 	  
                (:file "constants")
                (:module "src"
-                        :components ((:file "pe-header")
+                        :components (
+                                     (:file "pe-header")
                                      (:file "coff-header")
                                      (:file "optional-header")
+
                                      (:file "byte-utilities")
                                      (:file "reference-data")
                                      (:file "summary-table-columns")))
@@ -22,4 +24,3 @@
                )
   :description "machine code experiment"
   :long-description "experimenting with Intel machine code")
-2
