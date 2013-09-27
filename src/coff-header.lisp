@@ -38,3 +38,18 @@
 
 (defun coff-value (name bytes)
   (struct-value name (coff-header bytes)))
+
+(defun section-header (bytes offset)
+  (let ((elements '((+double-long+ "Name")
+                    (+long+ "VirtualSize") 
+                    (+long+ "VirtualAddress") 
+                    (+long+ "SizeOfRawData") 
+                    (+long+ "PointerToRawData") 
+                    (+long+ "PointerToRelocations") 
+                    (+long+ "PointerToLinenumbers") 
+                    (+short+ "NumberOfRelocations") 
+                    (+short+ "NumberOfLinenumbers") 
+                    (+long+ "Characteristics"))))
+    (multiple-value-bind (data structure-size)
+        (c-structure-values bytes elements offset)
+      (values data structure-size))))

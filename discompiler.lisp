@@ -59,6 +59,8 @@
            flag)
      collect flag))
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun byte-at (bytes offset)
   (aref bytes offset))
