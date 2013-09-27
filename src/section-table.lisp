@@ -13,4 +13,7 @@
                     (+long+ "Characteristics"))))
     (multiple-value-bind (data structure-size)
         (c-structure-values bytes elements offset)
-      (values data structure-size))))
+      (values 
+       (list  (int-to-text (car (last (car data)))) (cdr data)) 
+       structure-size))))
+
