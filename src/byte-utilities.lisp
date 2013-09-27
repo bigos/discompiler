@@ -11,10 +11,10 @@
   (let ((hexval  (int-to-hex int)))
     (reverse
      (loop 
-        for x from 0 to (- (length hexval) 2) by 2
-        for y from 2 to (length hexval) by 2
+        for start from 0 to (- (length hexval) 2) by 2
+        for end from 2 to (length hexval) by 2
         collecting
-          (code-char (hex-to-int (subseq hexval x y)))))))
+          (code-char (hex-to-int (subseq hexval start end)))))))
 
 (defun hex-to-int (hex)
   (parse-integer hex :radix 16))
