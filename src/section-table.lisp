@@ -27,7 +27,7 @@
       (optional-header bytes))
     (cdr
      (loop for x
-        to (struct-value "NumberOfSections" (coff-header bytes))
+        upto (struct-value "NumberOfSections" (coff-header bytes))
         collecting section-data
         do
           (multiple-value-setq (section-data offset)
