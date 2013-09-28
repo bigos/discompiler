@@ -18,3 +18,19 @@
                      (list (int-to-text (car (last (car data))))))
              (cdr data))
        structure-size))))
+
+(defun sections (bytes)
+  (let ((number-of-sections
+         (struct-value "NumberOfSections" (coff-header bytes)))
+        (data) 
+        (section-data) 
+        (offset))
+    (multiple-value-setq (data offset) (optional-header bytes))
+    (cdr
+     (loop
+        for secn from 0 to number-of-sections
+        collecting (list (nth 0 (car section-data)) 
+                         (nth 2 (car section-data)))
+        do
+          (multiple-value-setq (section-data offset)
+            (section-header bytes offset))))))
