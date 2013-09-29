@@ -20,15 +20,17 @@
        structure-size))))
 
 (defun sections (bytes)
-  (let ((optional-header-data)
-        (section-data)
-        (offset))
+  (let ((offset)
+        (optional-header-data)
+        (section-data))
     (multiple-value-setq (optional-header-data offset)
       (optional-header bytes))
-    (cdr
-     (loop for x
-        upto (struct-value "NumberOfSections" (coff-header bytes))
-        collecting section-data
+    (values 
+     (loop for x        
+        from 1
+        to (struct-value "NumberOfSections" (coff-header bytes))
         do
           (multiple-value-setq (section-data offset)
-            (section-header bytes offset))))))
+            (section-header bytes offset))
+        collect section-data)
+     offset)))
