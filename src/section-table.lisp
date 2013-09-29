@@ -25,8 +25,8 @@
         (section-data))
     (multiple-value-setq (optional-header-data offset)
       (optional-header bytes))
-    (values 
-     (loop for x        
+    (values
+     (loop for x
         from 1
         to (struct-value "NumberOfSections" (coff-header bytes))
         do
