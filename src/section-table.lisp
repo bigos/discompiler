@@ -36,6 +36,7 @@
      offset)))
 
 (defun section-characteristics (bytes offset)
+  "todo fix a problem for situations where characteristics == 0"
   (let ((characteristics
          (struct-value "Characteristics" (section-header bytes offset)))
         (codes '((TYPE_REG    #x00000000)
@@ -80,6 +81,12 @@
                  (MEM_EXECUTE     #x20000000)
                  (MEM_READ        #x40000000)
                  (MEM_WRITE       #x80000000))))
-    (loop for c in codes
-       when (not (zerop (boole boole-and (cadr c) characteristics )))
-       collect (car c))))
+    (bitfield-flags codes characteristics)))
+
+(defun bitfield-flags (codes value)
+  (loop for c in codes
+     when 
+       (if (zerop value )
+           (zerop (cadr c))
+           (not (zerop (boole boole-and (cadr c) value ))))
+     collect (car c)))
