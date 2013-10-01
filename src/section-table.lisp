@@ -109,5 +109,6 @@
     ;;
     (format t "~&PE header signature is ~s~%~%"
             (if (pe-header-signature-validp bytes) "valid" "INVALID"))
+    (format t "header type ~a~%~%" header-type)
     (format t "RVAs: ~S~%~%" used-rvas)
     my-sections))
