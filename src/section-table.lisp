@@ -125,6 +125,9 @@
     ;;
     (format t "~&PE header signature is ~a~%~%"
             (if (pe-header-signature-validp bytes) "valid" "INVALID"))
+    (format t "~&loaded image base addr ~%int ~S~%hex ~S ~%~%"
+            (struct-value "ImageBase" opt-head)
+            (int-to-hex (struct-value "ImageBase" opt-head)))
     (format t "RVAs: ~S~%~%" used-rvas)
     (format t "sections ~a~%~%" (section-positions bytes))
     my-sections))
