@@ -106,4 +106,8 @@
                        when (not (zerop (caddr (nth x rvas))))
                        collect (list (nth x rvas) (nth (1+ x) rvas))))
          (my-sections (sections bytes)))
+    ;;
+    (format t "~&PE header signature is ~s~%~%"
+            (if (pe-header-signature-validp bytes) "valid" "INVALID"))
+    (format t "RVAs: ~S~%~%" used-rvas)
     my-sections))
