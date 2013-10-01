@@ -19,7 +19,7 @@
              (cdr data))
        structure-size))))
 
-(defun sections (bytes)
+(defun section-headers (bytes)
   (let ((offset)
         (optional-header-data)
         (section-data))
@@ -36,7 +36,6 @@
      offset)))
 
 (defun section-characteristics (bytes offset)
-  "todo fix a problem for situations where characteristics == 0"
   (let ((characteristics
          (struct-value "Characteristics" (section-header bytes offset)))
         (codes '((TYPE_REG    #x00000000)
@@ -85,8 +84,26 @@
 
 (defun bitfield-flags (codes value)
   (loop for c in codes
-     when 
+     when
        (if (zerop value )
            (zerop (cadr c))
            (not (zerop (boole boole-and (cadr c) value ))))
      collect (car c)))
+
+(defun useful-info (bytes)
+  (let* ((opt-head (optional-header bytes))
+         (entry-point (struct-value "AddressOfEntryPoint" opt-head))
+         (code-base (struct-value "BaseOfCode" opt-head))
+         (data-base (struct-value "BaseOfData" opt-head))
+         (header-type (optional-header-image-type bytes))
+         (first-rva 30)
+         (last-rva (+ 30 32))
+         (rvas (subseq opt-head first-rva last-rva))
+         (used-rvas (loop for x
+                       from 0
+                       to (1- (list-length rvas))
+                       by 2
+                       when (not (zerop (caddr (nth x rvas))))
+                       collect (list (nth x rvas) (nth (1+ x) rvas))))
+         (my-sections (sections bytes)))
+    my-sections))
