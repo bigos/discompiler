@@ -93,18 +93,24 @@
      collect (car c)))
 
 (defun section-positions (bytes)
-  (let ((section-header) (section-start))
+  (let ((section-header) (section-start) (section-end))
     (loop for s in (section-headers bytes)
        do
          (setf section-header (caar s))
        collect (list (struct-value "Name" s)
                      'from
-                     (setq section-start (struct-value "PointerToRawData" s))
+                     (setq section-start
+                           (struct-value "PointerToRawData" s))
                      'to
-                     (+ section-start (struct-value "SizeOfRawData" s) -1)
+                     (setq section-end
+                           (+ section-start (struct-value "SizeOfRawData" s) -1))
+                     'hex (int-to-hex section-start) '- (int-to-hex section-end)
                      (bitfield-flags
                       (section-characteristics-codes)
                       (struct-value "Characteristics" s))))))
+
+(defun image-base (bytes)
+  (struct-value "ImageBase"(optional-header bytes)))
 
 (defun useful-info (bytes)
   (let* ((opt-head (optional-header bytes))
