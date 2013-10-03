@@ -93,18 +93,38 @@
      collect (car c)))
 
 (defun section-positions (bytes)
-  (let ((section-header) (section-start))
+  (let ((section-header)
+        (section-start)
+        (section-memory-start))
     (loop for s in (section-headers bytes)
        do
          (setf section-header (caar s))
        collect (list (struct-value "Name" s)
+                     'int-on-file
                      'from
-                     (setq section-start (struct-value "PointerToRawData" s))
+                     (setq section-start
+                           (struct-value "PointerToRawData" s))
                      'to
                      (+ section-start (struct-value "SizeOfRawData" s) -1)
+                     'hex-in-memory
+                     (int-to-hex (setq section-memory-start
+                                       (+ (image-base bytes)
+                                          (struct-value "VirtualAddress" s))))
+                     'to
+                     (int-to-hex
+                      (+ section-memory-start
+                         (struct-value "VirtualSize" s) -1))
+                     #|'or
+                     (int-to-hex
+                      (+ section-memory-start
+                         (struct-value "SizeOfRawData" s) -1))|#
                      (bitfield-flags
                       (section-characteristics-codes)
                       (struct-value "Characteristics" s))))))
+
+
+(defun image-base (bytes)
+  (struct-value "ImageBase"(optional-header bytes)))
 
 (defun useful-info (bytes)
   (let* ((opt-head (optional-header bytes))
@@ -129,6 +149,9 @@
     (format t "~&loaded image base addr ~%int ~S~%hex ~S ~%~%"
             (struct-value "ImageBase" opt-head)
             (int-to-hex (struct-value "ImageBase" opt-head)))
+    (format t "~& entry point in memory ~S~%~%"
+            (int-to-hex (+ (image-base bytes)
+                           (struct-value "AddressOfEntryPoint" opt-head))))
     (format t "RVAs: ~S~%~%" used-rvas)
     (format t "sections ~a~%~%" (section-positions bytes))
     my-sections))
