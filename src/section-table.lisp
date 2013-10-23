@@ -116,8 +116,12 @@
                          (struct-value "VirtualSize" s) -1))
                      #|'or
                      (int-to-hex
-                      (+ section-memory-start
-                         (struct-value "SizeOfRawData" s) -1))|#
+                     (+ section-memory-start
+                     (struct-value "SizeOfRawData" s) -1))|#
+                     (if (< (struct-value "SizeOfRawData" s)
+                            (struct-value "VirtualSize" s))
+                         'not-padded
+                         'padded)
                      (bitfield-flags
                       (section-characteristics-codes)
                       (struct-value "Characteristics" s))))))
@@ -125,6 +129,9 @@
 
 (defun image-base (bytes)
   (struct-value "ImageBase"(optional-header bytes)))
+
+(defun cons-int-hex (val)
+  (cons  val (concatenate 'string "#x" (int-to-hex val))))
 
 (defun useful-info (bytes)
   (let* ((opt-head (optional-header bytes))
@@ -142,14 +149,17 @@
                        when (not (zerop (caddr (nth x rvas))))
                        collect (list (nth x rvas) (nth (1+ x) rvas))))
          (my-sections (section-headers bytes)))
-    ;;
+    ;; (format t "~%~%>>>~S~%~%~%" rvas)
     (format t "~&PE header signature is ~a~%~%"
             (if (pe-header-signature-validp bytes) "valid" "INVALID"))
-    (format t "header type ~a~%~%" header-type)
-    (format t "~&loaded image base addr ~%int ~S~%hex ~S ~%~%"
-            (struct-value "ImageBase" opt-head)
-            (int-to-hex (struct-value "ImageBase" opt-head)))
-    (format t "~& entry point in memory ~S~%~%"
+    (format t "header type ~a~%" header-type)
+    (format t "section alignment~S~%~%"
+            (cons-int-hex (struct-value "SectionAlignment" opt-head)))
+    (if (< (struct-value "SectionAlignment" opt-head) 4096)
+        (princ "warning section alignment less than 4K - constraints on the file offset of the section data,"))
+    (format t "~&loaded image base addr ~S~%"
+            (cons-int-hex (struct-value "ImageBase" opt-head)))
+    (format t "~& entry point in memory #x~a~%~%"
             (int-to-hex (+ (image-base bytes)
                            (struct-value "AddressOfEntryPoint" opt-head))))
     (format t "RVAs: ~S~%~%" used-rvas)
