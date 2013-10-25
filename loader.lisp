@@ -21,3 +21,7 @@ Create main thread and start the process.
 
 (defun load-in-memory (bytes)
   "simulate loading executable in memory")
+
+(defclass exec ()
+  (preferred-address
+   obtained-address))
