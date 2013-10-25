@@ -18,3 +18,6 @@ Create initial heap and stack using values from PE header.
 
 Create main thread and start the process.
 |#
+
+(defun load-in-memory (bytes)
+  "simulate loading executable in memory")
