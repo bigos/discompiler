@@ -15,14 +15,24 @@
                T)
     (assert-equalp (coff-characteristics bytes)
                    '(RELOCS_STRIPPED
-                     EXECUTABLE_IMAGE 
+                     EXECUTABLE_IMAGE
                      LINE_NUMS_STRIPPED
-                     LOCAL_SYMS_STRIPPED 
+                     LOCAL_SYMS_STRIPPED
                      32BIT_MACHINE))
     (assert-eq (optional-header-signature bytes)
                #x10b)
     (assert-eq (optional-header-image-type bytes)
                'PE32)))
+
+(define-test test-allocation
+  (let ((first-available 3)
+        (last-available 20)
+        (allocated '((5 . 7) (12 . 17)))
+        (allocated-edges '((3 . 8) (16 . 20))))
+    (assert-equalp '((3 . 4) (8 . 11) (18 . 20))
+                   (find-free allocated first-available last-available))
+    (assert-equalp '((9 . 15))
+                   (find-free allocated-edges first-available last-available))))
 
 (define-test test-addition
   "test simple addition"

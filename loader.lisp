@@ -22,6 +22,11 @@ Create main thread and start the process.
 (defun load-in-memory (bytes)
   "simulate loading executable in memory")
 
+(defun find-free (allocated first-available last-available)
+  (let ((found-free))
+    (push 'a found-free)
+    found-free))
+
 (defclass exec ()
   (preferred-address
    obtained-address))
