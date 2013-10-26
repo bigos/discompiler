@@ -23,13 +23,11 @@ Create main thread and start the process.
   "simulate loading executable in memory")
 
 (defun find-free (allocated first-available last-available)
-  (let ((found-free)  (last-allocated))
+  (let ((found-free) (last-allocated))
     (dolist (allocated-block allocated)
-      (if (eq (car allocated-block) first-available)
-          (setf first-available (1+ (cdr allocated-block)))
-          (progn
-            (push (cons first-available (1- (car allocated-block))) found-free)
-            (setf first-available (1+ (cdr allocated-block))))))
+      (when (not (eq (car allocated-block) first-available))
+        (push (cons first-available (1- (car allocated-block))) found-free))
+      (setf first-available (1+ (cdr allocated-block))))
     (setf last-allocated (cdar (last allocated)))
     (when (< last-allocated last-available)
       (push (cons (1+ last-allocated) last-available) found-free))
