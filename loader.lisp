@@ -24,8 +24,15 @@ Create main thread and start the process.
 
 (defun find-free (allocated first-available last-available)
   (let ((found-free))
-    (push 'a found-free)
-    found-free))
+    (dolist (chunk allocated)
+      (if (eq (car chunk) first-available)
+          (setf first-available (1+ (cdr chunk)))
+          (progn
+            (push (cons first-available (1- (car chunk))) found-free)
+            (setf first-available (1+ (cdr chunk))))))
+    (when (< (cdar (last allocated)) last-available)
+      (push (cons (1+ (cdar (last allocated))) last-available) found-free))
+    (reverse found-free)))
 
 (defclass exec ()
   (preferred-address
