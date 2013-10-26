@@ -32,7 +32,10 @@
     (assert-equalp '((3 . 4) (8 . 11) (18 . 20))
                    (find-free allocated first-available last-available))
     (assert-equalp '((9 . 15))
-                   (find-free allocated-edges first-available last-available))))
+                   (find-free allocated-edges first-available last-available))
+    (assert-equalp 3
+                   (find-free-block allocated first-available last-available 2 ))
+    ))
 
 (define-test test-addition
   "test simple addition"
