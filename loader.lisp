@@ -33,6 +33,16 @@ Create main thread and start the process.
       (push (cons (1+ last-allocated) last-available) found-free))
     (reverse found-free)))
 
+(defun is-block-available (allocated addr size)
+  (let ((result))
+      (dolist (allocated-block allocated)
+        (if (or (and (>= addr (car allocated-block))
+                     (<= addr (cdr allocated-block)))
+                (and (>= (+ addr size -1) (car allocated-block))
+                     (<= (+ addr size -1) (cdr allocated-block))))
+            (setf result T)))
+      (not result)))
+
 (defun find-free-block (allocated first-available last-available required-size)
   (dolist (allocated-block allocated)
     (if (>= (- (car allocated-block) first-available)
