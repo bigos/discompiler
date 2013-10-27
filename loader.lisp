@@ -47,7 +47,7 @@ Create main thread and start the process.
     (if found
         found
         (if (< (1+ (- last-available first-available)) required-size)
-            :error
+            nil
             first-available))))
 
 (defclass exec ()
