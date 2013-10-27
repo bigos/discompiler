@@ -5,7 +5,7 @@
   :author "Jacek Podkanski"
   :licence "GPLv3"
   :depends-on (:lisp-unit :cl-ppcre :cl-fad :cl-utilities :md5)
-  :components ((:file "packages") 	  
+  :components ((:file "packages")
                (:file "constants")
                (:module "src"
                         :components (
@@ -19,6 +19,7 @@
                (:module "test"
                         :components ((:file "lisp-unit")
                                      (:file "tests")))
-               (:file "discompiler"))
+               (:file "discompiler")
+               (:file "loader"))
   :description "machine code experiment"
   :long-description "experimenting with Intel machine code")

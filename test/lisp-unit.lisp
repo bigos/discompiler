@@ -33,8 +33,7 @@
                    (find-free allocated first-available last-available))
     (assert-equalp '((9 . 15))
                    (find-free allocated-edges first-available last-available))
-    (assert-equalp 3
-                   (find-free-block allocated first-available last-available 2 ))
+    (assert-equalp 3 (find-free-block allocated first-available last-available 2 ))
     ))
 
 (define-test test-addition
