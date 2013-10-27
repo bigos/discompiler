@@ -37,15 +37,18 @@ Create main thread and start the process.
 ;;; DISCOMPILER> (sb-ext:restrict-compiler-policy 'debug 3)
 (defun find-free-block (allocated first-available last-available required-size)
   (declare (optimize (speed 0) (space 1) (compilation-speed 0) (debug 3)))
-  (let ((last-allocated  (cdar (last allocated)))
-        (free-size))
+  (let ((free-size 0) (found))
     (loop for allocated-block in allocated
+       while (< free-size required-size)
        do
          (setf free-size (- (car allocated-block) first-available))
-         (setf first-available (1+ (cdr allocated-block)))
-       until (>= free-size required-size))
-    first-available
-        ))
+         (unless (< free-size required-size) (setf found first-available))
+         (setf first-available (1+ (cdr allocated-block))))
+    (if found
+        found
+        (if (< (1+ (- last-available first-available)) required-size)
+            :error
+            first-available))))
 
 (defclass exec ()
   (preferred-address
