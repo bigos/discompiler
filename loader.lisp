@@ -43,15 +43,34 @@ Create main thread and start the process.
             (setf result T)))
       (not result)))
 
+;; (defun find-free-block (allocated first-available last-available required-size)
+;;   (dolist (allocated-block allocated)
+;;     (if (>= (- (car allocated-block) first-available)
+;;             required-size)
+;;         (return first-available)
+;;         (setf first-available (1+ (cdr allocated-block)))))
+;;   (if (>= (- (incf last-available) first-available)
+;;           required-size)
+;;       first-available))
+
+(defun find-free-block-rec (allocated first-available required-size)
+  (let ((allocated-block (car allocated)))
+    (if (>= (- (car allocated-block) first-available) required-size)
+        first-available
+        (when (cdr allocated)
+          (find-free-block-rec (cdr allocated)
+                           (1+ (cdr allocated-block))
+                           required-size)))))
+
 (defun find-free-block (allocated first-available last-available required-size)
-  (dolist (allocated-block allocated)
-    (if (>= (- (car allocated-block) first-available)
-            required-size)
-        (return first-available)
-        (setf first-available (1+ (cdr allocated-block)))))
-  (if (>= (- (incf last-available) first-available)
-          required-size)
-      first-available))
+  (let ((res (find-free-block-rec allocated first-available required-size))
+        (last-alloc))
+    (if (not res)
+        (progn
+          (setf last-alloc (cdar (last allocated)))
+          (if (>= (- last-available last-alloc ) required-size)
+              (1+ last-alloc)))
+        res)))
 
 (defclass exec ()
   (preferred-address
