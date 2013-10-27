@@ -33,22 +33,15 @@ Create main thread and start the process.
       (push (cons (1+ last-allocated) last-available) found-free))
     (reverse found-free)))
 
-;;; do this in REPL to have better debugging
-;;; DISCOMPILER> (sb-ext:restrict-compiler-policy 'debug 3)
 (defun find-free-block (allocated first-available last-available required-size)
-  (declare (optimize (speed 0) (space 1) (compilation-speed 0) (debug 3)))
-  (let ((free-size 0) (found))
-    (loop for allocated-block in allocated
-       while (< free-size required-size)
-       do
-         (setf free-size (- (car allocated-block) first-available))
-         (unless (< free-size required-size) (setf found first-available))
-         (setf first-available (1+ (cdr allocated-block))))
-    (if found
-        found
-        (if (< (1+ (- last-available first-available)) required-size)
-            nil
-            first-available))))
+  (dolist (allocated-block allocated)
+    (if (>= (- (car allocated-block) first-available)
+            required-size)
+        (return first-available)
+        (setf first-available (1+ (cdr allocated-block)))))
+  (if (>= (- (incf last-available) first-available)
+          required-size)
+      first-available))
 
 (defclass exec ()
   (preferred-address

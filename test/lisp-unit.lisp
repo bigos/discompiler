@@ -36,7 +36,7 @@
     (assert-equalp 3 (find-free-block allocated start end 2 ))
     (assert-equalp 8 (find-free-block allocated start end 4 ))
     (assert-equalp 16 (find-free-block allocated start end 5 ))
-    (assert-equalp nil (find-free-block allocated start end 22))
+    (assert-equalp nil (find-free-block allocated start end 6))
     (assert-equalp 9 (find-free-block allocated-edges start end 7))
     (assert-equalp nil (find-free-block allocated-edges start end 8))))
 
