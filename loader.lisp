@@ -53,20 +53,25 @@ Create main thread and start the process.
 ;;           required-size)
 ;;       first-available))
 
-(defun find-free-block-rec (allocated first-available required-size)
-  (let ((allocated-block (car allocated)))
-    (if (>= (- (car allocated-block) first-available) required-size)
-        first-available
-        (when (cdr allocated)
-          (find-free-block-rec (cdr allocated)
-                           (1+ (cdr allocated-block))
-                           required-size)))))
 
+;; First, transform it to have really some code duplication:
 (defun find-free-block (allocated first-available last-available required-size)
-   (find-free-block-rec
-    (append allocated (list (cons (1+ last-available) T)))
-    first-available
-    required-size))
+  (dolist (allocated-block allocated)
+    (when (>= (- (car allocated-block) first-available) required-size)
+      (return-from find-free-block first-available))
+    (setf first-available (1+ (cdr allocated-block))))
+  (when (>= (- (incf last-available) first-available) required-size)
+    (return-from find-free-block first-available)))
+
+;; Then apply the standard factorization, but using flet:
+(defun find-free-block (allocated first-available last-available required-size)
+  (flet ((common-code (address)
+           (when (>= (- address first-available) required-size)
+             (return-from find-free-block  first-available))))
+    (dolist (allocated-block allocated)
+      (common-code (car allocated-block))
+      (setf first-available (1+ (cdr allocated-block))))
+    (common-code (incf last-available))))
 
 (defclass exec ()
   (preferred-address
