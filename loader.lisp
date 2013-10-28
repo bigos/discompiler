@@ -19,16 +19,20 @@ Create initial heap and stack using values from PE header.
 Create main thread and start the process.
 |#
 
-(defparameter *allocated*)
+(defparameter *allocated* nil)
+
+;(defun allocate-block (addr size))
 
 (defun load-in-memory (bytes preferred-addr)
   "simulate loading executable in memory"
-  (if (is-block-available *allocated* preferred-addr (array-total-size bytes))
-      ;;allocate preferred
-      ;;if available
-      ;;allocate available
-      ;;else raise error
-      ))
+  (let ((size (array-total-size bytes)))
+    (if (is-block-available *allocated* preferred-addr (array-total-size bytes))
+        nil
+        ;;(allocate-block preferred-addr size)
+        ;;if available
+        ;;allocate available
+        ;;else raise error
+        )))
 
 (defun find-free (allocated first-available last-available)
   (let ((found-free) (last-allocated))
