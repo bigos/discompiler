@@ -39,8 +39,8 @@
     (assert-equalp nil (find-free-block allocated start end 6))
     (assert-equalp 9 (find-free-block allocated-edges start end 7))
     (assert-equalp nil (find-free-block allocated-edges start end 8))
-    (assert-equal T (is-block-available allocated start 2))
-    (assert-equal nil (is-block-available allocated start 3))))
+    (assert-equalp T (is-block-available allocated start 2))
+    (assert-equalp nil (is-block-available allocated start 3))))
 
 (define-test test-addition
   "test simple addition"

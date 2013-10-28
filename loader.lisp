@@ -63,14 +63,10 @@ Create main thread and start the process.
                            required-size)))))
 
 (defun find-free-block (allocated first-available last-available required-size)
-  (let ((res (find-free-block-rec allocated first-available required-size))
-        (last-alloc))
-    (if (not res)
-        (progn
-          (setf last-alloc (cdar (last allocated)))
-          (if (>= (- last-available last-alloc ) required-size)
-              (1+ last-alloc)))
-        res)))
+   (find-free-block-rec
+    (append allocated (list (cons (1+ last-available) T)))
+    first-available
+    required-size))
 
 (defclass exec ()
   (preferred-address
