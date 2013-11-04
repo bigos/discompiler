@@ -49,13 +49,12 @@ Create main thread and start the process.
         (return avail))))
 
 (defun allocate-block (allocated start end size)
-  (let ((found) (res allocated))
+  (let ((found))
     (if (setf found (car (find-free-block allocated start end size)))
       (progn
-        (push (cons found (+ found size -1 )) res)
-        (sort res #'< :key #'car)
-        allocated)
-      allocated)))
+        (push (cons found (+ found size -1 )) allocated)
+        (sort allocated #'< :key #'car)))
+     found))
 
 (defclass exec ()
   (preferred-address
