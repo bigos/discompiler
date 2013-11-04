@@ -21,8 +21,6 @@ Create main thread and start the process.
 
 (defparameter *allocated* nil)
 
-;(defun allocate-block (addr size))
-
 (defun load-in-memory (bytes preferred-addr)
   "simulate loading executable in memory"
   (let ((size (array-total-size bytes)))
@@ -45,53 +43,19 @@ Create main thread and start the process.
       (push (cons (1+ last-allocated) last-available) found-free))
     (reverse found-free)))
 
-(defun is-block-available (allocated addr size)
-  (let ((result))
-      (dolist (allocated-block allocated)
-        (if (or (and (>= addr (car allocated-block))
-                     (<= addr (cdr allocated-block)))
-                (and (>= (+ addr size -1) (car allocated-block))
-                     (<= (+ addr size -1) (cdr allocated-block))))
-            (setf result T)))
-      (not result)))
+(defun find-free-block (allocated start end size)
+  (dolist (avail (find-free allocated start end))
+    (if (>= (1+ (- (cdr avail) (car avail))) size)
+        (return avail))))
 
-;; (defun find-free-block (allocated first-available last-available required-size)
-;;   (dolist (allocated-block allocated)
-;;     (if (>= (- (car allocated-block) first-available)
-;;             required-size)
-;;         (return first-available)
-;;         (setf first-available (1+ (cdr allocated-block)))))
-;;   (if (>= (- (incf last-available) first-available)
-;;           required-size)
-;;       first-available))
-
-;; First, transform it to have really some code duplication:
-;; (defun find-free-block (allocated first-available last-available required-size)
-;;   (dolist (allocated-block allocated)
-;;     (when (>= (- (car allocated-block) first-available) required-size)
-;;       (return-from find-free-block first-available))
-;;     (setf first-available (1+ (cdr allocated-block))))
-;;   (when (>= (- (incf last-available) first-available) required-size)
-;;     (return-from find-free-block first-available)))
-
-;; Then apply the standard factorization, but using flet:
-(defun find-free-block (allocated first-available last-available required-size)
-  (flet ((common-code (address)
-           (when (>= (- address first-available) required-size)
-             (return-from find-free-block  first-available))))
-    (dolist (allocated-block allocated)
-      (common-code (car allocated-block))
-      (setf first-available (1+ (cdr allocated-block))))
-    (common-code (incf last-available))))
-
-(defun allocate-block (allocated start size)
-  (if (is-block-available allocated start size)
+(defun allocate-block (allocated start end size)
+  (let ((found) (res allocated))
+    (if (setf found (car (find-free-block allocated start end size)))
       (progn
-        (push (cons start (+ start size -1 )) allocated)
-        (sort allocated #'< :key #'car))
-      (progn
-        (format t "allocation error")
-        nil)))
+        (push (cons found (+ found size -1 )) res)
+        (sort res #'< :key #'car)
+        allocated)
+      allocated)))
 
 (defclass exec ()
   (preferred-address
