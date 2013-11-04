@@ -84,6 +84,13 @@ Create main thread and start the process.
       (setf first-available (1+ (cdr allocated-block))))
     (common-code (incf last-available))))
 
+(defun allocate-block (allocated start size)
+  (if (is-block-available allocated start size)
+      (progn
+       ;todo (insert allocated (cons start (+ start size)))
+        )
+      (format t "allocation error")))
+
 (defclass exec ()
   (preferred-address
    obtained-address))
