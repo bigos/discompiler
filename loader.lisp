@@ -87,9 +87,11 @@ Create main thread and start the process.
 (defun allocate-block (allocated start size)
   (if (is-block-available allocated start size)
       (progn
-       ;todo (insert allocated (cons start (+ start size)))
-        )
-      (format t "allocation error")))
+        (push (cons start (+ start size -1 )) allocated)
+        (sort allocated #'< :key #'car))
+      (progn
+        (format t "allocation error")
+        nil)))
 
 (defclass exec ()
   (preferred-address
