@@ -24,7 +24,7 @@ Create main thread and start the process.
    (start :accessor start :initform 1)
    (end :accessor end :initform 20)))
 
-;; need this to be run after initialisation
+;; need this to be run after creating an object
 (defmethod initialize-instance :after ((self memory) &key)
   (setf (allocated self) (list (cons (end self) (end self)))))
 
@@ -44,30 +44,36 @@ Create main thread and start the process.
 
 (defvar *memory* (make-instance 'memory))
 
-(defparameter *allocated* nil)
+
 
 (defun load-in-memory (bytes preferred-addr)
   "simulate loading executable in memory"
   (let ((size (array-total-size bytes)))
-    (if (is-block-available *allocated* preferred-addr (array-total-size bytes))
-        nil
-        ;;(allocate-block preferred-addr size)
-        ;;if available
-        ;;allocate available
-        ;;else raise error
-        )))
+   ;
+    ;; (if (is-block-available *allocated* preferred-addr (array-total-size bytes))
+    ;;     nil
+    ;;     ;;(allocate-block preferred-addr size)
+    ;;     ;;if available
+    ;;     ;;allocate available
+    ;;     ;;else raise error
+    ;;                                     ;
+    ;;     )
+    ))
 
-(defun find-free-block (allocated start end size)
-  (dolist (avail (find-free allocated start end))
-    (if (>= (1+ (- (cdr avail) (car avail))) size)
-        (return avail))))
+(defgeneric find-free-block (memory size))
+(defmethod find-free-block ((self memory) size)
+  ;; (dolist (avail (find-free self))
+  ;;   (if (>= (1+ (- (cdr avail) (car avail))) size)
+  ;;       (return avail)))
+)
 
-(defun allocate-block (allocated start end size)
+(defgeneric allocate-block (memory size))
+(defmethod allocate-block ((self memory) size)
   (let ((found))
-    (if (setf found (car (find-free-block allocated start end size)))
-      (progn
-        (push (cons found (+ found size -1 )) allocated)
-        (sort allocated #'< :key #'car)))
+    ;; (if (setf found (car (find-free-block self size)))
+    ;;   (progn
+    ;;     (push (cons found (+ found size -1 )) allocated)
+    ;;     (sort allocated #'< :key #'car)))
      found))
 
 (defclass exec ()
