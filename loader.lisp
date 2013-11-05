@@ -20,9 +20,13 @@ Create main thread and start the process.
 |#
 
 (defclass memory ()
-  ((allocated :accessor allocated :initform nil)
+  ((allocated :accessor allocated )
    (start :accessor start :initform 1)
    (end :accessor end :initform 20)))
+
+;; need this to be run after initialisation
+(defmethod initialize-instance :after ((self memory) &key)
+  (setf (allocated self) (list (cons (end self) (end self)))))
 
 (defgeneric find-free (memory))
 (defmethod find-free ((self memory))
