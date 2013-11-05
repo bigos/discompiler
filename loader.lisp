@@ -62,18 +62,17 @@ Create main thread and start the process.
 
 (defgeneric find-free-block (memory size))
 (defmethod find-free-block ((self memory) size)
-  ;; (dolist (avail (find-free self))
-  ;;   (if (>= (1+ (- (cdr avail) (car avail))) size)
-  ;;       (return avail)))
-)
+  (dolist (avail (find-free self))
+    (if (>= (1+ (- (cdr avail) (car avail))) size)
+        (return avail))))
 
 (defgeneric allocate-block (memory size))
 (defmethod allocate-block ((self memory) size)
   (let ((found))
-    ;; (if (setf found (car (find-free-block self size)))
-    ;;   (progn
-    ;;     (push (cons found (+ found size -1 )) allocated)
-    ;;     (sort allocated #'< :key #'car)))
+    (if (setf found (car (find-free-block self size)))
+      (progn
+        (push (cons found (+ found size -1 )) (allocated self))
+        (sort (allocated self) #'< :key #'car)))
      found))
 
 (defclass exec ()
