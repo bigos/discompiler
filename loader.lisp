@@ -19,6 +19,27 @@ Create initial heap and stack using values from PE header.
 Create main thread and start the process.
 |#
 
+(defclass memory ()
+  ((allocated :accessor allocated :initform nil)
+   (start :accessor start :initform 1)
+   (end :accessor end :initform 20)))
+
+(defgeneric find-free (memory))
+(defmethod find-free ((self memory))
+  (declare (optimize (speed 0) (space 1) (compilation-speed 0) (debug 3)))
+  (let ((found-free) (last-allocated) (first-available (start self)))
+    (dolist (allocated-block (allocated self))
+      (when (not (eq (car allocated-block) first-available))
+        (push (cons first-available (1- (car allocated-block))) found-free))
+      (setf first-available (1+ (cdr allocated-block)))
+      )
+    (setf last-allocated (cdar (last (allocated self))))
+    (when (< last-allocated (end self))
+      (push (cons (1+ last-allocated) (end self)) found-free))
+    (reverse found-free)))
+
+(defvar *memory* (make-instance 'memory))
+
 (defparameter *allocated* nil)
 
 (defun load-in-memory (bytes preferred-addr)
@@ -31,17 +52,6 @@ Create main thread and start the process.
         ;;allocate available
         ;;else raise error
         )))
-
-(defun find-free (allocated first-available last-available)
-  (let ((found-free) (last-allocated))
-    (dolist (allocated-block allocated)
-      (when (not (eq (car allocated-block) first-available))
-        (push (cons first-available (1- (car allocated-block))) found-free))
-      (setf first-available (1+ (cdr allocated-block))))
-    (setf last-allocated (cdar (last allocated)))
-    (when (< last-allocated last-available)
-      (push (cons (1+ last-allocated) last-available) found-free))
-    (reverse found-free)))
 
 (defun find-free-block (allocated start end size)
   (dolist (avail (find-free allocated start end))
