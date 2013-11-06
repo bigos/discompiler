@@ -78,9 +78,10 @@ Create main thread and start the process.
 ;;; incorporate in the class tomorrow
 (defgeneric remove-block (memory nth))
 (defmethod remove-block ((self memory) nth)
-  (append
-   (subseq (allocated self) 0 nth)
-   (subseq (allocated self) (1+ nth) (list-length (allocated self)))))
+  (setf (allocated self)
+        (append
+         (subseq (allocated self) 0 nth)
+         (subseq (allocated self) (1+ nth) (list-length (allocated self))))))
 
 
 (defclass exec ()
