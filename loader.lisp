@@ -75,6 +75,13 @@ Create main thread and start the process.
         (sort (allocated self) #'< :key #'car)))
      found))
 
+;;; incorporate in the class tomorrow
+(defun remove-block (l x)
+  (append
+   (subseq l 0 x)
+   (subseq l (1+ x) (list-length l))))
+
+
 (defclass exec ()
   (preferred-address
    obtained-address))
