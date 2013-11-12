@@ -87,7 +87,9 @@ Create main thread and start the process.
   (if (find-preferred-block self size preferred)
       (progn
         (push (cons preferred (+ preferred size -1 )) (allocated self))
-        (sort (allocated self) #'< :key #'car))))
+        (sort (allocated self) #'< :key #'car)
+        preferred)
+      nil))
 
 ;;; incorporate in the class tomorrow
 (defgeneric remove-block (memory nth))

@@ -25,13 +25,10 @@
                'PE32)))
 
 (define-test test-allocation
-  (let ((memory (make-instance 'memory))
-        ;; (allocated '((5 . 7) (12 . 15)))
-        ;; (allocated-edges '((3 . 8) (16 . 20)))
-        )
+  (let ((memory (make-instance 'memory)))
     (assert-equalp '((1 . 19)) (find-free memory))
-    (assert-equalp) 8 (allocate-preferred-block memory 3 8)
-    (assert-equalp) nil (allocate-preferred-block memory 3 18)
+    (assert-equalp 8 (allocate-preferred-block memory 3 8))
+    (assert-equalp nil (allocate-preferred-block memory 3 18))
     ))
 
 (define-test test-addition
