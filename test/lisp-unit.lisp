@@ -25,21 +25,14 @@
                'PE32)))
 
 (define-test test-allocation
-  (let ((start 3)
-        (end 20)
-        (res)
-        (allocated '((5 . 7) (12 . 15)))
-        (allocated-edges '((3 . 8) (16 . 20))))
-    (assert-equalp '((3 . 4) (8 . 11) (16 . 20))
-                   (find-free allocated start end))
-    (assert-equalp '((9 . 15))
-                   (find-free allocated-edges start end))
-    (assert-equalp 3 (car (find-free-block allocated start end 2 )))
-    (assert-equalp 8 (car (find-free-block allocated start end 4 )))
-    (assert-equalp 16 (car (find-free-block allocated start end 5 )))
-    (assert-equalp nil (car (find-free-block allocated start end 6)))
-    (assert-equalp 9 (car (find-free-block allocated-edges start end 7)))
-    (assert-equalp nil (car (find-free-block allocated-edges start end 8)))))
+  (let ((memory (make-instance 'memory))
+        ;; (allocated '((5 . 7) (12 . 15)))
+        ;; (allocated-edges '((3 . 8) (16 . 20)))
+        )
+    (assert-equalp '((1 . 19)) (find-free memory))
+    (assert-equalp) 8 (allocate-preferred-block memory 3 8)
+    (assert-equalp) nil (allocate-preferred-block memory 3 18)
+    ))
 
 (define-test test-addition
   "test simple addition"

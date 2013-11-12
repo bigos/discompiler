@@ -66,6 +66,13 @@ Create main thread and start the process.
     (if (>= (1+ (- (cdr avail) (car avail))) size)
         (return avail))))
 
+(defgeneric find-preferred-block (memory size preferred))
+(defmethod find-preferred-block ((self memory) size preferred)
+  (dolist (avail (find-free self))
+    (if (and (<= (car avail) preferred)
+             (<= (+ preferred size -1) (cdr avail)))
+        (return avail))))
+
 (defgeneric allocate-block (memory size))
 (defmethod allocate-block ((self memory) size)
   (let ((found))
@@ -74,6 +81,13 @@ Create main thread and start the process.
         (push (cons found (+ found size -1 )) (allocated self))
         (sort (allocated self) #'< :key #'car)))
      found))
+
+(defgeneric allocate-preferred-block (memory size preferred))
+(defmethod allocate-preferred-block ((self memory) size preferred)
+  (if (find-preferred-block self size preferred)
+      (progn
+        (push (cons preferred (+ preferred size -1 )) (allocated self))
+        (sort (allocated self) #'< :key #'car))))
 
 ;;; incorporate in the class tomorrow
 (defgeneric remove-block (memory nth))
