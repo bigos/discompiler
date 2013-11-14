@@ -97,8 +97,7 @@ Create main thread and start the process.
   (setf (allocated self)
         (append
          (subseq (allocated self) 0 nth)
-         (subseq (allocated self) (1+ nth) (list-length (allocated self))))))
-
+         (subseq (allocated self) (1+ nth)))))
 
 (defclass exec ()
   (preferred-address
