@@ -22,7 +22,7 @@ Create main thread and start the process.
 (defclass memory ()
   ((allocated :accessor allocated )
    (start :accessor start :initform 1)
-   (end :accessor end :initform 20)))
+   (end :accessor end :initform 100)))
 
 ;; need this to be run after creating an object
 (defmethod initialize-instance :after ((self memory) &key)

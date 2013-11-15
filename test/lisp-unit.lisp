@@ -26,10 +26,10 @@
 
 (define-test test-allocation
   (let ((memory (make-instance 'memory)))
-    (assert-equalp '((1 . 19)) (find-free memory))
+    (assert-equalp '((1 . 99)) (find-free memory))
     (assert-equalp 8 (allocate-preferred-block memory 3 8))
-    (assert-equalp 18 (allocate-preferred-block memory 2 18))
-    (assert-equalp nil (allocate-preferred-block memory 3 18))))
+    (assert-equalp 98 (allocate-preferred-block memory 2 98))
+    (assert-equalp nil (allocate-preferred-block memory 3 98))))
 
 (define-test test-block-addressing
   (let ((memory (make-instance 'memory)))
