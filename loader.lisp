@@ -99,6 +99,22 @@ Create main thread and start the process.
          (subseq (allocated self) 0 nth)
          (subseq (allocated self) (1+ nth)))))
 
+(defgeneric get-allocated (memory addr))
+(defmethod get-allocated ((self memory) addr)
+  (dolist (alloc (allocated self))
+    (if (and (>= (car alloc) addr)
+               (<= (cdr alloc) addr))
+      (return -1))) ;need to get correct value when i finish set-allocated function
+  'zum)
+
+(defgeneric set-allocated (memory addr val))
+(defmethod set-allocated ((self memory) addr val)
+  (dolist (alloc (allocated self))
+    (if (and (>= (car alloc) addr)
+             (<= (cdr alloc) addr))
+        (return -1)))
+  'zam)
+
 (defclass exec ()
   (preferred-address
    obtained-address))
