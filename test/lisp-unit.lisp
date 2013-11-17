@@ -36,15 +36,15 @@
           (bl0 (allocate-preferred-block memory 3 1))
           (bl1 (allocate-preferred-block memory 3 5)))
       ;; insert data into block 0
-      (assert-equalp 1) (set-allocated memory 1 1)
-      (assert-equalp 1) (set-allocated memory 2 2)
-      (assert-equalp 1) (set-allocated memory 3 3)
+      (assert-equalp 1 (set-allocated memory 1 11))
+      (assert-equalp 2 (set-allocated memory 2 12))
+      (assert-equalp 3 (set-allocated memory 3 13))
       ;; test if setting outside of block boundaries works as expected
       ;; need to work out how to check for errors in lisp-unit
       ;; and eventually use errors
-      (assert-equalp nil (set-allocated memory 0 1))
-      (Assert-equalp nil (set-allocated memory 4 1))
-      (assert-equalp nil (set-allocated memory 8 1))
+      (assert-error 'simple-error (set-allocated memory 0 1))
+      (Assert-error 'simple-error (set-allocated memory 4 1))
+      (assert-error 'simple-error (set-allocated memory 8 1))
       ;; insert data into block 1
       (assert-equalp 5 (set-allocated memory 5 15))
       (assert-equalp 6 (set-allocated memory 6 26))
@@ -52,9 +52,15 @@
       ;; remove allocated block
       (remove-block memory 1)
       ;; test if setting values on deallocated block works as expected
-      (assert-equalp nil (set-allocated memory 5 15))
-      (assert-equalp nil (set-allocated memory 7 37))
+      (assert-error 'simple-error (set-allocated memory 5 15))
+      (assert-error 'simple-error (set-allocated memory 7 37))
       ;; probably have to fill newly allocated block with 0s
+      (allocate-preferred-block memory 3 5)
+      (assert-error 'simple-error (get-allocated memory 4))
+      (assert-equalp 0 (get-allocated memory 5))
+      (assert-equalp 0 (get-allocated memory 6))
+      (assert-equalp 0 (get-allocated memory 7))
+      (assert-error 'simple-error (get-allocated memory 8))
       ))
 
 (define-test test-addition
