@@ -32,9 +32,30 @@
     (assert-equalp nil (allocate-preferred-block memory 3 98))))
 
 (define-test test-block-addressing
-  (let ((memory (make-instance 'memory)))
-    ;; todo start working on addressing of allocated blocks
-    ))
+    (let ((memory (make-instance 'memory))
+          (bl0 (allocate-preferred-block memory 3 1))
+          (bl1 (allocate-preferred-block memory 3 5)))
+      ;; insert data into block 0
+      (assert-equalp 1) (set-allocated memory 1 1)
+      (assert-equalp 1) (set-allocated memory 2 2)
+      (assert-equalp 1) (set-allocated memory 3 3)
+      ;; test if setting outside of block boundaries works as expected
+      ;; need to work out how to check for errors in lisp-unit
+      ;; and eventually use errors
+      (assert-equalp nil (set-allocated memory 0 1))
+      (Assert-equalp nil (set-allocated memory 4 1))
+      (assert-equalp nil (set-allocated memory 8 1))
+      ;; insert data into block 1
+      (assert-equalp 5 (set-allocated memory 5 15))
+      (assert-equalp 6 (set-allocated memory 6 26))
+      (assert-equalp 7 (set-allocated memory 7 37))
+      ;; remove allocated block
+      (remove-block memory 1)
+      ;; test if setting values on deallocated block works as expected
+      (assert-equalp nil (set-allocated memory 5 15))
+      (assert-equalp nil (set-allocated memory 7 37))
+      ;; probably have to fill newly allocated block with 0s
+      ))
 
 (define-test test-addition
   "test simple addition"
