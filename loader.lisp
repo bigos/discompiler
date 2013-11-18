@@ -21,6 +21,7 @@ Create main thread and start the process.
 
 (defclass memory ()
   ((allocated :accessor allocated )
+   (blocks :accessor blocks :initform nil)
    (start :accessor start :initform 1)
    (end :accessor end :initform 100)))
 
@@ -79,6 +80,7 @@ Create main thread and start the process.
     (if (setf found (car (find-free-block self size)))
       (progn
         (push (cons found (+ found size -1 )) (allocated self))
+        (push (make-instance 'memory-block :start found :size size) (blocks self))
         (sort (allocated self) #'< :key #'car)))
      found))
 
@@ -87,6 +89,7 @@ Create main thread and start the process.
   (if (find-preferred-block self size preferred)
       (progn
         (push (cons preferred (+ preferred size -1 )) (allocated self))
+        (push (list (make-instance 'memory-block :start preferred :size size)) (blocks self))
         (sort (allocated self) #'< :key #'car)
         preferred)
       nil))
