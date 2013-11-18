@@ -21,6 +21,7 @@ Create main thread and start the process.
 
 (defclass memory ()
   ((allocated :accessor allocated )
+   (blocks :accessor blocks :initform nil)
    (start :accessor start :initform 1)
    (end :accessor end :initform 100)))
 
@@ -79,6 +80,7 @@ Create main thread and start the process.
     (if (setf found (car (find-free-block self size)))
       (progn
         (push (cons found (+ found size -1 )) (allocated self))
+        (push (make-instance 'memory-block :start found :size size) (blocks self))
         (sort (allocated self) #'< :key #'car)))
      found))
 
@@ -87,6 +89,7 @@ Create main thread and start the process.
   (if (find-preferred-block self size preferred)
       (progn
         (push (cons preferred (+ preferred size -1 )) (allocated self))
+        (push (list (make-instance 'memory-block :start preferred :size size)) (blocks self))
         (sort (allocated self) #'< :key #'car)
         preferred)
       nil))
@@ -100,6 +103,35 @@ Create main thread and start the process.
          (subseq (allocated self) 0 nth)
          (subseq (allocated self) (1+ nth)))))
 
+(defgeneric get-allocated (memory addr))
+(defmethod get-allocated ((self memory) addr)
+  (dolist (alloc (allocated self))
+    (if (and (>= (car alloc) addr)
+               (<= (cdr alloc) addr))
+      (return -1))) ;need to get correct value when i finish set-allocated function
+  'zum)
+
+(defgeneric set-allocated (memory addr val))
+(defmethod set-allocated ((self memory) addr val)
+  (dolist (alloc (allocated self))
+    (if (and (>= (car alloc) addr)
+             (<= (cdr alloc) addr))
+        (return -1)))
+  'zam)
+
 (defclass exec ()
   (preferred-address
    obtained-address))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(defclass memory-block ()
+  ((start :reader start :initarg :start)
+   (end :accessor end)
+   (size :reader size :initarg :size)
+   (data :accessor data )))
+
+
+(defmethod initialize-instance :after ((self memory-block) &key)
+  (setf (end self) (+ (size self) (start self) -1))
+  (setf (data self) (make-array (1+ (- (end self) (start self)))
+                                :initial-element 0)) )
