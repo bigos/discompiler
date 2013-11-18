@@ -89,7 +89,7 @@ Create main thread and start the process.
   (if (find-preferred-block self size preferred)
       (progn
         (push (cons preferred (+ preferred size -1 )) (allocated self))
-        (push (list (make-instance 'memory-block :start preferred :size size)) (blocks self))
+        (push (make-instance 'memory-block :start preferred :size size) (blocks self))
         (sort (allocated self) #'< :key #'car)
         preferred)
       nil))
