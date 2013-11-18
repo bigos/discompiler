@@ -113,10 +113,15 @@ Create main thread and start the process.
 
 (defgeneric set-allocated (memory addr val))
 (defmethod set-allocated ((self memory) addr val)
-  (dolist (alloc (allocated self))
-    (if (and (>= (car alloc) addr)
-             (<= (cdr alloc) addr))
-        (return -1)))
+  (dolist (alloc (blocks self))
+    (format t "~S : ~S ~S ~S : ~S ~%" alloc
+            (start alloc) addr (end alloc)
+            (<= (start alloc) addr  (end alloc)))
+    (if  (<= (start alloc) addr (end alloc))
+         (progn
+           (format t "in true")
+           (setf (aref (data alloc) (- addr (start alloc))) val)
+           (return addr))))
   'zam)
 
 (defclass exec ()
