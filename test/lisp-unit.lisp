@@ -29,7 +29,20 @@
     (assert-equalp '((1 . 99)) (find-free mem))
     (assert-equalp 8 (allocate-preferred-block mem 3 8))
     (assert-equalp 98 (allocate-preferred-block mem 2 98))
-    (assert-equalp nil (allocate-preferred-block mem 3 98))))
+    (assert-equalp nil (allocate-preferred-block mem 3 98))
+    ;; check allocated blocks
+    (assert-equalp 2 (length (blocks mem)))
+    (assert-equalp 3 (length (allocated mem)))
+    ;; trying  to deallocate with incorrect block start
+    (remove-allocated mem 7)
+    ;; should not work
+    (assert-equalp 2 (length (blocks mem)))
+    (assert-equalp 3 (length (allocated mem)))
+    ;; but deallocating giving correct block start
+    (remove-allocated mem 8)
+    ;; should work
+    (assert-equalp 1 (length (blocks mem)))
+    (assert-equalp 2 (length (allocated mem)))))
 
 (define-test test-block-addressing
   (let ((mem (make-instance 'memory)))
