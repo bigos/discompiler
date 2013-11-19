@@ -105,28 +105,27 @@ Create main thread and start the process.
 
 (defgeneric get-allocated (memory addr))
 (defmethod get-allocated ((self memory) addr)
-  (dolist (alloc (allocated self))
-    (if (and (>= (car alloc) addr)
-               (<= (cdr alloc) addr))
-      (return -1))) ;need to get correct value when i finish set-allocated function
-  'zum)
+    (let ((found))
+      (dolist (alloc (blocks self))
+        (if  (<= (start alloc) addr (end alloc))
+             (return (setf found (aref (data alloc) (- addr (start alloc)))))))
+      (if found
+          found
+          (error "address ~S is not valid" addr))))
 
 (defgeneric set-allocated (memory addr val))
 (defmethod set-allocated ((self memory) addr val)
-  (let* ((found nil))
+  (let ((found))
     (dolist (alloc (blocks self))
-      (format t "~S : ~S ~S ~S : ~S ~%" alloc
-              (start alloc) addr (end alloc)
-              (<= (start alloc) addr  (end alloc)))
+      ;;(format t "~S : ~S ~S ~S : ~S ~%" alloc (start alloc) addr (end alloc) (<= (start alloc) addr  (end alloc)))
       (if  (<= (start alloc) addr (end alloc))
            (progn
-             (format t "in true")
              (setf (aref (data alloc) (- addr (start alloc))) val)
              (setq found T)
              (return addr))))
     (if found
         addr
-        'zam)))
+        (error "address ~S is not valid" addr))))
 
 (defclass exec ()
   (preferred-address
