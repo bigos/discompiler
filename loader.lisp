@@ -74,8 +74,8 @@ Create main thread and start the process.
              (<= (+ preferred size -1) (cdr avail)))
         (return avail))))
 
-(defgeneric allocate-block (memory size))
-(defmethod allocate-block ((self memory) size)
+(defgeneric allocate-available-block (memory size))
+(defmethod allocate-available-block ((self memory) size)
   (let ((found))
     (if (setf found (car (find-free-block self size)))
       (progn
@@ -93,6 +93,13 @@ Create main thread and start the process.
         (sort (allocated self) #'< :key #'car)
         preferred)
       nil))
+
+(defgeneric allocate-block (memory size preferred))
+(defmethod allocate-block ((self memory) size preferred)
+    (let ((allocated (allocate-preferred-block self size preferred)))
+      (if allocated
+          allocated
+          (allocate-available-block self size))))
 
 (defgeneric remove-allocated (memory start))
 (defmethod remove-allocated ((self memory) start)

@@ -42,7 +42,16 @@
     (remove-allocated mem 8)
     ;; should work
     (assert-equalp 1 (length (blocks mem)))
-    (assert-equalp 2 (length (allocated mem)))))
+    (assert-equalp 2 (length (allocated mem)))
+    ;; check allocation of first available block
+    (assert-equalp '((1 . 97)) (find-free mem))
+    (assert-equalp  1 (allocate-available-block mem 5))
+    (assert-equalp '((6 . 97)) (find-free mem))
+    ;; allocation of taken preferred address gives first available
+    (assert-equalp 6 (allocate-block mem 9 90))
+    ;; allocate available preferred address
+    (assert-equalp 90 (allocate-block mem 8 90))
+    ))
 
 (define-test test-block-addressing
   (let ((mem (make-instance 'memory)))
