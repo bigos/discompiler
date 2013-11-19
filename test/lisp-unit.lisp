@@ -51,7 +51,7 @@
     (assert-equalp 6 (allocate-block mem 9 90))
     ;; allocate available preferred address
     (assert-equalp 90 (allocate-block mem 8 90))
-    ))
+    (assert-equalp '((15 . 89)) (find-free mem))))
 
 (define-test test-block-addressing
   (let ((mem (make-instance 'memory)))
