@@ -94,14 +94,18 @@ Create main thread and start the process.
         preferred)
       nil))
 
-
-;;; incorporate in the class tomorrow
-(defgeneric remove-block (memory nth))
-(defmethod remove-block ((self memory) nth)
+(defgeneric remove-allocated (memory start))
+(defmethod remove-allocated ((self memory) start)
   (setf (allocated self)
-        (append
-         (subseq (allocated self) 0 nth)
-         (subseq (allocated self) (1+ nth)))))
+        (delete start (allocated self)
+                :test #'(lambda (ignore item)
+                          (if (equalp ignore (car item))
+                              T))))
+  (setf (blocks self)
+        (delete start (blocks self)
+                :test #'(lambda (ignore item)
+                          (if (equalp ignore (start item))
+                              T)))))
 
 (defgeneric get-allocated (memory addr))
 (defmethod get-allocated ((self memory) addr)

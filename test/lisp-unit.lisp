@@ -50,7 +50,7 @@
     (assert-equalp 6 (set-allocated mem 6 26))
     (assert-equalp 7 (set-allocated mem 7 37))
     ;; remove allocated block
-    (remove-block mem 1)
+    (remove-allocated mem 5)
     ;; test if setting values on deallocated block works as expected
     (assert-error 'simple-error (set-allocated mem 5 15))
     (assert-error 'simple-error (set-allocated mem 7 37))
