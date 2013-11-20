@@ -43,8 +43,6 @@ Create main thread and start the process.
       (push (cons (1+ last-allocated) (end self)) found-free))
     (reverse found-free)))
 
-(defvar *memory* (make-instance 'memory :start 1 :end 100))
-
 (defun load-in-memory (bytes preferred-addr)
   "simulate loading executable in memory"
   (let ((size (array-total-size bytes)))
