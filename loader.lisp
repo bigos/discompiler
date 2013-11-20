@@ -20,7 +20,7 @@ Create main thread and start the process.
 |#
 
 (defclass memory ()
-  ((allocated :accessor allocated )
+  ((allocated :accessor allocated)
    (blocks :accessor blocks :initform nil)
    (start :accessor start :initarg :start)
    (end :accessor end :initarg :end)))
@@ -43,9 +43,7 @@ Create main thread and start the process.
       (push (cons (1+ last-allocated) (end self)) found-free))
     (reverse found-free)))
 
-(defvar *memory* (make-instance 'memory))
-
-
+(defvar *memory* (make-instance 'memory :start 1 :end 100))
 
 (defun load-in-memory (bytes preferred-addr)
   "simulate loading executable in memory"
