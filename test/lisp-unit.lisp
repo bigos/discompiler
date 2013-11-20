@@ -25,7 +25,7 @@
                'PE32)))
 
 (define-test test-allocation
-  (let ((mem (make-instance 'memory)))
+  (let ((mem (make-instance 'memory :start 1 :end 100)))
     (assert-equalp '((1 . 99)) (find-free mem))
     (assert-equalp 8 (allocate-preferred-block mem 3 8))
     (assert-equalp 98 (allocate-preferred-block mem 2 98))
@@ -54,7 +54,7 @@
     (assert-equalp '((15 . 89)) (find-free mem))))
 
 (define-test test-block-addressing
-  (let ((mem (make-instance 'memory)))
+  (let ((mem (make-instance 'memory :start 1 :end 100)))
     (assert-equalp 1 (allocate-preferred-block mem 3 1))
     (assert-equalp 5 (allocate-preferred-block mem 3 5))
     ;; insert data into block 0

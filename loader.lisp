@@ -22,8 +22,8 @@ Create main thread and start the process.
 (defclass memory ()
   ((allocated :accessor allocated )
    (blocks :accessor blocks :initform nil)
-   (start :accessor start :initform 1)
-   (end :accessor end :initform 100)))
+   (start :accessor start :initarg :start)
+   (end :accessor end :initarg :end)))
 
 ;; need this to be run after creating an object
 (defmethod initialize-instance :after ((self memory) &key)
