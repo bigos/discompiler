@@ -27,8 +27,14 @@
 (define-test test-load-sample-file
   (let* ((file "~/discompiler/SampleExecutables/crackme12.exe")
          (bytes (file-to-bytes file))
-         (mem (make-instance 'memory :start #x110000 :end  #xFFFF0001)))
+         (mem (make-instance 'memory :start #x110000 :end  #xFFFF0001))
+         (base) (size-header) (section-alignment))
     (assert-equalp '((#x110000 . #xffff0000)) (find-free mem))
+    (assert-eq #x400000 (setf base (image-base *bytes*)))
+    (assert-eq 1024 (setf size-header (struct-value "SizeOfHeaders" (optional-header bytes))))
+    (assert-eq base (allocate-preferred-block mem size-header base))
+    (assert-equalp '((#x110000 . #x3FFFFF) (#x400400 . #xffff0000)) (find-free mem))
+    (assert-eq 4096 (setf section-alignment (struct-value "SectionAlignment" (optional-header bytes))))
       ))
 
 (define-test test-allocation

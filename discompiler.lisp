@@ -59,6 +59,9 @@
            flag)
      collect flag))
 
+(defun aligned-size (size alignment)
+  (* alignment (1+ (floor (1- size) alignment))))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
