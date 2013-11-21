@@ -35,6 +35,9 @@
     (assert-eq base (allocate-preferred-block mem size-header base))
     (assert-equalp '((#x110000 . #x3FFFFF) (#x400400 . #xffff0000)) (find-free mem))
     (assert-eq 4096 (setf section-alignment (struct-value "SectionAlignment" (optional-header bytes))))
+    ;; allocate sections
+    (dolist (sec (section-positions bytes))
+      )
       ))
 
 (define-test test-allocation

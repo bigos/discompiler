@@ -125,3 +125,16 @@
                      (bitfield-flags
                       (section-characteristics-codes)
                       (struct-value "Characteristics" s))))))
+
+(defun allocate-sections (bytes memory)
+  (let ((addr)
+        (size)
+        (image-base (struct-value "ImageBase" (optional-header bytes))))
+    (loop for s in (section-headers bytes)
+       do
+         (setf size (aligned-size
+                     (struct-value "VirtualSize" s)
+                     (struct-value "SectionAlignment" (optional-header bytes))))
+         (setf addr (+ image-base (struct-value "VirtualAddress" s)))
+         (format t "~S ~S~%~%" addr size)
+       collect (allocate-preferred-block memory size  addr))))
