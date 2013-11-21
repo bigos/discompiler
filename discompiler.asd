@@ -1,4 +1,3 @@
-
 (defsystem #:discompiler
   :serial t
   :version "0.0.1"
@@ -15,7 +14,8 @@
                                      (:file "section-table")
                                      (:file "byte-utilities")
                                      (:file "reference-data")
-                                     (:file "summary-table-columns")))
+                                     (:file "summary-table-columns")
+                                     (:file "header-info")))
                (:module "test"
                         :components ((:file "lisp-unit")
                                      (:file "tests")))
