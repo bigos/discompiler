@@ -24,6 +24,13 @@
     (assert-eq (optional-header-image-type bytes)
                'PE32)))
 
+(define-test test-load-sample-file
+  (let* ((file "~/discompiler/SampleExecutables/crackme12.exe")
+         (bytes (file-to-bytes file))
+         (mem (make-instance 'memory :start #x110000 :end  #xFFFF0001)))
+    (assert-equalp '((#x110000 . #xffff0000)) (find-free mem))
+      ))
+
 (define-test test-allocation
   (let ((mem (make-instance 'memory :start 1 :end 100)))
     (assert-equalp '((1 . 99)) (find-free mem))
