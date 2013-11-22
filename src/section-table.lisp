@@ -136,5 +136,5 @@
                      (struct-value "VirtualSize" s)
                      (struct-value "SectionAlignment" (optional-header bytes))))
          (setf addr (+ image-base (struct-value "VirtualAddress" s)))
-         (format t "~S ~S~%~%" addr size)
-       collect (allocate-preferred-block memory size  addr))))
+         (format t "~S ~S ~S~%~%" addr (int-to-hex addr) size)
+         (allocate-preferred-block memory size addr))))

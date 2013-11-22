@@ -31,13 +31,14 @@
          (base) (size-header) (section-alignment))
     (assert-equalp '((#x110000 . #xffff0000)) (find-free mem))
     (assert-eq #x400000 (setf base (image-base *bytes*)))
+    ;; the size is probably wrong
     (assert-eq 1024 (setf size-header (struct-value "SizeOfHeaders" (optional-header bytes))))
     (assert-eq base (allocate-preferred-block mem size-header base))
     (assert-equalp '((#x110000 . #x3FFFFF) (#x400400 . #xffff0000)) (find-free mem))
     (assert-eq 4096 (setf section-alignment (struct-value "SectionAlignment" (optional-header bytes))))
     ;; allocate sections
     (allocate-sections bytes mem)
-    (assert-equalp '() (find-free mem))
+    (assert-equalp '((#x110000 . #x3FFFFF) (#x400400 . #xffff0000)) (find-free mem))
     (assert-equalp '() (butlast (allocated mem)))
       ))
 
