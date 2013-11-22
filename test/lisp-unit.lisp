@@ -31,18 +31,21 @@
          (base) (size-header) (section-alignment))
     (assert-equalp '((#x110000 . #xffff0000)) (find-free mem))
     (assert-eq #x400000 (setf base (image-base *bytes*)))
-    ;; the size is probably wrong
-    (assert-eq 1024 (setf size-header (struct-value "SizeOfHeaders" (optional-header bytes))))
+    (assert-eq 1024 (struct-value "SizeOfHeaders" (optional-header bytes)))
+    (assert-eq 4096 (setf size-header (aligned-size
+                                       (struct-value "SizeOfHeaders" (optional-header bytes))
+                                       (struct-value "SectionAlignment" (optional-header bytes)))))
     (assert-eq base (allocate-preferred-block mem size-header base))
     (assert-equalp '((#x110000 . #x3FFFFF) (#x400400 . #xffff0000)) (find-free mem))
     (assert-eq 4096 (setf section-alignment (struct-value "SectionAlignment" (optional-header bytes))))
-    ;; allocate sections
     (allocate-sections bytes mem)
-    (assert-equalp '((#x110000 . #x3FFFFF) (#x405000 . #xffff0000)) (find-free mem))
+    (assert-equalp '((#x110000 . #x3FFFFF)
+                     (#x405000 . #xffff0000)) (find-free mem)) ;; verify if find-free returns correct values
     (assert-equalp '((#x400000 . #x400fff)
                      (#x401000 . #x401fff)
-                     (#x402000 . #x402fff )
-                     (#x403000 . #x403fff ) (#x404000 . #x404fff)) (butlast (allocated mem)))
+                     (#x402000 . #x402fff)
+                     (#x403000 . #x403fff)
+                     (#x404000 . #x404fff)) (butlast (allocated mem)))
     ))
 
 (define-test test-allocation
