@@ -38,9 +38,12 @@
     (assert-eq 4096 (setf section-alignment (struct-value "SectionAlignment" (optional-header bytes))))
     ;; allocate sections
     (allocate-sections bytes mem)
-    (assert-equalp '((#x110000 . #x3FFFFF) (#x400400 . #xffff0000)) (find-free mem))
-    (assert-equalp '() (butlast (allocated mem)))
-      ))
+    (assert-equalp '((#x110000 . #x3FFFFF) (#x405000 . #xffff0000)) (find-free mem))
+    (assert-equalp '((#x400000 . #x400fff)
+                     (#x401000 . #x401fff)
+                     (#x402000 . #x402fff )
+                     (#x403000 . #x403fff ) (#x404000 . #x404fff)) (butlast (allocated mem)))
+    ))
 
 (define-test test-allocation
   (let ((mem (make-instance 'memory :start 1 :end 100)))
