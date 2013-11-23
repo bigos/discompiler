@@ -26,7 +26,7 @@
   (let ((bytes) (index 0) (size))
     (with-open-file (stream file :element-type 'unsigned-byte)
       (setf size (file-length stream))
-      (setf bytes (make-array size))
+      (setf bytes (make-array size :element-type 'unsigned-byte))
       (do ((byte (read-byte stream nil)
                  (read-byte stream nil)))
           ((null byte))

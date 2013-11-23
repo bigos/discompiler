@@ -147,5 +147,6 @@
        ;; in loaded rdata section
        ;; use following command $ objdump -x ./your.exe | less
 
-       ;; (allocate-preferred-block memory size addr)
+         (allocate-preferred-block memory size addr)
+       ;; jjjj
          )))

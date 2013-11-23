@@ -49,6 +49,13 @@ Create main thread and start the process.
     (if (>= (1+ (- (cdr avail) (car avail))) size)
         (return avail))))
 
+(defgeneric find-next-free-block (memory size preferred))
+(defmethod find-next-free-block ((self memory) size preferred)
+  (dolist (avail (find-free self))
+    (if (and (>  (car avail) preferred)
+             (>= (1+ (- cdr avail) (car avail)) size))
+        (return avail)))))
+
 (defgeneric find-preferred-block (memory size preferred))
 (defmethod find-preferred-block ((self memory) size preferred)
   (dolist (avail (find-free self))
