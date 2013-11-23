@@ -43,20 +43,6 @@ Create main thread and start the process.
       (push (cons (1+ last-allocated) (end self)) found-free))
     (reverse found-free)))
 
-(defun load-in-memory (bytes preferred-addr)
-  "simulate loading executable in memory"
-  (let ((size (array-total-size bytes)))
-   ;
-    ;; (if (is-block-available *allocated* preferred-addr (array-total-size bytes))
-    ;;     nil
-    ;;     ;;(allocate-block preferred-addr size)
-    ;;     ;;if available
-    ;;     ;;allocate available
-    ;;     ;;else raise error
-    ;;                                     ;
-    ;;     )
-    ))
-
 (defgeneric find-free-block (memory size))
 (defmethod find-free-block ((self memory) size)
   (dolist (avail (find-free self))

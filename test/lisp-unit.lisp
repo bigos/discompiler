@@ -46,6 +46,12 @@
                      (#x402000 . #x402fff)
                      (#x403000 . #x403fff)
                      (#x404000 . #x404fff)) (butlast (allocated mem)))
+    ;; load sections first
+    ;; then check first bytes of loaded sections
+    (assert-eq #x6a (get-allocated mem #x401000))
+    (assert-eq #x5f (get-allocated mem #x402000))
+    (assert-eq #x41 (get-allocated mem #x403000))
+    (assert-eq #x00 (get-allocated mem #x404000))
     ))
 
 (define-test test-allocation

@@ -126,15 +126,26 @@
                       (section-characteristics-codes)
                       (struct-value "Characteristics" s))))))
 
-(defun allocate-sections (bytes memory)
+(defun allocate-and-load-sections (bytes memory)
   (let ((addr)
         (size)
-        (image-base (struct-value "ImageBase" (optional-header bytes))))
+        (image-base (struct-value "ImageBase" (optional-header bytes)))
+        (raw-pointer)
+        (raw-size))
     (loop for s in (section-headers bytes)
        do
+         (setf raw-pointer (struct-value "PointerToRawData" s))
+         (setf raw-size (struct-value "SizeOfRawData" s))
          (setf size (aligned-size
                      (struct-value "VirtualSize" s)
                      (struct-value "SectionAlignment" (optional-header bytes))))
          (setf addr (+ image-base (struct-value "VirtualAddress" s)))
-         ;;(format t "~S ~S ~S~%~%" addr (int-to-hex addr) size)
-         (allocate-preferred-block memory size addr))))
+         (format t "~S ~S ~S on file ~S ~S first byte ~X ~%~%"
+                 addr (int-to-hex addr) size
+                 raw-pointer raw-size (aref bytes raw-pointer))
+       ;; need to figure out why debugger shows unexpected padded data
+       ;; in loaded rdata section
+       ;; use following command $ objdump -x ./your.exe | less
+
+       ;; (allocate-preferred-block memory size addr)
+         )))
