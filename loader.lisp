@@ -66,13 +66,16 @@ Create main thread and start the process.
 
 (defgeneric allocate-available-block (memory size))
 (defmethod allocate-available-block ((self memory) size)
+  (labels ((alloc (f)
+             (push (cons f (+ f size -1 )) (allocated self))
+             (push (make-instance 'memory-block :start f :size size) (blocks self))
+             (sort (allocated self) #'< :key #'car))))
   (let ((found))
-    (if (setf found (car (find-free-block self size)))
-      (progn
-        (push (cons found (+ found size -1 )) (allocated self))
-        (push (make-instance 'memory-block :start found :size size) (blocks self))
-        (sort (allocated self) #'< :key #'car)))
-     found))
+    (cond ((setf found (car (find-free-block self size)))
+           (alloc found))
+          ((setf found (car (find-next-free-block self size)))
+           (alloc found))
+          (T found))))
 
 (defgeneric allocate-preferred-block (memory size preferred))
 (defmethod allocate-preferred-block ((self memory) size preferred)
