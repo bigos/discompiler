@@ -29,6 +29,8 @@ Create main thread and start the process.
 (defmethod initialize-instance :after ((self memory) &key)
   (setf (allocated self) (list (cons (end self) (end self)))))
 
+(defvar *memory* (make-instance 'memory :start #x110000 :end  #xFFFF0001))
+
 (defgeneric find-free (memory))
 (defmethod find-free ((self memory))
   (declare (optimize (speed 0) (space 1) (compilation-speed 0) (debug 3)))
