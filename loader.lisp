@@ -35,10 +35,10 @@ Create main thread and start the process.
 (defmethod find-free ((self memory))
   (declare (optimize (speed 0) (space 1) (compilation-speed 0) (debug 3)))
   (let ((found-free) (last-allocated) (first-available (start self)))
-    (dolist (allocated-block (allocated self))
-      (when (not (eq (car allocated-block) first-available))
-        (push (cons first-available (1- (car allocated-block))) found-free))
-      (setf first-available (1+ (cdr allocated-block)))
+    (dolist (allocated-range (allocated self))
+      (when (not (eq (car allocated-range) first-available))
+        (push (cons first-available (1- (car allocated-range))) found-free))
+      (setf first-available (1+ (cdr allocated-range)))
       )
     (setf last-allocated (cdar (last (allocated self))))
     (when (< last-allocated (end self))
@@ -98,10 +98,10 @@ Create main thread and start the process.
 
 (defgeneric allocate-block (memory size preferred))
 (defmethod allocate-block ((self memory) size preferred)
-    (let ((allocated (allocate-preferred-block self size preferred)))
-      (if allocated
-          allocated
-          (allocate-available-block self size))))
+  (let ((allocated (allocate-preferred-block self size preferred)))
+    (unless allocated
+      (setf allocated (allocate-available-block self size)))
+    allocated))
 
 (defgeneric remove-allocated (memory start))
 (defmethod remove-allocated ((self memory) start)
