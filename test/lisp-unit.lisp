@@ -50,7 +50,7 @@
     (allocate-and-load-sections bytes mem)
     ;; then check first bytes of loaded sections
     (assert-eq #x6a (get-allocated mem #x401000))
-    (assert-equal #(#x6a) (get-allocated-bytes mem #x401000 1))
+    (assert-equalp #(#x6a #x00 #xe8) (get-allocated-bytes mem #x401000 3))
     ;; this one has incorrect value for some reason
     ;; (assert-eq #x5f (get-allocated mem #x402000))
     (assert-eq #x41 (get-allocated mem #x403000))

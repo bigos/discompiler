@@ -126,6 +126,19 @@ Create main thread and start the process.
           found
           (error "address ~S is not valid" addr))))
 
+(defgeneric get-allocated-bytes (memory addr count))
+(defmethod get-allocated-bytes ((self memory) addr count)
+  (let ((found))
+    (dolist (alloc (blocks self))
+      (if  (<= (start alloc) addr (end alloc))
+           (return (setf found (subseq (data alloc)
+                                       (- addr (start alloc))
+                                       (+ (- addr (start alloc)) count))))))
+    (if found
+        found
+        (error "address ~S is not valid" addr)))
+  )
+
 (defgeneric set-allocated (memory addr val))
 (defmethod set-allocated ((self memory) addr val)
   (let ((found))
