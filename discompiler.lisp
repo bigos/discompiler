@@ -34,6 +34,11 @@
         (incf index))
       (values bytes size))))
 
+(defun load-bytes (file)
+  "use this function to avoid showing massive output for large files"
+  (setf *bytes* (file-to-bytes file))
+  "loaded")
+
 (defparameter *bytes* (file-to-bytes "~/discompiler/SampleExecutables/crackme12.exe"))
 
 (defun struct-value (name struct)

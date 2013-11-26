@@ -24,11 +24,26 @@
     (assert-eq (optional-header-image-type bytes)
                'PE32)))
 
+(define-test test-load-myfavlibrary
+  (let* ((file "~/discompiler/SampleExecutables/myfavlibrary.exe")
+         (bytes (file-to-bytes file))
+         (mem (make-instance 'memory :start #x110000 :end  #xFFFF0001)))
+    (assert-equalp #(75 77 21 177 248 104 180 41 239 172 255 187 89 19 216 164)
+                   (md5:md5sum-file file))
+    (allocate-and-load-sections bytes mem)
+    (assert-equalp #(#x55 #x8b #xec) (get-allocated-bytes mem #x401000 3))
+    (assert-equalp #(#x42 #x05 #xd3) (get-allocated-bytes mem #xb13000 3))
+    ;; (assert-equalp #(#x28 #x63 #xc1) (get-allocated-bytes mem #xd01000 3))
+    ;; (assert-equalp #(#x00 #x00 #x00) (get-allocated-bytes mem #xda0000 3))
+    ;; (assert-equalp #(#x00 #x10 #x00) (get-allocated-bytes mem #x109c000 3))
+
+    ))
+
 (define-test test-load-sample-file
   (let* ((file "~/discompiler/SampleExecutables/crackme12.exe")
          (bytes (file-to-bytes file))
          (mem (make-instance 'memory :start #x110000 :end  #xFFFF0001))
-         (base) (size-header) (section-alignment))
+         (base) (size-header) (section-alignment)  )
     (assert-equalp '((#x110000 . #xffff0000)) (find-free mem))
     (assert-eq #x400000 (setf base (image-base bytes)))
     (assert-eq 1024 (struct-value "SizeOfHeaders" (optional-header bytes)))
@@ -38,7 +53,9 @@
     (assert-eq base (allocate-preferred-block mem size-header base))
     (assert-equalp '((#x110000 . #x3FFFFF) (#x401000 . #xffff0000)) (find-free mem))
     (assert-eq 4096 (setf section-alignment (struct-value "SectionAlignment" (optional-header bytes))))
+    ;; load sections first
     (allocate-and-load-sections bytes mem)
+    ;; check allocation
     (assert-equalp '((#x110000 . #x3FFFFF)
                      (#x405000 . #xffff0000)) (find-free mem)) ;; verify if find-free returns correct values
     (assert-equalp '((#x400000 . #x400fff)
@@ -46,8 +63,6 @@
                      (#x402000 . #x402fff)
                      (#x403000 . #x403fff)
                      (#x404000 . #x404fff)) (butlast (allocated mem)))
-    ;; load sections first
-    (allocate-and-load-sections bytes mem)
     ;; then check first bytes of loaded sections
     (assert-eq #x6a (get-allocated mem #x401000))
     (assert-equalp #(#x6a #x00 #xe8) (get-allocated-bytes mem #x401000 3))
