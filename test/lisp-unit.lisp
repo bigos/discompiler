@@ -33,6 +33,7 @@
     (allocate-and-load-sections bytes mem)
     (assert-equalp #(#x55 #x8b #xec) (get-allocated-bytes mem #x401000 3))
     (assert-equalp #(#x42 #x05 #xd3) (get-allocated-bytes mem #xb13000 3))
+    ;; read this: http://en.wikipedia.org/wiki/Dynamic_linker
     ;; (assert-equalp #(#x28 #x63 #xc1) (get-allocated-bytes mem #xd01000 3))
     ;; (assert-equalp #(#x00 #x00 #x00) (get-allocated-bytes mem #xda0000 3))
     ;; (assert-equalp #(#x00 #x10 #x00) (get-allocated-bytes mem #x109c000 3))
