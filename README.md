@@ -18,3 +18,5 @@ http://en.wikibooks.org/wiki/X86_Disassembly/Windows_Executable_Files
 http://code.google.com/p/corkami/wiki/PE
 
 http://www.skyfree.org/linux/references/coff.pdf
+
+http://www.cultdeadcow.com/tools/pewrap.html
