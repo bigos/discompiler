@@ -20,3 +20,5 @@ http://code.google.com/p/corkami/wiki/PE
 http://www.skyfree.org/linux/references/coff.pdf
 
 http://www.cultdeadcow.com/tools/pewrap.html
+
+http://msdn.microsoft.com/en-us/windows/hardware/gg463119.aspx
