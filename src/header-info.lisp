@@ -20,7 +20,22 @@
                        to (1- (list-length rvas))
                        by 2
                        when (not (zerop (caddr (nth x rvas))))
-                       collect (list (nth x rvas) (nth (1+ x) rvas))))
+                       collect
+                         (list
+                          (nth x rvas)
+                          (nth (1+ x) rvas)
+                          "in memory from"
+                          (int-to-hex
+                           (+ (struct-value "ImageBase" opt-head)
+                              (nth 2 (nth x rvas))))
+                          "to"
+                          (int-to-hex
+                           (+ (struct-value "ImageBase" opt-head)
+                              (nth 2 (nth x rvas))
+                              (nth 2 (nth (1+ x) rvas))
+                              ))
+                          )
+                         ))
          (my-sections (section-headers bytes)))
     ;; (format t "~%~%>>>~S~%~%~%" rvas)
     (format t "~&PE header signature is ~a~%~%"
@@ -37,4 +52,5 @@
                            (struct-value "AddressOfEntryPoint" opt-head))))
     (format t "RVAs: ~S~%~%" used-rvas)
     (format t "sections ~a~%~%" (section-positions bytes))
-    my-sections))
+    my-sections)
+  )
