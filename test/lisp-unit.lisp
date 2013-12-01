@@ -70,6 +70,7 @@
     (assert-eq #x6a (get-allocated mem #x401000))
     (assert-equalp #(#x6a #x00 #xe8) (get-allocated-bytes mem #x401000 3))
     ;; this one has incorrect value for some reason
+    ;; latest MS documentation page 106
     ;; (assert-eq #x5f (get-allocated mem #x402000))
     ;; http://stackoverflow.com/questions/20268395/loading-windows-executable-unexpected-data-appended-to-sections-after-loading
     ;; still no answer on stack overflow
