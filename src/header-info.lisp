@@ -37,7 +37,6 @@
                           )
                          ))
          (my-sections (section-headers bytes)))
-    ;; (format t "~%~%>>>~S~%~%~%" rvas)
     (format t "~&PE header signature is ~a~%~%"
             (if (pe-header-signature-validp bytes) "valid" "INVALID"))
     (format t "header type ~a~%" header-type)

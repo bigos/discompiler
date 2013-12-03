@@ -106,6 +106,10 @@
                            (struct-value "PointerToRawData" s))
                      'to
                      (+ section-start (struct-value "SizeOfRawData" s) -1)
+                     'hex
+                     (format nil "~x Tohex ~x"
+                             section-start
+                             (+ section-start (struct-value "SizeOfRawData" s) -1) )
                      'hex-in-memory
                      (int-to-hex (setq section-memory-start
                                        (+ (image-base bytes)
@@ -151,10 +155,10 @@
        ;; in loaded rdata section
        ;; use following command $ objdump -x ./your.exe | less
 
-         (allocate-preferred-block memory size addr)
-         (setf mem-block (dolist (alloc (blocks memory))
-                           (when (= (start alloc) addr) (return alloc))))
+                     (allocate-preferred-block memory size addr)
+                     (setf mem-block (dolist (alloc (blocks memory))
+                                       (when (= (start alloc) addr) (return alloc))))
        ;; (format t "mem block ~S~%" mem-block)
-         (setf (subseq (data mem-block) 0)
-               (subseq bytes raw-pointer (+ raw-pointer raw-size)))
-         )))
+                     (setf (subseq (data mem-block) 0)
+                           (subseq bytes raw-pointer (+ raw-pointer raw-size)))
+                     )))
