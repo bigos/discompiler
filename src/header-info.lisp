@@ -49,7 +49,9 @@
     (format t "~& entry point in memory #x~a~%~%"
             (int-to-hex (+ (image-base bytes)
                            (struct-value "AddressOfEntryPoint" opt-head))))
-    (format t "RVAs: ~S~%~%" used-rvas)
+    (format t "RVAs: ~S~%~%" (sort used-rvas
+                                   #'<
+                                   :key #'(lambda (x) (nth 2 (car x)) )))
     (format t "sections ~a~%~%" (section-positions bytes))
     my-sections)
   )
