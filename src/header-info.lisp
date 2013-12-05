@@ -52,6 +52,7 @@
     (format t "RVAs: ~S~%~%" (sort used-rvas
                                    #'<
                                    :key #'(lambda (x) (nth 2 (car x)) )))
+    (format t "last 4 byte element of optional header hex ~X sections headers follow~%~%" (caar (last (optional-header *bytes*))))
     (format t "sections ~a~%~%" (section-positions bytes))
     my-sections)
   )
