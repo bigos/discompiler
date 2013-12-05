@@ -55,3 +55,11 @@
     (format t "sections ~a~%~%" (section-positions bytes))
     my-sections)
   )
+
+;; pecoff page 90
+;; However, some COFF sections have special meanings when found
+;; in object files or image files. Tools and loaders recognize these
+;; sections because they have special flags set in the section header,
+;; because special locations in the image optional header point to
+;; them, or because the section name itself indicates a special
+;; function of the section.
