@@ -64,3 +64,11 @@
 ;; because special locations in the image optional header point to
 ;; them, or because the section name itself indicates a special
 ;; function of the section.
+
+
+;; http://msdn.microsoft.com/en-us/magazine/cc301805.aspx
+;; section Importing Functions
+;; implicit vs explicit linking of libraries
+
+;; http://msdn.microsoft.com/en-us/magazine/cc301808.aspx
+;; imports section might help to move forward
