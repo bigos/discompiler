@@ -72,3 +72,7 @@
 
 ;; http://msdn.microsoft.com/en-us/magazine/cc301808.aspx
 ;; imports section might help to move forward
+
+;; http://msdn.microsoft.com/en-us/magazine/cc301805.aspx
+;; the linker often merges parts of the .idata into other sections,
+;; such as .rdata, when doing a release build.
