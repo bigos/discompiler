@@ -76,3 +76,9 @@
 ;; http://msdn.microsoft.com/en-us/magazine/cc301805.aspx
 ;; the linker often merges parts of the .idata into other sections,
 ;; such as .rdata, when doing a release build.
+
+
+;; another find
+;; .rdata secion on file has two sequences starting with F0 20
+;; one starts at a00 and the other starts at a60
+;; perhaps the first sequence gets overwritten with IAT RVA data by the loader
