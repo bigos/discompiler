@@ -82,3 +82,23 @@
 ;; .rdata secion on file has two sequences starting with F0 20
 ;; one starts at a00 and the other starts at a60
 ;; perhaps the first sequence gets overwritten with IAT RVA data by the loader
+
+
+;; guess
+
+;; hint table on file at A84
+;; two import lookup tables start at A60 and A70
+;; file offsets A30 and A44 contain names of libraries
+
+;; for more infoo look ar pecoff_v83.pdf .idata section on pag 106
+
+;; beginning of import table starting on file at A24 points to second
+;; import lookup table A70, RVA value points to 402070 and it is the first table
+;; element from page 107
+
+;; TODO - Perhaps I need to rewrite loading of executable. Looks like I have to
+;; copy it to "memory" before before I start dealing with RVAs
+
+(defun hex-rva-addr (rva bytes)
+  "hex address of RVA in memeory"
+  (int-to-hex (+ rva (image-base bytes))))
