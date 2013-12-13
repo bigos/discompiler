@@ -32,17 +32,12 @@
                    (md5:md5sum-file file))
     (allocate-and-load-sections bytes mem)
     (assert-equalp #(#x55 #x8b #xec) (get-allocated-bytes mem #x401000 3))
-    (assert-equalp #(20 207 143) (get-allocated-bytes mem #xb13000 3))
     ;; the problem lies with loader overwriting first 36 bytes of copied section
-
-    ;; read this: http://en.wikipedia.org/wiki/Dynamic_linker
-    ;; another useful info
-    ;; http://msdn.microsoft.com/en-us/magazine/cc301805.aspx
-    ;; (assert-equalp #(#x28 #x63 #xc1) (get-allocated-bytes mem #xd01000 3))
-    ;; (assert-equalp #(#x00 #x00 #x00) (get-allocated-bytes mem #xda0000 3))
-    ;; (assert-equalp #(#x00 #x10 #x00) (get-allocated-bytes mem #x109c000 3))
-
-    ))
+    ;; following test checks for data before being mangled by loader
+    (assert-equalp #(20 207 143) (get-allocated-bytes mem #xb13000 3))
+    (assert-equalp #(#x28 #x63 #xc1) (get-allocated-bytes mem #xd01000 3))
+    (assert-equalp #(#x00 #x00 #x00) (get-allocated-bytes mem #xda0000 3))
+    (assert-equalp #(#x00 #x10 #x00) (get-allocated-bytes mem #x109c000 3))))
 
 (define-test test-load-sample-file
   (let* ((file "~/discompiler/SampleExecutables/crackme12.exe")
