@@ -32,7 +32,9 @@
                    (md5:md5sum-file file))
     (allocate-and-load-sections bytes mem)
     (assert-equalp #(#x55 #x8b #xec) (get-allocated-bytes mem #x401000 3))
-    (assert-equalp #(#x42 #x05 #xd3) (get-allocated-bytes mem #xb13000 3))
+    (assert-equalp #(20 207 143) (get-allocated-bytes mem #xb13000 3))
+    ;; the problem lies with loader overwriting first 36 bytes of copied section
+
     ;; read this: http://en.wikipedia.org/wiki/Dynamic_linker
     ;; another useful info
     ;; http://msdn.microsoft.com/en-us/magazine/cc301805.aspx

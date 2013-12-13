@@ -136,8 +136,7 @@ Create main thread and start the process.
                                        (+ (- addr (start alloc)) count))))))
     (if found
         found
-        (error "address ~S is not valid" addr)))
-  )
+        (error "address ~S is not valid" addr))))
 
 (defgeneric set-allocated (memory addr val))
 (defmethod set-allocated ((self memory) addr val)
