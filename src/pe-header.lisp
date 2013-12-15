@@ -8,7 +8,7 @@
     (if (array-in-bounds-p bytes pointer)
         (equalp
          (bytes bytes +long+ pointer)
-         '(80 69 0 0))
+         (list (char-code #\P) (char-code #\E) 0 0))
         nil)))
 
 (defun msdos-header (bytes)
