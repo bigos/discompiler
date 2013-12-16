@@ -1,6 +1,6 @@
-(defsystem #:discompiler
-  :serial t
-  :version "0.0.1"
+(asdf:defsystem #:discompiler
+
+  :version "0.0.2"
   :author "Jacek Podkanski"
   :licence "GPLv3"
   :depends-on (:lisp-unit :cl-ppcre :cl-fad :cl-utilities :md5)
