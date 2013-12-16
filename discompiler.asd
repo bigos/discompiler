@@ -1,7 +1,6 @@
 ;(in-package :discompiler)
 
 (asdf:defsystem #:discompiler
-
   :version "0.0.2"
   :author "Jacek Podkanski"
   :licence "GPLv3"
@@ -10,13 +9,10 @@
                (:file "packages")
                (:file "constants" :depends-on ("discompiler"))
                (:module "src"
-                        :depends-on ("discompiler")
                         :components
                         ((:module "pecoff-executable"
-                                        ;:depends-on ("src")
                                   :components
-                                  (
-                                   (:file "pe-header")
+                                  ((:file "pe-header")
                                    (:file "coff-header")
                                    (:file "optional-header")))
                          (:file "section-table")
@@ -29,6 +25,6 @@
                         :depends-on ("discompiler")
                         :components ((:file "lisp-unit")
                                      (:file "tests")))
-               (:file "discompiler" :depends-on ("packages")))
+               (:file "discompiler" :depends-on ("packages" :src)))
   :description "machine code experiment"
   :long-description "experimenting with Intel machine code")
