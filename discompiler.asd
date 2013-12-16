@@ -1,6 +1,9 @@
-;(in-package :discompiler)
+(defpackage #:discompiler-asd
+  (:use :cl :asdf))
 
-(asdf:defsystem #:discompiler
+(in-package :discompiler-asd)
+
+(defsystem #:discompiler
   :version "0.0.2"
   :author "Jacek Podkanski"
   :licence "GPLv3"
