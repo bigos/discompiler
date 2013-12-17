@@ -16,12 +16,6 @@
 (defparameter *dll* (nth 0 (cl-fad:list-directory "./SampleExecutables/"))
   "sample dll file")
 
-
-;; size of datatyoe in bytes
-(defparameter *char-size* 1)
-(defparameter *short-size* 2)
-(defparameter *long-size* 4)
-
 (defun file-to-bytes (file)
   (let ((bytes) (index 0) (size))
     (with-open-file (stream file :element-type 'unsigned-byte)
