@@ -19,12 +19,13 @@
                                   :components
                                   ((:file "pe-header")
                                    (:file "coff-header")
-                                   (:file "optional-header")))
-                         (:file "section-table")
+                                   (:file "optional-header")
+                                   (:file "section-table")
+                                   (:file "header-info")
+                                   ))
                          (:file "byte-utilities")
                          (:file "reference-data")
                          (:file "summary-table-columns")
-                         (:file "header-info")
                          (:file "loader")))
                (:module "test"
                         :depends-on ("discompiler")
