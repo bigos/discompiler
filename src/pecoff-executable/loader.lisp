@@ -53,7 +53,6 @@ Create main thread and start the process.
 
 (defgeneric find-next-free-block (memory size preferred))
 (defmethod find-next-free-block ((self memory) size preferred)
-  ;; needs testing
   (let ((found (find-preferred-block self size preferred)))
     (if found
         found

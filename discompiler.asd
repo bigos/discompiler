@@ -14,18 +14,21 @@
                (:module "src"
                         :components
                         ((:file "constants" )
+                         (:file "byte-utilities")
                          (:module "pecoff-executable"
                                   :components
-                                  ((:file "pe-header")
-                                   (:file "coff-header")
-                                   (:file "optional-header")
-                                   (:file "section-table")
-                                   (:file "header-info")
-                                   ))
-                         (:file "byte-utilities")
-                         (:file "reference-data")
-                         (:file "summary-table-columns")
-                         (:file "loader")))
+                                  ((:file "header-info")
+                                   (:file "loader")
+                                   (:module "file-structure"
+                                            :components
+                                            ((:file "pe-header")
+                                             (:file "optional-header")
+                                             (:file "section-table")
+                                             (:file "coff-header")))))
+                         (:module "reference"
+                                  :components
+                                  ((:file "reference-data")
+                                   (:file "summary-table-columns")))))
                (:module "test"
                         :components
                         ((:file "lisp-unit")
