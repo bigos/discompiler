@@ -12,10 +12,8 @@
   :components ((:file "packages")
                (:file "discompiler")
                (:module "src"
-                                        ;:depends-on ("discompiler")
                         :components
-                        (
-                         (:file "constants" )
+                        ((:file "constants" )
                          (:module "pecoff-executable"
                                   :components
                                   ((:file "pe-header")
@@ -29,8 +27,8 @@
                          (:file "summary-table-columns")
                          (:file "loader")))
                (:module "test"
-                                        ;:depends-on ("discompiler")
-                        :components ((:file "lisp-unit")
-                                     (:file "tests"))))
+                        :components
+                        ((:file "lisp-unit")
+                         (:file "tests"))))
   :description "machine code experiment"
   :long-description "experimenting with Intel machine code")
