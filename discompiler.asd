@@ -18,6 +18,7 @@
                          (:module "pecoff-executable"
                                   :components
                                   ((:file "header-info")
+                                   (:file "memory")
                                    (:file "loader")
                                    (:module "file-structure"
                                             :components
