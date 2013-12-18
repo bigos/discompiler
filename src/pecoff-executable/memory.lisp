@@ -132,17 +132,12 @@
         addr
         (error "address ~S is not valid" addr))))
 
-(defclass exec ()
-  (preferred-address
-   obtained-address))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defclass memory-block ()
   ((start :reader start :initarg :start)
    (end :accessor end)
    (size :reader size :initarg :size)
    (data :accessor data )))
-
 
 (defmethod initialize-instance :after ((self memory-block) &key)
   (setf (end self) (+ (size self) (start self) -1))

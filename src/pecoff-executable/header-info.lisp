@@ -7,13 +7,13 @@
   (cons  val (concatenate 'string "#x" (int-to-hex val))))
 
 (defun useful-info (bytes)
-  (let* ((opt-head (optional-header bytes))
-         (entry-point (struct-value "AddressOfEntryPoint" opt-head))
-         (code-base (struct-value "BaseOfCode" opt-head))
-         (data-base (struct-value "BaseOfData" opt-head))
+  (let* ((entry-point (optional-header-value bytes "AddressOfEntryPoint"))
+         (code-base (optional-header-value bytes "BaseOfCode"))
+         (data-base (optional-header-value bytes "BaseOfData"))
+         (opt-head (optional-header bytes))
          (header-type (optional-header-image-type bytes))
          (first-rva 30)
-         (last-rva (+ 30 32))
+         (last-rva (+ first-rva 32))
          (rvas (subseq opt-head first-rva last-rva))
          (used-rvas (loop for x
                        from 0
@@ -26,34 +26,31 @@
                           (nth (1+ x) rvas)
                           "in memory from"
                           (int-to-hex
-                           (+ (struct-value "ImageBase" opt-head)
+                           (+ (optional-header-value bytes "ImageBase")
                               (nth 2 (nth x rvas))))
                           "to"
                           (int-to-hex
-                           (+ (struct-value "ImageBase" opt-head)
+                           (+ (optional-header-value bytes "ImageBase")
                               (nth 2 (nth x rvas))
                               (nth 2 (nth (1+ x) rvas))
-                              ))
-                          )
-                         ))
+                              )))))
          (my-sections (section-headers bytes)))
     (format t "~&PE header signature is ~a~%~%"
             (if (pe-header-signature-validp bytes) "valid" "INVALID"))
     (format t "header type ~a~%" header-type)
     (format t "section alignment~S~%~%"
-            (cons-int-hex (struct-value "SectionAlignment" opt-head)))
-    (if (< (struct-value "SectionAlignment" opt-head) 4096)
+            (cons-int-hex (optional-header-value bytes "SectionAlignment")))
+    (if (< (optional-header-value bytes "SectionAlignment") 4096)
         (princ "warning section alignment less than 4K - constraints on the file offset of the section data,"))
     (format t "~&loaded image base addr ~S~%"
-            (cons-int-hex (struct-value "ImageBase" opt-head)))
+            (cons-int-hex (optional-header-value bytes "ImageBase")))
     (format t "~& entry point in memory #x~a~%~%"
             (int-to-hex (+ (image-base bytes)
-                           (struct-value "AddressOfEntryPoint" opt-head))))
+                           (optional-header-value bytes "AddressOfEntryPoint"))))
     (format t "RVAs: ~S~%~%" used-rvas)
     (format t "last 4 byte element of optional header hex ~X sections headers follow~%~%" (caar (last (optional-header *bytes*))))
     (format t "sections ~a~%~%" (section-positions bytes))
-    my-sections)
-  )
+    my-sections))
 
 ;; pecoff page 90
 ;; However, some COFF sections have special meanings when found

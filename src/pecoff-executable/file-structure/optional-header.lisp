@@ -14,6 +14,9 @@
           ((eq signature #x20b) 'pe32+)
           (T nil))))
 
+(defun optional-header-value (bytes field-name)
+  (struct-value field-name (optional-header bytes)))
+
 (defun optional-header (bytes)
   (let* ((offset (optional-header-signature-pointer bytes))
          (header-type (optional-header-image-type bytes))

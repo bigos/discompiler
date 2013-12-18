@@ -47,9 +47,10 @@
     (assert-equalp '((#x110000 . #xffff0000)) (find-free mem))
     (assert-eq #x400000 (setf base (image-base bytes)))
     (assert-eq 1024 (struct-value "SizeOfHeaders" (optional-header bytes)))
+    (assert-eq 1024 (optional-header-value bytes "SizeOfHeaders"))
     (assert-eq 4096 (setf size-header (aligned-size
-                                       (struct-value "SizeOfHeaders" (optional-header bytes))
-                                       (struct-value "SectionAlignment" (optional-header bytes)))))
+                                       (optional-header-value bytes "SizeOfHeaders")
+                                       (optional-header-value bytes "SectionAlignment"))))
     (assert-eq base (allocate-preferred-block mem size-header base))
     (assert-equalp '((#x110000 . #x3FFFFF) (#x401000 . #xffff0000)) (find-free mem))
     (assert-eq 4096 (setf section-alignment (struct-value "SectionAlignment" (optional-header bytes))))
@@ -66,11 +67,6 @@
     ;; then check first bytes of loaded sections
     (assert-eq #x6a (get-allocated mem #x401000))
     (assert-equalp #(#x6a #x00 #xe8) (get-allocated-bytes mem #x401000 3))
-    ;; this one has incorrect value for some reason
-    ;; latest MS documentation page 106
-    ;; (assert-eq #x5f (get-allocated mem #x402000))
-    ;; http://stackoverflow.com/questions/20268395/loading-windows-executable-unexpected-data-appended-to-sections-after-loading
-    ;; still no answer on stack overflow
     (assert-eq #x41 (get-allocated mem #x403000))
     (assert-eq #x00 (get-allocated mem #x404000))
     ))
