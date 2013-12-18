@@ -94,6 +94,9 @@
 ;; TODO - Perhaps I need to rewrite loading of executable. Looks like I have to
 ;; copy it to "memory" before before I start dealing with RVAs
 
+(defun rva-addr (rva bytes)
+  (+ rva (image-base bytes)))
+
 (defun hex-rva-addr (rva bytes)
   "hex address of RVA in memeory"
-  (int-to-hex (+ rva (image-base bytes))))
+  (int-to-hex (rva-addr rva bytes)))

@@ -19,6 +19,11 @@
 
     (setf rdata (data  (nth 2 (blocks mem))))
     (format t ".rdata section~%~S~%" rdata)
+
+    (format t "some interesting bytes~%~S~%"
+            (get-allocated-bytes mem (rva-addr 8228 bytes) 60))
+    ;; TODO read proper import table RVA and size
+
     ;; Read information from import table and load the DLLs
 
     ;; Resolve the function addresses and create Import Address Table (IAT).
