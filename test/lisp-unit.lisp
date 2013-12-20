@@ -53,7 +53,7 @@
                                        (optional-header-value bytes "SectionAlignment"))))
     (assert-eq base (allocate-preferred-block mem size-header base))
     (assert-equalp '((#x110000 . #x3FFFFF) (#x401000 . #xffff0000)) (find-free mem))
-    (assert-eq 4096 (setf section-alignment (struct-value "SectionAlignment" (optional-header bytes))))
+    (assert-eq 4096 (setf section-alignment (optional-header-value bytes "SectionAlignment")))
     ;; load sections first
     (allocate-and-load-sections bytes mem)
     ;; check allocation

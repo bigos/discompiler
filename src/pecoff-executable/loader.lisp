@@ -2,6 +2,11 @@
 
 ;;; !!! READ THE FINAL COMMENTS IN HEADER-INFO.LISP !!!
 
+(defun get-rva-bytes (bytes mem name size)
+  (get-allocated-bytes mem
+                       (rva-addr (optional-header-value bytes name) bytes)
+                       (optional-header-value bytes size )))
+
 (defun loader (bytes)
   (let* ((mem (make-instance 'memory :start #x110000 :end #xFFFF0001))
          (rdata)
@@ -16,13 +21,19 @@
 
     ;; Map the sections into the allocated area
     (allocate-and-load-sections bytes mem)
+    ;; TODO memory blocks are still reversed in memory object
 
     (setf rdata (data  (nth 2 (blocks mem))))
-    (format t ".rdata section~%~S~%" rdata)
+    (format t "beginning of .rdata section~%~S~%" (subseq  rdata 0 #x130))
 
-    (format t "some interesting bytes~%~S~%"
-            (get-allocated-bytes mem (rva-addr 8228 bytes) 60))
-    ;; TODO read proper import table RVA and size
+    (format t "import table RVA directory bytes~%~S~%"
+            (get-rva-bytes bytes mem "Import Table RVA" "Import Table Size"))
+
+    (format t "resource table RVA~%~S~%" (get-rva-bytes bytes mem "Resource Table RVA" "Resource Table Size"))
+
+    (format t "IAT RVA~%~S~%"
+            (get-rva-bytes bytes mem "IAT RVA" "IAT Size" ))
+
 
     ;; Read information from import table and load the DLLs
 

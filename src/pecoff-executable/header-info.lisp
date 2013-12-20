@@ -6,34 +6,30 @@
 (defun cons-int-hex (val)
   (cons  val (concatenate 'string "#x" (int-to-hex val))))
 
+(defun used-rvas (bytes)
+  (let* ((rvas (subseq (optional-header bytes) 30 (+ 30 32))))
+    (loop for x
+       from 0
+       to (1- (list-length rvas))
+       by 2
+       when (not (zerop (caddr (nth x rvas))))
+       collect
+         (list
+          (nth x rvas)
+          (nth (1+ x) rvas)
+          "in memory from"
+          (+ (optional-header-value bytes "ImageBase")
+             (nth 2 (nth x rvas)))
+          "to"
+          (+ (optional-header-value bytes "ImageBase")
+             (nth 2 (nth x rvas))
+             (nth 2 (nth (1+ x) rvas)))))))
+
 (defun useful-info (bytes)
   (let* ((entry-point (optional-header-value bytes "AddressOfEntryPoint"))
          (code-base (optional-header-value bytes "BaseOfCode"))
          (data-base (optional-header-value bytes "BaseOfData"))
-         (opt-head (optional-header bytes))
          (header-type (optional-header-image-type bytes))
-         (first-rva 30)
-         (last-rva (+ first-rva 32))
-         (rvas (subseq opt-head first-rva last-rva))
-         (used-rvas (loop for x
-                       from 0
-                       to (1- (list-length rvas))
-                       by 2
-                       when (not (zerop (caddr (nth x rvas))))
-                       collect
-                         (list
-                          (nth x rvas)
-                          (nth (1+ x) rvas)
-                          "in memory from"
-                          (int-to-hex
-                           (+ (optional-header-value bytes "ImageBase")
-                              (nth 2 (nth x rvas))))
-                          "to"
-                          (int-to-hex
-                           (+ (optional-header-value bytes "ImageBase")
-                              (nth 2 (nth x rvas))
-                              (nth 2 (nth (1+ x) rvas))
-                              )))))
          (my-sections (section-headers bytes)))
     (format t "~&PE header signature is ~a~%~%"
             (if (pe-header-signature-validp bytes) "valid" "INVALID"))
@@ -47,7 +43,7 @@
     (format t "~& entry point in memory #x~a~%~%"
             (int-to-hex (+ (image-base bytes)
                            (optional-header-value bytes "AddressOfEntryPoint"))))
-    (format t "RVAs: ~S~%~%" used-rvas)
+    (format t "RVAs: ~S~%~%" (used-rvas bytes))
     (format t "last 4 byte element of optional header hex ~X sections headers follow~%~%" (caar (last (optional-header *bytes*))))
     (format t "sections ~a~%~%" (section-positions bytes))
     my-sections))

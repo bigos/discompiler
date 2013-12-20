@@ -138,7 +138,6 @@
         (image-base (struct-value "ImageBase" (optional-header bytes)))
         (raw-pointer)
         (raw-size))
-    ;; probably i need to load pecoff header as well
     (loop for s in (section-headers bytes)
        do
          (setf raw-pointer (struct-value "PointerToRawData" s))
