@@ -2,7 +2,7 @@
 
 ;;; !!! READ THE FINAL COMMENTS IN HEADER-INFO.LISP !!!
 
-(defun get-rva-bytes (bytes mem name size)
+(defun get-rva-table-bytes (bytes mem name size)
   (get-allocated-bytes mem
                        (rva-addr
                         (optional-header-value bytes name)
@@ -29,12 +29,13 @@
     (format t "beginning of .rdata section~%~S~%" (subseq  rdata 0 #x130))
 
     (format t "import table RVA directory bytes~%~S~%"
-            (get-rva-bytes bytes mem "Import Table RVA" "Import Table Size"))
+            (get-rva-table-bytes bytes mem "Import Table RVA" "Import Table Size"))
 
-    (format t "resource table RVA~%~S~%" (get-rva-bytes bytes mem "Resource Table RVA" "Resource Table Size"))
+    (format t "resource table RVA~%~S~%"
+            (get-rva-table-bytes bytes mem "Resource Table RVA" "Resource Table Size"))
 
     (format t "IAT RVA~%~S~%"
-            (get-rva-bytes bytes mem "IAT RVA" "IAT Size" ))
+            (get-rva-table-bytes bytes mem "IAT RVA" "IAT Size" ))
 
 
     ;; Read information from import table and load the DLLs
