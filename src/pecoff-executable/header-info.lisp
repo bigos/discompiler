@@ -43,7 +43,7 @@
     (format t "~& entry point in memory #x~a~%~%"
             (int-to-hex (+ (image-base bytes)
                            (optional-header-value bytes "AddressOfEntryPoint"))))
-    (format t "RVA tabless: ~S~%~%" (used-rvas bytes))
+    (format t "RVA tables: ~S~%~%" (used-rvas bytes))
     (format t "last 4 byte element of optional header hex ~X sections headers follow~%~%" (caar (last (optional-header *bytes*))))
     (format t "sections ~a~%~%" (section-positions bytes))
     my-sections))
