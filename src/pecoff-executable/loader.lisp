@@ -4,7 +4,9 @@
 
 (defun get-rva-bytes (bytes mem name size)
   (get-allocated-bytes mem
-                       (rva-addr (optional-header-value bytes name) bytes)
+                       (rva-addr
+                        (optional-header-value bytes name)
+                        bytes)
                        (optional-header-value bytes size )))
 
 (defun loader (bytes)
