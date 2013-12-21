@@ -9,7 +9,7 @@
                         bytes)
                        (optional-header-value bytes size )))
 
-;; TODO wrong assumptions
+;; TODO wrong assumptions hence offset is zero
 ;; I need to make offset based of memory locastions not file locations
 (defun import-directory-table (bytes offset)
   (let ((elements '((+long+ "ImportLookupTableRVA")
@@ -19,11 +19,7 @@
                     (+long+ "ImportAddressTableRVA"))))
     (multiple-value-bind (data structure-size)
         (c-structure-values bytes elements offset)
-      (values
-       (cons (append (butlast (car data))
-                     (list (int-to-text (car (last (car data))))))
-             (cdr data))
-       structure-size))))
+      (values data structure-size))))
 
 (defun loader (bytes)
   (let* ((mem (make-instance 'memory :start #x110000 :end #xFFFF0001))
@@ -46,6 +42,9 @@
 
     (format t "import table RVA directory bytes~%~S~%"
             (get-rva-table-bytes bytes mem "Import Table RVA" "Import Table Size"))
+    (format t "first import directory table structure~%~S~%"  (import-directory-table (get-rva-table-bytes *bytes* *memory* "Import Table RVA" "Import Table Size") 0 ))
+    (format t "second import directory table structure~%~S~%"  (import-directory-table (get-rva-table-bytes *bytes* *memory* "Import Table RVA" "Import Table Size") 20 ))
+    (format t "last empty import directory table structure~%~S~%"  (import-directory-table (get-rva-table-bytes *bytes* *memory* "Import Table RVA" "Import Table Size") 40 ))
 
     (format t "resource table RVA~%~S~%"
             (get-rva-table-bytes bytes mem "Resource Table RVA" "Resource Table Size"))
