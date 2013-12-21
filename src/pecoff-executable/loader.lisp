@@ -12,10 +12,10 @@
 ;; TODO wrong assumptions hence offset is zero
 ;; I need to make offset based of memory locastions not file locations
 (defun import-directory-table (bytes offset)
-  (let ((elements '((+long+ "ImportLookupTableRVA")
+  (let ((elements '((+long+ "ImportLookupTableRVA") ;table of addresses for imported function hint tables
                     (+long+ "TimeDate")
                     (+long+ "ForwarderChain")
-                    (+long+ "NameRVA")
+                    (+long+ "NameRVA") ;addr of imported library name
                     (+long+ "ImportAddressTableRVA"))))
     (multiple-value-bind (data structure-size)
         (c-structure-values bytes elements offset)
