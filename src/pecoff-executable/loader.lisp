@@ -9,6 +9,22 @@
                         bytes)
                        (optional-header-value bytes size )))
 
+;; TODO wrong assumptions
+;; I need to make offset based of memory locastions not file locations
+(defun import-directory-table (bytes offset)
+  (let ((elements '((+long+ "ImportLookupTableRVA")
+                    (+long+ "TimeDate")
+                    (+long+ "ForwarderChain")
+                    (+long+ "NameRVA")
+                    (+long+ "ImportAddressTableRVA"))))
+    (multiple-value-bind (data structure-size)
+        (c-structure-values bytes elements offset)
+      (values
+       (cons (append (butlast (car data))
+                     (list (int-to-text (car (last (car data))))))
+             (cdr data))
+       structure-size))))
+
 (defun loader (bytes)
   (let* ((mem (make-instance 'memory :start #x110000 :end #xFFFF0001))
          (rdata)
