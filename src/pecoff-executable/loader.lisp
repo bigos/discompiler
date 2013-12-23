@@ -46,20 +46,20 @@
                                  "Import Table RVA"
                                  "Import Table Size"))
     (format t "first import directory table structure~%~S~%"
-            (import-directory-table (get-rva-table-bytes *bytes*
-                                                         *memory*
+            (import-directory-table (get-rva-table-bytes bytes
+                                                         mem
                                                          "Import Table RVA"
                                                          "Import Table Size")
                                     0))
     (format t "second import directory table structure~%~S~%"
-            (import-directory-table (get-rva-table-bytes *bytes*
-                                                         *memory*
+            (import-directory-table (get-rva-table-bytes bytes
+                                                         mem
                                                          "Import Table RVA"
                                                          "Import Table Size")
                                     20))
     (format t "last empty import directory table structure~%~S~%"
-            (import-directory-table (get-rva-table-bytes *bytes*
-                                                         *memory*
+            (import-directory-table (get-rva-table-bytes bytes
+                                                         mem
                                                          "Import Table RVA"
                                                          "Import Table Size")
                                     40))
