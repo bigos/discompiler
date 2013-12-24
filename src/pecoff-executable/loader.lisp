@@ -22,9 +22,9 @@
       (values data structure-size))))
 
 (defun library-name (mem bytes directory-table)
-
+  (declare (optimize (speed 0) (space 1) (compilation-speed 0) (debug 3)))
   ( loop for offset from 0 by 1
-         for c = (get-allocated *memory* (rva-addr
+         for c = (get-allocated mem (rva-addr
                                           (+ offset
                                              (nth 2 (nth 3 directory-table)))
                                           bytes ))
@@ -60,20 +60,17 @@
                                  "Import Table Size"))
 
     (loop
-       for y from 0 by import-table-size
+       for offset from 0 by import-table-size
        for x = (import-directory-table
                 (get-rva-table-bytes bytes
                                      mem
-                                     "Import Table RVA" "Import Table Size")
-                y)
+                                     "Import Table RVA"
+                                     "Import Table Size") offset)
        until (zerop  (nth 2 (car x)))
        do
          (format t "import directory table ~S~%~%" x)
          (library-name mem bytes x )
-         (format t "~%")
-
-
-         )
+         (format t "~%"))
 
     (format t "resource table RVA~%~S~%"
             (get-rva-table-bytes bytes
