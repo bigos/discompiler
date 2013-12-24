@@ -23,7 +23,7 @@
 
 (defun loader (bytes)
   (let* ((mem (make-instance 'memory :start #x110000 :end #xFFFF0001))
-         (rdata)
+         (rdata) (import-table-size 20)
          )
 
     (format t "free memory ~S image base ~S ~%" (find-free mem) (image-base bytes))
@@ -45,24 +45,16 @@
                                  mem
                                  "Import Table RVA"
                                  "Import Table Size"))
-    (format t "first import directory table structure~%~S~%"
-            (import-directory-table (get-rva-table-bytes bytes
-                                                         mem
-                                                         "Import Table RVA"
-                                                         "Import Table Size")
-                                    0))
-    (format t "second import directory table structure~%~S~%"
-            (import-directory-table (get-rva-table-bytes bytes
-                                                         mem
-                                                         "Import Table RVA"
-                                                         "Import Table Size")
-                                    20))
-    (format t "last empty import directory table structure~%~S~%"
-            (import-directory-table (get-rva-table-bytes bytes
-                                                         mem
-                                                         "Import Table RVA"
-                                                         "Import Table Size")
-                                    40))
+
+    (loop
+       for y from 0 by import-table-size
+       for x = (import-directory-table (get-rva-table-bytes bytes
+                                                            mem
+                                                            "Import Table RVA"
+                                                            "Import Table Size") y)
+       until (zerop  (nth 2 (car x)))
+       do
+         (format t "import directory table ~S~%~%" x))
 
     (format t "resource table RVA~%~S~%"
             (get-rva-table-bytes bytes
