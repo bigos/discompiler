@@ -21,6 +21,19 @@
         (c-structure-values bytes elements offset)
       (values data structure-size))))
 
+(defun library-name (mem bytes directory-table)
+
+  ( loop for offset from 0 by 1
+         for c = (get-allocated *memory* (rva-addr
+                                          (+ offset
+                                             (nth 2 (nth 3 directory-table)))
+                                          bytes ))
+         collecting c
+         until (zerop c)
+         do
+         (format t "~c " (code-char c)))
+  )
+
 (defun loader (bytes)
   (let* ((mem (make-instance 'memory :start #x110000 :end #xFFFF0001))
          (rdata) (import-table-size 20)
@@ -48,13 +61,19 @@
 
     (loop
        for y from 0 by import-table-size
-       for x = (import-directory-table (get-rva-table-bytes bytes
-                                                            mem
-                                                            "Import Table RVA"
-                                                            "Import Table Size") y)
+       for x = (import-directory-table
+                (get-rva-table-bytes bytes
+                                     mem
+                                     "Import Table RVA" "Import Table Size")
+                y)
        until (zerop  (nth 2 (car x)))
        do
-         (format t "import directory table ~S~%~%" x))
+         (format t "import directory table ~S~%~%" x)
+         (library-name mem bytes x )
+         (format t "~%")
+
+
+         )
 
     (format t "resource table RVA~%~S~%"
             (get-rva-table-bytes bytes
