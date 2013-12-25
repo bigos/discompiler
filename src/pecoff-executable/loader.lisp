@@ -25,14 +25,13 @@
   (declare (optimize (speed 0) (space 1) (compilation-speed 0) (debug 3)))
   ( loop for offset from 0 by 1
          for c = (get-allocated mem (rva-addr
-                                          (+ offset
-                                             (nth 2 (nth 3 directory-table)))
-                                          bytes ))
+                                     (+ offset
+                                        (struct-value "NameRVA" directory-table))
+                                     bytes ))
          collecting c
          until (zerop c)
          do
-         (format t "~c " (code-char c)))
-  )
+         (format t "~c " (code-char c))))
 
 (defun loader (bytes)
   (let* ((mem (make-instance 'memory :start #x110000 :end #xFFFF0001))
@@ -66,7 +65,7 @@
                                      mem
                                      "Import Table RVA"
                                      "Import Table Size") offset)
-       until (zerop  (nth 2 (car x)))
+       until (zerop  (struct-value "ImportLookupTableRVA" x))
        do
          (format t "import directory table ~S~%~%" x)
          (library-name mem bytes x )
