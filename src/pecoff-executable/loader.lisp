@@ -12,7 +12,7 @@
 ;; TODO wrong assumptions hence offset is zero
 ;; I need to make offset based of memory locastions not file locations
 (defun import-directory-table (bytes offset)
-  (let ((elements '((+long+ "ImportLookupTableRVA") ;table of addresses for imported function hint tables
+  (let ((elements '((+long+ "ImportLookupTableRVA")
                     (+long+ "TimeDate")
                     (+long+ "ForwarderChain")
                     (+long+ "NameRVA") ;addr of imported library name
@@ -32,6 +32,8 @@
          until (zerop c)
          do
          (format t "~c " (code-char c))))
+
+(defun thunk-table (mem bytes ))
 
 (defun loader (bytes)
   (let* ((mem (make-instance 'memory :start #x110000 :end #xFFFF0001))
@@ -57,7 +59,6 @@
                                  mem
                                  "Import Table RVA"
                                  "Import Table Size"))
-
     (loop
        for offset from 0 by import-table-size
        for x = (import-directory-table
@@ -69,7 +70,9 @@
        do
          (format t "import directory table ~S~%~%" x)
          (library-name mem bytes x )
-         (format t "~%"))
+         (format t "~%")
+         (format t "import address table RVA ~S ~%"
+                 (struct-value "ImportAddressTableRVA" x)))
 
     (format t "resource table RVA~%~S~%"
             (get-rva-table-bytes bytes
