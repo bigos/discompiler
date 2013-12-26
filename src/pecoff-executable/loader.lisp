@@ -27,10 +27,11 @@
                (loop for offset from 0 by 1
                   for c = (get-allocated mem (rva-addr
                                               (+ offset
-                                                 (struct-value "NameRVA" directory-table))
+                                                 (struct-value "NameRVA"
+                                                               directory-table))
                                               bytes ))
-                  collecting  (code-char c)
-                  until (zerop c))))
+                  until (zerop c)
+                  collecting  (code-char c))))
 
 (defun thunk-table (mem bytes ))
 
@@ -67,9 +68,9 @@
                                      "Import Table Size") offset)
        until (zerop  (struct-value "ImportLookupTableRVA" x))
        do
-         (format t "import directory table ~S~%~%" x)
+         (format t "import directory table ~S~%" x)
          ;; need to check why malformed string is being returned
-         (format t "~S ~%" (library-name mem bytes x ))
+         (format t "~S ~%~%" (library-name mem bytes x ))
 
          (format t "import address table RVA ~S ~%"
                  (struct-value "ImportAddressTableRVA" x)))
