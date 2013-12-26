@@ -23,15 +23,14 @@
 
 (defun library-name (mem bytes directory-table)
   (declare (optimize (speed 0) (space 1) (compilation-speed 0) (debug 3)))
-  ( loop for offset from 0 by 1
-         for c = (get-allocated mem (rva-addr
-                                     (+ offset
-                                        (struct-value "NameRVA" directory-table))
-                                     bytes ))
-         collecting c
-         until (zerop c)
-         do
-         (format t "~c " (code-char c))))
+  (concatenate 'string ""
+               (loop for offset from 0 by 1
+                  for c = (get-allocated mem (rva-addr
+                                              (+ offset
+                                                 (struct-value "NameRVA" directory-table))
+                                              bytes ))
+                  collecting  (code-char c)
+                  until (zerop c))))
 
 (defun thunk-table (mem bytes ))
 
@@ -69,8 +68,9 @@
        until (zerop  (struct-value "ImportLookupTableRVA" x))
        do
          (format t "import directory table ~S~%~%" x)
-         (library-name mem bytes x )
-         (format t "~%")
+         ;; need to check why malformed string is being returned
+         (format t "~S ~%" (library-name mem bytes x ))
+
          (format t "import address table RVA ~S ~%"
                  (struct-value "ImportAddressTableRVA" x)))
     ;; don't show it for now, less problems with large files
