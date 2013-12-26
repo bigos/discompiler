@@ -73,12 +73,12 @@
          (format t "~%")
          (format t "import address table RVA ~S ~%"
                  (struct-value "ImportAddressTableRVA" x)))
-
-    (format t "resource table RVA~%~S~%"
-            (get-rva-table-bytes bytes
-                                 mem
-                                 "Resource Table RVA"
-                                 "Resource Table Size"))
+    ;; don't show it for now, less problems with large files
+    ;; (format t "resource table RVA~%~S~%"
+    ;;         (get-rva-table-bytes bytes
+    ;;                              mem
+    ;;                              "Resource Table RVA"
+    ;;                              "Resource Table Size"))
 
     (format t "IAT RVA~%~S~%"
             (get-rva-table-bytes bytes mem "IAT RVA" "IAT Size" ))
