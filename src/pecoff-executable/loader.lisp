@@ -70,7 +70,10 @@
        do
          (format t "import directory table ~S~%" x)
          ;; need to check why malformed string is being returned
-         (format t "~S ~%~%" (library-name mem bytes x ))
+         (format t "import address table ~X~%" (struct-value "ImportAddressTableRVA" x))
+         (format t "~S ~%" (library-name mem bytes x ))
+         (format t "import lookup table ~X~%" (struct-value "ImportLookupTableRVA" x))
+         (format t "~%")
 
          (format t "import address table RVA ~S ~%"
                  (struct-value "ImportAddressTableRVA" x)))
