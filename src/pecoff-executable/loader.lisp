@@ -32,19 +32,35 @@
                   collecting  (code-char c))))
 
 (defun imported-function-names (mem bytes imp-dir-tbl)
-
+  (declare (optimize (speed 0) (space 1) (compilation-speed 0) (debug 3)))
   (loop for il from (struct-value "ImportLookupTableRVA" imp-dir-tbl) by 4
      for ilx = (bytes-to-type-int (get-allocated-bytes mem (rva-addr il bytes) 4))
      while (not (zerop ilx))
      do
-       (format t "zzz ~x  ~x ~S~%" il  ilx
+     ;;(format t "xxxxx ~x ~x ~%" il ilx )
+       (format t "~&function data ~x  ~x ~S ~S~%" il  ilx
                (concatenate 'string ""
-                            (loop for offset from 0 by 1
-                               for c = (get-allocated mem
-                                                      (rva-addr
-                                                       (+ offset ilx 2) bytes))
+                            (loop for offset from 2 by 1
+                               with c = 32
+                               for xxx from 0 to 50
                                while (not (zerop c))
-                               collecting (code-char c)))))
+                               collecting (code-char c)
+                               do
+                               ;;(format t ">>>>>> ~S ~s ~S ~S    " c offset ilx il)
+                                 (handler-case
+                                     (setf c (get-allocated mem
+                                                            (rva-addr
+                                                             (+ offset ilx )
+                                                             bytes)
+                                                            ))
+                                   (error (se)
+                                     (format t "===> ~S~%" se)))
+                               ;;(format t "offset ~s~%" offset)
+                                 ))
+                (handler-case (get-allocated-bytes mem ilx 2)
+                         (error (se)
+                                (format t "||||| ~S~%" se)))
+               ))
   )
 
 (defun loader (bytes)
