@@ -37,7 +37,7 @@
 
 (defun loader (bytes)
   (let* ((mem (make-instance 'memory :start #x110000 :end #xFFFF0001))
-         (rdata) (import-table-size 20)
+         (rdata) (import-table-size 20) (il)
          )
 
     (format t "free memory ~S image base ~S ~%" (find-free mem) (image-base bytes))
@@ -61,22 +61,31 @@
                                  "Import Table Size"))
     (loop
        for offset from 0 by import-table-size
-       for x = (import-directory-table
-                (get-rva-table-bytes bytes
-                                     mem
-                                     "Import Table RVA"
-                                     "Import Table Size") offset)
-       until (zerop  (struct-value "ImportLookupTableRVA" x))
+       for idt = (import-directory-table
+                  (get-rva-table-bytes bytes
+                                       mem
+                                       "Import Table RVA"
+                                       "Import Table Size") offset)
+       until (zerop  (struct-value "ImportLookupTableRVA" idt))
        do
-         (format t "import directory table ~S~%" x)
-         ;; need to check why malformed string is being returned
-         (format t "import address table ~X~%" (struct-value "ImportAddressTableRVA" x))
-         (format t "~S ~%" (library-name mem bytes x ))
-         (format t "import lookup table ~X~%" (struct-value "ImportLookupTableRVA" x))
+         (format t "import directory table ~S~%" idt)
+       ;; need to check why malformed string is being returned
+         (format t "import address table ~X~%" (struct-value "ImportAddressTableRVA" idt))
+         (format t "~S ~%" (library-name mem bytes idt))
+         (format t "import lookup table ~X~%" (struct-value "ImportLookupTableRVA" idt))
          (format t "~%")
 
-         (format t "import address table RVA ~S ~%"
-                 (struct-value "ImportAddressTableRVA" x)))
+         (loop for il from (struct-value "ImportLookupTableRVA" idt) by 4
+            for ilx = (bytes-to-type-int (get-allocated-bytes mem (rva-addr il bytes) 4))
+            while (not (zerop ilx))
+            do
+              (format t "zzz ~x  ~x ~S~%" il  ilx
+                      (loop for offset from 0 by 1
+                         for c = (get-allocated mem
+                                                (rva-addr
+                                                 (+ offset ilx 2) bytes))
+                         while (not (zerop c))
+                         collecting (code-char c)))))
     ;; don't show it for now, less problems with large files
     ;; (format t "resource table RVA~%~S~%"
     ;;         (get-rva-table-bytes bytes
