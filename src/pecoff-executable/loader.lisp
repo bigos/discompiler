@@ -9,8 +9,6 @@
                         bytes)
                        (optional-header-value bytes size )))
 
-;; TODO wrong assumptions hence offset is zero
-;; I need to make offset based of memory locastions not file locations
 (defun import-directory-table (bytes offset)
   (let ((elements '((+long+ "ImportLookupTableRVA")
                     (+long+ "TimeDate")
@@ -33,7 +31,21 @@
                   until (zerop c)
                   collecting  (code-char c))))
 
-(defun thunk-table (mem bytes ))
+(defun imported-function-names (mem bytes imp-dir-tbl)
+
+  (loop for il from (struct-value "ImportLookupTableRVA" imp-dir-tbl) by 4
+     for ilx = (bytes-to-type-int (get-allocated-bytes mem (rva-addr il bytes) 4))
+     while (not (zerop ilx))
+     do
+       (format t "zzz ~x  ~x ~S~%" il  ilx
+               (concatenate 'string ""
+                            (loop for offset from 0 by 1
+                               for c = (get-allocated mem
+                                                      (rva-addr
+                                                       (+ offset ilx 2) bytes))
+                               while (not (zerop c))
+                               collecting (code-char c)))))
+  )
 
 (defun loader (bytes)
   (let* ((mem (make-instance 'memory :start #x110000 :end #xFFFF0001))
@@ -74,18 +86,8 @@
          (format t "~S ~%" (library-name mem bytes idt))
          (format t "import lookup table ~X~%" (struct-value "ImportLookupTableRVA" idt))
          (format t "~%")
-
-         (loop for il from (struct-value "ImportLookupTableRVA" idt) by 4
-            for ilx = (bytes-to-type-int (get-allocated-bytes mem (rva-addr il bytes) 4))
-            while (not (zerop ilx))
-            do
-              (format t "zzz ~x  ~x ~S~%" il  ilx
-                      (loop for offset from 0 by 1
-                         for c = (get-allocated mem
-                                                (rva-addr
-                                                 (+ offset ilx 2) bytes))
-                         while (not (zerop c))
-                         collecting (code-char c)))))
+         (imported-function-names mem bytes idt)
+         )
     ;; don't show it for now, less problems with large files
     ;; (format t "resource table RVA~%~S~%"
     ;;         (get-rva-table-bytes bytes
