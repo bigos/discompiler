@@ -39,6 +39,7 @@
        while (not (zerop ilx))
        do
        ;;(format t "xxxxx ~x ~x ~%" il ilx )
+         ;; import by ordinal or name
          (setf ordp (if (= 1 (ldb (byte 1 31) ilx)) T nil))
          (format t "~&function data ~x  ~x ~S ~9,'0b ~a~%" il  ilx
                  (concatenate 'string ""
