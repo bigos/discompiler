@@ -38,7 +38,7 @@
      while (not (zerop ilx))
      do
      ;;(format t "xxxxx ~x ~x ~%" il ilx )
-       (format t "~&function data ~x  ~x ~S ~S~%" il  ilx
+       (format t "~&function data ~x  ~x ~S ~9,'0b ~a~%" il  ilx
                (concatenate 'string ""
                             (loop for offset from 2 by 1
                                with c = 32
@@ -54,14 +54,13 @@
                                                              bytes)
                                                             ))
                                    (error (se)
-                                     (format t "===> ~S~%" se)))
+                                     (format nil "===> ~S~%" se)))
                                ;;(format t "offset ~s~%" offset)
                                  ))
-                (handler-case (get-allocated-bytes mem ilx 2)
-                         (error (se)
-                                (format t "||||| ~S~%" se)))
-               ))
-  )
+               ilx
+               ;; bit mask for importing by ordinal
+               ;; 31 for 32 bit systems
+               (ldb (byte 1 31) ilx ) )))
 
 (defun loader (bytes)
   (let* ((mem (make-instance 'memory :start #x110000 :end #xFFFF0001))
@@ -100,7 +99,9 @@
        ;; need to check why malformed string is being returned
          (format t "import address table ~X~%" (struct-value "ImportAddressTableRVA" idt))
          (format t "~S ~%" (library-name mem bytes idt))
-         (format t "import lookup table ~X~%" (struct-value "ImportLookupTableRVA" idt))
+         (format t "import lookup table ~X~%" (rva-addr
+                                               (struct-value "ImportLookupTableRVA" idt)
+                                               bytes))
          (format t "~%")
          (imported-function-names mem bytes idt)
          )
