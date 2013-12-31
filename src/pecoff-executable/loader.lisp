@@ -31,6 +31,16 @@
                   until (zerop c)
                   collecting  (code-char c))))
 
+(defun import-type (bytes ilx)
+  (if (= 1
+         (ldb (byte 1
+                    (if (eq 'PE32 (optional-header-image-type bytes))
+                        31
+                        63))
+              ilx))
+      T
+      nil))
+
 (defun imported-function-names (mem bytes imp-dir-tbl)
   (declare (optimize (speed 0) (space 1) (compilation-speed 0) (debug 3)))
   (let ((ordp))
@@ -38,32 +48,18 @@
        for ilx = (bytes-to-type-int (get-allocated-bytes mem (rva-addr il bytes) 4))
        while (not (zerop ilx))
        do
-       ;;(format t "xxxxx ~x ~x ~%" il ilx )
-         ;; import by ordinal or name
-         (setf ordp (if (= 1 (ldb (byte 1 31) ilx)) T nil))
-         (format t "~&function data ~x  ~x ~S ~9,'0b ~a~%" il  ilx
-                 (concatenate 'string ""
-                              (loop for offset from 2 by 1
-                                 with c = 32
-                                 for xxx from 0 to 50
-                                 while (not (zerop c))
-                                 collecting (code-char c)
-                                 do
-
-                                 ;;(format t ">>>>>> ~S ~s ~S ~S    " c offset ilx il)
-                                   (handler-case
-                                       (setf c (get-allocated mem
-                                                              (rva-addr
-                                                               (+ offset ilx )
-                                                               bytes)
-                                                              ))
-                                     (error (se)
-                                       (format nil "===> ~S~%" se)))
-                                 ;;(format t "offset ~s~%" offset)
-                                   ))
-                 ilx
-                 ;; bit mask for importing by ordinal
-                 ;; 31 for 32 bit systems
+         (setf ordp (import-type bytes ilx))
+         (format t "~&function data ~x  ~x ~S ~a~%" il  ilx
+                 (if ordp
+                     (ldb (byte 16 0) ilx)
+                     (concatenate 'string ""
+                                  (loop for offset from 2 by 1
+                                     for c = (get-allocated mem
+                                                             (rva-addr
+                                                              (+ offset ilx )
+                                                              bytes))
+                                     while (not (zerop c))
+                                     collecting (code-char c))))
                  ordp  ))))
 
 (defun loader (bytes)
