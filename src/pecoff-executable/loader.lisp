@@ -31,7 +31,7 @@
                   until (zerop c)
                   collecting  (code-char c))))
 
-(defun import-type (bytes ilx)
+(defun import-by-ordinalp (bytes ilx)
   (if (= 1
          (ldb (byte 1
                     (if (eq 'PE32 (optional-header-image-type bytes))
@@ -43,23 +43,21 @@
 
 (defun imported-function-names (mem bytes imp-dir-tbl)
   (declare (optimize (speed 0) (space 1) (compilation-speed 0) (debug 3)))
-  (let ((ordp))
-    (loop for il from (struct-value "ImportLookupTableRVA" imp-dir-tbl) by 4
-       for ilx = (bytes-to-type-int (get-allocated-bytes mem (rva-addr il bytes) 4))
-       while (not (zerop ilx))
-       do
-         (setf ordp (import-type bytes ilx))
-         (format t "~&function data ~x  ~x ~S ~%" il  ilx
-                 (if ordp
-                     (ldb (byte 16 0) ilx)
-                     (concatenate 'string ""
-                                  (loop for offset from 2 by 1
-                                     for c = (get-allocated mem
-                                                             (rva-addr
-                                                              (+ offset ilx )
-                                                              bytes))
-                                     while (not (zerop c))
-                                     collecting (code-char c))))))))
+  (loop for il from (struct-value "ImportLookupTableRVA" imp-dir-tbl) by 4
+     for ilx = (bytes-to-type-int (get-allocated-bytes mem (rva-addr il bytes) 4))
+     while (not (zerop ilx))
+     do
+       (format t "~&function data ~x  ~x ~S~%" il  ilx
+               (if (import-by-ordinalp bytes ilx)
+                   (ldb (byte 16 0) ilx)
+                   (concatenate 'string ""
+                                (loop for offset from 2 by 1
+                                   for c = (get-allocated mem
+                                                          (rva-addr
+                                                           (+ offset ilx )
+                                                           bytes))
+                                   while (not (zerop c))
+                                   collecting (code-char c)))))))
 
 (defun loader (bytes)
   (let* ((mem (make-instance 'memory :start #x110000 :end #xFFFF0001))
