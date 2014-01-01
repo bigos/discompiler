@@ -49,7 +49,7 @@
        while (not (zerop ilx))
        do
          (setf ordp (import-type bytes ilx))
-         (format t "~&function data ~x  ~x ~S ~a~%" il  ilx
+         (format t "~&function data ~x  ~x ~S ~%" il  ilx
                  (if ordp
                      (ldb (byte 16 0) ilx)
                      (concatenate 'string ""
@@ -59,8 +59,7 @@
                                                               (+ offset ilx )
                                                               bytes))
                                      while (not (zerop c))
-                                     collecting (code-char c))))
-                 ordp  ))))
+                                     collecting (code-char c))))))))
 
 (defun loader (bytes)
   (let* ((mem (make-instance 'memory :start #x110000 :end #xFFFF0001))
