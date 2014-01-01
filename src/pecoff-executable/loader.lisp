@@ -51,6 +51,8 @@
                (if (import-by-ordinalp bytes ilx)
                    (ldb (byte 16 0) ilx)
                    (concatenate 'string ""
+                                (format nil " ~S <-hint   "
+                                        (bytes-to-type-int (get-allocated-bytes mem (rva-addr ilx bytes) 2)))
                                 (loop for offset from 2 by 1
                                    for c = (get-allocated mem
                                                           (rva-addr
