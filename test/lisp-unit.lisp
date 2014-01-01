@@ -25,8 +25,10 @@
                'PE32)))
 (define-test test-load-oleaut32-library
   (let* ((file "~/discompiler/SampleExecutables/oleaut32.dll")
-         (bytes (file-to-bytes file))
-         (mem (make-instance 'memory :start #x110000 :end  #xFFFF0001)))
+         ;; commented out to suppress unused variable warning
+         ;;(bytes (file-to-bytes file))
+         ;;(mem (make-instance 'memory :start #x110000 :end  #xFFFF0001))
+         )
     (assert-equalp #(15 185 185 169 235 92 227 118 157 61 86 122 80 97 218 247)
                    (md5:md5sum-file file))
     ))
