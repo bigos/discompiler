@@ -63,8 +63,10 @@
 
 (defun loader (bytes)
   (let* ((mem (make-instance 'memory :start #x110000 :end #xFFFF0001))
-         (rdata) (import-table-size 20) (il)
-         )
+         (import-table-size (multiple-value-bind (d s)
+                                (import-directory-table bytes 0)
+                              (declare (ignore d))
+                              s)))
 
     (format t "free memory ~S image base ~S ~%" (find-free mem) (image-base bytes))
     ;; Read first page of the file which includes DOS header, PE header, section
@@ -76,9 +78,6 @@
     ;; Map the sections into the allocated area
     (allocate-and-load-sections bytes mem)
     ;; TODO memory blocks are still reversed in memory object
-
-    (setf rdata (data  (nth 2 (blocks mem))))
-    (format t "beginning of .rdata section~%~S~%" (subseq  rdata 0 #x130))
 
     (format t "import table RVA directory bytes~%~S~%"
             (get-rva-table-bytes bytes
@@ -125,5 +124,32 @@
 
     mem))
 
-;;; use this in repl
-;;; (setf *memory* (loader *bytes*))
+
+;; page 100 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Export table ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(defun export-directory-table (bytes offset)
+  (let ((elements '((+long+ "ExportFlags")
+                    (+long+ "TimeDateStamp")
+                    (+short+ "MajorVersion")
+                    (+short+ "MinorVersion")
+                    (+long+ "NameRVA")
+                    (+long+ "OrdinalBase")
+                    (+long+ "AddressTableEntries")
+                    (+long+ "NumberOfNamePointers")
+                    (+long+ "ExportAddressTableRVA")
+                    (+long+ "NamePointerRVA")
+                    (+long+ "OrdinalTableRVA"))))
+    (multiple-value-bind (data structure-size)
+        (c-structure-values bytes elements offset)
+      (values data structure-size))))
+
+(defun exports (bytes)
+  (let*
+      ((mem (make-instance 'memory :start #x110000 :end #xFFFF0001))
+       )
+    (allocate-and-load-sections bytes mem)
+    (export-directory-table
+     (get-rva-table-bytes bytes mem "Export Table RVA"  "Export Table Size")
+     0)
+    ))
