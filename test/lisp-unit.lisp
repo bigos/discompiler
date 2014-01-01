@@ -24,12 +24,12 @@
     (assert-eq (optional-header-image-type bytes)
                'PE32)))
 (define-test test-load-oleaut32-library
-  (let* ((file "~/discompiler/SampleExecutables/oleaut32.dll")
+  (let* ((file "~/discompiler/SampleExecutables/ordinal-imports.dll")
          ;; commented out to suppress unused variable warning
          ;;(bytes (file-to-bytes file))
          ;;(mem (make-instance 'memory :start #x110000 :end  #xFFFF0001))
          )
-    (assert-equalp #(15 185 185 169 235 92 227 118 157 61 86 122 80 97 218 247)
+    (assert-equalp #(108 118 94 130 181 127 46 102 206 156 84 172 35 132 113 217)
                    (md5:md5sum-file file))
     ))
 
