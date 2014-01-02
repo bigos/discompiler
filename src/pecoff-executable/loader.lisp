@@ -144,15 +144,15 @@
         (c-structure-values bytes elements offset)
       (values data structure-size))))
 
-(defun exports (bytes)
-  (let*
-      ((mem (make-instance 'memory :start #x110000 :end #xFFFF0001))
-       (edt))
-    (allocate-and-load-sections bytes mem)
-    (setf edt (export-directory-table (get-rva-table-bytes bytes mem "Export Table RVA"  "Export Table Size") 0))
+;; use this in REPL
+;;(exports *bytes* (loader *bytes*))
+(defun exports (bytes memory)
+  (let ((edt))
+    (setf edt (export-directory-table (get-rva-table-bytes bytes memory "Export Table RVA"  "Export Table Size") 0))
+    (format t "memory blocks ~S~%" (blocks memory))
     (format t "~S  ~%~S ~S~%entries ~S names ~S address table hex addr  ~S~%"
             edt
-            (get-allocated-string  *memory*
+            (get-allocated-string  memory
                                    (rva-addr
                                     (struct-value
                                      "NameRVA"
