@@ -147,9 +147,14 @@
 (defun exports (bytes)
   (let*
       ((mem (make-instance 'memory :start #x110000 :end #xFFFF0001))
-       )
+       (edt))
     (allocate-and-load-sections bytes mem)
-    (export-directory-table
-     (get-rva-table-bytes bytes mem "Export Table RVA"  "Export Table Size")
-     0)
-    ))
+    (setf edt (export-directory-table (get-rva-table-bytes bytes mem "Export Table RVA"  "Export Table Size") 0))
+    (format t "~S  ~%~S~%"
+            edt
+            (get-allocated-string  *memory*
+                                   (rva-addr
+                                    (struct-value
+                                     "NameRVA"
+                                     edt)
+                                    bytes)))))

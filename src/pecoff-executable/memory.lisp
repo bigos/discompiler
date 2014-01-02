@@ -118,6 +118,21 @@
         found
         (error "address ~S is not valid" addr))))
 
+(defgeneric get-allocated-string (memory addr))
+(defmethod get-allocated-string ((self memory) addr)
+  (let ((found))
+    (dolist (alloc (blocks self))
+      (if  (<= (start alloc) addr (end alloc))
+           (return (setf found
+                         (loop for x from 0
+                            for z = (code-char (aref (data alloc)
+                                                     (+ (- addr (start alloc)) x)))
+                            until (zerop (char-code z))
+                            collecting z)))))
+    (if found
+        found
+        (error "address ~S is not valid" addr))))
+
 (defgeneric set-allocated (memory addr val))
 (defmethod set-allocated ((self memory) addr val)
   (let ((found))
