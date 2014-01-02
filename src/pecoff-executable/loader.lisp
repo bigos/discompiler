@@ -150,11 +150,13 @@
        (edt))
     (allocate-and-load-sections bytes mem)
     (setf edt (export-directory-table (get-rva-table-bytes bytes mem "Export Table RVA"  "Export Table Size") 0))
-    (format t "~S  ~%~S~%"
+    (format t "~S  ~%~S ~S~%"
             edt
             (get-allocated-string  *memory*
                                    (rva-addr
                                     (struct-value
                                      "NameRVA"
                                      edt)
-                                    bytes)))))
+                                    bytes))
+            (struct-value "OrdinalBase" edt)
+            )))

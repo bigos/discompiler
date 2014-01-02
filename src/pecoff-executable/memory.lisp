@@ -130,7 +130,7 @@
                             until (zerop (char-code z))
                             collecting z)))))
     (if found
-        found
+        (concatenate 'string ""        found)
         (error "address ~S is not valid" addr))))
 
 (defgeneric set-allocated (memory addr val))
