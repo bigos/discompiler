@@ -147,8 +147,9 @@
 ;; use this in REPL
 ;;(exports *bytes* (loader *bytes*))
 (defun exports (bytes memory)
-  (let ((edt))
-    (setf edt (export-directory-table (get-rva-table-bytes bytes memory "Export Table RVA"  "Export Table Size") 0))
+  (let ((edt (export-directory-table
+              (get-rva-table-bytes bytes memory "Export Table RVA"
+                                   "Export Table Size") 0)))
     (format t "memory blocks ~S~%" (blocks memory))
     (format t "~S  ~%~S ~S~%entries ~S names ~S address table hex addr  ~S~%"
             edt
@@ -162,4 +163,15 @@
             (struct-value "AddressTableEntries" edt)
             (struct-value "NumberOfNamePointers" edt)
             (hex-rva-addr  (struct-value "ExportAddressTableRVA" edt) bytes))
+    (format t "~&address table entries~%")
+    (loop for ate from 0 to (1- (struct-value "AddressTableEntries" edt))
+       for z = (* ate (* 2 +long+))
+       for y = (rva-addr  (+ (struct-value
+                              "ExportAddressTableRVA"
+                              edt) z) bytes )
+       for a = (bytes-to-type-int (get-allocated-bytes memory y 4))
+       for b = (bytes-to-type-int (get-allocated-bytes memory (+ y +long+) 4))
+       do
+         (format t "~x ~x ~x        " y a b)
+         )
     ))
