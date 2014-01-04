@@ -172,6 +172,13 @@
        for a = (bytes-to-type-int (get-allocated-bytes memory y 4))
        for b = (bytes-to-type-int (get-allocated-bytes memory (+ y +long+) 4))
        do
-         (format t "~x ~x ~x        " y a b)
+         ;; page 104 need to check if the documentation contains error
+         (format t "~x  ~x ~x  ~x ~x ~%"
+                 y
+                 a
+                 (rva-addr a bytes)
+                 b
+                 (rva-addr b bytes)
+                 )
          )
     ))
