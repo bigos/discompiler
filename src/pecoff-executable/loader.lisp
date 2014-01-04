@@ -172,13 +172,18 @@
        for a = (bytes-to-type-int (get-allocated-bytes memory y 4))
        for b = (bytes-to-type-int (get-allocated-bytes memory (+ y +long+) 4))
        do
-         ;; page 104 need to check if the documentation contains error
-         (format t "~x  ~x ~x  ~x ~x ~%"
+       ;; think of last paragraph on page 103
+       ;; I got names of some exported functions
+       ;; but I still get errors on some entries
+         (format t "~x  ~x ~x  ~x ~x ~S~%"
                  y
                  a
                  (rva-addr a bytes)
                  b
                  (rva-addr b bytes)
+                 (handler-case
+                     (get-allocated-string memory (rva-addr b bytes))
+                   (error (se) (format nil "address error") ))
                  )
          )
     ))
