@@ -144,8 +144,28 @@
         (c-structure-values bytes elements offset)
       (values data structure-size))))
 
-;; use this in REPL
-;;(exports *bytes* (loader *bytes*))
+(defun export-address-table (bytes memory edt)
+  (loop for ate from 0 to (1- (struct-value "AddressTableEntries" edt))
+     for z = (* ate (* 2 +long+))
+     for y = (rva-addr  (+ (struct-value
+                            "ExportAddressTableRVA"
+                            edt) z) bytes )
+     for a = (bytes-to-type-int (get-allocated-bytes memory y 4))
+     for b = (bytes-to-type-int (get-allocated-bytes memory (+ y +long+) 4))
+     do
+     ;; think of last paragraph on page 103
+     ;; I got names of some exported functions
+     ;; but I still get errors on some entries
+       (format t "~x  ~x ~x  ~x ~x ~S~%"
+               y
+               a
+               (rva-addr a bytes)
+               b
+               (rva-addr b bytes)
+               (handler-case
+                   (get-allocated-string memory (rva-addr b bytes))
+                 (error (se) (format nil "address error") )))))
+
 (defun exports (bytes memory)
   (let ((edt (export-directory-table
               (get-rva-table-bytes bytes memory "Export Table RVA"
@@ -164,26 +184,6 @@
             (struct-value "NumberOfNamePointers" edt)
             (hex-rva-addr  (struct-value "ExportAddressTableRVA" edt) bytes))
     (format t "~&address table entries~%")
-    (loop for ate from 0 to (1- (struct-value "AddressTableEntries" edt))
-       for z = (* ate (* 2 +long+))
-       for y = (rva-addr  (+ (struct-value
-                              "ExportAddressTableRVA"
-                              edt) z) bytes )
-       for a = (bytes-to-type-int (get-allocated-bytes memory y 4))
-       for b = (bytes-to-type-int (get-allocated-bytes memory (+ y +long+) 4))
-       do
-       ;; think of last paragraph on page 103
-       ;; I got names of some exported functions
-       ;; but I still get errors on some entries
-         (format t "~x  ~x ~x  ~x ~x ~S~%"
-                 y
-                 a
-                 (rva-addr a bytes)
-                 b
-                 (rva-addr b bytes)
-                 (handler-case
-                     (get-allocated-string memory (rva-addr b bytes))
-                   (error (se) (format nil "address error") ))
-                 )
-         )
+    (export-address-table bytes memory edt)
+
     ))
