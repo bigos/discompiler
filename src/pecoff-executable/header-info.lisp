@@ -7,12 +7,12 @@
   (cons  val (concatenate 'string "#x" (int-to-hex val))))
 
 (defun used-rvas (bytes)
-  (let* ((rvas (subseq (optional-header bytes) 30 (+ 30 32))))
+  (let ((rvas (subseq (optional-header bytes) 30 (+ 30 32))))
     (loop for x
        from 0
        to (1- (list-length rvas))
        by 2
-       when (not (zerop (caddr (nth x rvas))))
+       unless (zerop (caddr (nth x rvas)))
        collect
          (list
           (nth x rvas)

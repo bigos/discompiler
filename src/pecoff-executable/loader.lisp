@@ -32,14 +32,12 @@
                   collecting  (code-char c))))
 
 (defun import-by-ordinalp (bytes ilx)
-  (if (= 1
-         (ldb (byte 1
-                    (if (eq 'PE32 (optional-header-image-type bytes))
-                        31
-                        63))
-              ilx))
-      T
-      nil))
+  (= 1
+     (ldb (byte 1
+                (if (eq 'PE32 (optional-header-image-type bytes))
+                    31
+                    63))
+          ilx)))
 
 (defun imported-function-names (mem bytes imp-dir-tbl)
   (declare (optimize (speed 0) (space 1) (compilation-speed 0) (debug 3)))
