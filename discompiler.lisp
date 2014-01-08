@@ -147,9 +147,9 @@
    (flatten
     (loop
        for inst in *instructions*
-       collecting (cl-utilities:split-sequence
-                   #\/
-                   (instruction-mnemonics-string inst))))
+       collecting (cl-utilities:split-sequence []
+                                               #\/
+                                               (instruction-mnemonics-string inst))))
    #'string-lessp))
 
 (defun flatten (structure)
@@ -186,7 +186,6 @@
              (setf found T)
              (loop-finish)))
       (unless found
-        (progn
           ;;(format t "not found ~%")
-          (push `(,columns (,mnemonics)) column-mnemonics))))
+        (push `(,columns (,mnemonics)) column-mnemonics)))
     column-mnemonics))
