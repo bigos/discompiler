@@ -22,3 +22,10 @@ http://www.skyfree.org/linux/references/coff.pdf
 http://www.cultdeadcow.com/tools/pewrap.html
 
 http://msdn.microsoft.com/en-us/windows/hardware/gg463119.aspx
+
+
+using Licp Critic
+=====================
+
+    DISCOMPILER> (ql:quickload :lisp-critic)
+    DISCOMPILER> (lisp-critic-user::critique (+ 1 2 3))
