@@ -156,7 +156,7 @@
      ;; think of last paragraph on page 103
      ;; I got names of some exported functions
      ;; but I still get errors on some entries
-       (format t "~x  ~x ~x  ~x ~x ~S~%"
+       (format nil "~x  ~x ~x  ~x ~x ~S~%"
                y
                a
                (rva-addr a bytes)
@@ -165,6 +165,21 @@
                (handler-case
                    (get-allocated-string memory (rva-addr b bytes))
                  (error (se) (format nil "address error") )))))
+
+(defun name-pointer-table (bytes memory edt)
+  (loop for npe from 0 to (1- (struct-value "NumberOfNamePointers" edt))
+     for y = (rva-addr (+ (struct-value "NamePointerRVA" edt) (* npe +long+))
+                       bytes)
+     for a = (bytes-to-type-int (get-allocated-bytes memory y 4))
+     do
+       (format t "~S ~x ~x ~x ~S  ~%  " npe y a (rva-addr a bytes)
+               (get-allocated-string memory (rva-addr a bytes))
+
+
+               )
+       )
+  )
+
 
 (defun exports (bytes memory)
   (let ((edt (export-directory-table
@@ -184,6 +199,7 @@
             (struct-value "NumberOfNamePointers" edt)
             (hex-rva-addr  (struct-value "ExportAddressTableRVA" edt) bytes))
     (format t "~&address table entries~%")
-    (export-address-table bytes memory edt)
-
+    ;;(export-address-table bytes memory edt)
+    (format t "~&name pointer entries~%")
+    (name-pointer-table bytes memory edt)
     ))
