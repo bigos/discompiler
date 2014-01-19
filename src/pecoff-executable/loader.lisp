@@ -76,40 +76,47 @@
     ;; Map the sections into the allocated area
     (allocate-and-load-sections bytes mem)
     ;; TODO memory blocks are still reversed in memory object
-
-    (format t "import table RVA directory bytes~%~S~%"
-            (get-rva-table-bytes bytes
-                                 mem
-                                 "Import Table RVA"
-                                 "Import Table Size"))
-    (loop
-       for offset from 0 by import-table-size
-       for idt = (import-directory-table
+    (princ "before import table")
+    (if (zerop (optional-header-value bytes "Import Table RVA"))
+        (princ " zero import RVA detected")
+        (progn
+          (format t "import table RVA directory bytes~%~S~%"
                   (get-rva-table-bytes bytes
                                        mem
                                        "Import Table RVA"
-                                       "Import Table Size") offset)
-       until (zerop  (struct-value "ImportLookupTableRVA" idt))
-       do
-         (format t "import directory table ~S~%" idt)
-       ;; need to check why malformed string is being returned
-         (format t "import address table ~X~%" (struct-value "ImportAddressTableRVA" idt))
-         (format t "~S ~%" (library-name mem bytes idt))
-         (format t "import lookup table ~X~%" (rva-addr
-                                               (struct-value "ImportLookupTableRVA" idt)
-                                               bytes))
-         (format t "~%")
-         (imported-function-names mem bytes idt)
-         )
+                                       "Import Table Size"))
+          (princ "before loop")
+
+          (loop
+             for offset from 0 by import-table-size
+             for idt = (import-directory-table
+                        (get-rva-table-bytes bytes
+                                             mem
+                                             "Import Table RVA"
+                                             "Import Table Size") offset)
+             until (zerop  (struct-value "ImportLookupTableRVA" idt))
+             do
+               (format t "import directory table ~S~%" idt)
+             ;; need to check why malformed string is being returned
+               (format t "import address table ~X~%" (struct-value "ImportAddressTableRVA" idt))
+               (format t "~S ~%" (library-name mem bytes idt))
+               (format t "import lookup table ~X~%" (rva-addr
+                                                     (struct-value "ImportLookupTableRVA" idt)
+                                                     bytes))
+               (format t "~%")
+               (imported-function-names mem bytes idt)
+               )))
+    (princ " after loop ")
     ;; don't show it for now, less problems with large files
     ;; (format t "resource table RVA~%~S~%"
     ;;         (get-rva-table-bytes bytes
     ;;                              mem
     ;;                              "Resource Table RVA"
     ;;                              "Resource Table Size"))
-
-    (format t "IAT RVA~%~S~%"
-            (get-rva-table-bytes bytes mem "IAT RVA" "IAT Size" ))
+    (if (zerop (optional-header-value bytes "IAT RVA"))
+        (princ " zero IAT rva detected ")
+        (format t "IAT RVA~%~S~%"
+                (get-rva-table-bytes bytes mem "IAT RVA" "IAT Size" )))
 
 
     ;; Read information from import table and load the DLLs
