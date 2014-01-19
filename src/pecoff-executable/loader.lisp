@@ -76,7 +76,7 @@
     ;; Map the sections into the allocated area
     (allocate-and-load-sections bytes mem)
     ;; TODO memory blocks are still reversed in memory object
-    (princ "before import table")
+
     (if (zerop (optional-header-value bytes "Import Table RVA"))
         (princ " zero import RVA detected")
         (progn
@@ -85,7 +85,7 @@
                                        mem
                                        "Import Table RVA"
                                        "Import Table Size"))
-          (princ "before loop")
+
 
           (loop
              for offset from 0 by import-table-size
@@ -187,24 +187,26 @@
 
 
 (defun exports (bytes memory)
-  (let ((edt (export-directory-table
-              (get-rva-table-bytes bytes memory "Export Table RVA"
-                                   "Export Table Size") 0)))
-    (format t "memory blocks ~S~%" (blocks memory))
-    (format t "~S  ~%~S ~S~%entries ~S names ~S address table hex addr  ~S~%"
-            edt
-            (get-allocated-string  memory
-                                   (rva-addr
-                                    (struct-value
-                                     "NameRVA"
-                                     edt)
-                                    bytes))
-            (struct-value "OrdinalBase" edt)
-            (struct-value "AddressTableEntries" edt)
-            (struct-value "NumberOfNamePointers" edt)
-            (hex-rva-addr  (struct-value "ExportAddressTableRVA" edt) bytes))
-    (format t "~&address table entries~%")
-    ;;(export-address-table bytes memory edt)
-    (format t "~&name pointer entries~%")
-    (name-pointer-table bytes memory edt)
-    ))
+  (if (zerop (optional-header-value bytes "Export Table RVA"))
+      (princ " zero size export table ")
+      (let ((edt (export-directory-table
+                  (get-rva-table-bytes bytes memory "Export Table RVA"
+                                       "Export Table Size") 0)))
+        (format t "memory blocks ~S~%" (blocks memory))
+        (format t "~S  ~%~S ~S~%entries ~S names ~S address table hex addr  ~S~%"
+                edt
+                (get-allocated-string  memory
+                                       (rva-addr
+                                        (struct-value
+                                         "NameRVA"
+                                         edt)
+                                        bytes))
+                (struct-value "OrdinalBase" edt)
+                (struct-value "AddressTableEntries" edt)
+                (struct-value "NumberOfNamePointers" edt)
+                (hex-rva-addr  (struct-value "ExportAddressTableRVA" edt) bytes))
+        (format t "~&address table entries~%")
+        ;;(export-address-table bytes memory edt)
+        (format t "~&name pointer entries~%")
+        (name-pointer-table bytes memory edt)
+        )))
