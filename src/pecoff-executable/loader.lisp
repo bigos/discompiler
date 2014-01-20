@@ -149,55 +149,40 @@
         (c-structure-values bytes elements offset)
       (values data structure-size))))
 
+(defun in-export-tablep (a bytes)
+   (< (optional-header-value bytes "Export Table RVA")
+        a
+        (+ (optional-header-value bytes "Export Table RVA")
+           (optional-header-value bytes "Export Table Size"))))
+
 (defun export-address-table (bytes memory edt)
   (loop for ate from 0 to (1- (struct-value "AddressTableEntries" edt))
      for y = (rva-addr  (+ (struct-value
                             "ExportAddressTableRVA"
                             edt) (* ate (* 2 +long+))) bytes )
      for a = (bytes-to-type-int (get-allocated-bytes memory y 4))
-     ;; until (> ate 10)
+     collect (list
+              y
+              a
+              (rva-addr a bytes)
+              (in-export-tablep a bytes)
+              (if (in-export-tablep a bytes)
+                  (get-allocated-string memory (rva-addr a bytes))
+                  "code pointer"))))
+
+(defun name-pointer-table (bytes memory edt)
+  (loop for npe from 0 to (1- (struct-value "NumberOfNamePointers" edt))
+     for y = (rva-addr (+ (struct-value "NamePointerRVA" edt) (* npe +long+))
+                       bytes)
+     for a = (bytes-to-type-int (get-allocated-bytes memory y 4))
      do
-     ;; think of last paragraph on page 103
-     ;; I got names of some exported functions
-     ;; but I still get errors on some entries
-                                        ; 541184 TO 547839
-     ;; get export table rva
-     ;; get export table rva + size
-     ;; if the addresss is within the range then get the name otherwise its a pointer to code
-
-       (format t "~x  ~x  ~x ~S~%"
-               y
-               a
-               (rva-addr a bytes)
-               ;; (if (< (optional-header-value bytes "Export Table RVA")
-               ;;         a
-               ;;         (+ (optional-header-value bytes "Export Table RVA")
-               ;;            (optional-header-value bytes "Export Table Size")))
-               ;;     (handler-case
-               ;;         (get-allocated-string memory (rva-addr a bytes))
-               ;;       (error (se) (format nil "address error")))
-               ;;     (rva-addr a bytes))
-               (if (< (optional-header-value bytes "Export Table RVA")
-                      a
-                      (+ (optional-header-value bytes "Export Table RVA")
-                         (optional-header-value bytes "Export Table Size")))
-                   (get-allocated-string memory (rva-addr a bytes))
-                   (format nil "code at: ~a" (hex-rva-addr a bytes)))
-               ))
-
-  (defun name-pointer-table (bytes memory edt)
-    (loop for npe from 0 to (1- (struct-value "NumberOfNamePointers" edt))
-       for y = (rva-addr (+ (struct-value "NamePointerRVA" edt) (* npe +long+))
-                         bytes)
-       for a = (bytes-to-type-int (get-allocated-bytes memory y 4))
-       do
-         (format t "~S ~x ~x ~x ~S  ~%  " npe y a (rva-addr a bytes)
-                 (get-allocated-string memory (rva-addr a bytes))
+       (format t "~S ~x ~x ~x ~S  ~%  " npe y a (rva-addr a bytes)
+               (get-allocated-string memory (rva-addr a bytes))
 
 
-                 )
-         )
-    ))
+               )
+       )
+  )
 
 
 (defun exports (bytes memory)
@@ -220,7 +205,8 @@
                 (struct-value "NumberOfNamePointers" edt)
                 (hex-rva-addr  (struct-value "ExportAddressTableRVA" edt) bytes))
         (format t "~&address table entries~%")
-        (export-address-table bytes memory edt)
+        (format t "item addr, val, rva, forwarding, result~%~s~%"
+                (export-address-table bytes memory edt))
         (format t "~&name pointer entries~%")
         ;;(name-pointer-table bytes memory edt)
         )))
