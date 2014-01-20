@@ -151,24 +151,24 @@
 
 (defun export-address-table (bytes memory edt)
   (loop for ate from 0 to (1- (struct-value "AddressTableEntries" edt))
-     for z = (* ate (* 2 +long+))
      for y = (rva-addr  (+ (struct-value
                             "ExportAddressTableRVA"
-                            edt) z) bytes )
+                            edt) (* ate (* 2 +long+))) bytes )
      for a = (bytes-to-type-int (get-allocated-bytes memory y 4))
-     for b = (bytes-to-type-int (get-allocated-bytes memory (+ y +long+) 4))
      do
      ;; think of last paragraph on page 103
      ;; I got names of some exported functions
      ;; but I still get errors on some entries
-       (format nil "~x  ~x ~x  ~x ~x ~S~%"
+                                        ; 541184 TO 547839
+     ;; get export table rva
+     ;; get export table rva + size
+       ;; if the addresss is within the range then get the name otherwise its a pointer to code
+       (format t "~x  ~x  ~x ~S~%"
                y
                a
                (rva-addr a bytes)
-               b
-               (rva-addr b bytes)
                (handler-case
-                   (get-allocated-string memory (rva-addr b bytes))
+                   (get-allocated-string memory (rva-addr a bytes))
                  (error (se) (format nil "address error") )))))
 
 (defun name-pointer-table (bytes memory edt)
@@ -206,7 +206,7 @@
                 (struct-value "NumberOfNamePointers" edt)
                 (hex-rva-addr  (struct-value "ExportAddressTableRVA" edt) bytes))
         (format t "~&address table entries~%")
-        ;;(export-address-table bytes memory edt)
+        (export-address-table bytes memory edt)
         (format t "~&name pointer entries~%")
-        (name-pointer-table bytes memory edt)
+        ;;(name-pointer-table bytes memory edt)
         )))
