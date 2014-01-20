@@ -155,6 +155,7 @@
                             "ExportAddressTableRVA"
                             edt) (* ate (* 2 +long+))) bytes )
      for a = (bytes-to-type-int (get-allocated-bytes memory y 4))
+     ;; until (> ate 10)
      do
      ;; think of last paragraph on page 103
      ;; I got names of some exported functions
@@ -162,28 +163,41 @@
                                         ; 541184 TO 547839
      ;; get export table rva
      ;; get export table rva + size
-       ;; if the addresss is within the range then get the name otherwise its a pointer to code
+     ;; if the addresss is within the range then get the name otherwise its a pointer to code
+
        (format t "~x  ~x  ~x ~S~%"
                y
                a
                (rva-addr a bytes)
-               (handler-case
+               ;; (if (< (optional-header-value bytes "Export Table RVA")
+               ;;         a
+               ;;         (+ (optional-header-value bytes "Export Table RVA")
+               ;;            (optional-header-value bytes "Export Table Size")))
+               ;;     (handler-case
+               ;;         (get-allocated-string memory (rva-addr a bytes))
+               ;;       (error (se) (format nil "address error")))
+               ;;     (rva-addr a bytes))
+               (if (< (optional-header-value bytes "Export Table RVA")
+                      a
+                      (+ (optional-header-value bytes "Export Table RVA")
+                         (optional-header-value bytes "Export Table Size")))
                    (get-allocated-string memory (rva-addr a bytes))
-                 (error (se) (format nil "address error") )))))
+                   (format nil "code at: ~a" (hex-rva-addr a bytes)))
+               ))
 
-(defun name-pointer-table (bytes memory edt)
-  (loop for npe from 0 to (1- (struct-value "NumberOfNamePointers" edt))
-     for y = (rva-addr (+ (struct-value "NamePointerRVA" edt) (* npe +long+))
-                       bytes)
-     for a = (bytes-to-type-int (get-allocated-bytes memory y 4))
-     do
-       (format t "~S ~x ~x ~x ~S  ~%  " npe y a (rva-addr a bytes)
-               (get-allocated-string memory (rva-addr a bytes))
+  (defun name-pointer-table (bytes memory edt)
+    (loop for npe from 0 to (1- (struct-value "NumberOfNamePointers" edt))
+       for y = (rva-addr (+ (struct-value "NamePointerRVA" edt) (* npe +long+))
+                         bytes)
+       for a = (bytes-to-type-int (get-allocated-bytes memory y 4))
+       do
+         (format t "~S ~x ~x ~x ~S  ~%  " npe y a (rva-addr a bytes)
+                 (get-allocated-string memory (rva-addr a bytes))
 
 
-               )
-       )
-  )
+                 )
+         )
+    ))
 
 
 (defun exports (bytes memory)
