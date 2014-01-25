@@ -72,6 +72,14 @@
   (loop for x to (1- count)
      collecting (byte-at bytes (+ offset x))))
 
+(defun bytes-hex (bytes count offset)
+(loop for x to (1- count)
+   do
+     (when (zerop (mod x 8)) (format t "~&~16,8R: " x))
+     (format t "~16,2R " (byte-at bytes (+ offset x)))
+     ))
+
+
 (defun bytes-to-type-int (bytelist)     ;ignoring endianness
   (loop for x to (1- (length bytelist))
      summing (*

@@ -10,7 +10,7 @@
 (defun int-to-text (int)
   (let ((hexval  (int-to-hex int)))
     (reverse
-     (loop 
+     (loop
         for start from 0 to (- (length hexval) 2) by 2
         for end from 2 to (length hexval) by 2
         collecting
