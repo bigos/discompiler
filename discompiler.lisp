@@ -72,10 +72,10 @@
   (loop for x to (1- count)
      collecting (byte-at bytes (+ offset x))))
 
-(defun bytes-hex (bytes count offset)
+(defun bytes-hex (bytes count offset &optional (columns 16))
 (loop for x to (1- count)
    do
-     (when (zerop (mod x 8)) (format t "~&~16,8R: " x))
+     (when (zerop (mod x columns)) (format t "~&~16,8R: " (+ offset x)))
      (format t "~16,2R " (byte-at bytes (+ offset x)))
      ))
 
