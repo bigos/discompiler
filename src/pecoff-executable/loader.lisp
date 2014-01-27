@@ -162,6 +162,7 @@
                             edt) (* ate (* 2 +long+))) bytes )
      for a = (bytes-to-type-int (get-allocated-bytes memory y 4))
      collect (list
+              ate
               (int-to-hex y)
               (int-to-hex     a)
               (int-to-hex (rva-addr a bytes))
@@ -186,7 +187,15 @@
                        bytes)
      for a =  (bytes-to-type-int
                (get-allocated-bytes memory y +short+))
-     collect (list y a (- a (struct-value "OrdinalBase" edt)))))
+     collect (list npe y a (+ a (struct-value "OrdinalBase" edt)))))
+
+(defun address-to-code (results table-pos)
+  "address of execuable code for ordinal table entry"
+  (nth 3 (nth (nth 2 (nth
+                      (car (nth table-pos
+                                (nth 1 results)))
+                      (nth 2 results)))
+              (nth 0 results))))
 
 (defun exports (bytes memory)
   (if (zerop (optional-header-value bytes "Export Table RVA"))
@@ -214,4 +223,6 @@
                 (name-pointer-table bytes memory edt))
         (format t "~&Export ordinal table~%~S~%"
                 (export-ordinal-table bytes memory edt))
-        )))
+        (list (export-address-table bytes memory edt)
+              (name-pointer-table bytes memory edt)
+              (export-ordinal-table bytes memory edt)))))
