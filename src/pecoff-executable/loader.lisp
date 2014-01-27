@@ -162,13 +162,13 @@
                             edt) (* ate (* 2 +long+))) bytes )
      for a = (bytes-to-type-int (get-allocated-bytes memory y 4))
      collect (list
-              y
-              a
-              (rva-addr a bytes)
+              (int-to-hex y)
+              (int-to-hex     a)
+              (int-to-hex (rva-addr a bytes))
               (in-export-tablep a bytes)
               (if (in-export-tablep a bytes)
                   (get-allocated-string memory (rva-addr a bytes))
-                  "code pointer"))))
+                  "pointer to code"))))
 
 (defun name-pointer-table (bytes memory edt)
   (loop for npe from 0 to (1- (struct-value "NumberOfNamePointers" edt))
@@ -208,5 +208,7 @@
         (format t "item addr, val, rva, forwarding, result~%~s~%"
                 (export-address-table bytes memory edt))
         (format t "~&name pointer entries~%")
-        ;;(name-pointer-table bytes memory edt)
+        (name-pointer-table bytes memory edt)
+        (format t "~&Export ordinal table")
+
         )))
