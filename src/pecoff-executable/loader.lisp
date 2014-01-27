@@ -175,8 +175,8 @@
      for y = (rva-addr (+ (struct-value "NamePointerRVA" edt) (* npe +long+))
                        bytes)
      for a = (bytes-to-type-int (get-allocated-bytes memory y 4))
-     do
-       (format t "~S ~x ~x ~x ~S  ~%  " npe y a (rva-addr a bytes)
+     collect
+       (list npe y a (rva-addr a bytes)
                (get-allocated-string memory (rva-addr a bytes)))
        ))
 
@@ -184,11 +184,9 @@
   (loop for npe from 0 to (1- (struct-value "NumberOfNamePointers" edt))
      for y = (rva-addr (+ (struct-value "OrdinalTableRVA" edt) (* npe +short+))
                        bytes)
-     do
-       (format t "~&~X   ~X~%" y (bytes-to-type-int
-                                  (get-allocated-bytes memory y +short+)))
-       )
-  )
+     for a =  (bytes-to-type-int
+               (get-allocated-bytes memory y +short+))
+     collect (list y a (- a (struct-value "OrdinalBase" edt)))))
 
 (defun exports (bytes memory)
   (if (zerop (optional-header-value bytes "Export Table RVA"))
@@ -212,8 +210,8 @@
         (format t "~&address table entries~%")
         (format t "item addr, val, rva, forwarding, result~%~s~%"
                 (export-address-table bytes memory edt))
-        (format t "~&name pointer entries~%")
-        (name-pointer-table bytes memory edt)
-        (format t "~&Export ordinal table")
-        (export-ordinal-table bytes memory edt)
+        (format t "~&name pointer entries~%~S~%"
+                (name-pointer-table bytes memory edt))
+        (format t "~&Export ordinal table~%~S~%"
+                (export-ordinal-table bytes memory edt))
         )))
