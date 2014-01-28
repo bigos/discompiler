@@ -189,17 +189,15 @@
                (get-allocated-bytes memory y +short+))
      collect (list npe y a (+ a (struct-value "OrdinalBase" edt)))))
 
-(defun address-to-code (results table-pos)
+(defun address-to-code (export-list table-pos)
   "address of execuable code for ordinal table entry"
-  (let* ((a  (nth table-pos (nth 1 results)))
+  (let* ((a  (nth table-pos (nth 1 export-list)))
          (a1 (car a))
-         (a2 (nth table-pos (nth 2 results)))
-         (b (nth 3 (nth a1 (nth 2 results))))
-         (b1 (nth 2 (nth a1 (nth 2 results))))
-         )
-    (format t "~s   ~s  ordinal # ~s    export address table index ~s~%" a a2 b b1)
-    (nth 3 (nth b1
-                (nth 0 results)))))
+         (b (nth 3 (nth a1 (nth 2 export-list))))
+         (b1 (nth 2 (nth a1 (nth 2 export-list)))))
+    (format t "  ordinal # ~s    export address table index ~s  name ~S~%"
+            b b1 (nth 4 a))
+    (nth 3 (nth b1 (nth 0 export-list)))))
 
 (defun exports (bytes memory)
   (if (zerop (optional-header-value bytes "Export Table RVA"))
