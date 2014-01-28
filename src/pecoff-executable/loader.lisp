@@ -157,15 +157,12 @@
 
 (defun export-address-table (bytes memory edt)
   (loop for ate from 0 to (1- (struct-value "AddressTableEntries" edt))
-     for y = (rva-addr  (+ (struct-value
-                            "ExportAddressTableRVA"
-                            edt) (* ate (* 1 +long+))) bytes )
-     for a = (bytes-to-type-int (get-allocated-bytes memory y 4))
+     for offset = (rva-addr  (+ (struct-value "ExportAddressTableRVA" edt)
+                           (* ate  +long+))
+                        bytes)
+     for a = (bytes-to-type-int (get-allocated-bytes memory offset 4))
      collect (list
-              ate
-              (int-to-hex y)
-              (int-to-hex     a)
-              (int-to-hex (rva-addr a bytes))
+              (rva-addr a bytes)
               (in-export-tablep a bytes)
               (if (in-export-tablep a bytes)
                   (get-allocated-string memory (rva-addr a bytes))
@@ -193,18 +190,26 @@
   "address of execuable code for ordinal table entry"
   (let* ((a  (nth table-pos (nth 1 export-list)))
          (a1 (car a))
-         (b (nth 3 (nth a1 (nth 2 export-list))))
-         (b1 (nth 2 (nth a1 (nth 2 export-list)))))
+         (ordinal (nth 3 (nth a1 (nth 2 export-list))))
+         (address-index (nth 2 (nth a1 (nth 2 export-list)))))
     (format t "  ordinal # ~s    export address table index ~s  name ~S~%"
-            b b1 (nth 4 a))
-    (nth 3 (nth b1 (nth 0 export-list)))))
+            ordinal address-index (nth 4 a))
+    (list (car (nth address-index (nth 0 export-list)))
+          ordinal
+          (nth 4 a))
+    ))
 
 (defun exports (bytes memory)
   (if (zerop (optional-header-value bytes "Export Table RVA"))
       (princ " zero size export table ")
-      (let ((edt (export-directory-table
-                  (get-rva-table-bytes bytes memory "Export Table RVA"
-                                       "Export Table Size") 0)))
+      (let* ((edt (export-directory-table
+                   (get-rva-table-bytes bytes memory "Export Table RVA"
+                                        "Export Table Size") 0))
+             (address-table (export-address-table bytes memory edt))
+             (name-table (name-pointer-table bytes memory edt))
+             (ordinal-table (export-ordinal-table bytes memory edt))
+             (results))
+
         (format t "memory blocks ~S~%" (blocks memory))
         (format t "~S  ~%~S ~S~%entries ~S names ~S address table hex addr  ~S~%"
                 edt
@@ -220,11 +225,10 @@
                 (hex-rva-addr  (struct-value "ExportAddressTableRVA" edt) bytes))
         (format t "~&address table entries~%")
         (format t "item addr, val, rva, forwarding, result~%~s~%"
-                (export-address-table bytes memory edt))
+                address-table)
         (format t "~&name pointer entries~%~S~%"
-                (name-pointer-table bytes memory edt))
+                name-table)
         (format t "~&Export ordinal table~%~S~%"
-                (export-ordinal-table bytes memory edt))
-        (list (export-address-table bytes memory edt)
-              (name-pointer-table bytes memory edt)
-              (export-ordinal-table bytes memory edt)))))
+                ordinal-table)
+        (setf results (list address-table name-table ordinal-table))
+        )))
