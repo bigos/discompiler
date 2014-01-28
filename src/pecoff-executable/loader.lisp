@@ -159,7 +159,7 @@
   (loop for ate from 0 to (1- (struct-value "AddressTableEntries" edt))
      for y = (rva-addr  (+ (struct-value
                             "ExportAddressTableRVA"
-                            edt) (* ate (* 2 +long+))) bytes )
+                            edt) (* ate (* 1 +long+))) bytes )
      for a = (bytes-to-type-int (get-allocated-bytes memory y 4))
      collect (list
               ate
@@ -191,11 +191,15 @@
 
 (defun address-to-code (results table-pos)
   "address of execuable code for ordinal table entry"
-  (nth 3 (nth (nth 2 (nth
-                      (car (nth table-pos
-                                (nth 1 results)))
-                      (nth 2 results)))
-              (nth 0 results))))
+  (let* ((a  (nth table-pos (nth 1 results)))
+         (a1 (car a))
+         (a2 (nth table-pos (nth 2 results)))
+         (b (nth 3 (nth a1 (nth 2 results))))
+         (b1 (nth 2 (nth a1 (nth 2 results))))
+         )
+    (format t "~s   ~s  ordinal # ~s    export address table index ~s~%" a a2 b b1)
+    (nth 3 (nth b1
+                (nth 0 results)))))
 
 (defun exports (bytes memory)
   (if (zerop (optional-header-value bytes "Export Table RVA"))
