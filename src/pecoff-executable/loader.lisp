@@ -150,10 +150,10 @@
       (values data structure-size))))
 
 (defun in-export-tablep (a bytes)
-   (< (optional-header-value bytes "Export Table RVA")
-        a
-        (+ (optional-header-value bytes "Export Table RVA")
-           (optional-header-value bytes "Export Table Size"))))
+  (< (optional-header-value bytes "Export Table RVA")
+     a
+     (+ (optional-header-value bytes "Export Table RVA")
+        (optional-header-value bytes "Export Table Size"))))
 
 (defun export-address-table (bytes memory edt)
   (loop for ate from 0 to (1- (struct-value "AddressTableEntries" edt))
@@ -182,12 +182,12 @@
 
 (defun address-to-code (export-list table-pos)
   "address of execuable code for ordinal table entry"
-  (let ((name (nth table-pos (nth 1 export-list)))
-        (ordinal (nth table-pos (nth 2 export-list))))
-    (format t "  ordinal # ~s    export address table index ~s  name ~S~%"
-            (cdr ordinal) (car ordinal) name)
-    (int-to-hex (nth (car ordinal) (nth 0 export-list) ))
-    ))
+  (let* ((name (nth table-pos (nth 1 export-list)))
+         (ord (nth table-pos (nth 2 export-list)))
+         (ordinal (cdr ord))
+         (addr-index (car ord)))
+    (format t "  ordinal # ~s    export address table index ~s  name ~S~%"             ordinal addr-index name)
+    (int-to-hex (nth addr-index (nth 0 export-list)))))
 
 (defun exports (bytes memory)
   (if (zerop (optional-header-value bytes "Export Table RVA"))
