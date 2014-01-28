@@ -158,15 +158,11 @@
 (defun export-address-table (bytes memory edt)
   (loop for ate from 0 to (1- (struct-value "AddressTableEntries" edt))
      for offset = (rva-addr  (+ (struct-value "ExportAddressTableRVA" edt)
-                           (* ate  +long+))
-                        bytes)
+                                (* ate  +long+))
+                             bytes)
      for a = (bytes-to-type-int (get-allocated-bytes memory offset 4))
-     collect (list
-              (rva-addr a bytes)
-              (in-export-tablep a bytes)
-              (if (in-export-tablep a bytes)
-                  (get-allocated-string memory (rva-addr a bytes))
-                  "pointer to code"))))
+     collect
+       (rva-addr a bytes)))
 
 (defun name-pointer-table (bytes memory edt)
   (loop for npe from 0 to (1- (struct-value "NumberOfNamePointers" edt))
@@ -174,9 +170,7 @@
                        bytes)
      for a = (bytes-to-type-int (get-allocated-bytes memory y 4))
      collect
-       (list npe y a (rva-addr a bytes)
-               (get-allocated-string memory (rva-addr a bytes)))
-       ))
+       (get-allocated-string memory (rva-addr a bytes))))
 
 (defun export-ordinal-table (bytes memory edt)
   (loop for npe from 0 to (1- (struct-value "NumberOfNamePointers" edt))
@@ -184,19 +178,15 @@
                        bytes)
      for a =  (bytes-to-type-int
                (get-allocated-bytes memory y +short+))
-     collect (list npe y a (+ a (struct-value "OrdinalBase" edt)))))
+     collect (cons a (+ a (struct-value "OrdinalBase" edt)))))
 
 (defun address-to-code (export-list table-pos)
   "address of execuable code for ordinal table entry"
-  (let* ((a  (nth table-pos (nth 1 export-list)))
-         (a1 (car a))
-         (ordinal (nth 3 (nth a1 (nth 2 export-list))))
-         (address-index (nth 2 (nth a1 (nth 2 export-list)))))
+  (let ((name (nth table-pos (nth 1 export-list)))
+        (ordinal (nth table-pos (nth 2 export-list))))
     (format t "  ordinal # ~s    export address table index ~s  name ~S~%"
-            ordinal address-index (nth 4 a))
-    (list (car (nth address-index (nth 0 export-list)))
-          ordinal
-          (nth 4 a))
+            (cdr ordinal) (car ordinal) name)
+    (int-to-hex (nth (car ordinal) (nth 0 export-list) ))
     ))
 
 (defun exports (bytes memory)
