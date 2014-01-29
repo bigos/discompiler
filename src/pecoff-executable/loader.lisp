@@ -20,10 +20,8 @@
       (values data structure-size))))
 
 (defun rva-addr-in-struct (struct-name struct bytes &optional (offset 0))
-  (rva-addr
-   (+ (struct-value struct-name struct)
-      offset)
-   bytes))
+  (rva-addr (+ (struct-value struct-name struct) offset)
+            bytes))
 
 (defun library-name (mem bytes directory-table)
   (declare (optimize (speed 0) (space 1) (compilation-speed 0) (debug 3)))
@@ -45,7 +43,23 @@
                     63))
           ilx)))
 
-(defun imported-function-names (mem bytes imp-dir-tbl)
+(defun imported-function-hint (mem bytes ilx)
+  (format nil " ~S <-hint   "
+          (bytes-to-type-int
+           (get-allocated-bytes mem
+                                (rva-addr ilx bytes) 2))))
+
+(defun imported-function-name (mem bytes ilx offset)
+  (concatenate 'string ""
+               (loop for offset from 2 by 1
+                  for c = (get-allocated mem
+                                         (rva-addr
+                                          (+ offset ilx )
+                                          bytes))
+                  while (not (zerop c))
+                  collecting (code-char c))))
+
+(defun imported-function-names (mem bytes imp-dir-tbl offset)
   (declare (optimize (speed 0) (space 1) (compilation-speed 0) (debug 3)))
   (loop for il from (struct-value "ImportLookupTableRVA" imp-dir-tbl) by 4
      for ilx = (bytes-to-type-int (get-allocated-bytes mem (rva-addr il bytes) 4))
@@ -55,15 +69,9 @@
                (if (import-by-ordinalp bytes ilx)
                    (ldb (byte 16 0) ilx)
                    (concatenate 'string
-                                (format nil " ~S <-hint   "
-                                        (bytes-to-type-int (get-allocated-bytes mem (rva-addr ilx bytes) 2)))
-                                (loop for offset from 2 by 1
-                                   for c = (get-allocated mem
-                                                          (rva-addr
-                                                           (+ offset ilx )
-                                                           bytes))
-                                   while (not (zerop c))
-                                   collecting (code-char c)))))))
+                                (imported-function-hint mem bytes ilx)
+                                (imported-function-name mem bytes ilx offset)
+                                )))))
 
 (defun loader-data (bytes mem import-table-size)
   (progn
@@ -81,13 +89,13 @@
                                        "Import Table Size") offset)
        until (zerop  (struct-value "ImportLookupTableRVA" idt))
        do
-         (format t "import directory table ~S~%" idt)
+         (format t "~%import directory table ~S~%" idt)
          (format t "import address table ~X~%" (struct-value "ImportAddressTableRVA" idt))
          (format t "~S ~%" (library-name mem bytes idt))
          (format t "import lookup table ~X~%"
                  (rva-addr-in-struct  "ImportLookupTableRVA" idt bytes ))
          (format t "~%")
-         (imported-function-names mem bytes idt))))
+         (imported-function-names mem bytes idt offset))))
 
 (defun loader (bytes)
   (let* ((mem (make-instance 'memory :start #x110000 :end #xFFFF0001))
