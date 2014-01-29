@@ -179,21 +179,17 @@
   (cl-utilities:split-sequence #\/ (instruction-mnemonics-string instruction)))
 
 (defun uniques (instructions)
-  (let ((columns) (mnemonics) (found) (column-mnemonics))
-    (dolist (i instructions)
-      (setf columns (column-keywords i))
-      (setf mnemonics (instruction-mnemonics-string i))
-      (setf found nil)
-      ;;(format t "~s ~s ~S~%" found columns mnemonics)
-      (loop for cm in column-mnemonics
-         when (equalp columns (car cm))
-         do
-           (progn
-             (push mnemonics (cadr cm))
-             ;;(format t ">>>>> ~S ~S~%" cm (cadr cm))
-             (setf found T)
-             (loop-finish)))
-      (unless found
-          ;;(format t "not found ~%")
-        (push `(,columns (,mnemonics)) column-mnemonics)))
-    column-mnemonics))
+  (loop for i in instructions
+     for columns = (column-keywords i)
+     for mnemonics = (instruction-mnemonics-string i)
+     for found = nil
+     do ;;(format t "~s ~s ~S~%" found columns mnemonics)
+       (loop for cm in column-mnemonics
+          when (equalp columns (car cm))
+          do
+            (push mnemonics (cadr cm)) ;(format t ">>>>> ~S ~S~%" cm (cadr cm))
+            (setf found T)
+            (loop-finish))
+     unless found
+     ;;(format t "not found ~%")
+     collect `(,columns (,mnemonics))))
