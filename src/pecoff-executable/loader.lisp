@@ -189,6 +189,21 @@
     (format t "  ordinal # ~s    export address table index ~s  name ~S~%"             ordinal addr-index name)
     (int-to-hex (nth addr-index (nth 0 export-list)))))
 
+(defun ordinal-name (export-list ord)
+  (loop for o in (nth 2 export-list)
+     for x from 0
+     for ordinal = (cdr o)
+     until (eq ord ordinal)
+     finally (return (nth x (nth 1 export-list)))))
+
+(defun ordinal-code-address (export-list ord)
+  (loop for o in (nth 2 export-list)
+     for x from 0
+     for ordinal = (cdr o)
+     for index = (car o)
+     until (eq ord ordinal)
+     finally (return (nth index (nth 0 export-list)))))
+
 (defun exports (bytes memory)
   (if (zerop (optional-header-value bytes "Export Table RVA"))
       (princ " zero size export table ")
