@@ -36,12 +36,11 @@
                   collecting  (code-char c))))
 
 (defun import-by-ordinalp (bytes ilx)
-  (= 1
-     (ldb (byte 1
-                (if (eq 'PE32 (optional-header-image-type bytes))
-                    31
-                    63))
-          ilx)))
+  (= 1 (ldb (byte 1
+                  (if (eq 'PE32 (optional-header-image-type bytes))
+                      31
+                      63))
+            ilx)))
 
 (defun imported-function-hint (mem bytes ilx)
   (format nil " ~S <-hint   "
@@ -53,9 +52,8 @@
   (concatenate 'string ""
                (loop for offset from 2 by 1
                   for c = (get-allocated mem
-                                         (rva-addr
-                                          (+ offset ilx )
-                                          bytes))
+                                         (rva-addr (+ offset ilx)
+                                                   bytes))
                   while (not (zerop c))
                   collecting (code-char c))))
 
