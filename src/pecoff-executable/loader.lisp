@@ -204,6 +204,17 @@
      until (eq ord ordinal)
      finally (return (nth index (nth 0 export-list)))))
 
+(defun ordinal-names (export-list)
+  (loop for o in (nth 2 export-list)
+     for x from 0
+     for ordinal = (cdr o)
+     collect (cons ordinal (nth x (nth 1 export-list)))))
+
+(defun file-export-list (file)
+  (let* ((bytes (file-to-bytes file))
+         (memory (loader bytes)))
+    (exports bytes memory)))
+
 (defun exports (bytes memory)
   (if (zerop (optional-header-value bytes "Export Table RVA"))
       (princ " zero size export table ")
