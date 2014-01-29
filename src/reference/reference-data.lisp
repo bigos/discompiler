@@ -4,11 +4,10 @@
 
 
 (defun process-reference-files ()
-  (loop with instructions
-     for file in  (cl-fad:list-directory "my-reference")
+  (loop for file in (cl-fad:list-directory "my-reference")
      do
      ;;(format t "~S~%" file)
-       (setf instructions (nconc instructions (process-file  file)))
+     nconcing (process-file file) into instructions
      finally (return instructions)))
 
 (defun process-file (file)
