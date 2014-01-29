@@ -1,14 +1,5 @@
 (in-package :discompiler)
 
-;;; !!! READ THE FINAL COMMENTS IN HEADER-INFO.LISP !!!
-
-(defun get-rva-table-bytes (bytes mem name size)
-  (get-allocated-bytes mem
-                       (rva-addr
-                        (optional-header-value bytes name)
-                        bytes)
-                       (optional-header-value bytes size )))
-
 (defun import-directory-table (bytes offset)
   (let ((elements '((+long+ "ImportLookupTableRVA")
                     (+long+ "TimeDate")
@@ -18,10 +9,6 @@
     (multiple-value-bind (data structure-size)
         (c-structure-values bytes elements offset)
       (values data structure-size))))
-
-(defun rva-addr-in-struct (struct-name struct bytes &optional (offset 0))
-  (rva-addr (+ (struct-value struct-name struct) offset)
-            bytes))
 
 (defun library-name (mem bytes directory-table)
   (declare (optimize (speed 0) (space 1) (compilation-speed 0) (debug 3)))

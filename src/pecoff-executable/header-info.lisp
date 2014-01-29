@@ -96,3 +96,14 @@
 (defun hex-rva-addr (rva bytes)
   "hex address of RVA in memeory"
   (int-to-hex (rva-addr rva bytes)))
+
+(defun get-rva-table-bytes (bytes mem name size)
+  (get-allocated-bytes mem
+                       (rva-addr
+                        (optional-header-value bytes name)
+                        bytes)
+                       (optional-header-value bytes size )))
+
+(defun rva-addr-in-struct (struct-name struct bytes &optional (offset 0))
+  (rva-addr (+ (struct-value struct-name struct) offset)
+            bytes))
