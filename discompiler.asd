@@ -20,6 +20,7 @@
                                   ((:file "header-info")
                                    (:file "memory")
                                    (:file "loader")
+                                   (:file "exports")
                                    (:module "file-structure"
                                             :components
                                             ((:file "pe-header")
