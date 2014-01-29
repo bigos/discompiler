@@ -33,6 +33,20 @@
                    (md5:md5sum-file file))
     ))
 
+(define-test test-ordinal-exports
+  (let* ((file "~/discompiler/SampleExecutables/ordinal-imports.dll")
+         (bytes (file-to-bytes file))
+         (memory (loader bytes))
+         (results (exports bytes memory))
+         )
+    (assert-equalp #(108 118 94 130 181 127 46 102 206 156 84 172 35 132 113 217)
+                   (md5:md5sum-file file))
+    (assert-equalp "6FC377EA" (address-to-code results 0))
+    (assert-equalp "6FC3742E" (address-to-code results 1))
+    (assert-equalp "6FC64113" (address-to-code results 399))
+    (assert-error 'type-error (address-to-code results 400))
+    ))
+
 (define-test test-load-myfavlibrary
   (let* ((file "~/discompiler/SampleExecutables/myfavlibrary.exe")
          (bytes (file-to-bytes file))
