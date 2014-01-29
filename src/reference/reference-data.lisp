@@ -4,12 +4,12 @@
 
 
 (defun process-reference-files ()
-  (let ((instructions))
-    ;;(format t "~&going to go through files ~S ~S~%" *reference-files*  (cl-fad:list-directory "my-reference"))
-    (loop for file in  (cl-fad:list-directory "my-reference") do
-       ;;(format t "~S~%" file)
-         (setf instructions (nconc instructions (process-file  file))))
-    instructions))
+  (loop with instructions
+     for file in  (cl-fad:list-directory "my-reference")
+     do
+     ;;(format t "~S~%" file)
+       (setf instructions (nconc instructions (process-file  file)))
+     finally (return instructions)))
 
 (defun process-file (file)
   (declare (optimize (speed 0) (space 1) (compilation-speed 0) (debug 3)))
