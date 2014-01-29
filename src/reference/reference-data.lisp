@@ -5,10 +5,7 @@
 
 (defun process-reference-files ()
   (loop for file in (cl-fad:list-directory "my-reference")
-     do
-     ;;(format t "~S~%" file)
-     nconcing (process-file file) into instructions
-     finally (return instructions)))
+     nconcing (process-file file)))
 
 (defun process-file (file)
   (declare (optimize (speed 0) (space 1) (compilation-speed 0) (debug 3)))
