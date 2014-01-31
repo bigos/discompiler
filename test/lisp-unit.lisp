@@ -33,6 +33,15 @@
                    (md5:md5sum-file file))
     ))
 
+(define-test test-imported-libraries
+  (let* ((file "~/discompiler/SampleExecutables/myfavlibrary.exe")
+         (bytes (file-to-bytes file))
+         (mem (make-instance 'memory :start #x110000 :end  #xFFFF0001)))
+    (assert-equalp #(75 77 21 177 248 104 180 41 239 172 255 187 89 19 216 164)
+                   (md5:md5sum-file file))
+    (assert-equal 22 (length (imported-libraries mem bytes)))
+    ))
+
 (define-test test-ordinal-exports
   (let* ((file "~/discompiler/SampleExecutables/ordinal-imports.dll")
          (bytes (file-to-bytes file))
@@ -56,7 +65,7 @@
     (assert-equalp "6FC50B81" (int-to-hex (ordinal-code-address export-list 3)))
     (assert-equalp "6FC33F0B" (int-to-hex (ordinal-code-address export-list 500)))
     ))
-2
+
 (define-test test-load-myfavlibrary
   (let* ((file "~/discompiler/SampleExecutables/myfavlibrary.exe")
          (bytes (file-to-bytes file))
@@ -65,8 +74,7 @@
                    (md5:md5sum-file file))
     (allocate-and-load-sections bytes mem)
     (assert-equalp #(#x55 #x8b #xec) (get-allocated-bytes mem #x401000 3))
-    ;; the problem lies with loader overwriting first 36 bytes of copied section
-    ;; following test checks for data before being mangled by loader
+    ;; following test checks for data before modification by loader during import
     (assert-equalp #(20 207 143) (get-allocated-bytes mem #xb13000 3))
     (assert-equalp #(#x28 #x63 #xc1) (get-allocated-bytes mem #xd01000 3))
     (assert-equalp #(#x00 #x00 #x00) (get-allocated-bytes mem #xda0000 3))
