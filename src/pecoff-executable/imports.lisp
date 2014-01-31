@@ -37,8 +37,8 @@
   (loop for il from (struct-value "ImportLookupTableRVA" imp-dir-tbl) by 4
      for ilx = (bytes-to-type-int (get-allocated-bytes mem (rva-addr il bytes) 4))
      while (not (zerop ilx))
-     do
-       (format t "~&function data ~x  ~x ~S~%" il  ilx
+     collect
+       (list il  ilx
                (if (import-by-ordinalp bytes ilx)
                    (ldb (byte 16 0) ilx)
                    (concatenate 'string

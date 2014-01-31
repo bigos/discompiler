@@ -13,27 +13,30 @@
 
 
 (defun loader-data (bytes mem import-table-size)
-  (format t "import table RVA directory bytes~%~S~%"
-          (get-rva-table-bytes bytes
-                               mem
-                               "Import Table RVA"
-                               "Import Table Size"))
+  ;; (format t "import table RVA directory bytes~%~S~%"
+  ;;         (get-rva-table-bytes bytes
+  ;;                              mem
+  ;;                              "Import Table RVA"
+  ;;                              "Import Table Size"))
   (loop
      for offset from 0 by import-table-size
      for idt = (import-directory-table
                 (get-rva-table-bytes bytes
                                      mem
                                      "Import Table RVA"
-                                     "Import Table Size") offset)
+                                     "Import Table Size")
+                offset)
      until (zerop  (struct-value "ImportLookupTableRVA" idt))
      do
-       (format t "~%import directory table ~S~%" idt)
-       (format t "import address table ~X~%" (struct-value "ImportAddressTableRVA" idt))
-       (format t "~S ~%" (library-name mem bytes idt))
-       (format t "import lookup table ~X~%"
-               (rva-addr-in-struct  "ImportLookupTableRVA" idt bytes ))
-       (format t "~%")
-       (imported-function-names mem bytes idt offset)))
+       ;; (format t "~%import directory table ~S~%" idt)
+       ;; (format t "import address table ~X~%" (struct-value "ImportAddressTableRVA" idt))
+       (format t "~%~S ~%" (library-name mem bytes idt))
+       ;; (format t "import lookup table ~X~%"
+       ;;         (rva-addr-in-struct  "ImportLookupTableRVA" idt bytes ))
+       ;; (format t "~%")
+       (format t "~&imported functions ~S~%"
+               (imported-function-names mem bytes idt offset))
+       ))
 
 (defun loader (bytes)
   (let* ((mem (make-instance 'memory :start #x110000 :end #xFFFF0001))
@@ -44,7 +47,9 @@
     ;; TODO memory blocks are still reversed in memory object
     (if (zerop (optional-header-value bytes "Import Table RVA"))
         (princ " zero import RVA detected")
-        (loader-data bytes mem import-table-size))
+        (progn
+          (format t "import-table-size ~s~%" import-table-size)
+          (loader-data bytes mem import-table-size)))
     (if (zerop (optional-header-value bytes "IAT RVA"))
         (princ " zero IAT rva detected ")
         (format t "IAT RVA~%~S~%"
