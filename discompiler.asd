@@ -20,6 +20,7 @@
                                   ((:file "header-info")
                                    (:file "memory")
                                    (:file "loader")
+                                   (:file "imports")
                                    (:file "exports")
                                    (:module "file-structure"
                                             :components
