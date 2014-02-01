@@ -131,9 +131,7 @@
 
 
 (defun emptystrp (string)
-  (if (equal string "")
-      T
-      nil))
+  (equal string ""))
 
 (defun list-to-string (my-list &optional (separator " "))
   (let ((result))
