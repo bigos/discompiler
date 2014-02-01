@@ -26,12 +26,12 @@
    (get-allocated-bytes mem
                         (rva-addr ilx bytes) 2)))
 
-(defun imported-function-name (mem bytes ilx offset)
+(defun imported-function-name (mem bytes ilx)
   (get-allocated-string mem
                         (rva-addr (+ 2 ilx)
                                   bytes)))
 
-(defun imported-function-names (mem bytes imp-dir-rva offset)
+(defun imported-function-names (mem bytes imp-dir-rva)
   (declare (optimize (speed 0) (space 1) (compilation-speed 0) (debug 3)))
   (loop for il from imp-dir-rva by 4
      for ilx = (bytes-to-type-int (get-allocated-bytes mem (rva-addr il bytes) 4))
@@ -42,7 +42,7 @@
                  (ldb (byte 16 0) ilx)
                  (cons
                   (imported-function-hint mem bytes ilx)
-                  (imported-function-name mem bytes ilx offset)
+                  (imported-function-name mem bytes ilx)
                   )))))
 
 (defun imported-functions (bytes mem)
@@ -61,5 +61,5 @@
        collect
          (list
           (library-name mem bytes idt)
-          (imported-function-names mem bytes imp-dir-rva offset))
+          (imported-function-names mem bytes imp-dir-rva))
          )))
