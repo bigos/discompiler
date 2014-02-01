@@ -14,8 +14,8 @@
 
 (defun loader-data (bytes mem)
   (let ((import-table-size (multiple-value-bind (d s)
-                                (import-directory-table bytes 0)
-                              (declare (ignore d)) s)))
+                               (import-directory-table bytes 0)
+                             (declare (ignore d)) s)))
     ;; (format t "import table RVA directory bytes~%~S~%"
     ;;         (get-rva-table-bytes bytes
     ;;                              mem
@@ -30,15 +30,15 @@
                                        "Import Table Size")
                   offset)
        until (zerop  (struct-value "ImportLookupTableRVA" idt))
-       do
        ;; (format t "~%import directory table ~S~%" idt)
        ;; (format t "import address table ~X~%" (struct-value "ImportAddressTableRVA" idt))
-         (format t "~%~S ~%" (library-name mem bytes idt))
        ;; (format t "import lookup table ~X~%"
        ;;         (rva-addr-in-struct  "ImportLookupTableRVA" idt bytes ))
        ;; (format t "~%")
-         (format t "~&imported functions ~S~%"
-                 (imported-function-names mem bytes idt offset))
+       collect
+         (list
+          (library-name mem bytes idt)
+          (imported-function-names mem bytes idt offset))
          )))
 
 (defun loader (bytes)
@@ -47,9 +47,7 @@
     ;; TODO memory blocks are still reversed in memory object
     (if (zerop (optional-header-value bytes "Import Table RVA"))
         (princ " zero import RVA detected")
-        (progn
-          (format t "import-table-size ~s~%")
-          (loader-data bytes mem)))
+        (loader-data bytes mem))
     (if (zerop (optional-header-value bytes "IAT RVA"))
         (princ " zero IAT rva detected ")
         (format t "IAT RVA~%~S~%"
