@@ -42,9 +42,9 @@
                   while (not (zerop c))
                   collecting (code-char c))))
 
-(defun imported-function-names (mem bytes imp-dir-tbl offset)
+(defun imported-function-names (mem bytes imp-dir-rva offset)
   (declare (optimize (speed 0) (space 1) (compilation-speed 0) (debug 3)))
-  (loop for il from (struct-value "ImportLookupTableRVA" imp-dir-tbl) by 4
+  (loop for il from imp-dir-rva by 4
      for ilx = (bytes-to-type-int (get-allocated-bytes mem (rva-addr il bytes) 4))
      while (not (zerop ilx))
      collect
@@ -68,9 +68,10 @@
                                        "Import Table RVA"
                                        "Import Table Size")
                   offset)
-       until (zerop  (struct-value "ImportLookupTableRVA" idt))
+       for imp-dir-rva = (struct-value "ImportLookupTableRVA" idt)
+       until (zerop imp-dir-rva)
        collect
          (list
           (library-name mem bytes idt)
-          (imported-function-names mem bytes idt offset))
+          (imported-function-names mem bytes imp-dir-rva offset))
          )))
