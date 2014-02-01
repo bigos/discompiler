@@ -10,6 +10,17 @@
         (c-structure-values bytes elements offset)
       (values data structure-size))))
 
+(defun library-name (mem bytes directory-table)
+  (concatenate 'string ""
+               (loop for offset from 0 by 1
+                  for c = (get-allocated mem
+                                         (rva-addr-in-struct "NameRVA"
+                                                             directory-table
+                                                             bytes
+                                                             offset))
+                  until (zerop c)
+                  collecting (code-char c))))
+
 (defun import-by-ordinalp (bytes ilx)
   (= 1 (ldb (byte 1
                   (if (eq 'PE32 (optional-header-image-type bytes))
@@ -18,10 +29,9 @@
             ilx)))
 
 (defun imported-function-hint (mem bytes ilx)
-  (format nil " ~S <-hint   "
-          (bytes-to-type-int
-           (get-allocated-bytes mem
-                                (rva-addr ilx bytes) 2))))
+  (bytes-to-type-int
+   (get-allocated-bytes mem
+                        (rva-addr ilx bytes) 2)))
 
 (defun imported-function-name (mem bytes ilx offset)
   (concatenate 'string ""
@@ -39,9 +49,28 @@
      while (not (zerop ilx))
      collect
        (list il  ilx
-               (if (import-by-ordinalp bytes ilx)
-                   (ldb (byte 16 0) ilx)
-                   (concatenate 'string
-                                (imported-function-hint mem bytes ilx)
-                                (imported-function-name mem bytes ilx offset)
-                                )))))
+             (if (import-by-ordinalp bytes ilx)
+                 (ldb (byte 16 0) ilx)
+                 (cons
+                  (imported-function-hint mem bytes ilx)
+                  (imported-function-name mem bytes ilx offset)
+                  )))))
+
+(defun imported-functions (bytes mem)
+  (let ((import-table-size (multiple-value-bind (d s)
+                               (import-directory-table bytes 0)
+                             (declare (ignore d)) s)))
+    (loop
+       for offset from 0 by import-table-size
+       for idt = (import-directory-table
+                  (get-rva-table-bytes bytes
+                                       mem
+                                       "Import Table RVA"
+                                       "Import Table Size")
+                  offset)
+       until (zerop  (struct-value "ImportLookupTableRVA" idt))
+       collect
+         (list
+          (library-name mem bytes idt)
+          (imported-function-names mem bytes idt offset))
+         )))
