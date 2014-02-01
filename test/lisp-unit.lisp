@@ -105,7 +105,7 @@
 (define-test test-load-myfavlibrary
   (let* ((file "~/discompiler/SampleExecutables/myfavlibrary.exe")
          (bytes (file-to-bytes file))
-         (mem (make-instance 'memory :start #x110000 :end  #xFFFF0001)))
+         (mem (make-instance 'memory :start #x110000 :end  #xFFFF0001 :file-bytes bytes)))
     (assert-equalp #(75 77 21 177 248 104 180 41 239 172 255 187 89 19 216 164)
                    (md5:md5sum-file file))
     (allocate-and-load-sections bytes mem)
@@ -119,7 +119,7 @@
 (define-test test-load-sample-file
   (let* ((file "~/discompiler/SampleExecutables/crackme12.exe")
          (bytes (file-to-bytes file))
-         (mem (make-instance 'memory :start #x110000 :end  #xFFFF0001))
+         (mem (make-instance 'memory :start #x110000 :end  #xFFFF0001 :file-bytes bytes))
          (base) (size-header) (section-alignment)  )
     (assert-equalp '((#x110000 . #xffff0000)) (find-free mem))
     (assert-eq #x400000 (setf base (image-base bytes)))
