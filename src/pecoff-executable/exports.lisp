@@ -49,7 +49,7 @@
          (ord (nth table-pos (nth 2 export-list)))
          (ordinal (cdr ord))
          (addr-index (car ord)))
-    (format t "  ordinal # ~s    export address table index ~s  name ~S~%"             ordinal addr-index name)
+    ;;(format t "  ordinal # ~s    export address table index ~s  name ~S~%" ordinal addr-index name)
     (int-to-hex (nth addr-index (nth 0 export-list)))))
 
 (defun ordinal-name (export-list ord)
