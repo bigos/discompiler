@@ -47,7 +47,7 @@
                        (bytes-to-type-int
                         (bytes bytes (eval (car el)) offset)))
       do
-        (incf offset (eval (car el))))
+        (incf offset (symbol-value (car el))))
    offset))
 
 (defun flag-names (flags value)
