@@ -45,7 +45,7 @@
       collecting (list offset
                        (cadr el)
                        (bytes-to-type-int
-                        (bytes bytes (eval (car el)) offset)))
+                        (bytes bytes (symbol-value (car el)) offset)))
       do
         (incf offset (symbol-value (car el))))
    offset))
