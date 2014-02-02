@@ -1,8 +1,5 @@
 (in-package :discompiler)
 
-;; page 100 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Export table ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
 (defun export-directory-table (bytes offset)
   (let ((elements '((+long+ "ExportFlags")
                     (+long+ "TimeDateStamp")
@@ -19,16 +16,15 @@
         (c-structure-values bytes elements offset)
       (values data structure-size))))
 
-(defun in-export-tablep (a bytes)
+(defun in-export-tablep (addr bytes)
   (< (optional-header-value bytes "Export Table RVA")
-     a
+     addr
      (+ (optional-header-value bytes "Export Table RVA")
         (optional-header-value bytes "Export Table Size"))))
 
 (defun export-address-table (bytes memory edt)
   (loop for ate from 0 to (1- (struct-value "AddressTableEntries" edt))
      for offset = (rva-addr-in-struct "ExportAddressTableRVA" edt bytes (* ate +long+))
-
      for a = (bytes-to-type-int (get-allocated-bytes memory offset 4))
      collect
        (rva-addr a bytes)))
@@ -36,7 +32,6 @@
 (defun name-pointer-table (bytes memory edt)
   (loop for npe from 0 to (1- (struct-value "NumberOfNamePointers" edt))
      for y = (rva-addr-in-struct "NamePointerRVA" edt bytes (* npe +long+))
-
      for a = (bytes-to-type-int (get-allocated-bytes memory y 4))
      collect
        (get-allocated-string memory (rva-addr a bytes))))

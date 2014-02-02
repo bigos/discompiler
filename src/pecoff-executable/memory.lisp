@@ -20,8 +20,7 @@
     (dolist (allocated-range (allocated self))
       (when (not (eq (car allocated-range) first-available))
         (push (cons first-available (1- (car allocated-range))) found-free))
-      (setf first-available (1+ (cdr allocated-range)))
-      )
+      (setf first-available (1+ (cdr allocated-range))))
     (setf last-allocated (cdar (last (allocated self))))
     (when (< last-allocated (end self))
       (push (cons (1+ last-allocated) (end self)) found-free))
@@ -30,7 +29,7 @@
 (defgeneric find-free-block (memory size))
 (defmethod find-free-block ((self memory) size)
   (dolist (avail (find-free self))
-    (if (>= (1+ (- (cdr avail) (car avail))) size)
+    (when (>= (1+ (- (cdr avail) (car avail))) size)
         (return avail))))
 
 (defgeneric find-next-free-block (memory size preferred))
@@ -39,14 +38,14 @@
     (if found
         found
         (dolist (avail (find-free self))
-          (if (and (>= (car avail) preferred)
+          (when (and (>= (car avail) preferred)
                    (>= (1+ (- (cdr avail) (car avail))) size))
               (return avail))))))
 
 (defgeneric find-preferred-block (memory size preferred))
 (defmethod find-preferred-block ((self memory) size preferred)
   (dolist (avail (find-free self))
-    (if (and (<= (car avail) preferred)
+    (when (and (<= (car avail) preferred)
              (<= (+ preferred size -1) (cdr avail)))
         (return (cons preferred (cdr avail))))))
 
@@ -73,9 +72,9 @@
 (defgeneric allocate-next-block (memory size preferred))
 (defmethod allocate-next-block ((self memory) size preferred)
   (let ((found))
-    (cond ((setf found (car (find-next-free-block self size preferred)))
-           (allocation-helper self found size))
-          (T  nil))))
+    (if  (setf found (car (find-next-free-block self size preferred)))
+         (allocation-helper self found size)
+         nil)))
 
 (defgeneric allocate-block (memory size preferred))
 (defmethod allocate-block ((self memory) size preferred)
@@ -89,32 +88,30 @@
   (setf (allocated self)
         (delete start (allocated self)
                 :test #'(lambda (ignore item)
-                          (if (equalp ignore (car item))
-                              T))))
+                          (equalp ignore (car item)))))
   (setf (blocks self)
         (delete start (blocks self)
                 :test #'(lambda (ignore item)
-                          (if (equalp ignore (start item))
-                              T)))))
+                          (equalp ignore (start item))))))
 
 (defgeneric get-allocated (memory addr))
 (defmethod get-allocated ((self memory) addr)
-    (let ((found))
-      (dolist (alloc (blocks self))
-        (if  (<= (start alloc) addr (end alloc))
-             (return (setf found (aref (data alloc) (- addr (start alloc)))))))
-      (if found
-          found
-          (error "address ~S is not valid" addr))))
+  (let ((found))
+    (dolist (alloc (blocks self))
+      (when  (<= (start alloc) addr (end alloc))
+        (return (setf found (aref (data alloc) (- addr (start alloc)))))))
+    (if found
+        found
+        (error "address ~S is not valid" addr))))
 
 (defgeneric get-allocated-bytes (memory addr count))
 (defmethod get-allocated-bytes ((self memory) addr count)
   (let ((found))
     (dolist (alloc (blocks self))
-      (if  (<= (start alloc) addr (end alloc))
-           (return (setf found (subseq (data alloc)
-                                       (- addr (start alloc))
-                                       (+ (- addr (start alloc)) count))))))
+      (when  (<= (start alloc) addr (end alloc))
+        (return (setf found (subseq (data alloc)
+                                    (- addr (start alloc))
+                                    (+ (- addr (start alloc)) count))))))
     (if found
         found
         (error "address ~S is not valid" addr))))
@@ -123,13 +120,13 @@
 (defmethod get-allocated-string ((self memory) addr)
   (let ((found))
     (dolist (alloc (blocks self))
-      (if  (<= (start alloc) addr (end alloc))
-           (return (setf found
-                         (loop for x from 0
-                            for z = (code-char (aref (data alloc)
-                                                     (+ (- addr (start alloc)) x)))
-                            until (zerop (char-code z))
-                            collecting z)))))
+      (when (<= (start alloc) addr (end alloc))
+        (return (setf found
+                      (loop for x from 0
+                         for z = (code-char (aref (data alloc)
+                                                  (+ (- addr (start alloc)) x)))
+                         until (zerop (char-code z))
+                         collecting z)))))
     (if found
         (concatenate 'string ""        found)
         (error "address ~S is not valid" addr))))
@@ -139,7 +136,7 @@
   (let ((found))
     (dolist (alloc (blocks self))
       ;;(format t "~S : ~S ~S ~S : ~S ~%" alloc (start alloc) addr (end alloc) (<= (start alloc) addr  (end alloc)))
-      (if  (<= (start alloc) addr (end alloc))
+      (when (<= (start alloc) addr (end alloc))
            (progn
              (setf (aref (data alloc) (- addr (start alloc))) val)
              (setq found T)
