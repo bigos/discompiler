@@ -5,7 +5,6 @@
 ;; add this check what garbage collection is doing
 (setf  (sb-ext:gc-logfile) "/tmp/sbcl-log-file.log")
 
-
 (define-test test-executable-integrity
   (assert-equalp #(17 122 62 7 172 101 207 43 236 55 231 193 95 182 209 19)
                  (md5:md5sum-file
@@ -36,8 +35,9 @@
     (assert-eq (optional-header-signature bytes)
                #x10b)
     (assert-eq (optional-header-image-type bytes)
-               'PE32))
-  (sb-ext:gc :full T)
+               'PE32)
+    (setf bytes nil)
+    (sb-ext:gc :full T))
   )
 
 (define-test test-imported-libraries
@@ -82,6 +82,8 @@
                      (9423196 2147483667 19)))
     (assert-equalp "WINMM.dll" (car (nth 21 imports)))
     (assert-eq 10 (length (cadr (nth 21 imports))))
+    (setf bytes nil
+          mem nil)
     (sb-ext:gc :full T)
     ))
 
@@ -105,6 +107,8 @@
     (assert-equalp "6FC34642" (int-to-hex (ordinal-code-address export-list 2)))
     (assert-equalp "6FC50B81" (int-to-hex (ordinal-code-address export-list 3)))
     (assert-equalp "6FC33F0B" (int-to-hex (ordinal-code-address export-list 500)))
+    (setf bytes nil
+          memory nil)
     (sb-ext:gc :full T)
     ))
 
@@ -120,6 +124,8 @@
     (assert-equalp #(#x28 #x63 #xc1) (get-allocated-bytes mem #xd01000 3))
     (assert-equalp #(#x00 #x00 #x00) (get-allocated-bytes mem #xda0000 3))
     (assert-equalp #(#x00 #x10 #x00) (get-allocated-bytes mem #x109c000 3))
+    (setf bytes nil
+          mem nil)
     (sb-ext:gc :full T)
     ))
 
@@ -154,6 +160,8 @@
     (assert-equalp #(#x6a #x00 #xe8) (get-allocated-bytes mem #x401000 3))
     (assert-eq #x41 (get-allocated mem #x403000))
     (assert-eq #x00 (get-allocated mem #x404000))
+    (setf bytes nil
+          mem nil)
     (sb-ext:gc :full T)
     ))
 

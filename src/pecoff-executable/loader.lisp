@@ -2,7 +2,11 @@
 
 (defun loader (bytes)
   (let ((mem (make-instance 'memory :start #x110000 :end #xFFFF0001 :file-bytes bytes)))
+    (format t "before allocation~%")
+    (room)
     (allocate-and-load-sections bytes mem)
+    (format t "after allocation~%")
+    (room)
     ;; TODO memory blocks are still reversed in memory object
     (if (zerop (optional-header-value bytes "Import Table RVA"))
         (princ " zero import RVA detected")
