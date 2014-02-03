@@ -2,6 +2,10 @@
 
 (setf *print-failures* t)
 
+;; add this check what garbage collection is doing
+(setf  (sb-ext:gc-logfile) "/tmp/sbcl-log-file.log")
+
+
 (define-test test-executable-integrity
   (assert-equalp #(17 122 62 7 172 101 207 43 236 55 231 193 95 182 209 19)
                  (md5:md5sum-file
