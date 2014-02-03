@@ -14,7 +14,7 @@
   (assert-equalp #(75 77 21 177 248 104 180 41 239 172 255 187 89 19 216 164)
                  (md5:md5sum-file
                   "~/discompiler/SampleExecutables/myfavlibrary.exe"))
-  (sb-ext:gc))
+  (sb-ext:gc :full T))
 
 (define-test test-sample-file
   "sample executable file"
@@ -33,7 +33,9 @@
     (assert-eq (optional-header-signature bytes)
                #x10b)
     (assert-eq (optional-header-image-type bytes)
-               'PE32)))
+               'PE32))
+  (sb-ext:gc :full T))
+
 (define-test test-imported-libraries
   (let* ((file "~/discompiler/SampleExecutables/myfavlibrary.exe")
          (bytes (file-to-bytes file))
@@ -74,7 +76,8 @@
                      (9423192 2147483668 20)
                      (9423196 2147483667 19)))
     (assert-equalp "WINMM.dll" (car (nth 21 imports)))
-    (assert-eq 10 (length (cadr (nth 21 imports))))))
+    (assert-eq 10 (length (cadr (nth 21 imports))))
+    (sb-ext:gc :full T)))
 
 (define-test test-ordinal-exports
   (let* ((file "~/discompiler/SampleExecutables/ordinal-imports.dll")
@@ -95,6 +98,7 @@
     (assert-equalp "6FC34642" (int-to-hex (ordinal-code-address export-list 2)))
     (assert-equalp "6FC50B81" (int-to-hex (ordinal-code-address export-list 3)))
     (assert-equalp "6FC33F0B" (int-to-hex (ordinal-code-address export-list 500)))
+    (sb-ext:gc :full T)
     ))
 
 (define-test test-load-myfavlibrary
@@ -107,7 +111,8 @@
     (assert-equalp #(20 207 143) (get-allocated-bytes mem #xb13000 3))
     (assert-equalp #(#x28 #x63 #xc1) (get-allocated-bytes mem #xd01000 3))
     (assert-equalp #(#x00 #x00 #x00) (get-allocated-bytes mem #xda0000 3))
-    (assert-equalp #(#x00 #x10 #x00) (get-allocated-bytes mem #x109c000 3))))
+    (assert-equalp #(#x00 #x10 #x00) (get-allocated-bytes mem #x109c000 3))
+    (sb-ext:gc :full T)))
 
 (define-test test-load-sample-file
   (let* ((file "~/discompiler/SampleExecutables/crackme12.exe")
@@ -139,6 +144,7 @@
     (assert-equalp #(#x6a #x00 #xe8) (get-allocated-bytes mem #x401000 3))
     (assert-eq #x41 (get-allocated mem #x403000))
     (assert-eq #x00 (get-allocated mem #x404000))
+    (sb-ext:gc :full T)
     ))
 
 (define-test test-allocation
@@ -175,7 +181,8 @@
     (assert-equalp 6 (allocate-block mem 9 90))
     ;; allocate available preferred address
     (assert-equalp 90 (allocate-block mem 8 90))
-    (assert-equalp '((15 . 89)) (find-free mem))))
+    (assert-equalp '((15 . 89)) (find-free mem))
+    (sb-ext:gc :full T)))
 
 (define-test test-block-addressing
   (let ((mem (make-instance 'memory :start 1 :end 100)))
@@ -207,6 +214,7 @@
     (assert-equalp 0 (get-allocated mem 6))
     (assert-equalp 0 (get-allocated mem 7))
     (assert-error 'simple-error (get-allocated mem 8))
+    (sb-ext:gc :full T)
     ))
 
 (define-test test-addition
