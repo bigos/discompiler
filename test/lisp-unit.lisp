@@ -42,6 +42,7 @@
          (mem (loader bytes))
          (imports))
     (setq imports (imported-functions bytes mem))
+    (sb-ext:gc :full T)
     (assert-eq 22 (length imports))
     (assert-equalp "ADVAPI32.dll" (car (nth 0 imports)))
     (assert-eq 13 (length (cadr (nth 0 imports))))
@@ -84,6 +85,7 @@
          (bytes (file-to-bytes file))
          (memory (loader bytes))
          (export-list (exports bytes memory)))
+    (sb-ext:gc :full T)
     (assert-equalp "6FC377EA" (address-to-code export-list 0))
     (assert-equalp "6FC3742E" (address-to-code export-list 1))
     (assert-equalp "6FC64113" (address-to-code export-list 399))
@@ -106,6 +108,7 @@
          (bytes (file-to-bytes file))
          (mem (make-instance 'memory :start #x110000 :end  #xFFFF0001 :file-bytes bytes)))
     (allocate-and-load-sections bytes mem)
+    (sb-ext:gc :full T)
     (assert-equalp #(#x55 #x8b #xec) (get-allocated-bytes mem #x401000 3))
     ;; following test checks for data before modification by loader during import
     (assert-equalp #(20 207 143) (get-allocated-bytes mem #xb13000 3))
@@ -131,6 +134,7 @@
     (assert-eq 4096 (setf section-alignment (optional-header-value bytes "SectionAlignment")))
     ;; load sections first
     (allocate-and-load-sections bytes mem)
+    (sb-ext:gc :full T)
     ;; check allocation
     (assert-equalp '((#x110000 . #x3FFFFF)
                      (#x405000 . #xffff0000)) (find-free mem)) ;; verify if find-free returns correct values
