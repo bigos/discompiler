@@ -2,13 +2,24 @@
 
 (setf *print-failures* t)
 
+(define-test test-executable-integrity
+  (assert-equalp #(17 122 62 7 172 101 207 43 236 55 231 193 95 182 209 19)
+                 (md5:md5sum-file
+                  "~/discompiler/SampleExecutables/crackme12.exe"))
+  (sb-ext:gc)
+  (assert-equalp #(108 118 94 130 181 127 46 102 206 156 84 172 35 132 113 217)
+                 (md5:md5sum-file
+                  "~/discompiler/SampleExecutables/ordinal-imports.dll"))
+  (sb-ext:gc)
+  (assert-equalp #(75 77 21 177 248 104 180 41 239 172 255 187 89 19 216 164)
+                 (md5:md5sum-file
+                  "~/discompiler/SampleExecutables/myfavlibrary.exe"))
+  (sb-ext:gc))
 
 (define-test test-sample-file
   "sample executable file"
   (let* ((file "~/discompiler/SampleExecutables/crackme12.exe")
          (bytes (file-to-bytes file)))
-    (assert-equalp #(17 122 62 7 172 101 207 43 236 55 231 193 95 182 209 19)
-                   (md5:md5sum-file file))
     (assert-equal (pe-header-signature-pointer bytes)
                   192)
     (assert-eq (pe-header-signature-validp bytes)
@@ -23,24 +34,11 @@
                #x10b)
     (assert-eq (optional-header-image-type bytes)
                'PE32)))
-
-(define-test test-load-oleaut32-library
-  (let* ((file "~/discompiler/SampleExecutables/ordinal-imports.dll")
-         ;; commented out to suppress unused variable warning
-         ;;(bytes (file-to-bytes file))
-         ;;(mem (make-instance 'memory :start #x110000 :end  #xFFFF0001))
-         )
-    (assert-equalp #(108 118 94 130 181 127 46 102 206 156 84 172 35 132 113 217)
-                   (md5:md5sum-file file))
-    ))
-
 (define-test test-imported-libraries
   (let* ((file "~/discompiler/SampleExecutables/myfavlibrary.exe")
          (bytes (file-to-bytes file))
          (mem (loader bytes))
          (imports))
-    (assert-equalp #(75 77 21 177 248 104 180 41 239 172 255 187 89 19 216 164)
-                   (md5:md5sum-file file))
     (setq imports (imported-functions bytes mem))
     (assert-eq 22 (length imports))
     (assert-equalp "ADVAPI32.dll" (car (nth 0 imports)))
@@ -82,10 +80,7 @@
   (let* ((file "~/discompiler/SampleExecutables/ordinal-imports.dll")
          (bytes (file-to-bytes file))
          (memory (loader bytes))
-         (export-list (exports bytes memory))
-         )
-    (assert-equalp #(108 118 94 130 181 127 46 102 206 156 84 172 35 132 113 217)
-                   (md5:md5sum-file file))
+         (export-list (exports bytes memory)))
     (assert-equalp "6FC377EA" (address-to-code export-list 0))
     (assert-equalp "6FC3742E" (address-to-code export-list 1))
     (assert-equalp "6FC64113" (address-to-code export-list 399))
@@ -106,8 +101,6 @@
   (let* ((file "~/discompiler/SampleExecutables/myfavlibrary.exe")
          (bytes (file-to-bytes file))
          (mem (make-instance 'memory :start #x110000 :end  #xFFFF0001 :file-bytes bytes)))
-    (assert-equalp #(75 77 21 177 248 104 180 41 239 172 255 187 89 19 216 164)
-                   (md5:md5sum-file file))
     (allocate-and-load-sections bytes mem)
     (assert-equalp #(#x55 #x8b #xec) (get-allocated-bytes mem #x401000 3))
     ;; following test checks for data before modification by loader during import

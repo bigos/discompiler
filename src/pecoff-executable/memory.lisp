@@ -15,7 +15,6 @@
 
 (defgeneric find-free (memory))
 (defmethod find-free ((self memory))
-  (declare (optimize (speed 0) (space 1) (compilation-speed 0) (debug 3)))
   (let ((found-free) (last-allocated) (first-available (start self)))
     (dolist (allocated-range (allocated self))
       (when (not (eq (car allocated-range) first-available))
