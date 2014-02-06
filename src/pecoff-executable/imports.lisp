@@ -31,6 +31,22 @@
                         (rva-addr (+ 2 ilx)
                                   bytes)))
 
+(defun imported-ordinal-name (byte ilx)
+  (let ((ordinal-names (ordinal-names
+                        (file-export-list
+                         "./SampleExecutables/ordinal-imports.dll"  )))
+        (ordinal-number (ldb (byte 16 0) ilx) ))
+    (sb-ext:gc :full T)
+    (cons ordinal-number
+          (loop for ex in ordinal-names
+             with res
+             do
+               (setf res (cdr ex))
+             until (eq (car ex) ordinal-number)
+             finally (progn
+                       (sb-ext:gc :full T)
+                       (return res))))))
+
 (defun imported-function-names (mem bytes imp-dir-rva)
   (loop for il from imp-dir-rva by 4
      for ilx = (bytes-to-type-int (get-allocated-bytes mem (rva-addr il bytes) 4))
@@ -38,7 +54,7 @@
      collect (list il
                    ilx
                    (if (import-by-ordinalp bytes ilx)
-                       (ldb (byte 16 0) ilx)
+                       (imported-ordinal-name bytes ilx)
                        (cons (imported-function-hint mem bytes ilx)
                              (imported-function-name mem bytes ilx))))))
 
