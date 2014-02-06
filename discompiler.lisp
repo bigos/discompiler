@@ -16,32 +16,9 @@
 (defparameter *dll* (nth 0 (cl-fad:list-directory "./SampleExecutables/"))
   "sample dll file")
 
-;; (defun file-to-bytes (file)
-;;   (let ((bytes) (index 0) (size))
-;;     (with-open-file (stream file :element-type 'unsigned-byte)
-;;       (setf size (file-length stream))
-;;       (setf bytes (make-array size :element-type 'unsigned-byte))
-;;       (do ((byte (read-byte stream nil)
-;;                  (read-byte stream nil)))
-;;           ((null byte))
-;;         (setf (aref bytes index) byte)
-;;         (incf index))
-;;       (values bytes size))))
-
-;; (defun file-to-bytes (file)
-;;   "Return FILE contents as a vector of unsigned bytes."
-;;   (with-open-file (stream file
-;;   :element-type 'unsigned-byte)
-;;     (let ((bytes (make-array (file-length stream)
-;;         :element-type 'unsigned-byte)))
-;;       (dotimes (index (length bytes) bytes)
-;;         (setf (aref bytes index)
-;;       (read-byte stream nil))))))
-
 (defun file-to-bytes (file)
   "Return FILE contents as a vector of unsigned bytes."
-  (with-open-file (stream file
-                          :element-type 'unsigned-byte)
+  (with-open-file (stream file :element-type 'unsigned-byte)
     (let ((bytes (make-array (file-length stream)
                              :element-type 'unsigned-byte)))
       (read-sequence bytes stream)
