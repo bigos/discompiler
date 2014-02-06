@@ -32,20 +32,18 @@
                                   bytes)))
 
 (defun imported-ordinal-name (byte ilx)
+  ;;TODO find more efficient way
   (let ((ordinal-names (ordinal-names
                         (file-export-list
                          "./SampleExecutables/ordinal-imports.dll"  )))
         (ordinal-number (ldb (byte 16 0) ilx) ))
     (sb-ext:gc :full T)
     (cons ordinal-number
-          (loop for ex in ordinal-names
-             with res
-             do
-               (setf res (cdr ex))
+          (loop for ex in ordinal-names ;;TODO inefficient algorithm
              until (eq (car ex) ordinal-number)
              finally (progn
                        (sb-ext:gc :full T)
-                       (return res))))))
+                       (return (cdr ex)))))))
 
 (defun imported-function-names (mem bytes imp-dir-rva)
   (loop for il from imp-dir-rva by 4
