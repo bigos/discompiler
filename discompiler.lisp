@@ -155,6 +155,7 @@
    #'string-lessp))
 
 (defun flatten (structure)
+  ;;TODO doesn't work with '((1 . :a) (2 . :b))
   (cond ((null structure) nil)
         ((atom structure) (list structure))
         (t (mapcan #'flatten structure))))
