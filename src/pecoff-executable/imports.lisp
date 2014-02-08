@@ -31,7 +31,7 @@
                         (rva-addr (+ 2 ilx)
                                   bytes)))
 
-(defun imported-ordinal-name (byte ilx)
+(defun imported-ordinal-name (ilx)
   ;;TODO find more efficient way
   (let ((ordinal-names (ordinal-names
                         (file-export-list
@@ -52,7 +52,7 @@
      collect (list il
                    ilx
                    (if (import-by-ordinalp bytes ilx)
-                       (imported-ordinal-name bytes ilx)
+                       (imported-ordinal-name ilx)
                        (cons (imported-function-hint mem bytes ilx)
                              (imported-function-name mem bytes ilx))))))
 
