@@ -23,11 +23,14 @@
         (optional-header-value bytes "Export Table Size"))))
 
 (defun export-address-table (bytes memory edt)
-  (loop for ate from 0 to (1- (struct-value "AddressTableEntries" edt))
-     for offset = (rva-addr-in-struct "ExportAddressTableRVA" edt bytes (* ate +long+))
-     for a = (bytes-to-type-int (get-allocated-bytes memory offset 4))
-     collect
-       (rva-addr a bytes)))
+  (let* ((ates (struct-value "AddressTableEntries" edt))
+         (res (make-array `(,ates) :element-type 'integer)))
+    (loop for ate from 0 below ates
+       for offset = (rva-addr-in-struct "ExportAddressTableRVA" edt bytes (* ate +long+))
+       for a = (bytes-to-type-int (get-allocated-bytes memory offset 4))
+       do
+         (setf (aref res ate) (rva-addr a bytes)))
+    res))
 
 (defun name-pointer-table (bytes memory edt)
   (loop for npe from 0 to (1- (struct-value "NumberOfNamePointers" edt))
@@ -82,8 +85,11 @@
   (if (zerop (optional-header-value bytes "Export Table RVA"))
       (princ " zero size export table ")
       (let* ((edt (export-directory-table
-                   (get-rva-table-bytes bytes memory "Export Table RVA"
-                                        "Export Table Size") 0))
+                   (get-rva-table-bytes bytes
+                                        memory
+                                        "Export Table RVA"
+                                        "Export Table Size")
+                   0))
              (address-table (export-address-table bytes memory edt))
              (name-table (name-pointer-table bytes memory edt))
              (ordinal-table (export-ordinal-table bytes memory edt)))
