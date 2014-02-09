@@ -33,18 +33,25 @@
     res))
 
 (defun name-pointer-table (bytes memory edt)
-  (loop for npe from 0 to (1- (struct-value "NumberOfNamePointers" edt))
-     for y = (rva-addr-in-struct "NamePointerRVA" edt bytes (* npe +long+))
-     for a = (bytes-to-type-int (get-allocated-bytes memory y 4))
-     collect
-       (get-allocated-string memory (rva-addr a bytes))))
+  (let* ((npes (struct-value "NumberOfNamePointers" edt))
+         (res (make-array `(,npes))))
+    (loop for npe from 0 below npes
+       for y = (rva-addr-in-struct "NamePointerRVA" edt bytes (* npe +long+))
+       for a = (bytes-to-type-int (get-allocated-bytes memory y 4))
+       do
+         (setf (aref res npe)
+               (get-allocated-string memory (rva-addr a bytes))))
+    res))
 
 (defun export-ordinal-table (bytes memory edt)
-  (loop for npe from 0 to (1- (struct-value "NumberOfNamePointers" edt))
-     for y = (rva-addr-in-struct "OrdinalTableRVA" edt bytes (* npe +short+))
-     for a = (bytes-to-type-int
-              (get-allocated-bytes memory y +short+))
-     collect (cons a (+ a (struct-value "OrdinalBase" edt)))))
+  (let* ((npes (struct-value "NumberOfNamePointers" edt))
+         (res (make-array `(,npes))))
+    (loop for npe from 0 below npes
+       for y = (rva-addr-in-struct "OrdinalTableRVA" edt bytes (* npe +short+))
+       for a = (bytes-to-type-int
+                (get-allocated-bytes memory y +short+))
+       do (setf (aref res npe) (cons a (+ a (struct-value "OrdinalBase" edt)))))
+    res))
 
 (defun address-to-code (export-list table-pos)
   "address of execuable code for ordinal table entry"

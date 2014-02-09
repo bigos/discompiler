@@ -53,7 +53,7 @@
     (assert-equalp "OLEAUT32.dll" (car (nth 17 imports)))
     (assert-eq 21 (length (cadr (nth 17 imports))))
     (assert-equalp (cadr (nth 17 imports))  ;verify correct import by ordinal
-                   '((9423116 2147483650 (2 . "SysAllocString"))
+                   #((9423116 2147483650 (2 . "SysAllocString"))
                      (9423120 2147483652 (4 . "SysAllocStringLen"))
                      (9423124 2147483664 (16 . "SafeArrayDestroy"))
                      (9423128 2147483672 (24 . "SafeArrayUnaccessData"))
