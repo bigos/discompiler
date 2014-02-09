@@ -3,7 +3,7 @@
 (setf *print-failures* t)
 
 ;; add this check what garbage collection is doing
-(setf  (sb-ext:gc-logfile) "/tmp/sbcl-log-file.log")
+;;(setf  (sb-ext:gc-logfile) "/tmp/sbcl-log-file.log")
 
 (define-test test-executable-integrity
   (assert-equalp #(17 122 62 7 172 101 207 43 236 55 231 193 95 182 209 19)
@@ -14,9 +14,7 @@
                   "~/discompiler/SampleExecutables/ordinal-imports.dll"))
   (assert-equalp #(75 77 21 177 248 104 180 41 239 172 255 187 89 19 216 164)
                  (md5:md5sum-file
-                  "~/discompiler/SampleExecutables/myfavlibrary.exe"))
-  (sb-ext:gc :full T)
-  )
+                  "~/discompiler/SampleExecutables/myfavlibrary.exe")))
 
 (define-test test-sample-file
   "sample executable file"
@@ -35,9 +33,7 @@
     (assert-eq (optional-header-signature bytes)
                #x10b)
     (assert-eq (optional-header-image-type bytes)
-               'PE32))
-  (sb-ext:gc :full T)
-  )
+               'PE32)))
 
 (define-test test-imported-libraries
   (let* ((file "~/discompiler/SampleExecutables/myfavlibrary.exe")

@@ -105,6 +105,5 @@
         ;; (format t "item addr, val, rva, forwarding, result~%~s~%" address-table)
         ;; (format t "~&name pointer entries~%~S~%" name-table)
         ;; (format t "~&Export ordinal table~%~S~%" ordinal-table)
-        (sb-ext:gc :full T)
         (list address-table name-table ordinal-table)
         )))
