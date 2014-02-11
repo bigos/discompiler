@@ -37,13 +37,12 @@
                         (file-export-list
                          "./SampleExecutables/ordinal-imports.dll"  )))
         (ordinal-number (ldb (byte 16 0) ilx) ))
-    (sb-ext:gc :full T)
     (cons ordinal-number
-          (loop for ex in ordinal-names ;;TODO inefficient algorithm
+          (loop for x from 0 below (length ordinal-names)
+             for ex = (aref ordinal-names x)
              until (eq (car ex) ordinal-number)
-             finally (progn
-                       (sb-ext:gc :full T)
-                       (return (cdr ex)))))))
+             do (format t "~s~%" ex)
+             finally (return (cdr ex))))))
 
 (defun imported-function-names (mem bytes imp-dir-rva)
   (loop for il from imp-dir-rva by 4

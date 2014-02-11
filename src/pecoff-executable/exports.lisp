@@ -80,10 +80,15 @@
      finally (return (elt (elt export-list 0) index))))
 
 (defun ordinal-names (export-list)
-  (loop for o in (nth 2 export-list)
-     for x from 0
-     for ordinal = (cdr o)
-     collect (cons ordinal (nth x (nth 1 export-list)))))
+  (let ((res (make-array `(,(nth 2 export-list)))))
+      (loop for i below (length (nth 2 export-list))
+         for o = (aref (nth 2 export-list) i)
+         for x from 0
+         for ordinal = (cdr o)
+         do
+           (setf (aref res i) (cons ordinal (elt (nth 1 export-list) x))))
+      res))
+
 
 (defun file-export-list (file)
   (let* ((bytes (file-to-bytes file))

@@ -85,7 +85,6 @@
          (bytes (file-to-bytes file))
          (memory (loader bytes))
          (export-list (exports bytes memory)))
-    (sb-ext:gc :full T)
     (assert-equalp "6FC377EA" (address-to-code export-list 0))
     (assert-equalp "6FC3742E" (address-to-code export-list 1))
     (assert-equalp "6FC64113" (address-to-code export-list 399))
