@@ -55,27 +55,29 @@
 
 (defun address-to-code (export-list table-pos)
   "address of execuable code for ordinal table entry"
-  (let* ((name (nth table-pos (nth 1 export-list)))
-         (ord (nth table-pos (nth 2 export-list)))
+  (let* ((name (elt (elt export-list 1) table-pos))
+         (ord (elt (elt export-list 2) table-pos))
          (ordinal (cdr ord))
          (addr-index (car ord)))
     ;;(format t "  ordinal # ~s    export address table index ~s  name ~S~%" ordinal addr-index name)
-    (int-to-hex (nth addr-index (nth 0 export-list)))))
+    (int-to-hex (elt (elt export-list 0) addr-index))))
 
 (defun ordinal-name (export-list ord)
-  (loop for o in (nth 2 export-list)
+  (loop for i from 0 below (length (elt export-list 2))
+     for o = (aref (elt export-list 2) i)
      for x from 0
      for ordinal = (cdr o)
      until (eq ord ordinal)
-     finally (return (nth x (nth 1 export-list)))))
+     finally (return (elt (elt export-list 1) x))))
 
 (defun ordinal-code-address (export-list ord)
-  (loop for o in (nth 2 export-list)
+  (loop for i from 0 below (length (nth 2 export-list))
+     for o = (aref  (nth 2 export-list) i)
      for x from 0
      for ordinal = (cdr o)
      for index = (car o)
      until (eq ord ordinal)
-     finally (return (nth index (nth 0 export-list)))))
+     finally (return (elt (elt export-list 0) index))))
 
 (defun ordinal-names (export-list)
   (loop for o in (nth 2 export-list)
