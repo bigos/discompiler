@@ -41,7 +41,7 @@
           (loop for x from 0 below (length ordinal-names)
              for ex = (aref ordinal-names x)
              until (eq (car ex) ordinal-number)
-             do (format t "~s~%" ex)
+             ;;do (format t "~s~%" ex)
              finally (return (cdr ex))))))
 
 (defun imported-function-names (mem bytes imp-dir-rva)

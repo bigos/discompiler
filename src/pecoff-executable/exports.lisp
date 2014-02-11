@@ -80,7 +80,7 @@
      finally (return (elt (elt export-list 0) index))))
 
 (defun ordinal-names (export-list)
-  (let ((res (make-array `(,(nth 2 export-list)))))
+  (let ((res (make-array (list (length (nth 2 export-list))))))
       (loop for i below (length (nth 2 export-list))
          for o = (aref (nth 2 export-list) i)
          for x from 0
