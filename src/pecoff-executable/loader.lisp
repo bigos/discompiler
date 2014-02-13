@@ -16,5 +16,4 @@
     ;; Resolve the function addresses and create Import Address Table (IAT).
     ;; Create initial heap and stack using values from PE header.
     ;; Create main thread and start the process.
-    (sb-ext:gc :full t)
     mem))

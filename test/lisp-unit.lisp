@@ -40,7 +40,6 @@
          (bytes (file-to-bytes file))
          (mem (loader bytes))
          (imports (imported-functions bytes mem)))
-    (sb-ext:gc :full T)
     (assert-eq 22 (length imports))
     (assert-equalp "ADVAPI32.dll" (car (nth 0 imports)))
     (assert-eq 13 (length (cadr (nth 0 imports))))
@@ -52,7 +51,7 @@
                      (9424332 9431264 (14 . "VerQueryValueW"))))
     (assert-equalp "OLEAUT32.dll" (car (nth 17 imports)))
     (assert-eq 21 (length (cadr (nth 17 imports))))
-    (assert-equalp (cadr (nth 17 imports))  ;verify correct import by ordinal
+    (assert-equalp (cadr (nth 17 imports)) ;verify correct import by ordinal
                    '((9423116 2147483650 (2 . "SysAllocString"))
                      (9423120 2147483652 (4 . "SysAllocStringLen"))
                      (9423124 2147483664 (16 . "SafeArrayDestroy"))
@@ -75,49 +74,42 @@
                      (9423192 2147483668 (20 . "SafeArrayGetLBound"))
                      (9423196 2147483667 (19 . "SafeArrayGetUBound"))))
     (assert-equalp "WINMM.dll" (car (nth 21 imports)))
-    (assert-eq 10 (length (cadr (nth 21 imports))))
-    )
-  (sb-ext:gc :full T)
-  )
+    (assert-eq 10 (length (cadr (nth 21 imports)))))
+  (define-test test-ordinal-exports
+    (let* ((file "~/discompiler/SampleExecutables/ordinal-imports.dll")
+           (bytes (file-to-bytes file))
+           (memory (loader bytes))
+           (export-list (exports bytes memory)))
+      (assert-equalp "6FC377EA" (address-to-code export-list 0))
+      (assert-equalp "6FC3742E" (address-to-code export-list 1))
+      (assert-equalp "6FC64113" (address-to-code export-list 399))
+      (assert-error 'type-error (address-to-code export-list 400))
 
-(define-test test-ordinal-exports
-  (let* ((file "~/discompiler/SampleExecutables/ordinal-imports.dll")
-         (bytes (file-to-bytes file))
-         (memory (loader bytes))
-         (export-list (exports bytes memory)))
-    (assert-equalp "6FC377EA" (address-to-code export-list 0))
-    (assert-equalp "6FC3742E" (address-to-code export-list 1))
-    (assert-equalp "6FC64113" (address-to-code export-list 399))
-    (assert-error 'type-error (address-to-code export-list 400))
+      (assert-equalp "SysAllocString" (ordinal-name export-list 2))
+      (assert-equalp "BSTR_UserFree" (ordinal-name export-list 286))
+      (assert-equalp "BSTR_UserMarshal" (ordinal-name export-list 284))
+      (assert-equalp "OaEnablePerUserTLibRegistration" (ordinal-name export-list 444))
+      (assert-equalp "OACleanup" (ordinal-name export-list 500))
 
-    (assert-equalp "SysAllocString" (ordinal-name export-list 2))
-    (assert-equalp "BSTR_UserFree" (ordinal-name export-list 286))
-    (assert-equalp "BSTR_UserMarshal" (ordinal-name export-list 284))
-    (assert-equalp "OaEnablePerUserTLibRegistration" (ordinal-name export-list 444))
-    (assert-equalp "OACleanup" (ordinal-name export-list 500))
+      (assert-equalp "6FC34642" (int-to-hex (ordinal-code-address export-list 2)))
+      (assert-equalp "6FC50B81" (int-to-hex (ordinal-code-address export-list 3)))
+      (assert-equalp "6FC33F0B" (int-to-hex (ordinal-code-address export-list 500)))
+      )
+    (sb-ext:gc :full t)))
 
-    (assert-equalp "6FC34642" (int-to-hex (ordinal-code-address export-list 2)))
-    (assert-equalp "6FC50B81" (int-to-hex (ordinal-code-address export-list 3)))
-    (assert-equalp "6FC33F0B" (int-to-hex (ordinal-code-address export-list 500)))
-    )
-  (sb-ext:gc :full T)
-  )
 
 (define-test test-load-myfavlibrary
   (let* ((file "~/discompiler/SampleExecutables/myfavlibrary.exe")
          (bytes (file-to-bytes file))
          (mem (make-instance 'memory :start #x110000 :end  #xFFFF0001 :file-bytes bytes)))
     (allocate-and-load-sections bytes mem)
-    (sb-ext:gc :full T)
     (assert-equalp #(#x55 #x8b #xec) (get-allocated-bytes mem #x401000 3))
     ;; following test checks for data before modification by loader during import
     (assert-equalp #(20 207 143) (get-allocated-bytes mem #xb13000 3))
     (assert-equalp #(#x28 #x63 #xc1) (get-allocated-bytes mem #xd01000 3))
     (assert-equalp #(#x00 #x00 #x00) (get-allocated-bytes mem #xda0000 3))
     (assert-equalp #(#x00 #x10 #x00) (get-allocated-bytes mem #x109c000 3))
-    )
-  (sb-ext:gc :full T)
-  )
+    ))
 
 (define-test test-load-sample-file
   (let* ((file "~/discompiler/SampleExecutables/crackme12.exe")
@@ -136,7 +128,6 @@
     (assert-eq 4096 (setf section-alignment (optional-header-value bytes "SectionAlignment")))
     ;; load sections first
     (allocate-and-load-sections bytes mem)
-    (sb-ext:gc :full T)
     ;; check allocation
     (assert-equalp '((#x110000 . #x3FFFFF)
                      (#x405000 . #xffff0000)) (find-free mem)) ;; verify if find-free returns correct values
@@ -150,9 +141,7 @@
     (assert-equalp #(#x6a #x00 #xe8) (get-allocated-bytes mem #x401000 3))
     (assert-eq #x41 (get-allocated mem #x403000))
     (assert-eq #x00 (get-allocated mem #x404000))
-    )
-  (sb-ext:gc :full T)
-  )
+    ))
 
 (define-test test-allocation
   (let ((mem (make-instance 'memory :start 1 :end 100)))
@@ -188,9 +177,7 @@
     (assert-equalp 6 (allocate-block mem 9 90))
     ;; allocate available preferred address
     (assert-equalp 90 (allocate-block mem 8 90))
-    (assert-equalp '((15 . 89)) (find-free mem)))
-  (sb-ext:gc :full T)
-  )
+    (assert-equalp '((15 . 89)) (find-free mem))))
 
 (define-test test-block-addressing
   (let ((mem (make-instance 'memory :start 1 :end 100)))
@@ -221,9 +208,7 @@
     (assert-equalp 0 (get-allocated mem 5))
     (assert-equalp 0 (get-allocated mem 6))
     (assert-equalp 0 (get-allocated mem 7))
-    (assert-error 'simple-error (get-allocated mem 8)))
-  (sb-ext:gc :full T)
-  )
+    (assert-error 'simple-error (get-allocated mem 8))))
 
 (define-test test-addition
   "test simple addition"
