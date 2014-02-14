@@ -23,6 +23,11 @@ http://www.cultdeadcow.com/tools/pewrap.html
 
 http://msdn.microsoft.com/en-us/windows/hardware/gg463119.aspx
 
+Structure of ELF file
+=====================
+
+http://man7.org/linux/man-pages/man5/elf.5.html
+
 
 using Licp Critic
 =====================
