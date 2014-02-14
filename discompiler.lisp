@@ -29,7 +29,7 @@
   (setf *bytes* (file-to-bytes file))
   "loaded")
 
-(defparameter *bytes* (file-to-bytes "~/discompiler/SampleExecutables/crackme12.exe"))
+(defparameter *bytes* (file-to-bytes "~/discompiler/SampleExecutables/PE/crackme12.exe"))
 
 (defun struct-value (name struct)
   (dolist (el struct)

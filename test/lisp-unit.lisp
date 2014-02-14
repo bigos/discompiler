@@ -8,17 +8,17 @@
 (define-test test-executable-integrity
   (assert-equalp #(17 122 62 7 172 101 207 43 236 55 231 193 95 182 209 19)
                  (md5:md5sum-file
-                  "~/discompiler/SampleExecutables/crackme12.exe"))
+                  "~/discompiler/SampleExecutables/PE/crackme12.exe"))
   (assert-equalp #(108 118 94 130 181 127 46 102 206 156 84 172 35 132 113 217)
                  (md5:md5sum-file
-                  "~/discompiler/SampleExecutables/ordinal-imports.dll"))
+                  "~/discompiler/SampleExecutables/PE/ordinal-imports.dll"))
   (assert-equalp #(75 77 21 177 248 104 180 41 239 172 255 187 89 19 216 164)
                  (md5:md5sum-file
-                  "~/discompiler/SampleExecutables/myfavlibrary.exe")))
+                  "~/discompiler/SampleExecutables/PE/myfavlibrary.exe")))
 
 (define-test test-sample-file
   "sample executable file"
-  (let* ((file "~/discompiler/SampleExecutables/crackme12.exe")
+  (let* ((file "~/discompiler/SampleExecutables/PE/crackme12.exe")
          (bytes (file-to-bytes file)))
     (assert-equal (pe-header-signature-pointer bytes)
                   192)
@@ -36,7 +36,7 @@
                'PE32)))
 
 (define-test test-imported-libraries
-  (let* ((file "~/discompiler/SampleExecutables/myfavlibrary.exe")
+  (let* ((file "~/discompiler/SampleExecutables/PE/myfavlibrary.exe")
          (bytes (file-to-bytes file))
          (mem (loader bytes))
          (imports (imported-functions bytes mem)))
@@ -78,7 +78,7 @@
     (sb-ext:gc :full T)))
 
 (define-test test-ordinal-exports
-  (let* ((file "~/discompiler/SampleExecutables/ordinal-imports.dll")
+  (let* ((file "~/discompiler/SampleExecutables/PE/ordinal-imports.dll")
          (bytes (file-to-bytes file))
          (memory (loader bytes))
          (export-list (exports bytes memory)))
@@ -100,7 +100,7 @@
 
 
 (define-test test-load-myfavlibrary
-  (let* ((file "~/discompiler/SampleExecutables/myfavlibrary.exe")
+  (let* ((file "~/discompiler/SampleExecutables/PE/myfavlibrary.exe")
          (bytes (file-to-bytes file))
          (mem (make-instance 'memory :start #x110000 :end  #xFFFF0001 :file-bytes bytes)))
     (allocate-and-load-sections bytes mem)
@@ -113,7 +113,7 @@
     ))
 
 (define-test test-load-sample-file
-  (let* ((file "~/discompiler/SampleExecutables/crackme12.exe")
+  (let* ((file "~/discompiler/SampleExecutables/PE/crackme12.exe")
          (bytes (file-to-bytes file))
          (mem (make-instance 'memory :start #x110000 :end  #xFFFF0001 :file-bytes bytes))
          (base) (size-header) (section-alignment)  )

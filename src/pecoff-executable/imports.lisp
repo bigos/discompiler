@@ -35,7 +35,7 @@
   ;;TODO find more efficient way
   (let ((ordinal-names (ordinal-names
                         (file-export-list
-                         "./SampleExecutables/ordinal-imports.dll"  )))
+                         "./SampleExecutables/PE/ordinal-imports.dll"  )))
         (ordinal-number (ldb (byte 16 0) ilx) ))
     (cons ordinal-number
           (loop for x from 0 below (length ordinal-names)
