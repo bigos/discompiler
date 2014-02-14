@@ -1,4 +1,4 @@
-(defpackage :discompiler-test
+(defpackage #:discompiler-test
   (:use :cl :discompiler :fiveam))
 
 (in-package :discompiler-test)
