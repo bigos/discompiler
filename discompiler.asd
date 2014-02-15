@@ -34,11 +34,11 @@
                                    (:file "summary-table-columns")))))
                (:module "test"
                         :components
-                        ((:file "lisp-unit")
-                         (:file "tests")
+                        ((:file "tests")
                          (:file "fiveam-suites")
                          (:file "pe-coff-tests")
                          (:file "elf-tests")
+                         (:file "utilities-test")
                          (:file "fiveam-conclusion")
                          )))
   :description "machine code experiment"
