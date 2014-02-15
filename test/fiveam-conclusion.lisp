@@ -1,0 +1,1 @@
+(in-suite :all)
