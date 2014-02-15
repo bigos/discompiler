@@ -1,9 +1,7 @@
 (defpackage #:discompiler
-  (:use :cl :lisp-unit :md5)
-  (:export #:file-to-bytes
-           #:loader
-           #:imported-functions))
+  (:use :cl :fiveam :md5)
+  )
 
 (defpackage #:reference-data
   (:use :cl)
-  (:export :process-reference-files))
+  )

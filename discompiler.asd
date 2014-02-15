@@ -8,7 +8,7 @@
   :serial t
   :author "Jacek Podkanski"
   :licence "GPLv3"
-  :depends-on (:lisp-unit :cl-ppcre :cl-fad :cl-utilities :md5)
+  :depends-on (:fiveam :cl-ppcre :cl-fad :cl-utilities :md5)
   :components ((:file "packages")
                (:file "discompiler")
                (:module "src"
@@ -35,6 +35,11 @@
                (:module "test"
                         :components
                         ((:file "lisp-unit")
-                         (:file "tests"))))
+                         (:file "tests")
+                         (:file "fiveam-suites")
+                         (:file "pe-coff-tests")
+                         (:file "elf-tests")
+                         (:file "fiveam-conclusion")
+                         )))
   :description "machine code experiment"
   :long-description "experimenting with Intel machine code")

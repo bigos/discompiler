@@ -1,1 +1,1 @@
-;; nothing yet
+(in-package :discompiler)

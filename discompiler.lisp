@@ -1,6 +1,13 @@
 (in-package :discompiler)
 
-(defun run ()
+(defun all-symbols-defined (package)
+  (let ((pack (find-package package))
+        (res))
+    (do-all-symbols (sym pack)
+      (when (eql (symbol-package sym) pack) (push sym res)))
+    (reverse res)))
+
+(defun run-prog ()
   (format t "running skeleton program")
   ;; (test-arithmetic)
   ;; (test-mod-vals)
@@ -10,7 +17,7 @@
   ;; ("XTEST — Test If In Transactional Execution" "Opcode/Instruction Op/En"
   ;; "64/32bit" "Mode" "Support" "CPUID" "Feature" "Flag" "Description")
   ;; wow!!!
-  (defparameter *instructions* (reference-data:process-reference-files))
+  (defparameter *instructions* (reference-data::process-reference-files))
   (list-length *instructions*))
 
 (defparameter *dll* (nth 0 (cl-fad:list-directory "./SampleExecutables/"))
