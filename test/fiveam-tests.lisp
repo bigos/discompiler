@@ -5,7 +5,10 @@
 
 (in-package :discompiler-test)
 
-(def-suite :example-suite)
+(def-suite :all)
+(def-suite :example-suite :in :all)
+(def-suite :pe-coff :in :all)
+
 (in-suite :example-suite)
 
 (test test-addition
@@ -22,6 +25,7 @@
   (is (= 2 (+ 2 (- 5 5))))
   (is (= 0 (+ 2 -2))))
 
+(in-suite :pe-coff)
 
 (test imported-libraries
   (let* ((file "~/discompiler/SampleExecutables/PE/myfavlibrary.exe")
@@ -64,3 +68,5 @@
     (is (equalp "WINMM.dll" (car (nth 21 imports))))
     (is (eq 10 (length (cadr (nth 21 imports)))))
     (sb-ext:gc :full T)))
+
+(in-suite :all)
