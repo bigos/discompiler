@@ -1,5 +1,7 @@
 (defpackage #:discompiler-test
-  (:use :cl :discompiler :fiveam))
+  (:use :cl :discompiler :fiveam)
+  (:shadowing-import-from :discompiler :run)
+  )
 
 (in-package :discompiler-test)
 
