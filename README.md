@@ -23,6 +23,11 @@ http://www.cultdeadcow.com/tools/pewrap.html
 
 http://msdn.microsoft.com/en-us/windows/hardware/gg463119.aspx
 
+Loading Process
+===============
+
+http://download.microsoft.com/download/1/4/0/14045A9E-C978-47D1-954B-92B9FD877995/97807356648739_SampleChapters.pdf
+
 Structure of ELF file
 =====================
 
