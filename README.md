@@ -29,8 +29,12 @@ PE Loading Process
 ===============
 
 http://download.microsoft.com/download/1/4/0/14045A9E-C978-47D1-954B-92B9FD877995/97807356648739_SampleChapters.pdf  page 373
+
+There are discrepanciess between PE file format and actual handling by the loader.
+
 http://www.kaspersky.co.uk/images/alexander_liskin_-_pe_specification_vs_pe_loader.pdf
-http://media.blackhat.com/bh-us-11/Vuksan/BH_US_11_VuksanPericin_PECOFF_Slides.pdf slide 39
+
+http://media.blackhat.com/bh-us-11/Vuksan/BH_US_11_VuksanPericin_PECOFF_Slides.pdf slides 17, 39
 
 
 Structure of ELF file
