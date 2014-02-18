@@ -136,9 +136,11 @@
         (size)
         ;; think of fixing code duplication related to image-base
         (image-base (struct-value "ImageBase" (optional-header bytes)))
-        (raw-pointer)
-        (raw-size))
+        (raw-pointer) (raw-size)
+        (section-alignment (optional-header-value bytes "SectionAlignment"))
+      )
     ;; TODO Load PE Header as well
+    ;; last byte copied to memory #x4002b7
     (dolist (s  (section-headers bytes))
       (setf raw-pointer (struct-value "PointerToRawData" s))
       (setf raw-size (struct-value "SizeOfRawData" s))

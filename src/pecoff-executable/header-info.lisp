@@ -3,6 +3,13 @@
 (defun image-base (bytes)
   (struct-value "ImageBase"(optional-header bytes)))
 
+(defun length-of-pe-header (bytes)
+  "total length of ms-dos, coff, optional headers and sections"
+  (multiple-value-bind (x length)
+      ;; this gives offset to unused space after section headers
+      (section-headers *bytes*)
+    (declare (ignore x)) b))
+
 (defun cons-int-hex (val)
   (cons  val (concatenate 'string "#x" (int-to-hex val))))
 
@@ -24,6 +31,8 @@
           (+ (optional-header-value bytes "ImageBase")
              (nth 2 (nth x rvas))
              (nth 2 (nth (1+ x) rvas)))))))
+
+
 
 (defun useful-info (bytes)
   (let* ((entry-point (optional-header-value bytes "AddressOfEntryPoint"))

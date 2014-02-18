@@ -6,7 +6,7 @@
 (defun coff-header (bytes)
   (let ((offset (coff-header-pointer bytes))
         (elements '((+short+ "Machine")
-                    (+short+ "NumberOfSections") ; I need to find why coff header in one file is different when I use debugger
+                    (+short+ "NumberOfSections")
                     (+long+ "TimeDateStamp")
                     (+long+ "PointerToSymbolTable")
                     (+long+ "NumberOfSymbols")
