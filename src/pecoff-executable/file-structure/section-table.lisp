@@ -138,15 +138,25 @@
         (image-base (struct-value "ImageBase" (optional-header bytes)))
         (raw-pointer) (raw-size)
         (section-alignment (optional-header-value bytes "SectionAlignment"))
-      )
+        (pe-header-size-on-file (length-of-pe-header bytes))
+        )
     ;; TODO Load PE Header as well
     ;; last byte copied to memory #x4002b7
+    (setf raw-pointer 0)
+    (setf raw-size pe-header-size-on-file)
+    (setf size (aligned-size raw-size section-alignment))
+    (setf addr image-base)
+    (allocate-preferred-block memory size addr)
+    (setf mem-block (dolist (alloc (blocks memory))
+                      (when (= (start alloc) addr) (return alloc))))
+    ;; (format t "mem block ~S~%" mem-block)
+    (setf (subseq (data mem-block) 0)
+          (subseq bytes raw-pointer (+ raw-pointer raw-size)))
     (dolist (s  (section-headers bytes))
       (setf raw-pointer (struct-value "PointerToRawData" s))
       (setf raw-size (struct-value "SizeOfRawData" s))
       (setf size (aligned-size
-                  (struct-value "VirtualSize" s)
-                  (struct-value "SectionAlignment" (optional-header bytes))))
+                  (struct-value "VirtualSize" s) section-alignment))
       (setf addr (+ image-base (struct-value "VirtualAddress" s)))
 
       (allocate-preferred-block memory size addr)
