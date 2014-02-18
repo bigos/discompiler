@@ -38,6 +38,7 @@
                          (:file "fiveam-suites")
                          (:file "pe-coff-tests")
                          (:file "elf-tests")
+                         (:file "memory-tests")
                          (:file "utilities-test")
                          (:file "fiveam-conclusion")
                          )))
