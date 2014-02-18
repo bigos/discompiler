@@ -138,6 +138,7 @@
         (image-base (struct-value "ImageBase" (optional-header bytes)))
         (raw-pointer)
         (raw-size))
+    ;; TODO Load PE Header as well
     (dolist (s  (section-headers bytes))
       (setf raw-pointer (struct-value "PointerToRawData" s))
       (setf raw-size (struct-value "SizeOfRawData" s))
