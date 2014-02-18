@@ -101,6 +101,7 @@
          (mem (make-instance 'memory :start #x110000 :end  #xFFFF0001 :file-bytes bytes)))
     (allocate-and-load-sections bytes mem)
     (is (equalp #(#x4d #x5a) (get-allocated-bytes mem #x400000 2))) ;signature
+    (is (equalp #(#xaa #xdf #x87 #x50) (get-allocated-bytes mem #x400100 4))) ;TimeDateSatamp
     (is (equalp #(#x40 #x0 #x0 #x42 ) (get-allocated-bytes mem #x4002b4 4))) ;last used bytes
     (is (equalp #(0 0 0 0) (get-allocated-bytes mem #x4002b8 4))) ; padding with zeros
     (is (equalp #(#x55 #x8b #xec) (get-allocated-bytes mem #x401000 3)))
