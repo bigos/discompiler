@@ -140,8 +140,6 @@
         (section-alignment (optional-header-value bytes "SectionAlignment"))
         (pe-header-size-on-file (length-of-pe-header bytes))
         )
-    ;; TODO Load PE Header as well
-    ;; last byte copied to memory #x4002b7
     (setf raw-pointer 0)
     (setf raw-size pe-header-size-on-file)
     (setf size (aligned-size raw-size section-alignment))
