@@ -8,7 +8,7 @@
   (multiple-value-bind (x length)
       ;; this gives offset to unused space after section headers
       (section-headers *bytes*)
-    (declare (ignore x)) b))
+    (declare (ignore x)) length))
 
 (defun cons-int-hex (val)
   (cons  val (concatenate 'string "#x" (int-to-hex val))))
@@ -43,12 +43,16 @@
     (format t "~&PE header signature is ~a~%~%"
             (if (pe-header-signature-validp bytes) "valid" "INVALID"))
     (format t "header type ~a~%" header-type)
+    (format t "size of pe header on file ~S~%"
+            (cons-int-hex (length-of-pe-header bytes)))
     (format t "section alignment~S~%~%"
             (cons-int-hex (optional-header-value bytes "SectionAlignment")))
     (if (< (optional-header-value bytes "SectionAlignment") 4096)
         (princ "warning section alignment less than 4K - constraints on the file offset of the section data,"))
     (format t "~&loaded image base addr ~S~%"
             (cons-int-hex (optional-header-value bytes "ImageBase")))
+
+
     (format t "~& entry point in memory #x~a~%~%"
             (int-to-hex (+ (image-base bytes)
                            (optional-header-value bytes "AddressOfEntryPoint"))))
