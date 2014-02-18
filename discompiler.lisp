@@ -45,12 +45,13 @@
 (defun c-structure-values (bytes c-structure offset)
   (values
    (loop for el in c-structure
+      for value-size = (if (symbolp (car el))
+                           (symbol-value (car el))
+                           (car el))
       collecting (list offset
                        (cadr el)
-                       (bytes-to-type-int
-                        (bytes bytes (symbol-value (car el)) offset)))
-      do
-        (incf offset (symbol-value (car el))))
+                       (bytes-to-type-int (bytes bytes value-size offset)))
+      do (incf offset value-size))
    offset))
 
 (defun flag-names (flags value)
@@ -76,7 +77,7 @@
      collecting (byte-at bytes (+ offset x))))
 
 (defun bytes-hex (bytes count offset &optional (columns 16))
-(loop for x to (1- count)
+  (loop for x below count
    do
      (when (zerop (mod x columns)) (format t "~&~16,8R: " (+ offset x)))
      (format t "~16,2R " (byte-at bytes (+ offset x)))
@@ -84,7 +85,7 @@
 
 
 (defun bytes-to-type-int (bytelist)     ;ignoring endianness
-  (loop for x to (1- (length bytelist))
+  (loop for x below (length bytelist)
      summing (*
               (if (equalp (type-of bytelist) 'cons)
                   (nth x bytelist)
