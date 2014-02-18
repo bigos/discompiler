@@ -130,37 +130,29 @@
                       (section-characteristics-codes)
                       (struct-value "Characteristics" s))))))
 
+(defun load-section (bytes memory addr raw-size raw-pointer)
+  (setf mem-block (dolist (alloc (blocks memory))
+                    (when (= (start alloc) addr) (return alloc))))
+  (setf (subseq (data mem-block) 0)
+        (subseq bytes raw-pointer (+ raw-pointer raw-size))))
+
 (defun allocate-and-load-sections (bytes memory)
   (let ((addr)
-        (mem-block)
-        (size)
-        ;; think of fixing code duplication related to image-base
         (image-base (struct-value "ImageBase" (optional-header bytes)))
-        (raw-pointer) (raw-size)
-        (section-alignment (optional-header-value bytes "SectionAlignment"))
-        (pe-header-size-on-file (length-of-pe-header bytes))
-        )
-    (setf raw-pointer 0)
-    (setf raw-size pe-header-size-on-file)
-    (setf size (aligned-size raw-size section-alignment))
-    (setf addr image-base)
-    (allocate-preferred-block memory size addr)
-    (setf mem-block (dolist (alloc (blocks memory))
-                      (when (= (start alloc) addr) (return alloc))))
-    ;; (format t "mem block ~S~%" mem-block)
-    (setf (subseq (data mem-block) 0)
-          (subseq bytes raw-pointer (+ raw-pointer raw-size)))
+        (section-alignment (optional-header-value bytes "SectionAlignment")))
+    (allocate-preferred-block memory
+                              (aligned-size
+                               (length-of-pe-header bytes) section-alignment)
+                              image-base)
+    (load-section bytes memory image-base
+                  (length-of-pe-header bytes)
+                  0)
     (dolist (s  (section-headers bytes))
-      (setf raw-pointer (struct-value "PointerToRawData" s))
-      (setf raw-size (struct-value "SizeOfRawData" s))
-      (setf size (aligned-size
-                  (struct-value "VirtualSize" s) section-alignment))
       (setf addr (+ image-base (struct-value "VirtualAddress" s)))
-
-      (allocate-preferred-block memory size addr)
-      (setf mem-block (dolist (alloc (blocks memory))
-                        (when (= (start alloc) addr) (return alloc))))
-      ;; (format t "mem block ~S~%" mem-block)
-      (setf (subseq (data mem-block) 0)
-            (subseq bytes raw-pointer (+ raw-pointer raw-size)))
-      )))
+      (allocate-preferred-block memory
+                                (aligned-size
+                                 (struct-value "VirtualSize" s) section-alignment)
+                                addr)
+      (load-section bytes memory addr
+                    (struct-value "SizeOfRawData" s)
+                    (struct-value "PointerToRawData" s)))))
