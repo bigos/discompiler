@@ -102,7 +102,7 @@
     (allocate-and-load-sections bytes mem)
     ;;compare file and loaded pe header
     (is (equalp (get-allocated-bytes mem (image-base bytes) (length-of-pe-header bytes))
-               (subseq bytes 0 (length-of-pe-header bytes))))
+                (subseq bytes 0 (length-of-pe-header bytes))))
     (is (equalp #(#x4d #x5a) (get-allocated-bytes mem #x400000 2))) ;signature
     (is (equalp #(#xaa #xdf #x87 #x50) (get-allocated-bytes mem #x400100 4))) ;TimeDateSatamp
     (is (equalp #(#x40 #x0 #x0 #x42 ) (get-allocated-bytes mem #x4002b4 4))) ;last used bytes
