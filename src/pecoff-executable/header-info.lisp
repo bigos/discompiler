@@ -7,7 +7,7 @@
   "total length of ms-dos, coff, optional headers and sections"
   (multiple-value-bind (x length)
       ;; this gives offset to unused space after section headers
-      (section-headers *bytes*)
+      (section-headers bytes)
     (declare (ignore x)) length))
 
 (defun cons-int-hex (val)
