@@ -25,11 +25,7 @@
 
 (defun file-to-bytes (file)
   "Return FILE contents as a vector of unsigned bytes."
-  (with-open-file (stream file :element-type 'unsigned-byte)
-    (let ((bytes (make-array (file-length stream)
-                             :element-type 'unsigned-byte)))
-      (read-sequence bytes stream)
-      bytes)))
+  (alexandria:read-file-into-byte-vector file))
 
 (defun load-bytes (file)
   "use this function to avoid showing massive output for large files"
@@ -42,17 +38,18 @@
   (dolist (el struct)
     (if (equalp (nth 1 el) name) (return (nth 2 el)))))
 
+
 (defun c-structure-values (bytes c-structure offset)
-  (values
-   (loop for el in c-structure
-      for value-size = (if (symbolp (car el))
-                           (symbol-value (car el))
-                           (car el))
-      collecting (list offset
-                       (cadr el)
-                       (bytes-to-type-int (bytes bytes value-size offset)))
-      do (incf offset value-size))
-   offset))
+  (loop for el in c-structure
+     for value-size = (if (symbolp (car el))
+                          (symbol-value (car el))
+                          (car el))
+     collecting (list (+ offset offs)
+                      (cadr el)
+                      (bytes-to-type-int
+                       (bytes bytes value-size (+ offset offs)))) into collected
+     summing value-size into offs
+     finally (return (values collected (+ offset offs)))))
 
 (defun flag-names (flags value)
   (loop for bit from 0 to (1- (list-length flags))

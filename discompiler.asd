@@ -8,7 +8,7 @@
   :serial t
   :author "Jacek Podkanski"
   :licence "GPLv3"
-  :depends-on (:fiveam :cl-ppcre :cl-fad :cl-utilities :md5)
+  :depends-on (:fiveam :cl-ppcre :cl-fad :cl-utilities :md5 :alexandria)
   :components ((:file "packages")
                (:file "discompiler")
                (:module "src"
