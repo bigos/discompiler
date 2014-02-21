@@ -38,27 +38,16 @@
   (dolist (el struct)
     (if (equalp (nth 1 el) name) (return (nth 2 el)))))
 
-
-(defun c-structure-values-old (bytes c-structure offset)
-  (loop for el in c-structure
-     for value-size = (if (symbolp (car el))
-                          (symbol-value (car el))
-                          (car el))
-     collecting (list (+ offset offs)
-                      (cadr el)
-                      (bytes-to-type-int
-                       (bytes bytes value-size (+ offset offs)))) into collected
-     summing value-size into offs
-     finally (return (values collected (+ offset offs)))))
-
 (defun c-structure-values (bytes c-structure initial-offset)
-  (loop for el in c-structure
+  (loop
+     for el in c-structure
      for value-size = (if (symbolp (car el))
                           (symbol-value (car el))
                           (car el))
      and offset = initial-offset then (+ offset value-size)
-     collecting (list offset (cadr el) (bytes-to-type-int
-                                        (bytes bytes value-size offset)))
+     collecting (list offset
+                      (cadr el)
+                      (bytes-to-type-int (bytes bytes value-size offset)))
      into collected
      finally (return (values collected (+ value-size offset)))))
 
