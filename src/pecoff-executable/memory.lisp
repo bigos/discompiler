@@ -18,8 +18,7 @@
   (let ((found-free) (last-allocated) (first-available (start self)))
     (dolist (allocated-range (allocated self))
       (unless (eq (car allocated-range) first-available)
-        (push (cons first-available (1- (car allocated-range)))
-              found-free))
+        (push (cons first-available (1- (car allocated-range))) found-free))
       (setf first-available (1+ (cdr allocated-range))))
     (setf last-allocated
           (cdar (last (allocated self))))
@@ -84,7 +83,17 @@
       (setf allocated (allocate-available-block self size)))
     allocated))
 
-(defgeneric remove-allocated (memory start))
+;; (defmacro del (start chunk fn)
+;;   `(delete start chunk :test (lambda (x item) (equalp x (,@fn)))))
+
+;; (defgeneric remove-allocated (memory start))
+;; (defmethod remove-allocated ((self memory) start)
+
+;;   (setf (allocated self)
+;;         (del allocated  (car item)))
+;;   (setf (blocks self)
+;;         (del blocks  (start item))))
+
 (defmethod remove-allocated ((self memory) start)
   (macrolet ((del (ab fn)
                `(setf (,ab self)
