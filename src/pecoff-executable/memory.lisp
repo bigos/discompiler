@@ -17,7 +17,7 @@
 (defmethod find-free ((self memory))
   (let ((found-free) (last-allocated) (first-available (start self)))
     (dolist (allocated-range (allocated self))
-      (when (not (eq (car allocated-range) first-available))
+      (unless (eq (car allocated-range) first-available)
         (push (cons first-available (1- (car allocated-range))) found-free))
       (setf first-available (1+ (cdr allocated-range))))
     (setf last-allocated (cdar (last (allocated self))))
