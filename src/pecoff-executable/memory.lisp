@@ -82,7 +82,17 @@
       (setf allocated (allocate-available-block self size)))
     allocated))
 
-(defgeneric remove-allocated (memory start))
+;; (defmacro del (start chunk fn)
+;;   `(delete start chunk :test (lambda (x item) (equalp x (,@fn)))))
+
+;; (defgeneric remove-allocated (memory start))
+;; (defmethod remove-allocated ((self memory) start)
+
+;;   (setf (allocated self)
+;;         (del allocated  (car item)))
+;;   (setf (blocks self)
+;;         (del blocks  (start item))))
+
 (defmethod remove-allocated ((self memory) start)
   (labels ((del (chunk fn)
              (delete start chunk :test fn)))
