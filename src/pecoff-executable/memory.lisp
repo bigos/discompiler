@@ -121,14 +121,22 @@
     (dolist (alloc (blocks self))
       (when (<= (start alloc) addr (end alloc))
         (return (setf found
-                      (loop for x from 0
-                         for z = (code-char (aref (data alloc)
-                                                  (+ (- addr (start alloc)) x)))
-                         until (zerop (char-code z))
-                         collecting z)))))
+                      (with-output-to-string (s)
+                        (loop for x from 0
+                           for z = (code-char (aref (data alloc)
+                                                    (+ (- addr (start alloc)) x)))
+                           until (zerop (char-code z))
+                           do
+                             (format s "~a" z)))))))
     (if found
-        (concatenate 'string ""        found)
+        found
         (error "address ~S is not valid" addr))))
+
+
+(defun read-null-terminated-ascii (in)
+  (with-output-to-string (s)
+    (loop for char = (code-char (read-byte in))
+       until (char= char +null+) do (write-char char s))))
 
 (defgeneric set-allocated (memory addr val))
 (defmethod set-allocated ((self memory) addr val)
