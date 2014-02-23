@@ -17,16 +17,17 @@
 (defmethod find-free ((self memory))
   (labels ((last-allocated ()
              (cdar (last (allocated self)))))
-    (let ((first-available (start self)))
-      (loop for allocated-range in (allocated self)
-         unless (eq (car allocated-range) first-available)
-         collect (cons first-available (1- (car allocated-range)))
-         into found-free
-         do (setf first-available (1+ (cdr allocated-range)))
-         finally (return (append found-free
-                                 (when (< (last-allocated) (end self))
-                                   (list (cons (1+ (last-allocated))
-                                               (end self))))))))))
+    (loop
+       for allocated-range in (allocated self)
+       and first-available = (start self)
+       then (1+ (cdr allocated-range))
+       unless (eq (car allocated-range) first-available)
+       collect (cons first-available (1- (car allocated-range)))
+       into found-free
+       finally (return (append found-free
+                               (when (< (last-allocated) (end self))
+                                 (list (cons (1+ (last-allocated))
+                                             (end self)))))))))
 
 (defgeneric find-free-block (memory size))
 (defmethod find-free-block ((self memory) size)
@@ -84,17 +85,6 @@
     (unless allocated
       (setf allocated (allocate-available-block self size)))
     allocated))
-
-;; (defmacro del (start chunk fn)
-;;   `(delete start chunk :test (lambda (x item) (equalp x (,@fn)))))
-
-;; (defgeneric remove-allocated (memory start))
-;; (defmethod remove-allocated ((self memory) start)
-
-;;   (setf (allocated self)
-;;         (del allocated  (car item)))
-;;   (setf (blocks self)
-;;         (del blocks  (start item))))
 
 (defmethod remove-allocated ((self memory) start)
   (macrolet ((del (ab fn)
