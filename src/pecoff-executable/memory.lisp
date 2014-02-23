@@ -15,19 +15,22 @@
 
 (defgeneric find-free (memory))
 (defmethod find-free ((self memory))
-  (labels ((last-allocated ()
-             (cdar (last (allocated self)))))
-    (loop
-       for allocated-range in (allocated self)
-       and first-available = (start self)
-       then (1+ (cdr allocated-range))
-       unless (eq (car allocated-range) first-available)
-       collect (cons first-available (1- (car allocated-range)))
-       into found-free
-       finally (return (append found-free
-                               (when (< (last-allocated) (end self))
-                                 (list (cons (1+ (last-allocated))
-                                             (end self)))))))))
+  (labels ((range-start (range) (car range))
+           (range-end (range) (cdr range))
+           (make-range (start end) (cons start end)))
+    (let ((last-allocated (cdar (last (allocated self)))))
+      (loop
+         for allocated-range in (allocated self)
+         and first-available = (start self)
+         then (1+ (range-end allocated-range))
+         unless (eq (range-start allocated-range) first-available)
+         collect (make-range first-available
+                             (1- (range-start allocated-range)))
+         into found-free
+         finally (return (nconc found-free
+                                (when (< last-allocated (end self))
+                                  (list (make-range (1+ last-allocated)
+                                                    (end self))))))))))
 
 (defgeneric find-free-block (memory size))
 (defmethod find-free-block ((self memory) size)
