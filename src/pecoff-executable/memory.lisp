@@ -17,19 +17,16 @@
 (defmethod find-free ((self memory))
   (labels ((last-allocated ()
              (cdar (last (allocated self)))))
-    (let ((found-free) (last-allocated) (first-available (start self)))
+    (let ((first-available (start self)))
       (loop for allocated-range in (allocated self)
          unless (eq (car allocated-range) first-available)
          collect (cons first-available (1- (car allocated-range)))
          into found-free
          do (setf first-available (1+ (cdr allocated-range)))
-         finally
-           (if (< (last-allocated)
-                  (end self))
-               (return (append found-free
-                               (list (cons (1+ (last-allocated))
-                                           (end self)))))
-               (return found-free))))))
+         finally (return (append found-free
+                                 (when (< (last-allocated) (end self))
+                                   (list (cons (1+ (last-allocated))
+                                               (end self))))))))))
 
 (defgeneric find-free-block (memory size))
 (defmethod find-free-block ((self memory) size)
