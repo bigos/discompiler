@@ -21,16 +21,26 @@
     (let ((last-allocated (cdar (last (allocated self)))))
       (loop
          for allocated-range in (allocated self)
+         with last-cons
+         with collection
+         for new = (cons allocated-range nil)
          and first-available = (start self)
          then (1+ (range-end allocated-range))
          unless (eq (range-start allocated-range) first-available)
          collect (make-range first-available
                              (1- (range-start allocated-range)))
          into found-free
-         finally (return (nconc found-free
-                                (when (< last-allocated (end self))
-                                  (list (make-range (1+ last-allocated)
-                                                    (end self))))))))))
+         do
+           (if last-cons
+               (setf (cdr last-cons) new)
+               (setf collection new))
+           (setf last-cons new)
+           (format t "    ---->>>cc ~S ff~$~%" collection found-free)
+         finally
+           (format t ">>>cc ~S ff~$~%" collection found-free)
+           (when (< last-allocated (end self))
+             (setf (cdr last-cons) (make-range (1+ last-allocated) (end self))))
+           (return collection)))))
 
 (defgeneric find-free-block (memory size))
 (defmethod find-free-block ((self memory) size)
