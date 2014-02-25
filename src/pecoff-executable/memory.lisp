@@ -18,29 +18,29 @@
   (labels ((range-start (range) (car range))
            (range-end (range) (cdr range))
            (make-range (start end) (cons start end)))
-    (let ((last-allocated (cdar (last (allocated self)))))
+    (let ((last-allocated (cdar (last (allocated self))))
+          (collected) (last-collected) (new-cons))
       (loop
          for allocated-range in (allocated self)
-         with last-cons
-         with collection
-         for new = (cons allocated-range nil)
          and first-available = (start self)
          then (1+ (range-end allocated-range))
-         unless (eq (range-start allocated-range) first-available)
-         collect (make-range first-available
-                             (1- (range-start allocated-range)))
-         into found-free
          do
-           (if last-cons
-               (setf (cdr last-cons) new)
-               (setf collection new))
-           (setf last-cons new)
-           (format t "    ---->>>cc ~S ff~$~%" collection found-free)
+           (unless (eq (range-start allocated-range) first-available)
+             (setf new-cons
+                   (cons (make-range first-available
+                                     (1- (range-start allocated-range)))
+                         nil))
+             (if collected
+                 (setf (cdr last-collected) new-cons)
+                 (setf collected new-cons))
+             (setf last-collected new-cons))
          finally
-           (format t ">>>cc ~S ff~$~%" collection found-free)
            (when (< last-allocated (end self))
-             (setf (cdr last-cons) (make-range (1+ last-allocated) (end self))))
-           (return collection)))))
+             (setf (cdr last-collected)
+                   (cons (make-range (1+ last-allocated)
+                                     (end self))
+                         nil)))
+           (return collected)))))
 
 (defun loopy ()
   "more efficient appending final value"
