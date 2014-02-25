@@ -14,7 +14,7 @@
     (multiple-value-bind (data structure-size)
         (c-structure-values bytes elements offset)
       (values
-       (cons (append (butlast (car data))
+       (cons (nconc (butlast (car data))
                      (list (int-to-text (car (last (car data))))))
              (cdr data))
        structure-size))))
