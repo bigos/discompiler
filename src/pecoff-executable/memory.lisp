@@ -42,21 +42,6 @@
                          nil)))
            (return collected)))))
 
-(defun loopy ()
-  "more efficient appending final value"
-  (let ((collected) (last-cons) (n))
-    (loop for x in '(1 2 3 4 5)
-       do
-         (setf n (cons x nil))
-         (if collected
-             (setf (cdr last-cons) n)
-             (setf collected n))
-         (setf last-cons n)
-         (format t "collected~S last-cons~S n~S~%" collected last-cons n)
-       finally
-         (setf (cdr last-cons) (cons 6 nil))
-         (return collected))))
-
 (defgeneric find-free-block (memory size))
 (defmethod find-free-block ((self memory) size)
   (dolist (avail (find-free self))
