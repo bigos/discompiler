@@ -36,7 +36,7 @@
 
 (defun struct-value (name struct)
   (dolist (el struct)
-    (if (equalp (nth 1 el) name) (return (nth 2 el)))))
+    (when (equalp (nth 1 el) name) (return (nth 2 el)))))
 
 (defun c-structure-values (bytes c-structure initial-offset)
   (loop
