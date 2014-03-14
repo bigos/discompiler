@@ -17,3 +17,13 @@
     ;; Create initial heap and stack using values from PE header.
     ;; Create main thread and start the process.
     mem))
+
+
+;; Windows Internals Part 1 (6th Edition)
+;; page 234
+;; Early Process Initialization
+;;
+;; page 238
+;; Loaded Module Database
+;;
+;; page 242
