@@ -68,6 +68,25 @@
     (is (eq (optional-header-image-type bytes)
             'PE32))))
 
+;; TODO implement information about loaded moules
+(defstruct module ; page 238 of win internals
+  basedllname ; Name of the module itself, without the full path
+  dllbase ; Holds the base address at which the module was loaded
+  fulldllname ; Fully qualified path name of the module
+  originalbase ; Stores the original base address (set by the linker)
+  sizeofimage ; Size of the module in memory
+  )
+
+(test loaded-modules
+  (let* ((file "~/discompiler/SampleExecutables/PE/myfavlibrary.exe")
+         (bytes (file-to-bytes file))
+         (mem (loader bytes))
+         (my-module))
+    (setf my-module (make-module))
+    (setf (module-fulldllname my-module) file)
+    (error "TODO finish me")
+    ))
+
 (test imported-libraries
   (let* ((file "~/discompiler/SampleExecutables/PE/myfavlibrary.exe")
          (bytes (file-to-bytes file))
