@@ -68,23 +68,17 @@
     (is (eq (optional-header-image-type bytes)
             'PE32))))
 
-;; TODO implement information about loaded moules
-(defstruct module ; page 238 of win internals
-  basedllname ; Name of the module itself, without the full path
-  dllbase ; Holds the base address at which the module was loaded
-  fulldllname ; Fully qualified path name of the module
-  originalbase ; Stores the original base address (set by the linker)
-  sizeofimage ; Size of the module in memory
-  )
-
 (test loaded-modules
   (let* ((file "~/discompiler/SampleExecutables/PE/myfavlibrary.exe")
          (bytes (file-to-bytes file))
-         (mem (loader bytes))
-         (my-module))
-    (setf my-module (make-module))
-    (setf (module-fulldllname my-module) file)
-    (error "TODO finish me")
+         (my-module (loader bytes)))
+    ;; TODO rewrite loader so it returns structure containing
+    ;; information about loaded module
+    (is (equalp (module-fulldllname my-module) file))
+    (is (equalp (module-basedllname my-module) "myfavlibrary.exe"))
+    (is (equalp (module-dllbase my-module) #x400000))
+    (is (equalp (module-originalbase my-module) #x400000))
+    (is (equalp (module-sizeofimage  my-module) #xd57000))
     ))
 
 (test imported-libraries
@@ -236,7 +230,7 @@
 (test test-load-sample-file
   (let* ((file "~/discompiler/SampleExecutables/PE/crackme12.exe")
          (bytes (file-to-bytes file))
-         (mem (make-instance 'memory :start #x110000 :end  #xFFFF0001 :file-bytes bytes))
+         (mem (make-instance 'memory :start #x110000 :end  #xFFFF0001))
          (base) (size-header) (section-alignment)  )
     (is (equalp '((#x110000 . #xffff0000)) (find-free mem)))
     (is (eq #x400000 (setf base (image-base bytes))))

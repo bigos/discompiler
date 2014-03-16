@@ -161,3 +161,12 @@
   (setf (end self) (+ (size self) (start self) -1))
   (setf (data self) (make-array (1+ (- (end self) (start self)))
                                 :initial-element 0)) )
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defstruct module ; page 238 of win internals
+  basedllname ; Name of the module itself, without the full path
+  dllbase ; Holds the base address at which the module was loaded
+  fulldllname ; Fully qualified path name of the module
+  originalbase ; Stores the original base address (set by the linker)
+  sizeofimage ; Size of the module in memory
+  )
