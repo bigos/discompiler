@@ -69,3 +69,17 @@
     (is (equalp 0 (get-allocated mem 6)))
     (is (equalp 0 (get-allocated mem 7)))
     (signals simple-error (get-allocated mem 8))))
+
+(test test-memory-block-order
+  (let ((mem (make-instance 'memory :start 1 :end 100)))
+    (is (eq 1 (allocate-preferred-block mem 5 1)))
+    (is (eq 20 (allocate-preferred-block mem 5 20)))
+    (is (eq 30 (allocate-preferred-block mem 5 30)))
+    (eq 3 (length (blocks mem)))
+    (eq 1 (start (nth 0 (blocks mem))))
+    (eq 20 (start (nth 1 (blocks mem))))
+    (eq 30 (start (nth 2 (blocks mem))))
+    (eq 3 (length (allocated mem)))
+    (eq 1 (car (nth 0 (allocated mem))))
+    (eq 20 (car (nth 1 (allocated mem))))
+    (eq 30 (car (nth 2 (allocated mem))))))
