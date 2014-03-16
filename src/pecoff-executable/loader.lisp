@@ -1,7 +1,7 @@
 (in-package :discompiler)
 
 (defun loader (bytes)
-  (let ((mem (make-instance 'memory :start #x110000 :end #xFFFF0001 :file-bytes bytes)))
+  (let ((mem (make-instance 'memory :start #x110000 :end #xFFFF0001)))
     (allocate-and-load-sections bytes mem)
     ;; TODO memory blocks are still reversed in memory object
     (if (zerop (optional-header-value bytes "Import Table RVA"))
