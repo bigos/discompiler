@@ -1,7 +1,10 @@
 (in-package :discompiler)
 
 (defun image-base (bytes)
-  (struct-value "ImageBase"(optional-header bytes)))
+  (struct-value "ImageBase" (optional-header bytes)))
+
+(defun image-size (bytes)
+  (struct-value "SizeOfImage" (optional-header bytes)))
 
 (defun length-of-pe-header (bytes)
   "total length of ms-dos, coff, optional headers and sections"
