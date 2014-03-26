@@ -70,16 +70,16 @@
 
 (test loaded-modules
   (let* ((file "~/discompiler/SampleExecutables/PE/myfavlibrary.exe")
-         (bytes (file-to-bytes file))
-         (my-module (loader bytes)))
+         (bytes (file-to-bytes file)))
     ;; TODO rewrite loader so it returns structure containing
     ;; information about loaded module
-    (is (equalp (module-fulldllname my-module) file))
-    (is (equalp (module-basedllname my-module) "myfavlibrary.exe"))
-    (is (equalp (module-dllbase my-module) #x400000))
-    (is (equalp (module-originalbase my-module) #x400000))
-    (is (equalp (module-sizeofimage  my-module) #xd57000))
-    ))
+    (multiple-value-bind (mem my-module) (loader bytes)
+      (declare (ignore mem))
+      (is (equalp (module-fulldllname my-module) file))
+      (is (equalp (module-basedllname my-module) "myfavlibrary.exe"))
+      (is (equalp (module-dllbase my-module) #x400000))
+      (is (equalp (module-originalbase my-module) #x400000))
+      (is (equalp (module-sizeofimage  my-module) #xd57000)))))
 
 (test imported-libraries
   (let* ((file "~/discompiler/SampleExecutables/PE/myfavlibrary.exe")

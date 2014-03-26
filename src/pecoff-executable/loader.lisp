@@ -4,7 +4,6 @@
   (let ((mem (make-instance 'memory :start #x110000 :end #xFFFF0001))
         (my-module (make-module) ))
     (allocate-and-load-sections bytes mem)
-    ;; TODO memory blocks are still reversed in memory object
     (if (zerop (optional-header-value bytes "Import Table RVA"))
         (princ " zero import RVA detected")
         (imported-functions bytes mem))
@@ -17,7 +16,12 @@
     ;; Resolve the function addresses and create Import Address Table (IAT).
     ;; Create initial heap and stack using values from PE header.
     ;; Create main thread and start the process.
-    mem))
+    (values
+     mem
+     12345)))
+
+(defun loader_memory (loader-structure)
+  )
 
 
 ;; Windows Internals Part 1 (6th Edition)
