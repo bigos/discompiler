@@ -20,6 +20,11 @@
      mem
      12345)))
 
+(defun loader-wrapper (file)
+  (let ((bytes (file-to-bytes file)))
+    ;;TODO
+    ))
+
 (defun loader_memory (loader-structure)
   )
 
