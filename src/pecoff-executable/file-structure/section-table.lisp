@@ -141,31 +141,26 @@
         (image-base (struct-value "ImageBase" (optional-header bytes)))
         (size-of-image (struct-value "SizeOfImage" (optional-header bytes)))
         (dll-base))
-    (flet ((func (addr bytes memory virtual-size raw-size raw-pointer)
-             (allocate-preferred-block memory
-                                       (aligned-size
-                                        virtual-size
-                                        (optional-header-value
-                                         bytes
-                                         "SectionAlignment"))
-                                       addr)
-             (load-section bytes memory addr raw-size raw-pointer)))
+    (labels ((alignment (virtual-size)
+               (aligned-size virtual-size
+                             (optional-header-value bytes "SectionAlignment")))
+             (allocate-and-load (addr virtual-size raw-size raw-pointer)
+               (allocate-preferred-block memory
+                                         (alignment virtual-size)
+                                         addr)
+               (load-section bytes memory addr raw-size raw-pointer)))
       (setf dll-base (car (find-next-free-block memory size-of-image image-base)))
       (when module
         (setf (module-originalbase module) image-base)
         (setf (module-sizeofimage module) size-of-image)
         (setf (module-dllbase module) dll-base))
-      (func dll-base
-            bytes
-            memory
-            (length-of-pe-header bytes)
-            (length-of-pe-header bytes)
-            0)
+      (allocate-and-load dll-base
+                         (length-of-pe-header bytes)
+                         (length-of-pe-header bytes)
+                         0)
       (dolist (s (section-headers bytes))
-        (func (+ image-base (struct-value "VirtualAddress" s))
-              bytes
-              memory
-              (struct-value "VirtualSize" s)
-              (struct-value "SizeOfRawData" s)
-              (struct-value "PointerToRawData" s)))
+        (allocate-and-load (+ image-base (struct-value "VirtualAddress" s))
+                           (struct-value "VirtualSize" s)
+                           (struct-value "SizeOfRawData" s)
+                           (struct-value "PointerToRawData" s)))
       module)))
