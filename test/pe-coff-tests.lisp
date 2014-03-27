@@ -1,5 +1,21 @@
 (in-package :discompiler)
 
+(in-suite :loading)
+(test loaded-modules
+  (let* ((file "~/discompiler/SampleExecutables/PE/myfavlibrary.exe"))
+    ;; TODO rewrite loader so it returns structure containing
+    ;; information about loaded module
+    (sb-ext:gc :full t)
+    (multiple-value-bind (mem my-module) (loader-w file)
+      (declare (ignore mem))
+      (is (equalp (module-fulldllname my-module) file))
+      (is (equalp (module-basedllname my-module) "myfavlibrary.exe"))
+      (is (equalp (module-dllbase my-module) #x400000))
+      (is (equalp (module-originalbase my-module) #x400000))
+      (is (equalp (module-sizeofimage  my-module) #xd57000))
+      )
+    (sb-ext:gc :full t)))
+
 (in-suite :pe-coff)
 
 (test test-executable-integrity
@@ -67,19 +83,6 @@
             #x10b))
     (is (eq (optional-header-image-type bytes)
             'PE32))))
-
-(test loaded-modules
-  (let* ((file "~/discompiler/SampleExecutables/PE/crackme12.exe")
-         (bytes (file-to-bytes file)))
-    ;; TODO rewrite loader so it returns structure containing
-    ;; information about loaded module
-    (multiple-value-bind (mem my-module) (loader-w bytes)
-      (declare (ignore mem))
-      (is (equalp (module-fulldllname my-module) file))
-      (is (equalp (module-basedllname my-module) "crackme12.exe"))
-      (is (equalp (module-dllbase my-module) #x400000))
-      (is (equalp (module-originalbase my-module) #x400000))
-      (is (equalp (module-sizeofimage  my-module) #xd57000)))))
 
 (test imported-libraries
   (let* ((file "~/discompiler/SampleExecutables/PE/myfavlibrary.exe")

@@ -3,7 +3,7 @@
 (defun loader (bytes &optional (module))
   (declare (optimize (debug 3) (safety 3) (speed 0)))
   (let ((mem (make-instance 'memory :start #x110000 :end #xFFFF0001)))
-    (format t "module arg>>>>  ~s~%" module)
+    ;;(format t "module arg>>>>  ~s~%" module)
     (setf module (allocate-and-load-sections bytes mem module))
     (if (zerop (optional-header-value bytes "Import Table RVA"))
         (princ " zero import RVA detected")

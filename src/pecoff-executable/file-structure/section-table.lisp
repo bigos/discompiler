@@ -140,16 +140,19 @@
   (declare (optimize (debug 3) (safety 3)))
   (let ((addr)
         (image-base (struct-value "ImageBase" (optional-header bytes)))
+        (size-of-image (struct-value "SizeOfImage" (optional-header bytes)))
+        (dll-base)
         (section-alignment (optional-header-value bytes "SectionAlignment")))
     (when module
       (setf (module-originalbase module) image-base)
-      (setf (module-sizeofimage module)
-            (struct-value "SizeOfImage" (optional-header bytes))))
+      (setf (module-sizeofimage module) size-of-image))
+    (setf dll-base (car (find-next-free-block memory size-of-image image-base)))
+    (setf addr dll-base)
     (allocate-preferred-block memory
                               (aligned-size
                                (length-of-pe-header bytes) section-alignment)
-                              image-base)
-    (load-section bytes memory image-base
+                              addr)
+    (load-section bytes memory addr
                   (length-of-pe-header bytes)
                   0)
     (dolist (s  (section-headers bytes))

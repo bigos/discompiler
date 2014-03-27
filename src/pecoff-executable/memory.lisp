@@ -35,10 +35,8 @@
              (setf last-collected new-cons))
          finally
            (when (< last-allocated (end self))
-             (setf (cdr last-collected)
-                   (cons (make-range (1+ last-allocated)
-                                     (end self))
-                         nil)))
+             setf (cdr last-collected)
+)
            (return collected)))))
 
 (defgeneric find-free-block (memory size))
