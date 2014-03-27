@@ -1,32 +1,26 @@
 (in-package :discompiler)
 
-(defun loader (bytes)
-  (let ((mem (make-instance 'memory :start #x110000 :end #xFFFF0001))
-        (my-module (make-module) ))
+(defun loader (bytes &optional (module))
+  (declare (optimize (debug 3) (safety 3) (speed 0)))
+  (let ((mem (make-instance 'memory :start #x110000 :end #xFFFF0001)))
+    (format t "module arg>>>>  ~s~%" module)
     (allocate-and-load-sections bytes mem)
     (if (zerop (optional-header-value bytes "Import Table RVA"))
         (princ " zero import RVA detected")
         (imported-functions bytes mem))
     (if (zerop (optional-header-value bytes "IAT RVA"))
-        (princ " zero IAT rva detected ")
-        ;; (format t "IAT RVA~%~S~%" (get-rva-table-bytes bytes mem "IAT RVA" "IAT Size" ))
-        )
-
-    ;; Read information from import table and load the DLLs
-    ;; Resolve the function addresses and create Import Address Table (IAT).
-    ;; Create initial heap and stack using values from PE header.
-    ;; Create main thread and start the process.
+        (princ " zero IAT rva detected "))
     (values
      mem
-     12345)))
+     module)))
 
-(defun loader-wrapper (file)
-  (let ((bytes (file-to-bytes file)))
-    ;;TODO
-    ))
+(defun loader-w (file)
+  (declare (optimize (debug 3) (safety 3) (speed 0)))
+  (let ((my-module (make-module))
+        (bytes (file-to-bytes file)))
+    (setf (module-fulldllname my-module) file)
+    (loader bytes my-module)))
 
-(defun loader_memory (loader-structure)
-  )
 
 
 ;; Windows Internals Part 1 (6th Edition)
