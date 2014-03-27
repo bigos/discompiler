@@ -141,7 +141,8 @@
   (let ((addr)
         (image-base (struct-value "ImageBase" (optional-header bytes)))
         (section-alignment (optional-header-value bytes "SectionAlignment")))
-    (setf (module-originalbase module) image-base)
+    (when module
+      (setf (module-originalbase module) image-base))
     (allocate-preferred-block memory
                               (aligned-size
                                (length-of-pe-header bytes) section-alignment)

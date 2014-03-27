@@ -7,7 +7,7 @@
     (setf module (allocate-and-load-sections bytes mem module))
     (if (zerop (optional-header-value bytes "Import Table RVA"))
         (princ " zero import RVA detected")
-        (imported-functions bytes mem module))
+        (imported-functions bytes mem))
     (if (zerop (optional-header-value bytes "IAT RVA"))
         (princ " zero IAT rva detected "))
     (values
