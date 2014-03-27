@@ -136,10 +136,12 @@
   (setf (subseq (data mem-block) 0)
         (subseq bytes raw-pointer (+ raw-pointer raw-size))))
 
-(defun allocate-and-load-sections (bytes memory)
+(defun allocate-and-load-sections (bytes memory module)
+  (declare (optimize (debug 3) (safety 3)))
   (let ((addr)
         (image-base (struct-value "ImageBase" (optional-header bytes)))
         (section-alignment (optional-header-value bytes "SectionAlignment")))
+    (setf (module-originalbase module) image-base)
     (allocate-preferred-block memory
                               (aligned-size
                                (length-of-pe-header bytes) section-alignment)
@@ -155,4 +157,5 @@
                                 addr)
       (load-section bytes memory addr
                     (struct-value "SizeOfRawData" s)
-                    (struct-value "PointerToRawData" s)))))
+                    (struct-value "PointerToRawData" s)))
+    module))

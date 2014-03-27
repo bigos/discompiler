@@ -90,9 +90,9 @@
       res))
 
 
-(defun file-export-list (file)
+(defun file-export-list (file module)
   (let* ((bytes (file-to-bytes file))
-         (memory (loader bytes)))
+         (memory (loader bytes module)))
     (exports bytes memory)))
 
 (defun exports (bytes memory)

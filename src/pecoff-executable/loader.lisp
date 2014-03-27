@@ -4,10 +4,10 @@
   (declare (optimize (debug 3) (safety 3) (speed 0)))
   (let ((mem (make-instance 'memory :start #x110000 :end #xFFFF0001)))
     (format t "module arg>>>>  ~s~%" module)
-    (allocate-and-load-sections bytes mem)
+    (setf module (allocate-and-load-sections bytes mem module))
     (if (zerop (optional-header-value bytes "Import Table RVA"))
         (princ " zero import RVA detected")
-        (imported-functions bytes mem))
+        (imported-functions bytes mem module))
     (if (zerop (optional-header-value bytes "IAT RVA"))
         (princ " zero IAT rva detected "))
     (values
@@ -19,7 +19,7 @@
   (let ((my-module (make-module))
         (bytes (file-to-bytes file)))
     (setf (module-fulldllname my-module) file)
-    (setf (module-basedllname my-module) file)
+    (setf (module-basedllname my-module) (filename file))
     (loader bytes my-module)))
 
 (defun filename (path)
