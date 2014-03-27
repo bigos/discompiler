@@ -136,17 +136,18 @@
   (setf (subseq (data mem-block) 0)
         (subseq bytes raw-pointer (+ raw-pointer raw-size))))
 
-(defun allocate-and-load-sections (bytes memory module)
+(defun allocate-and-load-sections (bytes memory &optional module)
   (declare (optimize (debug 3) (safety 3)))
   (let ((addr)
         (image-base (struct-value "ImageBase" (optional-header bytes)))
         (size-of-image (struct-value "SizeOfImage" (optional-header bytes)))
         (dll-base)
         (section-alignment (optional-header-value bytes "SectionAlignment")))
+    (setf dll-base (car (find-next-free-block memory size-of-image image-base)))
     (when module
       (setf (module-originalbase module) image-base)
-      (setf (module-sizeofimage module) size-of-image))
-    (setf dll-base (car (find-next-free-block memory size-of-image image-base)))
+      (setf (module-sizeofimage module) size-of-image)
+      (setf (module-dllbase module) dll-base))
     (setf addr dll-base)
     (allocate-preferred-block memory
                               (aligned-size
