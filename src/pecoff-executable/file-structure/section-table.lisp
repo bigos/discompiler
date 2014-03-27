@@ -137,32 +137,35 @@
         (subseq bytes raw-pointer (+ raw-pointer raw-size))))
 
 (defun allocate-and-load-sections (bytes memory &optional module)
-  (declare (optimize (debug 3) (safety 3)))
   (let ((addr)
         (image-base (struct-value "ImageBase" (optional-header bytes)))
         (size-of-image (struct-value "SizeOfImage" (optional-header bytes)))
-        (dll-base)
-        (section-alignment (optional-header-value bytes "SectionAlignment")))
-    (setf dll-base (car (find-next-free-block memory size-of-image image-base)))
-    (when module
-      (setf (module-originalbase module) image-base)
-      (setf (module-sizeofimage module) size-of-image)
-      (setf (module-dllbase module) dll-base))
-    (setf addr dll-base)
-    (allocate-preferred-block memory
-                              (aligned-size
-                               (length-of-pe-header bytes) section-alignment)
-                              addr)
-    (load-section bytes memory addr
-                  (length-of-pe-header bytes)
-                  0)
-    (dolist (s  (section-headers bytes))
-      (setf addr (+ image-base (struct-value "VirtualAddress" s)))
-      (allocate-preferred-block memory
-                                (aligned-size
-                                 (struct-value "VirtualSize" s) section-alignment)
-                                addr)
-      (load-section bytes memory addr
-                    (struct-value "SizeOfRawData" s)
-                    (struct-value "PointerToRawData" s)))
-    module))
+        (dll-base))
+    (flet ((func (addr bytes memory virtual-size raw-size raw-pointer)
+             (allocate-preferred-block memory
+                                       (aligned-size
+                                        virtual-size
+                                        (optional-header-value
+                                         bytes
+                                         "SectionAlignment"))
+                                       addr)
+             (load-section bytes memory addr raw-size raw-pointer)))
+      (setf dll-base (car (find-next-free-block memory size-of-image image-base)))
+      (when module
+        (setf (module-originalbase module) image-base)
+        (setf (module-sizeofimage module) size-of-image)
+        (setf (module-dllbase module) dll-base))
+      (func dll-base
+            bytes
+            memory
+            (length-of-pe-header bytes)
+            (length-of-pe-header bytes)
+            0)
+      (dolist (s (section-headers bytes))
+        (func (+ image-base (struct-value "VirtualAddress" s))
+              bytes
+              memory
+              (struct-value "VirtualSize" s)
+              (struct-value "SizeOfRawData" s)
+              (struct-value "PointerToRawData" s)))
+      module)))
