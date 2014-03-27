@@ -142,7 +142,9 @@
         (image-base (struct-value "ImageBase" (optional-header bytes)))
         (section-alignment (optional-header-value bytes "SectionAlignment")))
     (when module
-      (setf (module-originalbase module) image-base))
+      (setf (module-originalbase module) image-base)
+      (setf (module-sizeofimage module)
+            (struct-value "SizeOfImage" (optional-header bytes))))
     (allocate-preferred-block memory
                               (aligned-size
                                (length-of-pe-header bytes) section-alignment)
