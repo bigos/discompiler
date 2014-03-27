@@ -23,11 +23,7 @@
     (loader bytes my-module)))
 
 (defun filename (path)
-  (if (pathname-type path)
-      (format nil "~a.~a"
-              (pathname-name path)
-              (pathname-type path))
-      (pathname-name path)))
+  (pathname-name path))
 
 ;; Windows Internals Part 1 (6th Edition)
 ;; page 234

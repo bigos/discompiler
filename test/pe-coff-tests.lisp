@@ -9,7 +9,7 @@
     (multiple-value-bind (mem my-module) (loader-w file)
       (declare (ignore mem))
       (is (equalp (module-fulldllname my-module) file))
-      (is (equalp (module-basedllname my-module) "myfavlibrary.exe"))
+      (is (equalp (module-basedllname my-module) "myfavlibrary"))
       (is (equalp (module-dllbase my-module) #x400000))
       (is (equalp (module-originalbase my-module) #x400000))
       (is (equalp (module-sizeofimage  my-module) #xd57000))
