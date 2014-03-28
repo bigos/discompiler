@@ -3,7 +3,7 @@
 (defun image-base (bytes)
   (struct-value "ImageBase" (optional-header bytes)))
 
-(defun image-size (bytes)
+(defun size-of-image (bytes)
   (struct-value "SizeOfImage" (optional-header bytes)))
 
 (defun length-of-pe-header (bytes)
