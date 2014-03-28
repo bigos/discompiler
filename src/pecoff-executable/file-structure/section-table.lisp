@@ -158,7 +158,7 @@
                          (length-of-pe-header bytes)
                          0)
       (dolist (s (section-headers bytes))
-        (allocate-and-load (+ (image-base bytes) (struct-value "VirtualAddress" s))
+        (allocate-and-load (+ dll-base (struct-value "VirtualAddress" s))
                            (struct-value "VirtualSize" s)
                            (struct-value "SizeOfRawData" s)
                            (struct-value "PointerToRawData" s)))
