@@ -4,8 +4,7 @@
   ((allocated :accessor allocated)
    (blocks :accessor blocks :initform nil)
    (start :accessor start :initarg :start)
-   (end :accessor end :initarg :end)
-   (modules :accessor modules :initform nil)))
+   (end :accessor end :initarg :end)))
 
 ;; need this to be run after creating an object
 (defmethod initialize-instance :after ((self memory) &key)

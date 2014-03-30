@@ -242,10 +242,8 @@
     (is (eq 4096 (setf size-header (aligned-size
                                     (optional-header-value bytes "SizeOfHeaders")
                                     (optional-header-value bytes "SectionAlignment")))))
-    (is (eq base (allocate-preferred-block mem size-header base)))
-    (is (equalp '((#x110000 . #x3FFFFF) (#x401000 . #xffff0000)) (find-free mem)))
     (is (eq 4096 (setf section-alignment (optional-header-value bytes "SectionAlignment"))))
-    ;; load sections first
+
     (allocate-and-load-sections bytes mem)
     ;; check allocation
     (is (equalp '((#x110000 . #x3FFFFF)
