@@ -270,8 +270,7 @@
                   (#x404000 . #x404fff)) (butlast (allocated new-mem))))
     (is (equalp '((#x110000 . #x3FFFFF)
                   (#x405000 . #xffff0000)) (find-free new-mem)))
-    ;; TODO add tests for loaded modules
-    (format t "loaded modules ~S~%" (modules new-mem))
+
     (is (equalp
          (list (make-module
                 :BASEDLLNAME "crackme12"
@@ -280,5 +279,5 @@
                 :ORIGINALBASE 4194304
                 :SIZEOFIMAGE 20480))  (modules new-mem)))
     ;; it's not loading libraries yet,
-    ;; so there only information aboutthe executable
+    ;; so there's only information about the executable
     ))
