@@ -234,7 +234,8 @@
   (let* ((file "~/discompiler/SampleExecutables/PE/crackme12.exe")
          (bytes (file-to-bytes file))
          (mem (make-instance 'memory :start #x110000 :end  #xFFFF0001))
-         (base) (size-header) (section-alignment)  )
+         (base) (size-header) (section-alignment)
+         (new-mem))
     (is (equalp '((#x110000 . #xffff0000)) (find-free mem)))
     (is (eq #x400000 (setf base (image-base bytes))))
     (is (eq 1024 (struct-value "SizeOfHeaders" (optional-header bytes))))
@@ -258,4 +259,26 @@
     (is (equalp #(#x6a #x00 #xe8) (get-allocated-bytes mem #x401000 3)))
     (is (eq #x41 (get-allocated mem #x403000)))
     (is (eq #x00 (get-allocated mem #x404000)))
+
+    ;; new tests  for new loader
+    (setf new-mem (loader-w file))
+
+    (is (equalp '((#x400000 . #x400fff)
+                  (#x401000 . #x401fff)
+                  (#x402000 . #x402fff)
+                  (#x403000 . #x403fff)
+                  (#x404000 . #x404fff)) (butlast (allocated new-mem))))
+    (is (equalp '((#x110000 . #x3FFFFF)
+                  (#x405000 . #xffff0000)) (find-free new-mem)))
+    ;; TODO add tests for loaded modules
+    (format t "loaded modules ~S~%" (modules new-mem))
+    (is (equalp
+         (list (make-module
+                :BASEDLLNAME "crackme12"
+                :DLLBASE 4194304
+                :FULLDLLNAME "~/discompiler/SampleExecutables/PE/crackme12.exe"
+                :ORIGINALBASE 4194304
+                :SIZEOFIMAGE 20480))  (modules new-mem)))
+    ;; it's not loading libraries yet,
+    ;; so there only information aboutthe executable
     ))

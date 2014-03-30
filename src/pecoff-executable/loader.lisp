@@ -10,6 +10,7 @@
         (imported-functions bytes mem))
     (if (zerop (optional-header-value bytes "IAT RVA"))
         (princ " zero IAT rva detected "))
+    (push module (modules mem))
     (values
      mem
      module)))
