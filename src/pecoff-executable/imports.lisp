@@ -56,6 +56,7 @@
                              (imported-function-name mem bytes ilx))))))
 
 (defun imported-functions (bytes mem)
+  (declare (optimize (debug 3) (safety 3)))
   (let ((import-table-size (multiple-value-bind (d s)
                                (import-directory-table bytes 0)
                              (declare (ignore d)) s)))
