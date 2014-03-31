@@ -36,6 +36,11 @@
 (defun filename (path)
   (pathname-name path))
 
+(defun dll-base (bytes memory)
+  (car (find-next-free-block memory
+                             (size-of-image bytes)
+                             (image-base bytes))))
+
 ;; Windows Internals Part 1 (6th Edition)
 ;; page 234
 ;; Early Process Initialization
