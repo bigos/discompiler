@@ -137,8 +137,7 @@
         (subseq bytes raw-pointer (+ raw-pointer raw-size))))
 
 (defun allocate-and-load-sections (bytes memory &optional module)
-  (let* ((addr)
-         (dll-base (car (find-next-free-block memory
+  (let ((dll-base (car (find-next-free-block memory
                                               (size-of-image bytes)
                                               (image-base bytes)))))
     (labels ((alignment (virtual-size)
