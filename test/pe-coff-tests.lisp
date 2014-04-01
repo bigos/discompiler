@@ -245,7 +245,7 @@
                                     (optional-header-value bytes "SectionAlignment")))))
     (is (eq 4096 (setf section-alignment (optional-header-value bytes "SectionAlignment"))))
 
-    (allocate-and-load-sections bytes mem)
+    (allocate-and-load-sections bytes mem (dll-base bytes mem) )
     ;; check allocation
     (is (equalp '((#x110000 . #x3FFFFF)
                   (#x405000 . #xffff0000)) (find-free mem))) ;; verify if find-free returns correct values
