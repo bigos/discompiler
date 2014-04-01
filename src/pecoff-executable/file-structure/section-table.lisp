@@ -136,29 +136,31 @@
   (setf (subseq (data mem-block) 0)
         (subseq bytes raw-pointer (+ raw-pointer raw-size))))
 
-(defun allocate-and-load-sections (bytes memory &optional module)
-  (let ((dll-base (car (find-next-free-block memory
-                                              (size-of-image bytes)
-                                              (image-base bytes)))))
-    (labels ((alignment (virtual-size)
-               (aligned-size virtual-size
-                             (optional-header-value bytes "SectionAlignment")))
-             (allocate-and-load (addr virtual-size raw-size raw-pointer)
-               (allocate-preferred-block memory
-                                         (alignment virtual-size)
-                                         addr)
-               (load-section bytes memory addr raw-size raw-pointer)))
-      (when module
-        (setf (module-originalbase module) (image-base bytes)
-              (module-sizeofimage module) (size-of-image bytes)
-              (module-dllbase module) dll-base))
-      (allocate-and-load dll-base
-                         (length-of-pe-header bytes)
-                         (length-of-pe-header bytes)
-                         0)
-      (dolist (s (section-headers bytes))
-        (allocate-and-load (+ dll-base (struct-value "VirtualAddress" s))
-                           (struct-value "VirtualSize" s)
-                           (struct-value "SizeOfRawData" s)
-                           (struct-value "PointerToRawData" s)))
-      module)))
+(defun dll-base (bytes memory)
+  (car (find-next-free-block memory
+                             (size-of-image bytes)
+                             (image-base bytes))))
+
+(defun allocate-and-load-sections (bytes memory dll-base &optional module)
+  (labels ((alignment (virtual-size)
+             (aligned-size virtual-size
+                           (optional-header-value bytes "SectionAlignment")))
+           (allocate-and-load (addr virtual-size raw-size raw-pointer)
+             (allocate-preferred-block memory
+                                       (alignment virtual-size)
+                                       addr)
+             (load-section bytes memory addr raw-size raw-pointer)))
+    (when module
+      (setf (module-originalbase module) (image-base bytes)
+            (module-sizeofimage module) (size-of-image bytes)
+            (module-dllbase module) dll-base ))
+    (allocate-and-load dll-base
+                       (length-of-pe-header bytes)
+                       (length-of-pe-header bytes)
+                       0)
+    (dolist (s (section-headers bytes))
+      (allocate-and-load (+ dll-base  (struct-value "VirtualAddress" s))
+                         (struct-value "VirtualSize" s)
+                         (struct-value "SizeOfRawData" s)
+                         (struct-value "PointerToRawData" s)))
+    module))
