@@ -141,7 +141,7 @@
                              (size-of-image bytes)
                              (image-base bytes))))
 
-(defun allocate-and-load-sections (bytes memory dll-base &optional module)
+(defun allocate-and-load-sections (bytes memory dll-base)
   (labels ((alignment (virtual-size)
              (aligned-size virtual-size
                            (optional-header-value bytes "SectionAlignment")))
@@ -150,10 +150,6 @@
                                        (alignment virtual-size)
                                        addr)
              (load-section bytes memory addr raw-size raw-pointer)))
-    (when module
-      (setf (module-originalbase module) (image-base bytes)
-            (module-sizeofimage module) (size-of-image bytes)
-            (module-dllbase module) dll-base ))
     (allocate-and-load dll-base
                        (length-of-pe-header bytes)
                        (length-of-pe-header bytes)
@@ -163,4 +159,4 @@
                          (struct-value "VirtualSize" s)
                          (struct-value "SizeOfRawData" s)
                          (struct-value "PointerToRawData" s)))
-    module))
+    ))

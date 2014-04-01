@@ -1,9 +1,11 @@
 (in-package :discompiler)
 
-(defun loader (bytes &optional (module))
+(defun loader (bytes &optional module)
   (let ((mem (make-instance 'memory :start #x110000 :end #xFFFF0001)))
     ;;(format t "module arg>>>>  ~s~%" module)
-    (setf module (allocate-and-load-sections bytes mem (dll-base bytes mem) module))
+    (when module
+      (setf module  (set-module-data module bytes (dll-base bytes mem))))
+    (allocate-and-load-sections bytes mem (dll-base bytes mem))
     (if (zerop (optional-header-value bytes "Import Table RVA"))
         (princ " zero import RVA detected")
         (imported-functions bytes mem))
@@ -21,6 +23,12 @@
   (if (zerop (optional-header-value bytes "IAT RVA"))
       (princ " zero IAT rva detected ")))
 
+(defun set-module-data (module bytes dll-base)
+  (setf (module-originalbase module) (image-base bytes)
+        (module-sizeofimage module) (size-of-image bytes)
+        (module-dllbase module) dll-base )
+  module)
+
 ;; try to write recursive loader
 (defun loader-w (file)
   (declare (optimize (debug 3) (safety 3)))
@@ -29,7 +37,9 @@
         (bytes (file-to-bytes file)))
     (setf (module-fulldllname my-module) file)
     (setf (module-basedllname my-module) (filename file))
-    (setf my-module (allocate-and-load-sections bytes mem (dll-base bytes mem) my-module))
+    (setf my-module (set-module-data my-module bytes (dll-base bytes mem))
+          )
+    (allocate-and-load-sections bytes mem (dll-base bytes mem))
     (unless (zerop (optional-header-value bytes "Import Table RVA"))
       (imported-functions bytes mem))
     (push my-module (modules mem))
