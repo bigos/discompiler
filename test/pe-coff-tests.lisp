@@ -2,11 +2,9 @@
 
 (in-suite :loading)
 (test loaded-modules
-  (let* ((file "~/discompiler/SampleExecutables/PE/myfavlibrary.exe"))
-    ;; TODO rewrite loader so it returns structure containing
-    ;; information about loaded module
+  (let ((file "~/discompiler/SampleExecutables/PE/myfavlibrary.exe"))
     (sb-ext:gc :full t)
-    (multiple-value-bind (mem my-module) (loader-w file)
+    (multiple-value-bind (mem my-module) (recursive-loader file)
       (declare (ignore mem))
       (is (equalp (module-fulldllname my-module) file))
       (is (equalp (module-basedllname my-module) "myfavlibrary"))
@@ -261,7 +259,7 @@
     (is (eq #x00 (get-allocated mem #x404000)))
 
     ;; new tests  for new loader
-    (setf new-mem (loader-w file))
+    (setf new-mem (recursive-loader file))
 
     (is (equalp '((#x400000 . #x400fff)
                   (#x401000 . #x401fff)
@@ -278,13 +276,13 @@
                  :FULLDLLNAME "~/discompiler/SampleExecutables/PE/crackme12.exe"
                  :ORIGINALBASE #x 400000
                  :SIZEOFIMAGE #x5000)))
-    ;; (is (equalp (nth 1 (modules new-mem))
-    ;;             (make-module
-    ;;              :BASEDLLNAME "USER32"
-    ;;              :DLLBASE #x77d40000
-    ;;              :FULLDLLNAME "~/discompiler/SampleExecutables/PE/DLLs/user32.dll"
-    ;;              :ORIGINALBASE #x77D40000
-    ;;              :SIZEOFIMAGE #x90000)))
+    (is (equalp (nth 1 (modules new-mem))
+                (make-module
+                 :BASEDLLNAME "USER32"
+                 :DLLBASE #x77d40000
+                 :FULLDLLNAME "~/discompiler/SampleExecutables/PE/DLLs/user32.dll"
+                 :ORIGINALBASE #x77D40000
+                 :SIZEOFIMAGE #x90000)))
     ;; (is (equalp (nth 2 (modules new-mem))
     ;;             (make-module
     ;;              :BASEDLLNAME "GDI32"
