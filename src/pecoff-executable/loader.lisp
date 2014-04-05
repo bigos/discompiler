@@ -42,7 +42,7 @@
     (allocate-and-load-sections bytes mem (dll-base bytes mem))
     (report-loader-errors bytes mem)
     (push module (modules mem))
-    (format t "imported: ~S~%" (imported-functions bytes mem))
+    (imported-functions bytes mem)
     (values mem module)))
 
 (defun filename (path)

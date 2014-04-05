@@ -17,11 +17,8 @@
                                                                     bytes))))
     (mapc-directory-tree (lambda (x)
                            (when (equalp library-name (full-filename x))
-                             (format t
-                                     "library on disk: ~S wanted: ~S~%"
-                                     (full-filename x)
-                                     library-name)
-                             (format t "~%~%modules:  ~S~%" (modules mem))
+                             ;; (format t "library on disk: ~S wanted: ~S~%" (full-filename x) library-name)
+                             ;; (format t "~%~%modules:  ~S~%" (modules mem))
                              (unless (loaded? x mem)
                                (format t "going to load ~S~%" x)
                                (loader-1 x mem bytes))))
