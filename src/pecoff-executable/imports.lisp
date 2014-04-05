@@ -21,14 +21,19 @@
                                      "library on disk: ~S wanted: ~S~%"
                                      (full-filename x)
                                      library-name)
-                             ;; TODO
-                             ;; at the moment it goes into infinite loop
-                             ;; need to add code checking if the module
-                             ;; was already loaded
-                             ;; (loader-1 x mem bytes)
-                             ))
+                             (format t "~%~%modules:  ~S~%" (modules mem))
+                             (unless (loaded? x mem)
+                               (format t "going to load ~S~%" x)
+                               (loader-1 x mem bytes))))
                          libraries-path)
     library-name))
+
+(defun loaded? (file mem)
+  (loop for m in (modules mem)
+     for found = (equalp (full-filename (module-fulldllname m))
+                         (full-filename file))
+     until found
+     finally (return found)))
 
 (defun import-by-ordinalp (bytes ilx)
   (= 1 (ldb (byte 1 (if (eq 'PE32 (optional-header-image-type bytes))

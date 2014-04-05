@@ -20,14 +20,19 @@
         (module-dllbase module) dll-base )
   module)
 
+(defparameter *recursion-level* 0)
+
 ;; try to write recursive loader
 (defun recursive-loader (file)
   (let ((mem (make-instance 'memory :start #x110000 :end #xFFFF0001))
         (bytes (file-to-bytes file)))
+    (setf *recursion-level* 0)
     (loader-1 file mem bytes)))
 
 (defun loader-1 (file mem bytes)
   (declare (optimize (debug 3) (safety 3)))
+  (incf *recursion-level*)
+  (when (> *recursion-level* 10) (error "loader recursion too deep"))
   (let ((module (make-module)))
     (setf (module-fulldllname module) file
           (module-basedllname module) (filename file)
