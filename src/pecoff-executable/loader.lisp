@@ -22,13 +22,13 @@
 
 ;; try to write recursive loader
 (defun recursive-loader (file)
-  (let ((mem (make-instance 'memory :start #x110000 :end #xFFFF0001)))
-    (loader-w file mem)))
-
-(defun loader-w (file mem)
-  (declare (optimize (debug 3) (safety 3)))
-  (let ((module (make-module))
+  (let ((mem (make-instance 'memory :start #x110000 :end #xFFFF0001))
         (bytes (file-to-bytes file)))
+    (loader-1 file mem bytes)))
+
+(defun loader-1 (file mem bytes)
+  (declare (optimize (debug 3) (safety 3)))
+  (let ((module (make-module)))
     (setf (module-fulldllname module) file
           (module-basedllname module) (filename file)
           (module-originalbase module) (image-base bytes)
@@ -36,12 +36,18 @@
           (module-dllbase module) (dll-base bytes mem))
     (allocate-and-load-sections bytes mem (dll-base bytes mem))
     (report-loader-errors bytes mem)
-    (imported-functions bytes mem)
     (push module (modules mem))
+    (format t "imported: ~S~%" (imported-functions bytes mem))
     (values mem module)))
 
 (defun filename (path)
   (pathname-name path))
+
+(defun full-filename (path)
+  (format nil
+          "~a.~a"
+          (pathname-name path)
+          (pathname-type path)))
 
 (defun dll-base (bytes memory)
   (car (find-next-free-block memory

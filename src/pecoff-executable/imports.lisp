@@ -11,9 +11,24 @@
       (values data structure-size))))
 
 (defun library-name (mem bytes directory-table)
-  (get-allocated-string mem (rva-addr-in-struct "NameRVA"
-                                                directory-table
-                                                bytes)))
+  (let ((libraries-path "~/discompiler/SampleExecutables/PE/DLLs/")
+        (library-name (get-allocated-string mem (rva-addr-in-struct "NameRVA"
+                                                                    directory-table
+                                                                    bytes))))
+    (mapc-directory-tree (lambda (x)
+                           (when (equalp library-name (full-filename x))
+                             (format t
+                                     "library on disk: ~S wanted: ~S~%"
+                                     (full-filename x)
+                                     library-name)
+                             ;; TODO
+                             ;; at the moment it goes into infinite loop
+                             ;; need to add code checking if the module
+                             ;; was already loaded
+                             ;; (loader-1 x mem bytes)
+                             ))
+                         libraries-path)
+    library-name))
 
 (defun import-by-ordinalp (bytes ilx)
   (= 1 (ldb (byte 1 (if (eq 'PE32 (optional-header-image-type bytes))

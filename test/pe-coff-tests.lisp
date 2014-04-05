@@ -290,13 +290,13 @@
     ;;              :FULLDLLNAME "~/discompiler/SampleExecutables/PE/DLLs/gdi32.dll"
     ;;              :ORIGINALBASE #x77F10000
     ;;              :SIZEOFIMAGE #x46000)))
-    ;; (is (equalp (nth 3(modules new-mem))
-    ;;             (make-module
-    ;;              :BASEDLLNAME "kernel32"
-    ;;              :DLLBASE #x7c800000
-    ;;              :FULLDLLNAME "~/discompiler/SampleExecutables/PE/DLLs/kernel32.dll"
-    ;;              :ORIGINALBASE #x7C800000
-    ;;              :SIZEOFIMAGE #xF4000)))
+    (is (equalp (nth 3(modules new-mem))
+                (make-module
+                 :BASEDLLNAME "kernel32"
+                 :DLLBASE #x7c800000
+                 :FULLDLLNAME "~/discompiler/SampleExecutables/PE/DLLs/kernel32.dll"
+                 :ORIGINALBASE #x7C800000
+                 :SIZEOFIMAGE #xF4000)))
     ;; (is (equalp (nth 4 (modules new-mem))
     ;;             (make-module
     ;;              :BASEDLLNAME "ntdll"
