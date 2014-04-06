@@ -314,6 +314,7 @@
          (new-mem))
 
     (setf new-mem (recursive-loader file))
+    ;; WARNING all modules have the same SIZEOFIMAGE ORIGINALBASE
     (format t "modules found:: ~S~%" (modules new-mem))
 
     (is (equalp (nth 2 (modules new-mem))
