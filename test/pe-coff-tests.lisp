@@ -313,7 +313,7 @@
          (libraries "/home/jacek/Programming/Lisp/discompiler/SampleExecutables/PE/DLLs/")
          (new-mem))
 
-    (setf new-mem (recursive-loader file))
+    (setf new-mem (init-recursive-loader file))
     ;; WARNING all modules have the same SIZEOFIMAGE ORIGINALBASE
     (format t "modules found:: ~S~%" (modules new-mem))
 

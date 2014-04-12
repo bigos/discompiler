@@ -23,10 +23,13 @@
 (defparameter *recursion-level* 0)
 
 ;; try to write recursive loader
+(defun init-recursive-loader (file)
+  (setf *recursion-level* 0)
+  (recursive-loader file))
+
 (defun recursive-loader (file)
   (let ((mem (make-instance 'memory :start #x110000 :end #xFFFF0001))
         (bytes (file-to-bytes file)))
-    (setf *recursion-level* 0)
     (loader-1 file mem bytes)))
 
 (defun loader-1 (file mem bytes)
