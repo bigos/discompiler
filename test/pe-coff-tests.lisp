@@ -324,7 +324,7 @@
                  :FULLDLLNAME "~/discompiler/SampleExecutables/PE/crackme12.exe"
                  :ORIGINALBASE #x 400000
                  :SIZEOFIMAGE #x5000)))
-
+;; hmm
     ;; calling (recursive-loader "./SampleExecutables/PE/DLLs/user32.dll")
     ;;  directly in REPL gives correct results
     ;; (is (equalp (nth 1 (modules new-mem))
