@@ -261,28 +261,28 @@
     ;; new tests  for new loader
     (setf new-mem (init-recursive-loader file))
 
-    (is (equalp '((#x400000 . #x400fff)
-                  (#x401000 . #x401fff)
-                  (#x402000 . #x402fff)
-                  (#x403000 . #x403fff)
-                  (#x404000 . #x404fff)) (butlast (allocated new-mem))))
-    (is (equalp '((#x110000 . #x3FFFFF)
-                  (#x405000 . #xffff0000)) (find-free new-mem)))
+    ;; (is (equalp '((#x400000 . #x400fff)
+    ;;               (#x401000 . #x401fff)
+    ;;               (#x402000 . #x402fff)
+    ;;               (#x403000 . #x403fff)
+    ;;               (#x404000 . #x404fff)) (butlast (allocated new-mem))))
+    ;; (is (equalp '((#x110000 . #x3FFFFF)
+    ;;               (#x405000 . #xffff0000)) (find-free new-mem)))
 
-    (is (equalp (nth 0 (modules new-mem))
-                (make-module
-                 :BASEDLLNAME "crackme12"
-                 :DLLBASE #x400000
-                 :FULLDLLNAME "~/discompiler/SampleExecutables/PE/crackme12.exe"
-                 :ORIGINALBASE #x 400000
-                 :SIZEOFIMAGE #x5000)))
-    (is (equalp (nth 1 (modules new-mem))
-                (make-module
-                 :BASEDLLNAME "USER32"
-                 :DLLBASE #x77d40000
-                 :FULLDLLNAME "~/discompiler/SampleExecutables/PE/DLLs/user32.dll"
-                 :ORIGINALBASE #x77D40000
-                 :SIZEOFIMAGE #x90000)))
+    ;; (is (equalp (nth 0 (modules new-mem))
+    ;;             (make-module
+    ;;              :BASEDLLNAME "crackme12"
+    ;;              :DLLBASE #x400000
+    ;;              :FULLDLLNAME "~/discompiler/SampleExecutables/PE/crackme12.exe"
+    ;;              :ORIGINALBASE #x 400000
+    ;;              :SIZEOFIMAGE #x5000)))
+    ;; (is (equalp (nth 1 (modules new-mem))
+    ;;             (make-module
+    ;;              :BASEDLLNAME "USER32"
+    ;;              :DLLBASE #x77d40000
+    ;;              :FULLDLLNAME "~/discompiler/SampleExecutables/PE/DLLs/user32.dll"
+    ;;              :ORIGINALBASE #x77D40000
+    ;;              :SIZEOFIMAGE #x90000)))
     ;; (is (equalp (nth 2 (modules new-mem))
     ;;             (make-module
     ;;              :BASEDLLNAME "GDI32"
@@ -290,13 +290,13 @@
     ;;              :FULLDLLNAME "~/discompiler/SampleExecutables/PE/DLLs/gdi32.dll"
     ;;              :ORIGINALBASE #x77F10000
     ;;              :SIZEOFIMAGE #x46000)))
-    (is (equalp (nth 3(modules new-mem))
-                (make-module
-                 :BASEDLLNAME "kernel32"
-                 :DLLBASE #x7c800000
-                 :FULLDLLNAME "~/discompiler/SampleExecutables/PE/DLLs/kernel32.dll"
-                 :ORIGINALBASE #x7C800000
-                 :SIZEOFIMAGE #xF4000)))
+    ;; (is (equalp (nth 3(modules new-mem))
+    ;;             (make-module
+    ;;              :BASEDLLNAME "kernel32"
+    ;;              :DLLBASE #x7c800000
+    ;;              :FULLDLLNAME "~/discompiler/SampleExecutables/PE/DLLs/kernel32.dll"
+    ;;              :ORIGINALBASE #x7C800000
+    ;;              :SIZEOFIMAGE #xF4000)))
     ;; (is (equalp (nth 4 (modules new-mem))
     ;;             (make-module
     ;;              :BASEDLLNAME "ntdll"
