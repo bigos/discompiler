@@ -259,7 +259,7 @@
     (is (eq #x00 (get-allocated mem #x404000)))
 
     ;; new tests  for new loader
-    (setf new-mem (recursive-loader file))
+    (setf new-mem (init-recursive-loader file))
 
     (is (equalp '((#x400000 . #x400fff)
                   (#x401000 . #x401fff)

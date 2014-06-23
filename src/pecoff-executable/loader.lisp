@@ -35,7 +35,7 @@
 (defun loader-1 (file mem bytes)
   (declare (optimize (debug 3) (safety 3)))
   (incf *recursion-level*)
-  (when (> *recursion-level* 10) (error "loader recursion too deep"))
+  (when (> *recursion-level* 100) (error "loader recursion too deep"))
   (let ((module (make-module)))
     (setf (module-fulldllname module) file
           (module-basedllname module) (filename file)
