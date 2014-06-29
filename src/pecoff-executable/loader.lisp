@@ -42,11 +42,12 @@
           (module-originalbase module) (image-base bytes)
           (module-sizeofimage module) (size-of-image bytes)
           (module-dllbase module) (dll-base bytes mem))
+    (format t "modules -> ~A~%" (modules mem))
     (allocate-and-load-sections bytes mem (dll-base bytes mem))
     (report-loader-errors bytes mem)
     (push module (modules mem))
     (imported-functions bytes mem)
-    (values mem module)))
+    (values mem module (modules mem))))
 
 (defun filename (path)
   (pathname-name path))
