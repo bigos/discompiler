@@ -44,8 +44,8 @@
           (module-dllbase module) (dll-base bytes mem))
     (format t "modules -> ~A~%" (modules mem))
     (allocate-and-load-sections bytes mem (dll-base bytes mem))
-    (report-loader-errors bytes mem)
     (push module (modules mem))
+    (report-loader-errors bytes mem)
     (imported-functions bytes mem)
     (values mem module)))
 
