@@ -47,7 +47,7 @@
     (report-loader-errors bytes mem)
     (push module (modules mem))
     (imported-functions bytes mem)
-    (values mem module (modules mem))))
+    (values mem module)))
 
 (defun filename (path)
   (pathname-name path))
