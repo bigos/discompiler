@@ -21,6 +21,7 @@
                              ;; (format t "~%~%modules:  ~S~%" (modules mem))
                              (unless (loaded? x mem)
                                (format t "going to load ~S~%" x)
+                               ;; actually load the file bytes and pass them to loader-1
                                (loader-1 x mem bytes))))
                          libraries-path)
     library-name))
