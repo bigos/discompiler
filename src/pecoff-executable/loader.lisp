@@ -21,10 +21,12 @@
   module)
 
 (defparameter *recursion-level* 0)
+(defparameter *loaded-modules* nil)
 
 ;; try to write recursive loader
 (defun init-recursive-loader (file)
   (setf *recursion-level* 0)
+  (setf *loaded-modules* nil)
   (recursive-loader file))
 
 (defun recursive-loader (file)
@@ -37,6 +39,7 @@
   (incf *recursion-level*)
   (when (> *recursion-level* 100) (error "loader recursion too deep"))
   (let ((module (make-module)))
+    (format t "ims ~a sizi ~a dllbs ~a file ~a~%" (image-base bytes) (size-of-image bytes) (dll-base bytes mem) (filename file))
     (setf (module-fulldllname module) file
           (module-basedllname module) (filename file)
           (module-originalbase module) (image-base bytes)
@@ -45,6 +48,7 @@
     (allocate-and-load-sections bytes mem (dll-base bytes mem))
     (report-loader-errors bytes mem)
     (push module (modules mem))
+    (push module *loaded-modules*)
     (imported-functions bytes mem)
     (values mem module)))
 

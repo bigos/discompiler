@@ -324,16 +324,16 @@
                  :FULLDLLNAME "~/discompiler/SampleExecutables/PE/crackme12.exe"
                  :ORIGINALBASE #x 400000
                  :SIZEOFIMAGE #x5000)))
-    ;; hmm
+
     ;; calling (recursive-loader "./SampleExecutables/PE/DLLs/user32.dll")
     ;;  directly in REPL gives correct results
-    ;; (is (equalp (nth 1 (modules new-mem))
-    ;;             (make-module
-    ;;              :BASEDLLNAME "USER32"
-    ;;              :DLLBASE #x77d40000
-    ;;              :FULLDLLNAME (concatenate 'string libraries "user32.dll")
-    ;;              :ORIGINALBASE #x77D40000
-    ;;              :SIZEOFIMAGE #x90000)))
+    (is (equalp (nth 1 (modules new-mem))
+                (make-module
+                 :BASEDLLNAME "USER32"
+                 :DLLBASE #x77d40000
+                 :FULLDLLNAME (concatenate 'string libraries "user32.dll")
+                 :ORIGINALBASE #x77D40000
+                 :SIZEOFIMAGE #x90000)))
     ;; (is (equalp (nth 2 (modules new-mem))
     ;;             (make-module
     ;;              :BASEDLLNAME "GDI32"
@@ -344,7 +344,7 @@
     ;; (is (equalp (car (modules new-mem))
     ;;             (make-module
     ;;              :BASEDLLNAME "kernel32"
-    ;;              :DLLBASE #x7c800000
+    ;;              :DLLBASE #x7c800000l
     ;;              :FULLDLLNAME (concatenate 'string libraries "kernel32.dll")
     ;;              :ORIGINALBASE #x7C800000
     ;;              :SIZEOFIMAGE #xF4000)))
