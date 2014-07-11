@@ -2,8 +2,8 @@
 
 (defun project-path ()
     (if (equalp (machine-instance) "jaceks-imac.chess")
-        "/Users/jacekpodkanski/Documents/SBCL/"
-        "/home/jacek/Programming/Lisp/"))
+        "/Users/jacekpodkanski/Documents/SBCL/discompiler/"
+        "/home/jacek/Programming/Lisp/discompiler/"))
 
 (defun all-symbols-defined (package)
   (let ((pack (find-package package))

@@ -309,10 +309,8 @@
     ))
 
 (test test-new-loader
-  (let* (
-         (my-path (project-path))
-         (file (concatenate 'string my-path "discompiler/SampleExecutables/PE/crackme12.exe"))
-         (libraries (concatenate 'string my-path "discompiler/SampleExecutables/PE/DLLs/"))
+  (let* ((file (concatenate 'string (project-path) "SampleExecutables/PE/crackme12.exe"))
+         (libraries (concatenate 'string (project-path) "SampleExecutables/PE/DLLs/"))
          (new-mem))
 
     (setf new-mem (init-recursive-loader file))
@@ -323,7 +321,7 @@
                 (make-module
                  :BASEDLLNAME "crackme12"
                  :DLLBASE #x400000
-                 :FULLDLLNAME (concatenate 'string my-path "discompiler/SampleExecutables/PE/crackme12.exe")
+                 :FULLDLLNAME (concatenate 'string (project-path) "SampleExecutables/PE/crackme12.exe")
                  :ORIGINALBASE #x 400000
                  :SIZEOFIMAGE #x5000)))
 
