@@ -136,6 +136,8 @@
   (setf (subseq (data mem-block) 0)
         (subseq bytes raw-pointer (+ raw-pointer raw-size))))
 
+
+
 (defun dll-base (bytes memory)
   (car (find-next-free-block memory
                              (size-of-image bytes)
