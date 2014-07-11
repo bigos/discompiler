@@ -45,10 +45,11 @@
           (module-originalbase module) (image-base bytes)
           (module-sizeofimage module) (size-of-image bytes)
           (module-dllbase module) (dll-base bytes mem))
+    (format t "modules -> ~A~%" (modules mem))
     (allocate-and-load-sections bytes mem (dll-base bytes mem))
-    (report-loader-errors bytes mem)
     (push module (modules mem))
     (push module *loaded-modules*)
+    (report-loader-errors bytes mem)
     (imported-functions bytes mem)
     (values mem module)))
 
