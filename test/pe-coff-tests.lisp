@@ -310,7 +310,8 @@
 
 (test test-new-loader
   (let* ((file "~/discompiler/SampleExecutables/PE/crackme12.exe")
-         (libraries "/home/jacek/Programming/Lisp/discompiler/SampleExecutables/PE/DLLs/")
+         (my-path "/Users/jacekpodkanski/Documents/SBCL/")
+         (libraries (concatenate 'string my-path "discompiler/SampleExecutables/PE/DLLs/"))
          (new-mem))
 
     (setf new-mem (init-recursive-loader file))
@@ -321,7 +322,7 @@
                 (make-module
                  :BASEDLLNAME "crackme12"
                  :DLLBASE #x400000
-                 :FULLDLLNAME "~/discompiler/SampleExecutables/PE/crackme12.exe"
+                 :FULLDLLNAME (concatenate 'string my-path "discompiler/SampleExecutables/PE/crackme12.exe")
                  :ORIGINALBASE #x 400000
                  :SIZEOFIMAGE #x5000)))
 
@@ -338,7 +339,7 @@
                 (make-module
                  :BASEDLLNAME "GDI32"
                  :DLLBASE #x77f10000
-                 :FULLDLLNAME "~/discompiler/SampleExecutables/PE/DLLs/gdi32.dll"
+                 :FULLDLLNAME (concatenate 'string libraries "gdi32.dll")
                  :ORIGINALBASE #x77F10000
                  :SIZEOFIMAGE #x46000)))
     (is (equalp (nth 1 (modules new-mem))
@@ -352,7 +353,7 @@
                 (make-module
                  :BASEDLLNAME "ntdll"
                  :DLLBASE #x7c900000
-                 :FULLDLLNAME "~/discompiler/SampleExecutables/PE/DLLs/ntdll.dll"
+                 :FULLDLLNAME (concatenate 'string libraries "ntdll.dll")
                  :ORIGINALBASE #x7C900000
                  :SIZEOFIMAGE  #xB0000)))
     ))
