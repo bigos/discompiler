@@ -20,9 +20,9 @@
                              ;; (format t "library on disk: ~S wanted: ~S~%" (full-filename x) library-name)
                              ;; (format t "~%~%modules:  ~S~%" (modules mem))
                              (unless (loaded? x mem)
-                               (format t "going to load ~S~%" x)
+                               ;; (format t "going to load ~S~%" x)
                                ;; actually load the file bytes and pass them to loader-1
-                               (format t "going to try ~A~%" x)
+                               ;; (format t "going to try ~A~%" x)
                                (loader-1 x mem (file-to-bytes x)))))
                          libraries-path)
     library-name))

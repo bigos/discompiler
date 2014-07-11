@@ -40,18 +40,18 @@
   (when (> *recursion-level* 100) (error "loader recursion too deep"))
   (let ((module (make-module)))
     ;; the problem lies with the progrma reading same file bytes all the time
-    (format t "ims ~a sizi ~a dllbs ~a file ~a bytes ~A~%"
-            (image-base bytes)
-            (size-of-image bytes)
-            (dll-base bytes mem)
-            (filename file)
-            (length bytes))
+    ;; (format t "ims ~a sizi ~a dllbs ~a file ~a bytes ~A~%"
+    ;;         (image-base bytes)
+    ;;         (size-of-image bytes)
+    ;;         (dll-base bytes mem)
+    ;;         (filename file)
+    ;;         (length bytes))
     (setf (module-fulldllname module) file
           (module-basedllname module) (filename file)
           (module-originalbase module) (image-base bytes)
           (module-sizeofimage module) (size-of-image bytes)
           (module-dllbase module) (dll-base bytes mem))
-    (format t "modules -> ~A~%" (modules mem))
+    ;; (format t "modules -> ~A~%" (modules mem))
     (allocate-and-load-sections bytes mem (dll-base bytes mem))
     (push module (modules mem))
     (push module *loaded-modules*)
