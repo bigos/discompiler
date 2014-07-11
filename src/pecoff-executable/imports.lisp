@@ -22,7 +22,8 @@
                              (unless (loaded? x mem)
                                (format t "going to load ~S~%" x)
                                ;; actually load the file bytes and pass them to loader-1
-                               (loader-1 x mem bytes))))
+                               (format t "going to try ~A~%" x)
+                               (loader-1 x mem (file-to-bytes x)))))
                          libraries-path)
     library-name))
 
