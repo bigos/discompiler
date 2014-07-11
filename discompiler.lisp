@@ -1,9 +1,12 @@
 (in-package :discompiler)
 
 (defun project-path ()
-    (if (equalp (machine-instance) "jaceks-imac.chess")
-        "/Users/jacekpodkanski/Documents/SBCL/discompiler/"
-        "/home/jacek/Programming/Lisp/discompiler/"))
+  (concatenate 'string
+               (namestring (user-homedir-pathname))
+               (if (equalp (machine-instance)
+                           "jaceks-imac.chess")
+                   "Documents/SBCL/discompiler/"
+                   "Programming/Lisp/discompiler/")))
 
 (defun all-symbols-defined (package)
   (let ((pack (find-package package))
