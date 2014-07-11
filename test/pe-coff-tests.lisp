@@ -310,9 +310,7 @@
 
 (test test-new-loader
   (let* (
-         (my-path (if (equalp (machine-instance) "jaceks-imac.chess")
-                      "/Users/jacekpodkanski/Documents/SBCL/"
-                      "/home/jacek/Programming/Lisp/"))
+         (my-path (project-path))
          (file (concatenate 'string my-path "discompiler/SampleExecutables/PE/crackme12.exe"))
          (libraries (concatenate 'string my-path "discompiler/SampleExecutables/PE/DLLs/"))
          (new-mem))
