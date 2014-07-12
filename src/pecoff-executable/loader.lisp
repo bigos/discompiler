@@ -10,13 +10,13 @@
 
 (defun report-loader-errors (file bytes mem)
   (when (zerop (optional-header-value bytes "Import Table RVA"))
-    (format t "~%~A ~%" file )
-    (princ " zero import RVA detected")
-    (terpri))
+    (format t "~%~A ~A~%"
+            file
+            "zero import RVA detected"))
   (when (zerop (optional-header-value bytes "IAT RVA"))
-    (format t "~%~A ~%" file )
-    (princ " zero IAT rva detected ")
-    (terpri)))
+    (format t "~%~A ~A~%"
+            file
+            "zero IAT rva detected ")))
 
 (defun set-module-data (module bytes dll-base)
   (setf (module-originalbase module) (image-base bytes)
