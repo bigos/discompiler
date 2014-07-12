@@ -10,9 +10,11 @@
 
 (defun report-loader-errors (bytes mem)
   (when (zerop (optional-header-value bytes "Import Table RVA"))
-      (princ " zero import RVA detected"))
+    (format t "~%~A~%" (modules mem))
+    (princ " zero import RVA detected"))
   (when (zerop (optional-header-value bytes "IAT RVA"))
-      (princ " zero IAT rva detected ")))
+    (format t "~%~A~%" (modules mem))
+    (princ " zero IAT rva detected ")))
 
 (defun set-module-data (module bytes dll-base)
   (setf (module-originalbase module) (image-base bytes)
@@ -21,12 +23,10 @@
   module)
 
 (defparameter *recursion-level* 0)
-(defparameter *loaded-modules* nil)
 
 ;; try to write recursive loader
 (defun init-recursive-loader (file)
   (setf *recursion-level* 0)
-  (setf *loaded-modules* nil)
   (recursive-loader file))
 
 (defun recursive-loader (file)
@@ -39,25 +39,15 @@
   (incf *recursion-level*)
   (when (> *recursion-level* 100) (error "loader recursion too deep"))
   (let ((module (make-module)))
-    ;; the problem lies with the progrma reading same file bytes all the time
-    ;; (format t "ims ~a sizi ~a dllbs ~a file ~a bytes ~A~%"
-    ;;         (image-base bytes)
-    ;;         (size-of-image bytes)
-    ;;         (dll-base bytes mem)
-    ;;         (filename file)
-    ;;         (length bytes))
     (setf (module-fulldllname module) file
           (module-basedllname module) (filename file)
           (module-originalbase module) (image-base bytes)
           (module-sizeofimage module) (size-of-image bytes)
           (module-dllbase module) (dll-base bytes mem))
-    ;; (format t "modules -> ~A~%" (modules mem))
     (allocate-and-load-sections bytes mem (dll-base bytes mem))
     (push  module (modules mem))
-    ;; (setf (modules mem) (concatenate 'list (modules mem) (list module)))
-    (setf *loaded-modules* (concatenate 'list *loaded-modules* (list module)))
-    (report-loader-errors bytes mem)
     (imported-functions bytes mem)
+     (report-loader-errors bytes mem)
     (values mem module)))
 
 (defun filename (path)
