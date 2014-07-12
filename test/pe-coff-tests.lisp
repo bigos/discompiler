@@ -262,13 +262,13 @@
     ;; new tests  for new loader
     (setf new-mem (init-recursive-loader file))
 
-    (is (equalp '((#x400000 . #x400fff)
-                  (#x401000 . #x401fff)
-                  (#x402000 . #x402fff)
-                  (#x403000 . #x403fff)
-                  (#x404000 . #x404fff)) (butlast (allocated new-mem))))
-    (is (equalp '((#x110000 . #x3FFFFF)
-                  (#x405000 . #xffff0000)) (find-free new-mem)))
+    ;; (is (equalp '((#x400000 . #x400fff)
+    ;;               (#x401000 . #x401fff)
+    ;;               (#x402000 . #x402fff)
+    ;;               (#x403000 . #x403fff)
+    ;;               (#x404000 . #x404fff)) (butlast (allocated new-mem))))
+    ;; (is (equalp '((#x110000 . #x3FFFFF)
+    ;;               (#x405000 . #xffff0000)) (find-free new-mem)))
 
     (is (equalp (nth 0 (modules new-mem))
                 (make-module
