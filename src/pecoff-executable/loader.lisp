@@ -49,7 +49,8 @@
     (allocate-and-load-sections bytes mem (dll-base bytes mem))
     (push  module (modules mem))
     (imported-functions bytes mem)
-     (report-loader-errors file bytes mem)
+    (report-loader-errors file bytes mem)
+    (sort (modules mem) (lambda (x y) (< (module-dllbase x) (module-dllbase y))))
     (values mem module)))
 
 (defun filename (path)
