@@ -4,7 +4,7 @@
   (let ((mem (make-instance 'memory :start #x110000 :end #xFFFF0001)))
     ;;(format t "module arg>>>>  ~s~%" module)
     (allocate-and-load-sections bytes mem (dll-base bytes mem))
-    (report-loader-errors bytes mem)
+    (report-loader-errors "no-file-diven" bytes mem)
     (imported-functions bytes mem)
     mem))
 
@@ -39,7 +39,8 @@
 (defun loader-1 (file mem bytes)
   (declare (optimize (debug 3) (safety 3)))
   (incf *recursion-level*)
-  (when (> *recursion-level* 100) (error "loader recursion too deep"))
+  (format t "Loading ~a~%" file)
+  (when (> *recursion-level* 20) (error "loader recursion too deep"))
   (let ((module (make-module)))
     (setf (module-fulldllname module) file
           (module-basedllname module) (filename file)

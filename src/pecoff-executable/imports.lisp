@@ -17,13 +17,16 @@
                                                                     bytes))))
     (mapc-directory-tree (lambda (x)
                            (when (equalp library-name (full-filename x))
-                             ;; (format t "library on disk: ~S wanted: ~S~%" (full-filename x) library-name)
+                             (format t "library on disk: ~S wanted: ~S~%"
+                                     (full-filename x)
+                                     library-name)
                              ;; (format t "~%~%modules:  ~S~%" (modules mem))
-                             (unless (loaded? x mem)
-                               ;; (format t "going to load ~S~%" x)
-                               ;; actually load the file bytes and pass them to loader-1
-                               ;; (format t "going to try ~A~%" x)
-                               (loader-1 x mem (file-to-bytes x)))))
+                             (if (loaded? x mem)
+                                 ;; (format t "going to load ~S~%" x)
+                                 ;; actually load the file bytes and pass them to loader-1
+                                 ;; (format t "going to try ~A~%" x)
+                                 (loader-1 x mem (file-to-bytes x))
+                                 (format t "not found library ~A <<<~%" x))))
                          libraries-path)
     library-name))
 
@@ -31,8 +34,11 @@
   (loop for m in (modules mem)
      for found = (equalp (full-filename (module-fulldllname m))
                          (full-filename file))
+     do
+       (format t ">>> found ~A ~A ~A~%" found file (module-fulldllname m))
      until found
-     finally (return found)))
+     finally (progn
+               (return found))))
 
 (defun import-by-ordinalp (bytes ilx)
   (= 1 (ldb (byte 1 (if (eq 'PE32 (optional-header-image-type bytes))
