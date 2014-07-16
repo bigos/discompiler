@@ -15,6 +15,7 @@
         (library-name (get-allocated-string mem (rva-addr-in-struct "NameRVA"
                                                                     directory-table
                                                                     bytes))))
+    ;; check if needed library exists on disk
     (mapc-directory-tree (lambda (x)
                            (when (equalp library-name (full-filename x))
                              (format t "library on disk >>>>>>>>>>: ~S wanted: ~S result: ~S~%"
