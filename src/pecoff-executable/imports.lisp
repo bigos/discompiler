@@ -10,19 +10,23 @@
         (c-structure-values bytes elements offset)
       (values data structure-size))))
 
-(defun library-name (mem bytes directory-table)
+(defun library-on-disc-p (library-name)
   (let ((libraries-path "~/discompiler/SampleExecutables/PE/DLLs/")
-        (library-name (get-allocated-string mem (rva-addr-in-struct "NameRVA"
-                                                                    directory-table
-                                                                    bytes)))
-        (found nil))
+        (found))
     (mapc-directory-tree (lambda (x)
-                           ;; check if needed library exists on disk
                            (when (equalp library-name (full-filename x))
                              (setf found library-name)))
                          libraries-path)
-    ;; found shold be known now
-    (format t "found ??????? ~A~%" found)
+    found))
+
+(defun library-name (mem bytes directory-table)
+  (let* ((libraries-path "~/discompiler/SampleExecutables/PE/DLLs/")
+         (library-name (get-allocated-string mem (rva-addr-in-struct "NameRVA"
+                                                                     directory-table
+                                                                     bytes)))
+         (found (library-on-disc-p library-name)))
+    (format t "found ??????? ~A ~A~%" library-name
+            (if found "found" "NOT FOUND"))
     (mapc-directory-tree (lambda (x)
                            (when (equalp library-name (full-filename x))
                              (format t "library on disk >>>>>>>>>>: ~S wanted: ~S result: ~S~%"
