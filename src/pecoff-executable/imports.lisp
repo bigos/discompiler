@@ -17,7 +17,7 @@
                                                                     bytes))))
     (mapc-directory-tree (lambda (x)
                            (when (equalp library-name (full-filename x))
-                             (format t "library on disk: ~S wanted: ~S result: ~S~%"
+                             (format t "library on disk >>>>>>>>>>: ~S wanted: ~S result: ~S~%"
                                      (full-filename x)
                                      library-name
                                      (equalp library-name (full-filename x)))
@@ -32,12 +32,15 @@
     library-name))
 
 (defun loaded? (file mem)
+  (proclaim '(optimize (speed 0) (space 0) (debug 3))) ;
   (loop for m in (modules mem)
      for found = (if (equalp (full-filename (module-fulldllname m))
                              (full-filename file))
                      (full-filename file)
                      nil)
      until found
+     do
+       (cerror "loaded loop" "check it")
      finally (progn
                (format t ">>> found ~A ~A ~A~%" found file (module-fulldllname m))
                (return found))))
@@ -97,6 +100,8 @@
          for idt = (import-directory-table rva-bytes offset)
          for imp-dir-rva = (struct-value "ImportLookupTableRVA" idt)
          until (zerop imp-dir-rva)
+         do
+           (push (library-name mem bytes idt) *required*)
          collect
            (list
             (library-name mem bytes idt)

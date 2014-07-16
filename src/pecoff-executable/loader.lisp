@@ -25,13 +25,14 @@
   module)
 
 (defparameter *recursion-level* 0)
-(defparameter *missing* nil
-)
+(defparameter *missing* nil)
+(defparameter *required* nil)
 
 ;; try to write recursive loader
 (defun init-recursive-loader (file)
   (setf *recursion-level* 0)
-  (setf *missing* nil)
+  (setf *missing* nil
+        *required* nil)
   (recursive-loader file))
 
 (defun recursive-loader (file)
