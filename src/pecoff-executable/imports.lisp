@@ -49,8 +49,8 @@
                      (full-filename file)
                      nil)
      until found
-     do
-       (cerror "do something" (format nil "trying to find why there's file mismatch in ~A ~A" ffn mfn))
+
+       ;; (cerror "do something" (format nil "trying to find why there's file mismatch in ~A ~A" ffn mfn))
      finally (progn
                (format t ">>> found ~A ~A ~A~%" found file (module-fulldllname m))
                (return found))))
@@ -66,7 +66,7 @@
    (get-allocated-bytes mem
                         (rva-addr ilx bytes) 2)))
 
-(defun imported-function-name (mem bytes ilx)
+2(defun imported-function-name (mem bytes ilx)
   (get-allocated-string mem
                         (rva-addr (+ 2 ilx)
                                   bytes)))
