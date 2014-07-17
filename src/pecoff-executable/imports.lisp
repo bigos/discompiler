@@ -34,8 +34,11 @@
                                      (full-filename x)
                                      library-name
                                      (equalp library-name (full-filename x)))
-                             (unless (loaded? x mem)
-                               (loader-1 x mem (file-to-bytes x)))))
+                             (if (loaded? x mem)
+                                 (format t "already loaded ~A~%" x)
+                                 (progn
+                                   (format t "not found ~A going to load now~%" (full-filename x))
+                                   (loader-1 x mem (file-to-bytes x))))))
                          libraries-path)
     library-name))
 
@@ -49,10 +52,11 @@
                      (full-filename file)
                      nil)
      until found
-     do
-       (cerror "do something" (format nil "trying to find why there's file mismatch in ~A ~A" ffn mfn))
+     ;; do
+     ;;   (cerror "do something" (format nil "trying to find why there's file mismatch in ~A ~A" ffn mfn))
      finally (progn
                (format t ">>> found ~A ~A ~A~%" found file (module-fulldllname m))
+               (cerror "do something" (format nil "found? in ~A ~A" ffn mfn))
                (return found))))
 
 (defun import-by-ordinalp (bytes ilx)
