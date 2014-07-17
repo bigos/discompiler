@@ -27,7 +27,6 @@
          (found (library-on-disc-p library-name)))
     (format t "found on disc ??????? ~A ~A~%" library-name
             (if found "found" "NOT FOUND"))
-    (cerror "proceeding" "got to found")
     (push library-name *required*)
     (mapc-directory-tree (lambda (x)
                            (when (equalp library-name (full-filename x))
@@ -35,26 +34,23 @@
                                      (full-filename x)
                                      library-name
                                      (equalp library-name (full-filename x)))
-                             ;; (format t "~%~%modules:  ~S~%" (modules mem))
-                             (if (loaded? x mem)
-                                 ;; (format t "going to load ~S~%" x)
-                                 ;; actually load the file bytes and pass them to loader-1
-                                 ;; (format t "going to try ~A~%" x)
-                                 (loader-1 x mem (file-to-bytes x))
-                                 (format t "+++++ not found library ~A ~%" x))))
+                             (unless (loaded? x mem)
+                               (loader-1 x mem (file-to-bytes x)))))
                          libraries-path)
     library-name))
 
 (defun loaded? (file mem)
   (proclaim '(optimize (speed 0) (space 0) (debug 3))) ;
   (loop for m in (modules mem)
+     for ffn = (full-filename file)
+     for mfn = (full-filename (module-fulldllname m))
      for found = (if (equalp (full-filename (module-fulldllname m))
                              (full-filename file))
                      (full-filename file)
                      nil)
      until found
-     ;; do
-     ;;   (cerror "loaded loop" "check it")
+     do
+       (cerror "do something" (format nil "trying to find why there's file mismatch in ~A ~A" ffn mfn))
      finally (progn
                (format t ">>> found ~A ~A ~A~%" found file (module-fulldllname m))
                (return found))))
