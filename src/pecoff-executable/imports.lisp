@@ -93,7 +93,7 @@
      collect (list il
                    ilx
                    (if (import-by-ordinalp bytes ilx)
-                       (imported-ordinal-name ilx)
+                       (imported-ordinal-name ilx mem)
                        (cons (imported-function-hint mem bytes ilx)
                              (imported-function-name mem bytes ilx))))))
 
