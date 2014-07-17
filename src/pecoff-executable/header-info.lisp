@@ -114,6 +114,7 @@
   (int-to-hex (rva-addr rva bytes)))
 
 (defun get-rva-table-bytes (bytes mem name size)
+  (declare (optimize (debug 3)))
   (get-allocated-bytes mem
                        (rva-addr
                         (optional-header-value bytes name)

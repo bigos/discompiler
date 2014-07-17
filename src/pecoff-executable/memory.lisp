@@ -116,6 +116,7 @@
 
 (defgeneric get-allocated-bytes (memory addr count))
 (defmethod get-allocated-bytes ((self memory) addr count)
+  (declare (optimize (debug 3)))
   (let ((found))
     (dolist (alloc (blocks self))
       (when  (<= (start alloc) addr (end alloc))

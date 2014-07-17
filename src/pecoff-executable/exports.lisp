@@ -89,13 +89,12 @@
            (setf (aref res i) (cons ordinal (elt (nth 1 export-list) x))))
       res))
 
-
-(defun file-export-list (file)
-  (let* ((bytes (file-to-bytes file))
-         (memory (loader bytes)))
+(defun file-export-list (file memory)
+  (let* ((bytes (file-to-bytes file)))
     (exports bytes memory)))
 
 (defun exports (bytes memory)
+  (declare (optimize (debug 3)))
   (if (zerop (optional-header-value bytes "Export Table RVA"))
       (princ " zero size export table ")
       (let* ((edt (export-directory-table

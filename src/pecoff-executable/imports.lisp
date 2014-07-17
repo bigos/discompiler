@@ -25,8 +25,10 @@
                                                                      directory-table
                                                                      bytes)))
          (found (library-on-disc-p library-name)))
-    (format t "found ??????? ~A ~A~%" library-name
+    (format t "found on disc ??????? ~A ~A~%" library-name
             (if found "found" "NOT FOUND"))
+    (cerror "proceeding" "got to found")
+    (push library-name *required*)
     (mapc-directory-tree (lambda (x)
                            (when (equalp library-name (full-filename x))
                              (format t "library on disk >>>>>>>>>>: ~S wanted: ~S result: ~S~%"
@@ -73,11 +75,15 @@
                         (rva-addr (+ 2 ilx)
                                   bytes)))
 
-(defun imported-ordinal-name (ilx)
+(defun imported-ordinal-name (ilx mem)
+  (declare (optimize (debug 3)))
   ;;TODO find more efficient way
   (let ((ordinal-names (ordinal-names
                         (file-export-list
-                         "./SampleExecutables/PE/ordinal-imports.dll")))
+                         (concatenate 'string
+                          (project-path)
+                          "SampleExecutables/PE/ordinal-imports.dll")
+                         mem)))
         (ordinal-number (ldb (byte 16 0) ilx) ))
     (cons ordinal-number
           (loop for x from 0 below (length ordinal-names)
@@ -87,6 +93,7 @@
              finally (return (cdr ex))))))
 
 (defun imported-function-names (mem bytes imp-dir-rva)
+  (declare (optimize (debug 3)))
   (loop for il from imp-dir-rva by 4
      for ilx = (bytes-to-type-int (get-allocated-bytes mem (rva-addr il bytes) 4))
      until (zerop ilx)
@@ -98,7 +105,7 @@
                              (imported-function-name mem bytes ilx))))))
 
 (defun imported-functions (bytes mem)
-  (declare (optimize (debug 3) (safety 3)))
+  (declare (optimize (debug 3)))
   (let ((import-table-size (multiple-value-bind (d s)
                                (import-directory-table bytes 0)
                              (declare (ignore d)) s)))
@@ -112,8 +119,6 @@
          for idt = (import-directory-table rva-bytes offset)
          for imp-dir-rva = (struct-value "ImportLookupTableRVA" idt)
          until (zerop imp-dir-rva)
-         do
-           (push (library-name mem bytes idt) *required*)
          collect
            (list
             (library-name mem bytes idt)
