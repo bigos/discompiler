@@ -113,7 +113,7 @@
   "hex address of RVA in memeory"
   (int-to-hex (rva-addr rva bytes)))
 
-t(defun get-rva-table-bytes (bytes mem name size)
+(defun get-rva-table-bytes (bytes mem name size)
   (declare (optimize (debug 3)))
   (get-allocated-bytes mem
                        (rva-addr
