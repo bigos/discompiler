@@ -30,10 +30,6 @@
     (push library-name *required*)
     (mapc-directory-tree (lambda (x)
                            (when (equalp library-name (full-filename x))
-                             (format nil "library on disk >>>>>>>>>>: ~S wanted: ~S result: ~S~%"
-                                     (full-filename x)
-                                     library-name
-                                     (equalp library-name (full-filename x)))
                              (if (loaded? x mem)
                                  (format t "already loaded ~A~%" x)
                                  (progn
@@ -45,20 +41,10 @@
 (defun loaded? (file mem)
   (proclaim '(optimize (speed 0) (space 0) (debug 3))) ;
   (loop for m in (modules mem)
-     for ffn = (full-filename file)
-     for mfn = (full-filename (module-fulldllname m))
-     for found = (if (equalp (full-filename (module-fulldllname m))
-                             (full-filename file))
-                     (full-filename file)
-                     nil)
+     for found = (equalp (full-filename (module-fulldllname m))
+                         (full-filename file))
      until found
-     ;; do
-     ;;   (cerror "do something" (format nil "trying to find why there's file mismatch in ~A ~A" ffn mfn))
-     finally (progn
-               (when found
-                 (format nil ">>> in memory found file ~A module ~A~%" file (module-fulldllname m)))
-               (if nil (cerror "do something" (format nil "found? ~A in ~A ~A" found ffn mfn)))
-               (return found))))
+     finally (return found)))
 
 (defun import-by-ordinalp (bytes ilx)
   (= 1 (ldb (byte 1 (if (eq 'PE32 (optional-header-image-type bytes))
