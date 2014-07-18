@@ -31,7 +31,8 @@
 ;; try to write recursive loader
 (defun init-recursive-loader (file)
   (setf *recursion-level* 0)
-  (setf *missing* nil
+  (setf *test* nil
+        *missing* nil
         *required* nil)
   (recursive-loader file))
 
@@ -43,7 +44,7 @@
 (defun loader-1 (file mem bytes)
   (declare (optimize (debug 3) (safety 3)))
   (incf *recursion-level*)
-  (format t "Loading ~a~%" file)
+  (format t "Loading ~a~%~%" file)
   (when (> *recursion-level* 20) (error "loader recursion too deep"))
   (let ((module (make-module)))
     (setf (module-fulldllname module) file

@@ -1,5 +1,7 @@
 (in-package :discompiler)
 
+(setf *test* T)
+
 (in-suite :loading)
 (test loaded-modules
   (let ((file "~/discompiler/SampleExecutables/PE/myfavlibrary.exe"))
