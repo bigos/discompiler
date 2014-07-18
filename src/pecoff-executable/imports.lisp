@@ -30,11 +30,8 @@
     (push library-name *required*)
     (mapc-directory-tree (lambda (x)
                            (when (equalp library-name (full-filename x))
-                             (if (loaded? x mem)
-                                 (format t "already loaded ~A~%" x)
-                                 (progn
-                                   (format t "not found ~A going to load now~%~%" (full-filename x))
-                                   (loader-1 x mem (file-to-bytes x))))))
+                             (unless (loaded? x mem)
+                               (loader-1 x mem (file-to-bytes x)))))
                          libraries-path)
     library-name))
 
@@ -69,7 +66,7 @@
                         (file-export-list
                          (concatenate 'string
                           (project-path)
-                          "SampleExecutables/PE/ordinal-imports.dll")
+                          "SampleExecutables/PE/ordinal-imports.dll") ;hardcoded file ?????
                          mem)))
         (ordinal-number (ldb (byte 16 0) ilx) ))
     (cons ordinal-number
