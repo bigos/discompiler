@@ -64,6 +64,7 @@
         (return (cons preferred (cdr avail))))))
 
 (defun allocation-helper (self found size )
+(cerror "allochlp" "allochlp")
   (push (cons found (+ found size -1 )) (allocated self))
   (push (make-instance 'memory-block :start found :size size) (blocks self))
   (sort (allocated self) #'< :key #'car)
@@ -90,6 +91,7 @@
 (defgeneric allocate-block (memory size preferred))
 (defmethod allocate-block ((self memory) size preferred)
   (let ((allocated (allocate-preferred-block self size preferred)))
+    (cerror "allocating" "going to allocate")
     (unless allocated
       (setf allocated (allocate-available-block self size)))
     allocated))
