@@ -30,6 +30,7 @@
 
 ;; try to write recursive loader
 (defun init-recursive-loader (file)
+  (declare (type string file))
   (setf *recursion-level* 0)
   (setf *test* nil
         *missing* nil

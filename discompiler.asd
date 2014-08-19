@@ -37,6 +37,7 @@
                         ((:file "tests")
                          (:file "fiveam-suites")
                          (:file "pe-coff-tests")
+                         (:file "pe-loading-tests")
                          (:file "elf-tests")
                          (:file "memory-tests")
                          (:file "utilities-test")

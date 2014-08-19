@@ -144,14 +144,16 @@
                              (image-base bytes))))
 
 (defun allocate-and-load-sections (bytes memory dll-base)
-  (labels ((alignment (virtual-size)
+  (labels (
+           (alignment (virtual-size)
              (aligned-size virtual-size
                            (optional-header-value bytes "SectionAlignment")))
            (allocate-and-load (addr virtual-size raw-size raw-pointer)
              (allocate-preferred-block memory
                                        (alignment virtual-size)
                                        addr)
-             (load-section bytes memory addr raw-size raw-pointer)))
+             (load-section bytes memory addr raw-size raw-pointer))
+           )
     (allocate-and-load dll-base
                        (length-of-pe-header bytes)
                        (length-of-pe-header bytes)
