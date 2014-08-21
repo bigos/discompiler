@@ -7,7 +7,7 @@
               (md5:md5sum-file
                "~/discompiler/SampleExecutables/PE/crackme12.exe"))))
 
-(test test-load-sample-file
+(test test-new-load-sample-file
   (let* ((file (concatenate 'string (project-path) "SampleExecutables/PE/crackme12.exe"))
          (libraries (concatenate 'string (project-path) "SampleExecutables/PE/DLLs/"))
          (bytes (file-to-bytes file))
@@ -60,14 +60,14 @@
                 (make-module
                  :BASEDLLNAME "USER32"
                  :DLLBASE #x77d40000
-                 :FULLDLLNAME (pathname (concatenate 'string libraries "user32.dll"))
+                 :FULLDLLNAME (pathname (concatenate 'string libraries "USER32.dll"))
                  :ORIGINALBASE #x77D40000
                  :SIZEOFIMAGE #x90000)))
     (is (equalp (nth 2 (modules new-mem))
                 (make-module
                  :BASEDLLNAME "GDI32"
                  :DLLBASE #x77f10000
-                 :FULLDLLNAME (pathname (concatenate 'string libraries "gdi32.dll"))
+                 :FULLDLLNAME (pathname (concatenate 'string libraries "GDI32.dll"))
                  :ORIGINALBASE #x77F10000
                  :SIZEOFIMAGE #x46000)))
     (is (equalp (nth 3(modules new-mem))
