@@ -1,6 +1,6 @@
 (in-package :discompiler)
 
-(in-suite :loading)
+(in-suite :new-loading)
 
 (test test-executable-integrity
   (is (equalp #(17 122 62 7 172 101 207 43 236 55 231 193 95 182 209 19)
