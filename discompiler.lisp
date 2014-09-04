@@ -1,6 +1,18 @@
-(in-package :discompiler)
- ; i need a change to commit
+(proclaim '(optimize (safety 3) (speed 0) (debug 3)))
 
+(in-package :discompiler)
+
+(defun my-tester ()
+  (declare (optimize (safety 3) (speed 0) (debug 3)))
+  (let* ((file (concatenate 'string (project-path) "SampleExecutables/PE/crackme12.exe"))
+         (new-mem (init-recursive-loader file)))
+
+    (format t "----------------------------------- ~A ~%"  new-mem)
+    (cerror "do you want to finish?" "boooo")
+    (format t "-----------------------------------~%")
+    ))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun project-path ()
   (concatenate 'string
                (namestring (user-homedir-pathname))

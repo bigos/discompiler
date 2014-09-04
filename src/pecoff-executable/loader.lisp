@@ -58,7 +58,9 @@
     (imported-functions bytes mem)
     (report-loader-errors file bytes mem)
     (sort (modules mem) (lambda (x y) (< (module-dllbase x) (module-dllbase y))))
-    (values mem module)))
+    (values mem module)
+    (cerror "zzzzzzz" "aaaaaa")
+    (format t "zzzzzzzz ~A ~A ~A~%" file module vroom)))
 
 (defun filename (path)
   (pathname-name path))

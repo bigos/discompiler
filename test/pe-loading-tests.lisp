@@ -112,6 +112,9 @@
                  :FULLDLLNAME (pathname (concatenate 'string libraries "USER32.dll"))
                  :ORIGINALBASE #x77D40000
                  :SIZEOFIMAGE #x90000)))
+
+    (cerror "continue the test?" "nothing")
+
     (is (equalp (nth 2 (modules new-mem))
                 (make-module
                  :BASEDLLNAME "GDI32"
