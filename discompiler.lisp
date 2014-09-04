@@ -2,12 +2,13 @@
 
 (in-package :discompiler)
 
-(defun my-tester ()
+(defun my-tester (file)
   (declare (optimize (safety 3) (speed 0) (debug 3)))
-  (let* ((file (concatenate 'string (project-path) "SampleExecutables/PE/crackme12.exe"))
-         (new-mem (init-recursive-loader file)))
+  (let* ((bytes (file-to-bytes file))
+         (mem (make-instance 'memory :start #x110000 :end #xFFFF0001)))
 
-    (format t "----------------------------------- ~A ~%"  new-mem)
+    (format t "----------------------------------- ~A ~%"  mem)
+    (funame bytes mem)
     (cerror "do you want to finish?" "boooo")
     (format t "-----------------------------------~%")
     ))

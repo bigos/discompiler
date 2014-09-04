@@ -60,7 +60,7 @@
     (sort (modules mem) (lambda (x y) (< (module-dllbase x) (module-dllbase y))))
     (values mem module)
     (cerror "zzzzzzz" "aaaaaa")
-    (format t "zzzzzzzz ~A ~A ~A~%" file module vroom)))
+    (format t "zzzzzzzz ~A  ~A~%" file module )))
 
 (defun filename (path)
   (pathname-name path))
