@@ -5,10 +5,10 @@
 (defun my-tester (file)
   (declare (optimize (safety 3) (speed 0) (debug 3)))
   (let* ((bytes (file-to-bytes file))
-         (mem (make-instance 'memory :start #x110000 :end #xFFFF0001)))
+         (mem (make-instance 'memory :start #x100 :end #xFFFFFF0001)))
 
-    (format t "----------------------------------- ~A ~%"  mem)
-    (funame bytes mem)
+    (format t "----------------------------------- ~A ~%"
+            (imported-functions bytes mem))
     (cerror "do you want to finish?" "boooo")
     (format t "-----------------------------------~%")
     ))
