@@ -21,12 +21,17 @@
 
 (defun library-name (mem bytes directory-table)
   (let* ((libraries-path "~/discompiler/SampleExecutables/PE/DLLs/")
-         (library-name (get-allocated-string mem (rva-addr-in-struct "NameRVA"
-                                                                     directory-table
-                                                                     bytes)))
-         (found (library-on-disc-p library-name)))
-    (unless found
-      (format t "~%not found on disc ??????? ~A~%" library-name))
+         (library-name) (found))
+    (handler-case
+        (setf library-name (get-allocated-string mem (rva-addr-in-struct "NameRVA"
+                                                                         directory-table
+                                                                         bytes)))
+      (condition () "zzzzzzzzzzeeeeeeeeeeeeeeezzzzzzzz"))
+
+    (setf found (library-on-disc-p library-name))
+    (if found
+        (format t "~%found at last ~A~%" library-name)
+        (format t "~%not found on disc ??????? ~A~%" library-name))
     (push library-name *required*)
     (mapc-directory-tree (lambda (x)
                            (when (equalp library-name (full-filename x))
