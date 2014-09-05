@@ -1,19 +1,6 @@
-(proclaim '(optimize (safety 3) (speed 0) (debug 3)))
-
 (in-package :discompiler)
+ ; i need a change to commit
 
-(defun my-tester (file)
-  (declare (optimize (safety 3) (speed 0) (debug 3)))
-  (let* ((bytes (file-to-bytes file))
-         (mem (make-instance 'memory :start #x100 :end #xFFFFFF0001)))
-
-    (format t "----------------------------------- ~A ~%"
-            (imported-functions bytes mem))
-    (cerror "do you want to finish?" "boooo")
-    (format t "-----------------------------------~%")
-    ))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun project-path ()
   (concatenate 'string
                (namestring (user-homedir-pathname))
