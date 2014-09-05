@@ -58,16 +58,16 @@
                  :SIZEOFIMAGE #x5000)))
     (is (equalp (nth 1 (modules new-mem))
                 (make-module
-                 :BASEDLLNAME "USER32"
+                 :BASEDLLNAME "user32"
                  :DLLBASE #x77d40000
-                 :FULLDLLNAME (pathname (concatenate 'string libraries "USER32.dll")) ;yes it is consistent with debugger
+                 :FULLDLLNAME (pathname (concatenate 'string libraries "user32.dll")) ;yes it is consistent with debugger
                  :ORIGINALBASE #x77D40000
                  :SIZEOFIMAGE #x90000)))
     (is (equalp (nth 2 (modules new-mem))
                 (make-module
-                 :BASEDLLNAME "GDI32"
+                 :BASEDLLNAME "gdi32"
                  :DLLBASE #x77f10000
-                 :FULLDLLNAME (pathname (concatenate 'string libraries "GDI32.dll")) ;yes it is consistent with debugger
+                 :FULLDLLNAME (pathname (concatenate 'string libraries "gdi32.dll")) ;yes it is consistent with debugger
                  :ORIGINALBASE #x77F10000
                  :SIZEOFIMAGE #x46000)))
     (is (equalp (nth 3(modules new-mem))
@@ -107,16 +107,16 @@
     ;;  directly in REPL gives correct results
     (is (equalp (nth 1 (modules new-mem))
                 (make-module
-                 :BASEDLLNAME "USER32"
+                 :BASEDLLNAME "user32"
                  :DLLBASE #x77d40000
-                 :FULLDLLNAME (pathname (concatenate 'string libraries "USER32.dll"))
+                 :FULLDLLNAME (pathname (concatenate 'string libraries "user32.dll"))
                  :ORIGINALBASE #x77D40000
                  :SIZEOFIMAGE #x90000)))
     (is (equalp (nth 2 (modules new-mem))
                 (make-module
-                 :BASEDLLNAME "GDI32"
+                 :BASEDLLNAME "gdi32"
                  :DLLBASE #x77f10000
-                 :FULLDLLNAME (pathname (concatenate 'string libraries "GDI32.dll"))
+                 :FULLDLLNAME (pathname (concatenate 'string libraries "gdi32.dll"))
                  :ORIGINALBASE #x77F10000
                  :SIZEOFIMAGE #x46000)))
     (is (equalp (nth 3 (modules new-mem))
