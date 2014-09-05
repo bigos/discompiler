@@ -25,8 +25,9 @@
                                                                      directory-table
                                                                      bytes)))
          (found (library-on-disc-p library-name)))
-    (unless found
-      (format t "~%not found on disc ??????? ~A~%" library-name))
+    (if found
+        (format t "~%found at last ~A~%" library-name)
+        (format t "~%not found on disc ??????? ~A~%" library-name))
     (push library-name *required*)
     (mapc-directory-tree (lambda (x)
                            (when (equalp library-name (full-filename x))
