@@ -54,19 +54,19 @@
    (get-allocated-bytes mem
                         (rva-addr ilx bytes) 2)))
 
-2(defun imported-function-name (mem bytes ilx)
+(defun imported-function-name (mem bytes ilx)
   (get-allocated-string mem
                         (rva-addr (+ 2 ilx)
                                   bytes)))
-
+;; need to verify this one
 (defun imported-ordinal-name (ilx mem)
   (declare (optimize (debug 3)))
   ;;TODO find more efficient way
   (let ((ordinal-names (ordinal-names
                         (file-export-list
                          (concatenate 'string
-                          (project-path)
-                          "SampleExecutables/PE/ordinal-imports.dll") ;hardcoded file ?????
+                                      (progn (cerror "eee" "dddd")  (project-path))
+                                      "SampleExecutables/PE/ordinal-imports.dll") ;hardcoded file ?????
                          mem)))
         (ordinal-number (ldb (byte 16 0) ilx) ))
     (cons ordinal-number
