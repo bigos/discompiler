@@ -15,7 +15,7 @@
       (is (equalp (module-sizeofimage  my-module) #xd57000))
       )
     (sb-ext:gc :full t)))
-x1
+
 (in-suite :pe-coff)
 
 (test test-executable-integrity
