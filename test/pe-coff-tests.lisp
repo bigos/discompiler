@@ -22,9 +22,7 @@
   (is (equalp #(17 122 62 7 172 101 207 43 236 55 231 193 95 182 209 19)
               (md5:md5sum-file
                "~/discompiler/SampleExecutables/PE/crackme12.exe")))
-  (is (equalp #(108 118 94 130 181 127 46 102 206 156 84 172 35 132 113 217)
-              (md5:md5sum-file
-               "~/discompiler/SampleExecutables/PE/ordinal-imports.dll")))
+
   (is (equalp #(75 77 21 177 248 104 180 41 239 172 255 187 89 19 216 164)
               (md5:md5sum-file
                "~/discompiler/SampleExecutables/PE/myfavlibrary.exe")))
