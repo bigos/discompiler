@@ -42,6 +42,11 @@
         (bytes (file-to-bytes file)))
     (loader-1 file mem bytes)))
 
+(defun imports-inspector (file)
+  (let ((mem (make-instance 'memory :start #x110000 :end #xFFFF0001))
+        (bytes (file-to-bytes file)))
+    (imported-functions bytes mem)))
+
 (defun loader-1 (file mem bytes)
   (declare (optimize (debug 3) (safety 3)))
   (incf *recursion-level*)
