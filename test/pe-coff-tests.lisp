@@ -288,7 +288,7 @@
 
 (test test-load-sample-file
   (let* ((file (concatenate 'string (project-path) "SampleExecutables/PE/crackme12.exe"))
-         (libraries (concatenate 'string (project-path) "SampleExecutables/PE/DLLs/"))
+         ;; (libraries (concatenate 'string (project-path) "SampleExecutables/PE/DLLs/"))
          (bytes (file-to-bytes file))
          (mem (make-instance 'memory :start #x110000 :end  #xFFFF0001))
          (base) (size-header) (section-alignment)
