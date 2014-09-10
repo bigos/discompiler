@@ -62,6 +62,7 @@
 (defun imported-ordinal-name (ilx mem)
   (declare (optimize (debug 3)))
   ;;TODO find more efficient way
+  (cerror "qqq" "www")
   (let ((ordinal-names (ordinal-names
                         (file-export-list
                          (concatenate 'string
