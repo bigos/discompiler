@@ -91,7 +91,6 @@
 (defgeneric allocate-block (memory size preferred))
 (defmethod allocate-block ((self memory) size preferred)
   (let ((allocated (allocate-preferred-block self size preferred)))
-    (cerror "allocating" "going to allocate")
     (unless allocated
       (setf allocated (allocate-available-block self size)))
     allocated))
