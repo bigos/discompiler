@@ -82,7 +82,8 @@
   (is (equalp #(156 212 195 62 33 21 228 239 247 131 106 218 86 40 71 214)
               (md5:md5sum-file "~/discompiler/SampleExecutables/PE/DLLs/oledlg.dll")))
   (is (equalp #(44 222 73 102 102 169 117 162 206 143 150 159 48 66 200 219)
-              (md5:md5sum-file "~/discompiler/SampleExecutables/PE/DLLs/uxtheme.dll"))))
+              (md5:md5sum-file "~/discompiler/SampleExecutables/PE/DLLs/uxtheme.dll")))
+  (sb-ext:gc :full t))
 
 (test test-old-firefox
   (let* ((file  "~/discompiler/SampleExecutables/PE/firefox.exe")
