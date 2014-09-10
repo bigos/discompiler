@@ -48,7 +48,7 @@
   (format t "Loading ~a~%" file)
   (when (> *recursion-level* 200) (error "loader recursion too deep"))
   (let ((module (make-module)))
-    (setf (module-fulldllname module) file
+    (setf (module-fulldllname module) (file-namestring file)
           (module-basedllname module) (filename file)
           (module-originalbase module) (image-base bytes)
           (module-sizeofimage module) (size-of-image bytes)
