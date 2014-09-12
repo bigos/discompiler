@@ -3,6 +3,14 @@
 (setf *test* T)
 
 (in-suite :loading)
+
+;; libraries causing import problems
+;; COMCTL32.dll
+;; COMDLG32.dll
+;; OLEACC.dll
+;; SHELL32.dll
+;; WININET.dll
+
 (test loaded-modules
   (let ((file "~/discompiler/SampleExecutables/PE/myfavlibrary.exe"))
     (sb-ext:gc :full t)
