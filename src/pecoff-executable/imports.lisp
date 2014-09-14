@@ -67,7 +67,7 @@
                         (file-export-list
                          (concatenate 'string
                           (project-path)
-                          "SampleExecutables/PE/ordinal-imports.dll") ;hardcoded file ?????
+                          "src/pecoff-executable/SampleExecutables/PE/DLLs/WININET.dll") ;hardcoded file ?????
                          mem)))
         (ordinal-number (ldb (byte 16 0) ilx) ))
     (cons ordinal-number
@@ -85,7 +85,8 @@
      collect (list il
                    ilx
                    (if (import-by-ordinalp bytes ilx)
-                       (imported-ordinal-name ilx mem)
+                       (progn ;(imported-ordinal-name ilx mem)
+                              nil)
                        (cons (imported-function-hint mem bytes ilx)
                              (imported-function-name mem bytes ilx))))))
 
@@ -104,7 +105,6 @@
          for idt = (import-directory-table rva-bytes offset)
          for imp-dir-rva = (struct-value "ImportLookupTableRVA" idt)
          until (zerop imp-dir-rva)
-         do (progn (format t "~&>>> libname ~A~%" (library-name mem bytes idt)))
          collect
            (list
             (library-name mem bytes idt)

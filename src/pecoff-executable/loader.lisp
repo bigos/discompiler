@@ -43,6 +43,7 @@
     (loader-1 file mem bytes)))
 
 (defun imports-inspector (file)
+  (declare (optimize (debug 3) (safety 3)))
   (let ((mem (make-instance 'memory :start #x110000 :end #xFFFF0001))
         (bytes (file-to-bytes file)))
     (allocate-and-load-sections bytes mem (dll-base bytes mem))
