@@ -52,16 +52,17 @@
 (defun imported-function-hint (mem bytes ilx)
   (bytes-to-type-int
    (get-allocated-bytes mem
-                        (rva-addr ilx bytes) 2)))
+                        (rva-addr ilx bytes)
+                        2)))
 
-2(defun imported-function-name (mem bytes ilx)
+(defun imported-function-name (mem bytes ilx)
   (get-allocated-string mem
                         (rva-addr (+ 2 ilx)
                                   bytes)))
 
 (defun imported-ordinal-name (ilx mem)
   (declare (optimize (debug 3)))
-  ;;TODO find more efficient way
+  ;; TODO: find more efficient way
   (let ((ordinal-names (ordinal-names
                         (file-export-list
                          (concatenate 'string
@@ -103,6 +104,7 @@
          for idt = (import-directory-table rva-bytes offset)
          for imp-dir-rva = (struct-value "ImportLookupTableRVA" idt)
          until (zerop imp-dir-rva)
+         do (progn (format t "~&>>> libname ~A~%" (library-name mem bytes idt)))
          collect
            (list
             (library-name mem bytes idt)
