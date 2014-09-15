@@ -152,28 +152,29 @@
                   (9423192 2147483668 (20 . "SafeArrayGetLBound"))
                   (9423196 2147483667 (19 . "SafeArrayGetUBound")))))
     (is (equalp "WINMM.dll" (car (nth 21 imports))))
-    (is (eq 10 (length (cadr (nth 21 imports)))))
-    (sb-ext:gc :full T)))
+    (is (eq 10 (length (cadr (nth 21 imports))))))
+  (sb-ext:gc :full T))
 
 (test test-ordinal-exports
-  (let* ((file "~/discompiler/SampleExecutables/PE/ordinal-imports.dll")
+  (let* ((file "~/discompiler/SampleExecutables/PE/DLLs/OLEAUT32.dll")
          (bytes (file-to-bytes file))
          (memory (loader bytes))
          (export-list (exports bytes memory)))
-    (is (equalp "6FC377EA" (address-to-code export-list 0)))
-    (is (equalp "6FC3742E" (address-to-code export-list 1)))
-    (is (equalp "6FC64113" (address-to-code export-list 399)))
-    (signals type-error (address-to-code export-list 400))
+    (format nil "~a~%" export-list)
+    ;; (is (equalp "6FC377EA" (address-to-code export-list 0)))
+    ;; (is (equalp "6FC3742E" (address-to-code export-list 1)))
+    ;; (is (equalp "6FC64113" (address-to-code export-list 399)))
+    ;; (signals type-error (address-to-code export-list 400))
 
     (is (equalp "SysAllocString" (ordinal-name export-list 2)))
     (is (equalp "BSTR_UserFree" (ordinal-name export-list 286)))
     (is (equalp "BSTR_UserMarshal" (ordinal-name export-list 284)))
-    (is (equalp "OaEnablePerUserTLibRegistration" (ordinal-name export-list 444)))
-    (is (equalp "OACleanup" (ordinal-name export-list 500)))
+    (is (equalp "UnRegisterTypeLibForUser" (ordinal-name export-list 443)))
 
-    (is (equalp "6FC34642" (int-to-hex (ordinal-code-address export-list 2))))
-    (is (equalp "6FC50B81" (int-to-hex (ordinal-code-address export-list 3))))
-    (is (equalp "6FC33F0B" (int-to-hex (ordinal-code-address export-list 500)))))
+    ;; still having problems here
+    (is (equalp "7E532EF0" (int-to-hex (ordinal-code-address export-list 2))))
+    (is (equalp "7E5330E0" (int-to-hex (ordinal-code-address export-list 3))))
+    (is (equalp "7E563890" (int-to-hex (ordinal-code-address export-list 443)))))
   (sb-ext:gc :full t))
 
 (test test-load-myfavlibrary
