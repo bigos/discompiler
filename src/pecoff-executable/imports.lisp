@@ -67,7 +67,7 @@
                         (file-export-list
                          (concatenate 'string
                           (project-path)
-                          "src/pecoff-executable/SampleExecutables/PE/DLLs/WININET.dll") ;hardcoded file ?????
+                          "src/pecoff-executable/SampleExecutables/PE/DLLs/msvcrt.dll") ;hardcoded file ?????
                          mem)))
         (ordinal-number (ldb (byte 16 0) ilx) ))
     (cons ordinal-number

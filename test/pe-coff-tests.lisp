@@ -16,7 +16,7 @@
     (sb-ext:gc :full t)
     (multiple-value-bind (mem my-module) (recursive-loader file)
       (declare (ignore mem))
-      (is (equalp (module-fulldllname my-module) file))
+      (is (equalp (module-fulldllname my-module) (file-namestring file)))
       (is (equalp (module-basedllname my-module) "myfavlibrary"))
       (is (equalp (module-dllbase my-module) #x400000))
       (is (equalp (module-originalbase my-module) #x400000))
@@ -110,7 +110,8 @@
     (is (eq (optional-header-signature bytes)
             #x10b))
     (is (eq (optional-header-image-type bytes)
-            'PE32))))
+            'PE32)))
+  (sb-ext:gc :full t))
 
 (test imported-libraries
   (let* ((file "~/discompiler/SampleExecutables/PE/myfavlibrary.exe")
@@ -254,8 +255,8 @@
     (is (equalp #(20 207 143) (get-allocated-bytes mem #xb13000 3)))
     (is (equalp #(#x28 #x63 #xc1) (get-allocated-bytes mem #xd01000 3)))
     (is (equalp #(#x00 #x00 #x00) (get-allocated-bytes mem #xda0000 3)))
-    (is (equalp #(#x00 #x10 #x00) (get-allocated-bytes mem #x109c000 3)))
-    ))
+    (is (equalp #(#x00 #x10 #x00) (get-allocated-bytes mem #x109c000 3))))
+  (sb-ext:gc :full t))
 
 
 (test test-load-sample-file
@@ -383,8 +384,8 @@
                  :DLLBASE #x7c900000
                  :FULLDLLNAME "ntdll.dll"
                  :ORIGINALBASE #x7C900000
-                 :SIZEOFIMAGE  #xB0000)))
-    ))
+                 :SIZEOFIMAGE  #xB0000))))
+  (sb-ext:gc :full t))
 
 (test test-shorter-memory-map
   (let*  ((file (concatenate 'string (project-path) "SampleExecutables/PE/crackme12.exe"))
