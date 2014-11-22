@@ -85,8 +85,8 @@
      collect (list il
                    ilx
                    (if (import-by-ordinalp bytes ilx)
-                       (progn ;(imported-ordinal-name ilx mem)
-                              nil)
+                       (progn (imported-ordinal-name ilx mem)
+                              )
                        (cons (imported-function-hint mem bytes ilx)
                              (imported-function-name mem bytes ilx))))))
 
