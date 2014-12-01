@@ -30,11 +30,9 @@
   (is (equalp #(17 122 62 7 172 101 207 43 236 55 231 193 95 182 209 19)
               (md5:md5sum-file
                "~/discompiler/SampleExecutables/PE/crackme12.exe")))
-
   (is (equalp #(75 77 21 177 248 104 180 41 239 172 255 187 89 19 216 164)
               (md5:md5sum-file
                "~/discompiler/SampleExecutables/PE/myfavlibrary.exe")))
-
   (is (equalp #(26 255 36 76 161 52 149 108 84 71 79 78 36 51 228 206)
               (md5:md5sum-file "~/discompiler/SampleExecutables/PE/DLLs/ADVAPI32.dll")))
   (is (equalp #(90 246 138 94 68 115 74 8 36 66 102 142 156 120 119 67)
@@ -58,7 +56,7 @@
   (is (equalp #(95 45 190 60 181 99 116 28 128 132 101 123 249 86 206 100)
               (md5:md5sum-file "~/discompiler/SampleExecutables/PE/DLLs/OLEACC.dll")))
   (is (equalp #(179 116 45 238 133 139 36 62 119 199 61 43 143 124 130 35)
-              (md5:md5sum-file "~/discompiler/SampleExecutables/PE/DLLs/OLEAUT32.dll")))
+              (md5:md5sum-file "~/discompiler/SampleExecutables/PE/DLLs/oleaut32.dll")))
   (is (equalp #(150 228 140 126 185 8 157 29 191 111 133 202 17 178 100 223)
               (md5:md5sum-file "~/discompiler/SampleExecutables/PE/DLLs/PSAPI.DLL")))
   (is (equalp #(133 122 232 66 229 119 145 148 89 92 26 166 66 134 144 162)
