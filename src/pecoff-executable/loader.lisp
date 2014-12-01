@@ -31,6 +31,7 @@
                                       'string
                                       (namestring (asdf/system:system-source-directory :discompiler))
                                       "SampleExecutables/PE/DLLs/OLEAUT32.dll")))
+(defparameter *mem* (make-instance 'memory :start #x110000 :end #xFFFF0001))
 
 ;; it doesn't make sense here (export) misbehaves strangely
 (defun minimal-environment-executor (file function-symbol)
