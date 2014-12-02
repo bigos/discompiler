@@ -4,7 +4,7 @@
   (let ((mem (make-instance 'memory :start #x110000 :end #xFFFF0001)))
     ;;(format t "module arg>>>>  ~s~%" module)
     (allocate-and-load-sections bytes mem (dll-base bytes mem))
-    (report-loader-errors "no-file-given" bytes mem)
+    (report-loader-errors "no-file-diven" bytes mem)
     (imported-functions bytes mem)
     mem))
 
@@ -27,17 +27,6 @@
 (defparameter *recursion-level* 0)
 (defparameter *missing* nil)
 (defparameter *required* nil)
-(defparameter *bytes* (file-to-bytes (concatenate
-                                      'string
-                                      (namestring (asdf/system:system-source-directory :discompiler))
-                                      "SampleExecutables/PE/DLLs/OLEAUT32.dll")))
-(defparameter *mem* (make-instance 'memory :start #x110000 :end #xFFFF0001))
-
-;; it doesn't make sense here (export) misbehaves strangely
-(defun minimal-environment-executor (file function-symbol)
-  (let ((mem (make-instance 'memory :start #x110000 :end #xFFFF0001))
-        (bytes (file-to-bytes file)))
-    (funcall function-symbol bytes mem)))
 
 ;; try to write recursive loader
 (defun init-recursive-loader (file)
