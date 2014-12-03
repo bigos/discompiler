@@ -32,6 +32,7 @@
                                   :components
                                   ((:file "reference-data")
                                    (:file "summary-table-columns")))))
+               (:file "scratchpad")
                (:module "test"
                         :components
                         ((:file "tests")
