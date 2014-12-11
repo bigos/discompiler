@@ -11,5 +11,3 @@
     (format t "~&~A~%" (nth 17 imports))))
 
 ;;;
-aaaa
-bbb
