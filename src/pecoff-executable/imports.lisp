@@ -79,6 +79,8 @@
 
 (defun imported-function-names (mem bytes imp-dir-rva)
   (declare (optimize (debug 3)))
+  (when *debug*
+    (cerror "as normal" "investigate me"))
   (loop for il from imp-dir-rva by 4
      for ilx = (bytes-to-type-int (get-allocated-bytes mem (rva-addr il bytes) 4))
      until (zerop ilx)

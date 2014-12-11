@@ -1,6 +1,8 @@
 ;; This file is for temporary Lisp code, for situations where REPL is not convenient enough
 ;; Once the code matures, it should go to source folder.
 
+(defparameter *debug* nil)
+
 (defun investigate ()
   (declare (debug 3))
   (let* ((file "~/discompiler/SampleExecutables/PE/myfavlibrary.exe")
@@ -21,13 +23,17 @@
            for idt = (import-directory-table rva-bytes offset)
            for imp-dir-rva = (struct-value "ImportLookupTableRVA" idt)
            until (zerop imp-dir-rva)
-           do (when (eq offset 340)
-                (cerror "as normal" "investigate me"))
+           do (if (or (eq offset 320)
+                      (eq offset 340))
+                  (progn
+                    (cerror "as normal" "investigate me")
+                    (setf *debug* T))
+                  (setf *debug* nil))
            collect
              (list
               (library-name mem bytes idt)
               (imported-function-names mem bytes imp-dir-rva))
              )))
-    (format t "~&~A~%" (nth 17 imports))))
+ ))
 
 ;;;
