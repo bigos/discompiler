@@ -10,6 +10,7 @@
   :licence "GPLv3"
   :depends-on (:fiveam :cl-ppcre :cl-fad :cl-utilities :md5 :alexandria)
   :components ((:file "packages")
+               (:file "scratchpad")
                (:file "discompiler")
                (:module "src"
                         :components
@@ -32,7 +33,6 @@
                                   :components
                                   ((:file "reference-data")
                                    (:file "summary-table-columns")))))
-               (:file "scratchpad")
                (:module "test"
                         :components
                         ((:file "tests")
