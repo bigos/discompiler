@@ -4,7 +4,7 @@
 (defun project-path ()
   (concatenate 'string
                (namestring (user-homedir-pathname))
-               (if (equalp (machine-instance)
+               (if (eql (machine-instance)
                            "jaceks-imac.chess")
                    "Documents/SBCL/discompiler/"
                    "Programming/Lisp/discompiler/")))
