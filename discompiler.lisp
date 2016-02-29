@@ -29,7 +29,10 @@
   (defparameter *instructions* (reference-data::process-reference-files))
   (list-length *instructions*))
 
-(defparameter *dll* (nth 0 (cl-fad:list-directory "./SampleExecutables/"))
+(defparameter *dll* (nth 0 (cl-fad:list-directory
+                            (format nil
+                                    "~A/SampleExecutables/PE/DLLs"
+                                    (project-path))))
   "sample dll file")
 
 (defun mapc-directory-tree (fn directory)
