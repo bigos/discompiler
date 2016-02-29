@@ -9,7 +9,7 @@
   `(defconstant ,name (if (boundp ',name) (symbol-value ',name) ,value)
      ,@(when doc (list doc))))
 
-(define-constant +dll-folder+ "~/Programming/Lisp/discompiler/Test executables/")
+;; (define-constant +dll-folder+ "~/Programming/Lisp/discompiler/Test executables/")
 
 (define-constant +ms-dos-header-size+ 64 )
 
