@@ -16,3 +16,27 @@ do I allocate too much resources which are not released?
 * running tests
 available tests can be found in test/fiveam-suites.lisp
 example usage: (fiveam:run! :pe-coff)
+
+
+* HEAP EXHAUSTED
+** dump
+Heap exhausted during garbage collection: 0 bytes available, 32 requested.
+ Gen StaPg UbSta LaSta LUbSt Boxed Unboxed LB   LUB  !move  Alloc  Waste   Trig    WP  GCs Mem-age
+   0:     0     0     0     0     0     0     0     0     0        0     0 10737418    0   0  0.0000
+   1: 27553 27600     0     0  5322  4044     0     0    26 294046736 12858352 10737418    0   0  0.9584
+   2:     0     0     0     0     0     0     0     0     0        0     0 10737418    0   0  0.0000
+   3:     0     0     0     0     0     0     0     0     0        0     0 10737418    0   0  0.0000
+   4:  9451  9450     0     0  3404  1084  8414   447   600 431793152 5626880  2000000 11649   0  0.0000
+   5:     0     0     0     0     0     0     0     0     0        0     0  2000000    0   0  0.0000
+   6:     0     0     0     0  1137   226     0     0     0 44662784     0  2000000 1024   0  0.0000
+   Total bytes allocated    = 1043029040
+   Dynamic-space-size bytes = 1073741824
+GC control variables:
+   *GC-INHIBIT* = true
+   *GC-PENDING* = true
+   *STOP-FOR-GC-PENDING* = false
+fatal error encountered in SBCL pid 7329(tid 140737231648512):
+Heap exhausted, game over.
+
+** link
+http://stackoverflow.com/questions/31821799/scbl-exception-heap-exhausted-during-garbage-collection
