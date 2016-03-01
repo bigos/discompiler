@@ -1,0 +1,15 @@
+* Failing Tests
+** all
+grinds to a halt, possibly on garbage collection, when it gets to memory-tests
+** pe-coff
+ (fiveam:run! :pe-coff)
+
+ Running test TEST-SHORTER-MEMORY-MAP
+ Did 59 checks.
+    Pass: 55 (93%)
+    Skip: 0 ( 0%)
+    Fail: 4 ( 6%)
+
+* running tests
+available tests can be found in test/fiveam-suites.lisp
+example usage: (fiveam:run! :pe-coff)
