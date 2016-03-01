@@ -1,3 +1,5 @@
+(declaim (optimize (speed 3) (safety 3) (space 3) (debug 0)))
+
 (in-package :discompiler)
 
 (in-suite :memory)
@@ -5,6 +7,7 @@
 
 (test test-allocation
   (let ((mem (make-instance 'memory :start 1 :end 100)))
+    (format t "***start~%")
     (is (equalp '((100 . 100)) (allocated mem)))
     (is (equalp '((1 . 99)) (find-free mem)))
     (is (equalp 8 (allocate-preferred-block mem 3 8)))
@@ -14,6 +17,7 @@
     (is (equalp nil (allocate-preferred-block mem 3 98)))
     (is (equalp '((8 . 10) (98 . 99) (100 . 100)) (allocated mem)))
     ;; check allocated blocks
+    (format t "***blocks~%")
     (is (equalp 2 (length (blocks mem))))
     (is (equalp 3 (length (allocated mem))))
     ;; trying  to deallocate with incorrect block start
@@ -23,7 +27,7 @@
     (is (equalp 3 (length (allocated mem))))
     ;; but deallocating giving correct block start
     (remove-allocated mem 8)
-    ;; should worky
+    ;; should work
     (is (equalp '((98 . 99) (100 . 100)) (allocated mem)))
     (is (equalp 1 (length (blocks mem))))
     (is (equalp 2 (length (allocated mem))))
@@ -34,10 +38,12 @@
     (is (equalp '((1 . 5) (98 . 99) (100 . 100)) (allocated mem)))
     (is (equalp '((6 . 97)) (find-free mem)))
     ;; allocation of taken preferred address gives first available
+    (format t "***allocation~%")
     (is (equalp 6 (allocate-block mem 9 90)))
     ;; allocate available preferred address
     (is (equalp 90 (allocate-block mem 8 90)))
-    (is (equalp '((15 . 89)) (find-free mem)))))
+    (is (equalp '((15 . 89)) (find-free mem))))
+  (format t "***finished~%"))
 
 (test test-block-addressing
   (let ((mem (make-instance 'memory :start 1 :end 100)))

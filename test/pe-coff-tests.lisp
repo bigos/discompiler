@@ -1,3 +1,5 @@
+(declaim (optimize (speed 3) (safety 3) (space 0) (debug 0)))
+
 (in-package :discompiler)
 
 (setf *test* T)
@@ -13,7 +15,6 @@
 
 (test loaded-modules
   (let ((file "~/discompiler/SampleExecutables/PE/myfavlibrary.exe"))
-    (sb-ext:gc :full t)
     (multiple-value-bind (mem my-module) (recursive-loader file)
       (declare (ignore mem))
       (is (equalp (module-fulldllname my-module) (file-namestring file)))
@@ -21,8 +22,7 @@
       (is (equalp (module-dllbase my-module) #x400000))
       (is (equalp (module-originalbase my-module) #x400000))
       (is (equalp (module-sizeofimage  my-module) #xd57000))
-      )
-    (sb-ext:gc :full t)))
+      )))
 
 (in-suite :pe-coff)
 
@@ -91,7 +91,7 @@
               (md5:md5sum-file "~/discompiler/SampleExecutables/PE/DLLs/oledlg.dll")))
   (is (equalp #(44 222 73 102 102 169 117 162 206 143 150 159 48 66 200 219)
               (md5:md5sum-file "~/discompiler/SampleExecutables/PE/DLLs/uxtheme.dll")))
-  (sb-ext:gc :full t))
+  )
 
 (test test-sample-file
   "sample executable file"
@@ -111,7 +111,7 @@
             #x10b))
     (is (eq (optional-header-image-type bytes)
             'PE32)))
-  (sb-ext:gc :full t))
+  )
 
 (test imported-libraries
   (let* ((file "~/discompiler/SampleExecutables/PE/myfavlibrary.exe")
@@ -153,7 +153,7 @@
                   (9423196 2147483667 (19 . "SafeArrayGetUBound")))))
     (is (equalp "WINMM.dll" (car (nth 21 imports))))
     (is (eq 10 (length (cadr (nth 21 imports))))))
-  (sb-ext:gc :full T))
+  )
 
 (test test-ordinal-exports
   (let* ((file "~/discompiler/SampleExecutables/PE/DLLs/OLEAUT32.dll")
@@ -175,7 +175,7 @@
     (is (equalp "7E532EF0" (int-to-hex (ordinal-code-address export-list 2))))
     (is (equalp "7E5330E0" (int-to-hex (ordinal-code-address export-list 3))))
     (is (equalp "7E563890" (int-to-hex (ordinal-code-address export-list 443)))))
-  (sb-ext:gc :full t))
+  )
 
 (test test-load-myfavlibrary
   (let* ((file "~/discompiler/SampleExecutables/PE/myfavlibrary.exe")
@@ -257,7 +257,7 @@
     (is (equalp #(#x28 #x63 #xc1) (get-allocated-bytes mem #xd01000 3)))
     (is (equalp #(#x00 #x00 #x00) (get-allocated-bytes mem #xda0000 3)))
     (is (equalp #(#x00 #x10 #x00) (get-allocated-bytes mem #x109c000 3))))
-  (sb-ext:gc :full t))
+  )
 
 
 (test test-load-sample-file
@@ -386,7 +386,7 @@
                  :FULLDLLNAME "ntdll.dll"
                  :ORIGINALBASE #x7C900000
                  :SIZEOFIMAGE  #xB0000))))
-  (sb-ext:gc :full t))
+  )
 
 (test test-shorter-memory-map
   (let*  ((file (concatenate 'string (project-path) "SampleExecutables/PE/crackme12.exe"))

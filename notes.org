@@ -1,6 +1,9 @@
 * Failing Tests
 ** all
 grinds to a halt, possibly on garbage collection, when it gets to memory-tests
+** memory
+slowed down to a halt on second run
+do I allocate too much resources which are not released?
 ** pe-coff
  (fiveam:run! :pe-coff)
 

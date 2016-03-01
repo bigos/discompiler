@@ -1,3 +1,5 @@
+(declaim (optimize (speed 3) (safety 3) (space 0) (debug 0)))
+
 (in-package :discompiler)
 
 (in-suite :new-loading)
