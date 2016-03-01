@@ -38,5 +38,7 @@ GC control variables:
 fatal error encountered in SBCL pid 7329(tid 140737231648512):
 Heap exhausted, game over.
 
-** link
+** links
 http://stackoverflow.com/questions/31821799/scbl-exception-heap-exhausted-during-garbage-collection
+
+http://www.sbcl.org/manual/#Statistical-Profiler
