@@ -36,8 +36,7 @@
              (setf last-collected new-cons))
          finally
            (when (< last-allocated (end self))
-             setf (cdr last-collected)
-)
+             setf (cdr last-collected))
            (return collected)))))
 
 (defgeneric find-free-block (memory size))

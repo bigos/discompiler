@@ -3,6 +3,8 @@
 
 (in-package :discompiler-asd)
 
+(require :sb-sprof)
+
 (defsystem #:discompiler
   :version "0.0.2"
   :serial t
@@ -43,6 +45,7 @@
                          (:file "memory-tests")
                          (:file "utilities-test")
                          (:file "fiveam-conclusion")
+                         (:file "profiler")
                          )))
   :description "machine code experiment"
   :long-description "experimenting with Intel machine code")
