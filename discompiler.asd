@@ -1,6 +1,10 @@
 (defpackage #:discompiler-asd
   (:use :cl :asdf))
 
+;;; consider using https://github.com/OdonataResearchLLC/lisp-unit/wiki
+;;; instead of fiveam
+;;; if it turns out to be it's responsible for the memory leak
+
 (in-package :discompiler-asd)
 
 (defsystem #:discompiler
