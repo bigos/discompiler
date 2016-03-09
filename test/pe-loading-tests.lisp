@@ -8,6 +8,7 @@
                "~/discompiler/SampleExecutables/PE/crackme12.exe"))))
 
 (test test-new-load-sample-file
+  (sb-ext:gc :full T)
   (let* ((file (concatenate 'string (project-path) "SampleExecutables/PE/crackme12.exe"))
          ;; (libraries (concatenate 'string (project-path) "SampleExecutables/PE/DLLs/"))
          (bytes (file-to-bytes file))
@@ -83,9 +84,11 @@
                  :DLLBASE #x7c900000
                  :FULLDLLNAME "ntdll.dll"
                  :ORIGINALBASE #x7C900000
-                 :SIZEOFIMAGE  #xB0000)))))
+                 :SIZEOFIMAGE  #xB0000))))
+  (sb-ext:gc :full T))
 
 (test test-new-loader
+  (sb-ext:gc :full T)
   (let* ((file (concatenate 'string (project-path) "SampleExecutables/PE/crackme12.exe"))
          ;; (libraries (concatenate 'string (project-path) "SampleExecutables/PE/DLLs/"))
          (new-mem))
@@ -133,11 +136,13 @@
                  :FULLDLLNAME "ntdll.dll"
                  :ORIGINALBASE #x7C900000
                  :SIZEOFIMAGE  #xB0000)))
-    ))
+    )
+  (sb-ext:gc :full T))
 
 (test test-shorter-memory-map
   (let*  (
           ;; (file (concatenate 'string (project-path) "SampleExecutables/PE/crackme12.exe"))
           ;; (libraries (concatenate 'string (project-path) "SampleExecutables/PE/DLLs/"))
           ;; (mem) (mem-map)
-          )))
+          ))
+  (sb-ext:gc :full T))

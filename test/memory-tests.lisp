@@ -2,8 +2,8 @@
 
 (in-suite :memory)
 
-
 (test test-allocation
+  (sb-ext:gc :full T)
   (let ((mem (make-instance 'memory :start 1 :end 100)))
     (is (equalp '((100 . 100)) (allocated mem)))
     (is (equalp '((1 . 99)) (find-free mem)))
@@ -37,9 +37,11 @@
     (is (equalp 6 (allocate-block mem 9 90)))
     ;; allocate available preferred address
     (is (equalp 90 (allocate-block mem 8 90)))
-    (is (equalp '((15 . 89)) (find-free mem)))))
+    (is (equalp '((15 . 89)) (find-free mem))))
+  (sb-ext:gc :full T))
 
 (test test-block-addressing
+  (sb-ext:gc :full T)
   (let ((mem (make-instance 'memory :start 1 :end 100)))
     (is (equalp 1 (allocate-preferred-block mem 3 1)))
     (is (equalp 5 (allocate-preferred-block mem 3 5)))
@@ -68,9 +70,11 @@
     (is (equalp 0 (get-allocated mem 5)))
     (is (equalp 0 (get-allocated mem 6)))
     (is (equalp 0 (get-allocated mem 7)))
-    (signals simple-error (get-allocated mem 8))))
+    (signals simple-error (get-allocated mem 8)))
+  (sb-ext:gc :full T))
 
 (test test-memory-block-order
+  (sb-ext:gc :full T)
   (let ((mem (make-instance 'memory :start 1 :end 100)))
     (is (eq 1 (allocate-preferred-block mem 5 1)))
     (is (eq 20 (allocate-preferred-block mem 5 20)))
@@ -82,4 +86,5 @@
     (eq 3 (length (allocated mem)))
     (eq 1 (car (nth 0 (allocated mem))))
     (eq 20 (car (nth 1 (allocated mem))))
-    (eq 30 (car (nth 2 (allocated mem))))))
+    (eq 30 (car (nth 2 (allocated mem)))))
+  (sb-ext:gc :full T))
