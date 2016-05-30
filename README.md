@@ -44,7 +44,7 @@ http://man7.org/linux/man-pages/man5/elf.5.html
 
 
 
-using Licp Critic
+using Lisp Critic
 =====================
 
     DISCOMPILER> (ql:quickload :lisp-critic)
