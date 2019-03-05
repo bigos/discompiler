@@ -49,3 +49,10 @@ using Licp Critic
 
     DISCOMPILER> (ql:quickload :lisp-critic)
     DISCOMPILER> (lisp-critic-user::critique (+ 1 2 3))
+
+running tests
+=============
+
+    CL-USER> (ql:quickload :discompiler)
+    CL-USER> (in-package :discompiler)
+    DISCOMPILER> (run! :pe-coff)
